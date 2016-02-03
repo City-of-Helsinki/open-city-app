@@ -38,6 +38,9 @@ class IssueList extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         if (position) {
+          // Nord office coordinates (Runeberginkatu 43)
+          position.coords.latitude = 60.175883;
+          position.coords.longitude = 24.922350;
           this.setState({position: position});
         }
       },
@@ -54,7 +57,7 @@ class IssueList extends Component {
 
   componentDidUpdate() {
     if (this.hasLocationChanged()) {
-      this.updateIssues(this.state.position.coords.latitude, this.state.position.coords.longitude);
+      this.updateIssues(this.state.position.coords);
       this.previousPosition = this.state.position;
     }
   }
@@ -67,12 +70,9 @@ class IssueList extends Component {
     return !this.previousPosition || comparePositions(this.previousPosition, this.state.position);
   }
 
-  updateIssues(latitude, longitude) {
-    // Nord office coordinates (Runeberginkatu 43)
-    latitude = 60.175883;
-    longitude = 24.922350;
-    // TODO: Use device coordinates
-    findIssuesByLocation(calculateBoundingBox(latitude, longitude, 1))
+  updateIssues(coords) {
+    console.log(calculateBoundingBox(coords, 1));
+    findIssuesByLocation(calculateBoundingBox(coords, 1))
       .then(result => {
         if (result.data.objects) {
           this.setState({
@@ -91,11 +91,13 @@ class IssueList extends Component {
   }
 
   render() {
+    const position = this.state.position;
+
     return (
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={issue => <IssueRow issue={issue} onPress={this.handlePress.bind(this)}/>}
+          renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)}/>}
         />
       </View>
     );

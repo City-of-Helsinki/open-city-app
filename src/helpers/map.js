@@ -2,16 +2,27 @@ import Geopoint from 'geopoint';
 
 /**
  *
- * @param {number} latitude
- * @param {number} longitude
+ * @param {object} coords
  * @param distance
  * @returns {string}
  */
-export function calculateBoundingBox(latitude, longitude, distance) {
-  const point = new Geopoint(latitude, longitude);
-  const coords = point.boundingCoordinates(distance, null/* radius */, true/* inKilometers */);
+export function calculateBoundingBox(coords, distance) {
+  const point = new Geopoint(coords.latitude, coords.longitude);
+  const bbox = point.boundingCoordinates(distance, null/* radius */, true/* inKilometers */);
   // Bounding box in WGS-84 coordinate format (left, bottom, right, top)
-  return [coords[0].longitude(), coords[1].latitude(), coords[1].longitude(), coords[0].latitude()].join(',');
+  return [bbox[0].longitude(), bbox[1].latitude(), bbox[1].longitude(), bbox[0].latitude()].join(',');
+}
+
+/**
+ *
+ * @param {object} coords
+ * @param {object} target
+ * @returns {number}
+ */
+export function calculateDistance(coords, target) {
+  const pointFrom = new Geopoint(coords.latitude, coords.longitude);
+  const pointTo = new Geopoint(target.latitude, target.longitude);
+  return pointFrom.distanceTo(pointTo, true/* inKilometers */);
 }
 
 /**
