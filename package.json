@@ -6,6 +6,7 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "geopoint": "^1.0.1",
     "react-native": "^0.19.0",
     "react-native-localization": "^0.1.11"
   }
