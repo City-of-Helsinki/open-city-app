@@ -6,6 +6,8 @@ import React, {
   StyleSheet
 } from 'react-native';
 
+import NavBar from '../NavBar/NavBar';
+import NavBarImageButton from '../NavBar/NavBarImageButton';
 import IssueRow from '../IssueRow/IssueRow';
 import IssueDetail from '../IssueDetail/IssueDetail';
 
@@ -105,6 +107,7 @@ class IssueList extends Component {
 
     return (
       <View style={styles.container}>
+        <NavBar title={{ title: 'PÄÄTÖKSET' }} />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
