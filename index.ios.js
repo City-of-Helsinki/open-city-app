@@ -1,52 +1,47 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
 import React, {
   AppRegistry,
   Component,
   StyleSheet,
-  Text,
-  View
+  Navigator
 } from 'react-native';
 
-class OpenCity extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.ios.js
-        </Text>
-        <Text style={styles.instructions}>
-          Press Cmd+R to reload,{'\n'}
-          Cmd+D or shake for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import IssueList from './src/components/IssueList/IssueList';
+
+import {configureApi} from './src/helpers/api';
+import {configureLog, LEVEL_DEBUG} from './src/helpers/log';
+
+configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
+configureLog({isLogging: true, logLevel: LEVEL_DEBUG});
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    flex: 1
   }
 });
+
+class OpenCity extends Component {
+  configureScene(route) {
+    if (route.sceneConfig) {
+      return route.sceneConfig;
+    }
+
+    return Navigator.SceneConfigs.HorizontalSwipeJump;
+  }
+
+  renderScene(route, navigator) {
+    return <route.component {...route.passProps} route={route} navigator={navigator}/>;
+  }
+
+  render() {
+    return (
+      <Navigator
+        style={styles.container}
+        initialRoute={{component: IssueList}}
+        renderScene={this.renderScene.bind(this)}
+        configureScene={this.configureScene.bind(this)}
+      />
+    );
+  }
+}
 
 AppRegistry.registerComponent('OpenCity', () => OpenCity);
