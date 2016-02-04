@@ -3,7 +3,9 @@ import React, {
   View,
   Text,
   MapView,
-  StyleSheet
+  StyleSheet,
+  InteractionManager,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 import NavBar from '../NavBar/NavBar';
@@ -19,7 +21,8 @@ class IssueDetail extends Component {
 
     this.state = {
       position: null,
-      distance: null
+      distance: null,
+      renderMap: false
     };
   }
 
@@ -30,11 +33,47 @@ class IssueDetail extends Component {
       position,
       distance: calculateDistance(this.props.position.coords, position)
     });
+
+    InteractionManager.runAfterInteractions(() => {
+      this.setState({
+        renderMap: true
+      });
+    });
+  }
+
+  renderMap() {
+    if (!this.state.renderMap) {
+      return (
+        <View style={styles.map}>
+          <ActivityIndicatorIOS style={styles.mapLoader}/>
+        </View>
+      );
+    }
+
+    const {position} = this.state;
+
+    return (
+      <MapView
+        style={styles.map}
+        region={{
+            latitude: position.latitude,
+            longitude: position.longitude,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01
+          }}
+        annotations={[
+            {
+              latitude: position.latitude,
+              longitude: position.longitude
+            }
+          ]}
+      />
+    );
   }
 
   render() {
     const issue = this.props.issue;
-    const {position, distance} = this.state;
+    const {distance} = this.state;
 
     return (
       <View>
@@ -46,21 +85,7 @@ class IssueDetail extends Component {
           }}
         />
         <View style={[styles.container, {borderTopColor: getIssueCategoryColor(this.props.issue)}]}>
-          <MapView
-            style={styles.map}
-            region={{
-            latitude: position.latitude,
-            longitude: position.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01
-          }}
-            annotations={[
-            {
-              latitude: position.latitude,
-              longitude: position.longitude
-            }
-          ]}
-          />
+          {this.renderMap()}
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
             <Text style={styles.distance}>{Math.round(distance * 10) / 10} km</Text>

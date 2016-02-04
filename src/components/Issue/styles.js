@@ -61,6 +61,9 @@ export const detailStyles = StyleSheet.create({
   map: {
     height: 200
   },
+  mapLoader: {
+    flex: 1
+  },
   top: {
     padding: 15
   },
