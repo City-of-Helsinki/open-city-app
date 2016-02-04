@@ -102,7 +102,7 @@ class IssueList extends Component {
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-          onEndReached={this.loadIssues.bind(this, this.state.position)}
+          onEndReached={this.loadIssues.bind(this, position)}
           style={styles.list}
         />
       </View>
