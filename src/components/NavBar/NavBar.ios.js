@@ -47,7 +47,7 @@ class NavBar extends Component {
     customizeStatusBar(this.props.statusBar);
   }
 
-  getButtonElement(data = {}, style) {
+  static getButtonElement(data = {}, style) {
     if (React.isValidElement(data)) {
       return <View style={styles.navBarButton}>{data}</View>;
     }
@@ -61,7 +61,7 @@ class NavBar extends Component {
       handler={data.handler}/>;
   }
 
-  getTitleElement(data) {
+  static getTitleElement(data) {
     if (React.isValidElement(data)) {
       return <View style={styles.customTitle}>{data}</View>;
     }
