@@ -15,28 +15,40 @@ class IssueRow extends Component {
   constructor() {
     super();
 
-    this.distance = null;
+    this.state = {
+      distance: null
+    };
   }
 
   componentWillMount() {
-    this.setState({
-      distance: calculateDistance(this.props.position.coords, getIssuePosition(this.props.issue))
-    });
+    const position = getIssuePosition(this.props.issue);
+
+    if (position) {
+      this.setState({
+        distance: calculateDistance(this.props.position.coords, position)
+      });
+    }
   }
 
   handlePress(event) {
     this.props.onPress(this.props.issue);
   }
 
-  render() {
-    const distance = this.state.distance;
+  renderDistance() {
+    if (!this.state.distance) {
+      return null;
+    }
 
+    return (<Text style={styles.distance}>{Math.round(this.state.distance * 10)  / 10} km</Text>);
+  }
+
+  render() {
     return (
       <TouchableWithoutFeedback onPress={this.handlePress.bind(this)}>
         <View style={[styles.container, {borderLeftColor: getIssueCategoryColor(this.props.issue)}]}>
           <Text style={styles.subject}>{this.props.issue.subject}</Text>
           <Text style={styles.address}>{getIssueAddressText(this.props.issue)}</Text>
-          <Text style={styles.distance}>{Math.round(distance * 10)  / 10} km</Text>
+          {this.renderDistance()}
         </View>
       </TouchableWithoutFeedback>
     );

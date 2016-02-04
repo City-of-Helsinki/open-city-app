@@ -6,6 +6,8 @@ import React, {
   StyleSheet
 } from 'react-native';
 
+import {concat} from 'lodash';
+
 import NavBar from '../NavBar/NavBar';
 import IssueRow from '../Issue/IssueRow';
 import IssueDetail from '../Issue/IssueDetail';
@@ -26,8 +28,11 @@ class IssueList extends Component {
 
     this.state = {
       position: null,
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
-      pageNumber: 0
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => {
+        return r1.id !== r2.id;
+      }}),
+      pageNumber: 0,
+      lastPage: false
     };
   }
 
@@ -60,7 +65,7 @@ class IssueList extends Component {
   }
 
   loadIssues(position) {
-    if (!this.isLoading && position) {
+    if (!this.state.lastPage && !this.isLoading && position) {
       this.isLoading = true;
 
       findIssues({
@@ -69,10 +74,15 @@ class IssueList extends Component {
         limit: PAGE_SIZE
       })
         .then(result => {
+          console.log(result);
           if (result.data.objects) {
+            const rows = concat(this.state.rows, result.data.objects);
+
             this.setState({
-              dataSource: this.state.dataSource.cloneWithRows(result.data.objects),
-              pageNumber: this.state.pageNumber + 1
+              rows: rows,
+              dataSource: this.state.dataSource.cloneWithRows(rows),
+              pageNumber: this.state.pageNumber + 1,
+              lastPage: result.data.objects.length < PAGE_SIZE
             });
 
             this.isLoading = false;

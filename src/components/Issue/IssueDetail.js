@@ -55,6 +55,7 @@ class IssueDetail extends Component {
     return (
       <MapView
         style={styles.map}
+        showsUserLocation={true}
         region={{
             latitude: position.latitude,
             longitude: position.longitude,

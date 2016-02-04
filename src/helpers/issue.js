@@ -1,6 +1,9 @@
 import {makeRequest, buildQueryString} from './api';
 import {forEach} from 'lodash';
+import geolib from 'geolib';
 
+export const GEOMETRY_TYPE_POINT = 'Point';
+export const GEOMETRY_TYPE_POLYGON = 'Polygon';
 
 const categoryColorMap = [
   '#39A795',
@@ -62,19 +65,39 @@ export function getIssueCategoryColor(issue) {
 /**
  *
  * @param {object} issue
- * @returns {{latitude: *, longitude: *}}
+ * @returns {{latitude: *, longitude: *}||null}
  */
 export function getIssuePosition(issue) {
-  let point = null;
-  forEach(issue.geometries, (geometryItem) => {
-    if (geometryItem.type === 'Point') {
-      point = geometryItem;
+  let geometry = null;
+  forEach(issue.geometries, (geometryItem, index) => {
+    if (geometryItem.type === GEOMETRY_TYPE_POINT) {
+      geometry = geometryItem;
       return false;
+    } else if (geometryItem.type === GEOMETRY_TYPE_POLYGON) {
+      geometry = geometryItem;
     }
   });
 
-  return {
-    latitude: point.coordinates[1],
-    longitude: point.coordinates[0]
+  switch (geometry.type) {
+    case GEOMETRY_TYPE_POINT:
+      return {
+        latitude: geometry.coordinates[1],
+        longitude: geometry.coordinates[0]
+      };
+    case GEOMETRY_TYPE_POLYGON:
+      let coordinates = [];
+      forEach(geometry.coordinates[0], (item) => {
+        coordinates.push({ latitude: item[1], longitude: item[0] });
+      });
+      let center = geolib.getCenter(coordinates);
+
+      center.latitude = Number(center.latitude);
+      center.longitude = Number(center.longitude);
+
+      return {
+        ...center
+      };
+    default:
+      return null;
   }
 }
