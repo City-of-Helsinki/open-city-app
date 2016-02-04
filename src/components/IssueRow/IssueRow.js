@@ -9,7 +9,7 @@ import React, {
 import {getIssueAddressText, getIssueCategoryColor} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
-const defaultContainerStyles = {
+const defaultContainerStyle = {
   borderLeftColor: '#39A795',
   borderLeftWidth: 4,
   borderBottomColor: '#DFDEDE',
@@ -18,7 +18,7 @@ const defaultContainerStyles = {
 };
 
 const styles = StyleSheet.create({
-  container: defaultContainerStyles,
+  container: defaultContainerStyle,
   subject: {
     color: '##4E4D4D',
     fontSize: 18,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
 
 function containerStyle(stripeColor) {
   return {
-    ...defaultContainerStyles,
+    ...defaultContainerStyle,
     ...{borderLeftColor: stripeColor}
   }
 }

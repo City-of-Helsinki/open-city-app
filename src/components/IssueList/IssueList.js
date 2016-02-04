@@ -82,7 +82,10 @@ class IssueList extends Component {
   handlePress(issue) {
     this.props.navigator.push({
       component: IssueDetail,
-      passProps: {issue: issue}
+      passProps: {
+        issue: issue,
+        position: this.state.position
+      }
     });
   }
 
