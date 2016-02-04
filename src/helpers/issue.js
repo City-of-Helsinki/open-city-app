@@ -1,4 +1,6 @@
 import {makeRequest, buildQueryString} from './api';
+import {forEach} from 'lodash';
+
 
 const categoryColorMap = [
   '#39A795',
@@ -63,9 +65,16 @@ export function getIssueCategoryColor(issue) {
  * @returns {{latitude: *, longitude: *}}
  */
 export function getIssuePosition(issue) {
-  // TODO: check that the properties exists
+  let point = null;
+  forEach(issue.geometries, (geometryItem) => {
+    if (geometryItem.type === 'Point') {
+      point = geometryItem;
+      return false;
+    }
+  });
+
   return {
-    latitude: issue.geometries[0].coordinates[1],
-    longitude: issue.geometries[0].coordinates[0]
+    latitude: point.coordinates[1],
+    longitude: point.coordinates[0]
   }
 }
