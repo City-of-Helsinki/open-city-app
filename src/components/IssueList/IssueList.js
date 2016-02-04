@@ -17,10 +17,18 @@ const POSITION_UNKNOWN = 'unknown';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
+    borderBottomColor: '#DFDEDE',
+    borderBottomWidth: 1,
+    borderRightColor: '#DFDEDE',
+    borderRightWidth: 1,
     borderTopColor: '#DFDEDE',
     borderTopWidth: 1,
     flex: 1,
     marginTop: 80
+  },
+  separator: {
+    backgroundColor: '#DFDEDE',
+    height: 1
   }
 });
 
@@ -99,7 +107,8 @@ class IssueList extends Component {
       <View style={styles.container}>
         <ListView
           dataSource={this.state.dataSource}
-          renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)}/>}
+          renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
+          renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
         />
       </View>
     );
