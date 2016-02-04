@@ -20,18 +20,37 @@ const styles = StyleSheet.create({
 });
 
 class OpenCity extends Component {
+  /**
+   * Scene configuration method for the navigator.
+   * @param route
+   * @returns {*}
+   */
   configureScene(route) {
     if (route.sceneConfig) {
       return route.sceneConfig;
     }
 
-    return Navigator.SceneConfigs.HorizontalSwipeJump;
+    return Object.assign({}, Navigator.SceneConfigs.HorizontalSwipeJump, {
+      gestures: {
+        pop: null
+      }
+    });
   }
 
+  /**
+   * Render method for the navigator scene.
+   * @param route
+   * @param navigator
+   * @returns {XML}
+   */
   renderScene(route, navigator) {
     return <route.component {...route.passProps} route={route} navigator={navigator}/>;
   }
 
+  /**
+   * OpenCity component render method.
+   * @returns {XML}
+   */
   render() {
     return (
       <Navigator
