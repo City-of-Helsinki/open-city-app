@@ -49,7 +49,7 @@ class IssueList extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (!this.state.position || comparePositions(this.state.position, nextState.position)) {
+    if ((!this.state.position && nextState.position) || comparePositions(this.state.position, nextState.position)) {
       this.loadIssues(nextState.position);
     }
   }
