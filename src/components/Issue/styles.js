@@ -19,7 +19,6 @@ export const listStyles = StyleSheet.create({
   }
 });
 
-
 export const rowStyles = StyleSheet.create({
   container: {
     borderLeftColor: '#39A795',
@@ -72,4 +71,3 @@ export const detailStyles = StyleSheet.create({
     fontSize: 18
   }
 });
-
