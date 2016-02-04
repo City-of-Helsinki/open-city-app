@@ -29,7 +29,7 @@ export function makeRequest(url, options) {
         return response.json()
           .then(data => {
             const result = {response: response, data: data};
-            debug('result:', result);
+            //debug('result:', result);
             return resolve(result);
           })
       })
