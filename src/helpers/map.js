@@ -3,7 +3,7 @@ import Geopoint from 'geopoint';
 /**
  *
  * @param {object} coords
- * @param distance
+ * @param {number} distance
  * @returns {string}
  */
 export function calculateBoundingBox(coords, distance) {

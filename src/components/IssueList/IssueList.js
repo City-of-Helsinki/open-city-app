@@ -38,10 +38,7 @@ class IssueList extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         if (position) {
-          // Nord office coordinates (Runeberginkatu 43)
-          position.coords.latitude = 60.175883;
-          position.coords.longitude = 24.922350;
-          this.setState({position: position});
+          this.setState({position});
         }
       },
       error => alert(error.message),
@@ -50,14 +47,14 @@ class IssueList extends Component {
 
     this.watchID = navigator.geolocation.watchPosition(position => {
       if (position) {
-        this.setState({position: position});
+        this.setState({position});
       }
     });
   }
 
   componentDidUpdate() {
     if (this.hasLocationChanged()) {
-      this.updateIssues(this.state.position.coords);
+      this.updateIssues(this.state.position);
       this.previousPosition = this.state.position;
     }
   }
@@ -66,13 +63,12 @@ class IssueList extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  hasLocationChanged(){
+  hasLocationChanged() {
     return !this.previousPosition || comparePositions(this.previousPosition, this.state.position);
   }
 
-  updateIssues(coords) {
-    console.log(calculateBoundingBox(coords, 1));
-    findIssuesByLocation(calculateBoundingBox(coords, 1))
+  updateIssues(position) {
+    findIssuesByLocation(calculateBoundingBox(position.coords, 1))
       .then(result => {
         if (result.data.objects) {
           this.setState({
