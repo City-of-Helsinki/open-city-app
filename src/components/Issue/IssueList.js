@@ -3,7 +3,8 @@ import React, {
   View,
   Text,
   ListView,
-  StyleSheet
+  StyleSheet,
+  RefreshControl
 } from 'react-native';
 
 import {concat} from 'lodash';
@@ -14,6 +15,9 @@ import IssueDetail from '../Issue/IssueDetail';
 
 import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
+import {
+  COLOR_BLUE
+} from '../../constants/color';
 
 const PAGE_SIZE = 20;
 
@@ -24,15 +28,17 @@ class IssueList extends Component {
     super();
 
     this.watchID = null;
-    this.isLoading = false;
 
     this.state = {
       position: null,
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => {
-        return r1.id !== r2.id;
-      }}),
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (r1, r2) => {
+          return r1.id !== r2.id;
+        }
+      }),
       pageNumber: 0,
-      lastPage: false
+      lastPage: false,
+      isRefreshing: false
     };
   }
 
@@ -65,8 +71,10 @@ class IssueList extends Component {
   }
 
   loadIssues(position) {
-    if (!this.state.lastPage && !this.isLoading && position) {
-      this.isLoading = true;
+    if (!this.state.lastPage && !this.state.isLoading && position) {
+      this.setState({
+        isLoading: true
+      });
 
       findIssues({
         bbox: calculateBoundingBox(position.coords, 1),
@@ -82,10 +90,9 @@ class IssueList extends Component {
               rows: rows,
               dataSource: this.state.dataSource.cloneWithRows(rows),
               pageNumber: this.state.pageNumber + 1,
-              lastPage: result.data.objects.length < PAGE_SIZE
+              lastPage: result.data.objects.length < PAGE_SIZE,
+              isLoading: false
             });
-
-            this.isLoading = false;
           }
         })
         .catch(err => alert(err));
@@ -102,6 +109,35 @@ class IssueList extends Component {
     });
   }
 
+  onRefresh(position) {
+    this.setState({
+      isRefreshing: true,
+      isLoading: true
+    });
+
+    findIssues({
+      bbox: calculateBoundingBox(position.coords, 1),
+      page: 1,
+      limit: PAGE_SIZE
+    })
+      .then(result => {
+        console.log(result);
+        if (result.data.objects) {
+          const rows = result.data.objects;
+
+          this.setState({
+            rows: rows,
+            dataSource: this.state.dataSource.cloneWithRows(rows),
+            pageNumber: 1,
+            lastPage: false,
+            isRefreshing: false,
+            isLoading: false
+          });
+        }
+      })
+      .catch(err => alert(err));
+  }
+
   render() {
     const position = this.state.position;
 
@@ -114,7 +150,14 @@ class IssueList extends Component {
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
           onEndReached={this.loadIssues.bind(this, position)}
           style={styles.list}
-        />
+          refreshControl={
+            <RefreshControl
+              refreshing={this.state.isRefreshing}
+              onRefresh={this.onRefresh.bind(this, position)}
+              tintColor={COLOR_BLUE}
+              title="Ladataan..."
+            />
+        }/>
       </View>
     );
   }
