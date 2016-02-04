@@ -7,7 +7,6 @@ import React, {
 } from 'react-native';
 
 import NavBar from '../NavBar/NavBar';
-import NavBarImageButton from '../NavBar/NavBarImageButton';
 import IssueRow from '../Issue/IssueRow';
 import IssueDetail from '../Issue/IssueDetail';
 
