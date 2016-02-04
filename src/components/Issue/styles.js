@@ -1,54 +1,61 @@
 import {StyleSheet, PixelRatio} from 'react-native';
-import {COLOR_GRAY} from '../../constants/color';
+import {
+  COLOR_WHITE,
+  COLOR_DARK_GRAY,
+  COLOR_GRAY,
+  COLOR_LIGHT_GRAY,
+  COLOR_LIGHTER_GRAY
+} from '../../constants/color';
 
 const pixelRatio = PixelRatio.get();
 
 export const listStyles = StyleSheet.create({
   container: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: COLOR_WHITE,
     flex: 1
   },
   separator: {
-    backgroundColor: '#DFDEDE',
-    height: 1
+    borderBottomColor: COLOR_LIGHTER_GRAY,
+    borderBottomWidth: 1 / pixelRatio,
+    height: 0
   },
   list: {
-    borderBottomColor: COLOR_GRAY,
+    borderBottomColor: COLOR_LIGHTER_GRAY,
     borderBottomWidth: 1 / pixelRatio,
-    borderRightColor: COLOR_GRAY,
+    borderRightColor: COLOR_LIGHTER_GRAY,
     borderRightWidth: 1 / pixelRatio,
-    borderTopColor: COLOR_GRAY,
+    borderTopColor: COLOR_LIGHTER_GRAY,
     borderTopWidth: 1 / pixelRatio
   }
 });
 
 export const rowStyles = StyleSheet.create({
   container: {
-    borderLeftColor: '#39A795',
+    backgroundColor: COLOR_WHITE,
+    borderLeftColor: COLOR_LIGHTER_GRAY,
     borderLeftWidth: 4,
-    borderBottomColor: COLOR_GRAY,
-    borderBottomWidth: 1 / pixelRatio,
     padding: 20
   },
   subject: {
-    color: '#4E4D4D',
+    color: COLOR_DARK_GRAY,
     fontSize: 18,
     marginBottom: 10
   },
   address: {
-    color: '#A7A7A7',
+    color: COLOR_LIGHT_GRAY,
     fontSize: 18,
     marginBottom: 10
   },
   distance: {
-    color: '#D7D7D7',
+    color: COLOR_LIGHTER_GRAY,
     fontSize: 14
   }
 });
 
 export const detailStyles = StyleSheet.create({
   container: {
-    borderTopColor: '#39A795',
+    backgroundColor: COLOR_WHITE,
+    borderTopColor: COLOR_LIGHTER_GRAY,
     borderTopWidth: 4
   },
   map: {
@@ -58,19 +65,19 @@ export const detailStyles = StyleSheet.create({
     padding: 15
   },
   subject: {
-    color: '##4E4D4D',
+    color: COLOR_DARK_GRAY,
     fontSize: 18,
     marginBottom: 10
   },
   distance: {
-    color: '#D7D7D7',
+    color: COLOR_LIGHTER_GRAY,
     fontSize: 14
   },
   content: {
     padding: 15
   },
   summary: {
-    color: '#A7A7A7',
+    color: COLOR_GRAY,
     fontSize: 18
   }
 });
