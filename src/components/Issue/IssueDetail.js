@@ -9,22 +9,33 @@ import React, {
 import NavBar from '../NavBar/NavBar';
 import NavBarButton from '../NavBar/NavBarButton';
 
-import {getIssueCategoryColor} from '../../helpers/issue';
+import {getIssuePosition, getIssueCategoryColor} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
 import {detailStyles as styles} from './styles';
 
 class IssueDetail extends Component {
-  componentWillMount() {
-    this.position = {
-      latitude: this.props.issue.geometries[0].coordinates[1],
-      longitude: this.props.issue.geometries[0].coordinates[0]
+  constructor() {
+    super();
+
+    this.state = {
+      position: null,
+      distance: null
     };
-    this.distance = calculateDistance(this.props.position.coords, this.position);
+  }
+
+  componentWillMount() {
+    const position = getIssuePosition(this.props.issue);
+
+    this.setState({
+      position,
+      distance: calculateDistance(this.props.position.coords, position)
+    });
   }
 
   render() {
     const issue = this.props.issue;
+    const {position, distance} = this.state;
 
     return (
       <View>
@@ -41,21 +52,21 @@ class IssueDetail extends Component {
           <MapView
             style={styles.map}
             region={{
-            latitude: this.position.latitude,
-            longitude: this.position.longitude,
+            latitude: position.latitude,
+            longitude: position.longitude,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01
           }}
             annotations={[
             {
-              latitude: this.position.latitude,
-              longitude: this.position.longitude
+              latitude: position.latitude,
+              longitude: position.longitude
             }
           ]}
           />
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
-            <Text style={styles.distance}>{Math.round(this.distance * 10) / 10} km</Text>
+            <Text style={styles.distance}>{Math.round(distance * 10) / 10} km</Text>
           </View>
           <View style={styles.content}>
             <Text style={styles.summary}>{issue.summary}</Text>
