@@ -13,7 +13,6 @@ import IssueDetail from '../Issue/IssueDetail';
 import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
 
-const POSITION_UNKNOWN = 'unknown';
 const PAGE_SIZE = 20;
 
 import {listStyles as styles} from './styles';
@@ -25,7 +24,7 @@ class IssueList extends Component {
     this.watchID = null;
 
     this.state = {
-      position: POSITION_UNKNOWN,
+      position: null,
       dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
       pageNumber: 0
     };
@@ -50,8 +49,8 @@ class IssueList extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if (comparePositions(this.state.position, nextState.position)) {
-      this.loadIssues();
+    if (!this.state.position || comparePositions(this.state.position, nextState.position)) {
+      this.loadIssues(nextState.position);
     }
   }
 
@@ -59,10 +58,10 @@ class IssueList extends Component {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
-  loadIssues() {
-    if (this.state.position) {
+  loadIssues(position) {
+    if (position) {
       findIssues({
-        bbox: calculateBoundingBox(this.state.position.coords, 1),
+        bbox: calculateBoundingBox(position.coords, 1),
         offset: PAGE_SIZE * (this.state.pageNumber - 1),
         limit: PAGE_SIZE
       })
@@ -93,7 +92,7 @@ class IssueList extends Component {
 
     return (
       <View style={styles.container}>
-        <NavBar title={{title: 'PÄÄTÖKSET'}} />
+        <NavBar title={{title: 'PÄÄTÖKSET'}}/>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
