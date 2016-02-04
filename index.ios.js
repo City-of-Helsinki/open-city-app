@@ -5,7 +5,7 @@ import React, {
   Navigator
 } from 'react-native';
 
-import IssueList from './src/components/IssueList/IssueList';
+import IssueList from './src/components/Issue/IssueList';
 
 import {configureApi} from './src/helpers/api';
 import {configureLog, LOG_LEVEL_DEBUG} from './src/helpers/log';

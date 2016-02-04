@@ -8,8 +8,8 @@ import React, {
 
 import NavBar from '../NavBar/NavBar';
 import NavBarImageButton from '../NavBar/NavBarImageButton';
-import IssueRow from '../IssueRow/IssueRow';
-import IssueDetail from '../IssueDetail/IssueDetail';
+import IssueRow from '../Issue/IssueRow';
+import IssueDetail from '../Issue/IssueDetail';
 
 import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
