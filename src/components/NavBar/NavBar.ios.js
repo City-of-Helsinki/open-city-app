@@ -1,61 +1,25 @@
-import React from 'react-native';
-
-const NAV_BAR_HEIGHT = 39;
-const STATUS_BAR_HEIGHT = 20;
-
-var {
+import React, {
+  Component,
   StatusBarIOS,
   Text,
   View,
   PropTypes,
-  StyleSheet
-  } = React;
+} from 'react-native';
 
-const styles = StyleSheet.create({
-  navBarContainer: {
-    backgroundColor: '#ffffff',
-    paddingBottom: 5
-  },
-  statusBar: {
-    height: STATUS_BAR_HEIGHT
-  },
-  navBar: {
-    height: NAV_BAR_HEIGHT,
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  },
-  customTitle: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 7,
-    alignItems: 'center'
-  },
-  navBarTitleText: {
-    fontSize: 17,
-    letterSpacing: 0.5,
-    color: '#333333',
-    fontWeight: '500',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 7,
-    textAlign: 'center'
-  }
-});
+import styles from './styles';
 
-var ButtonShape = {
+const ButtonShape = {
   title: PropTypes.string.isRequired,
   style: PropTypes.object,
   handler: PropTypes.func
 };
 
-var TitleShape = {
+const TitleShape = {
   title: PropTypes.string.isRequired,
   tintColor: PropTypes.string
 };
 
-var StatusBarShape = {
+const StatusBarShape = {
   style: PropTypes.oneOf(['light-content', 'default']),
   hidden: PropTypes.bool,
   tintColor: PropTypes.string,
@@ -74,59 +38,16 @@ function customizeStatusBar(data) {
   StatusBarIOS.setHidden(data.hidden, animation);
 }
 
-var NavBar = React.createClass({
-  propTypes: {
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]),
-    containerStyle: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]),
-    tintColor: PropTypes.string,
-    statusBar: PropTypes.shape(StatusBarShape),
-    leftButton: PropTypes.oneOfType([
-      PropTypes.shape(ButtonShape),
-      PropTypes.element
-    ]),
-    rightButton: PropTypes.oneOfType([
-      PropTypes.shape(ButtonShape),
-      PropTypes.element
-    ]),
-    title: PropTypes.oneOfType([
-      PropTypes.shape(TitleShape),
-      PropTypes.element
-    ])
-  },
-
-  /**
-   * Set property default values.
-   * @returns {object}
-   */
-  getDefaultProps: function() {
-    return {
-      statusBar: {
-        style: 'default',
-        hidden: false,
-        hideAnimation: 'slide',
-        showAnimation: 'slide'
-      },
-      title: {
-        title: ''
-      }
-    };
-  },
-
-  componentDidMount: function() {
+class NavBar extends Component {
+  componentDidMount() {
     customizeStatusBar(this.props.statusBar);
-  },
+  }
 
-  componentWillReceiveProps: function(props) {
+  componentWillReceiveProps(props) {
     customizeStatusBar(this.props.statusBar);
-  },
+  }
 
-  getButtonElement: function(data = {}, style) {
+  getButtonElement(data = {}, style) {
     if (React.isValidElement(data)) {
       return <View style={styles.navBarButton}>{data}</View>;
     }
@@ -138,9 +59,9 @@ var NavBar = React.createClass({
       style={[data.style, style ]}
       tintColor={data.tintColor}
       handler={data.handler}/>;
-  },
+  }
 
-  getTitleElement: function(data) {
+  getTitleElement(data) {
     if (React.isValidElement(data)) {
       return <View style={styles.customTitle}>{data}</View>;
     }
@@ -153,9 +74,9 @@ var NavBar = React.createClass({
         {data.title}
       </Text>
     );
-  },
+  }
 
-  render: function() {
+  render() {
     var customTintColor = this.props.tintColor ?
     {backgroundColor: this.props.tintColor} : null;
 
@@ -173,6 +94,43 @@ var NavBar = React.createClass({
       </View>
     );
   }
-});
+}
 
-module.exports = NavBar;
+NavBar.propTypes = {
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
+    containerStyle: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
+    tintColor: PropTypes.string,
+    statusBar: PropTypes.shape(StatusBarShape),
+    leftButton: PropTypes.oneOfType([
+    PropTypes.shape(ButtonShape),
+    PropTypes.element
+  ]),
+    rightButton: PropTypes.oneOfType([
+    PropTypes.shape(ButtonShape),
+    PropTypes.element
+  ]),
+    title: PropTypes.oneOfType([
+    PropTypes.shape(TitleShape),
+    PropTypes.element
+  ])
+};
+
+NavBar.defaultProps = {
+  statusBar: {
+    style: 'default',
+    hidden: false,
+    hideAnimation: 'slide',
+    showAnimation: 'slide'
+  },
+  title: {
+    title: ''
+  }
+};
+
+export default NavBar;

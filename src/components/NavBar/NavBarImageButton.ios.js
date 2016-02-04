@@ -1,4 +1,5 @@
 import React from 'react-native';
+import styles from './styles';
 
 const {
   Image,
@@ -7,14 +8,6 @@ const {
   PropTypes,
   StyleSheet
   } = React;
-
-const styles = StyleSheet.create({
-  navBarButton: {
-    marginTop: 12
-  },
-  navBarButtonImage: {
-  }
-});
 
 var NavBarImageButton = React.createClass({
   propTypes: {
@@ -48,7 +41,7 @@ var NavBarImageButton = React.createClass({
     return (
       <TouchableOpacity onPress={this.props.handler}>
         <View style={this.props.style}>
-          <Image source={this.props.source} style={styles.navBarButtonImage} />
+
         </View>
       </TouchableOpacity>
     );

@@ -1,5 +1,7 @@
 import React from 'react-native';
 
+import { COLOR_BLUE } from '../../constants/color';
+
 const NAV_BAR_HEIGHT = 39;
 const STATUS_BAR_HEIGHT = 20;
 
@@ -7,7 +9,7 @@ const {
   StyleSheet
   } = React;
 
-module.exports = StyleSheet.create({
+export default StyleSheet.create({
   navBarContainer: {
     backgroundColor: '#ffffff',
     paddingBottom: 5
@@ -35,10 +37,12 @@ module.exports = StyleSheet.create({
     letterSpacing: 0.5,
     marginTop: 12
   },
+  navBarButtonImage: {
+  },
   navBarTitleText: {
     fontSize: 17,
     letterSpacing: 0.5,
-    color: '#333333',
+    color: COLOR_BLUE,
     fontWeight: '500',
     position: 'absolute',
     left: 0,

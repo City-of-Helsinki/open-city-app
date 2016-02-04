@@ -6,7 +6,7 @@ import React, {
 } from 'react-native';
 
 import NavBar from '../NavBar/NavBar';
-import NavBarImageButton from '../NavBar/NavBarImageButton';
+import NavBarButton from '../NavBar/NavBarButton';
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +30,7 @@ class IssueDetail extends Component {
         <NavBar
           title={{ title: 'PÄÄTÖKSET' }}
           leftButton={
-            <NavBarImageButton
+            <NavBarButton
               source={require('../../images/arrow-right.png')}
               handler={(event) => {this.props.navigator.pop();}}
               />

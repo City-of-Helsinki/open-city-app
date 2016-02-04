@@ -1,64 +1,77 @@
-import React from 'react-native';
-
-const {
+import React, {
+  Component,
   Text,
+  Image,
   TouchableOpacity,
   View,
   PropTypes,
-  StyleSheet
-  } = React;
+} from 'react-native';
 
-const styles = StyleSheet.create({
-  navBarButton: {
-    marginTop: 12
-  },
-  navBarButtonText: {
-    fontSize: 17,
-    letterSpacing: 0.5,
-    marginTop: 12
+import styles from './styles';
+
+class NavBarButton extends Component {
+  /**
+   * Render method for text.
+   * @returns {XML}
+   */
+  renderText() {
+    if (!this.props.title) {
+      return null;
+    }
+
+    return (
+      <Text style={[styles.navBarButtonText, { color: this.props.tintColor }]}>
+        {this.props.title}
+      </Text>
+    )
   }
-});
-
-var NavBarButton = React.createClass({
-  propTypes: {
-    style: PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.array
-    ]),
-    tintColor: PropTypes.string,
-    title: PropTypes.string,
-    handler: PropTypes.func
-  },
 
   /**
-   * Set property default values.
-   * @returns {object}
+   * Render method for image.
+   * @returns {*}
    */
-  getDefaultProps: function() {
-    return {
-      style: {},
-      title: '',
-      handler: function() {
-        return {};
-      }
-    };
-  },
+  renderImage() {
+    if (!this.props.source) {
+      return null;
+    }
+
+    return (<Image source={this.props.source} style={styles.navBarButtonImage}/>)
+  }
 
   /**
    * Render method.
    * @returns {XML}
    */
-  render: function() {
+  render() {
     return (
       <TouchableOpacity onPress={this.props.handler}>
         <View style={this.props.style}>
-          <Text style={[styles.navBarButtonText, { color: this.props.tintColor }]}>
-            {this.props.title}
-          </Text>
+          {this.renderText()}
+          {this.renderImage()}
         </View>
       </TouchableOpacity>
     );
   }
-});
+}
+
+NavBarButton.propTypes = {
+  style: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
+  tintColor: PropTypes.string,
+  title: PropTypes.string,
+  source: PropTypes.number,
+  handler: PropTypes.func
+};
+
+NavBarButton.defaultProps = {
+  style: {},
+  title: '',
+  image: null,
+  handler: () => {
+    return {};
+  }
+};
 
 module.exports = NavBarButton;
