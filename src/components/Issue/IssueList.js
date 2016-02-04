@@ -23,7 +23,6 @@ class IssueList extends Component {
     super();
 
     this.watchID = null;
-    this.previousPosition = null;
 
     this.state = {
       position: POSITION_UNKNOWN,
@@ -50,19 +49,14 @@ class IssueList extends Component {
     });
   }
 
-  componentDidUpdate() {
-    if (this.hasLocationChanged()) {
-      this.loadIssues(this.state.pageNumber);
-      this.previousPosition = this.state.position;
+  componentWillUpdate(nextProps, nextState) {
+    if (comparePositions(this.state.position, nextState.position)) {
+      this.loadIssues();
     }
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
-  }
-
-  hasLocationChanged() {
-    return !this.previousPosition || comparePositions(this.previousPosition, this.state.position);
   }
 
   loadIssues() {
