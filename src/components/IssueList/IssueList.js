@@ -17,7 +17,10 @@ const POSITION_UNKNOWN = 'unknown';
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#FFFFFF',
-    flex: 1
+    borderTopColor: '#DFDEDE',
+    borderTopWidth: 1,
+    flex: 1,
+    marginTop: 80
   }
 });
 

@@ -14,7 +14,9 @@ const defaultContainerStyle = {
   borderLeftWidth: 4,
   borderBottomColor: '#DFDEDE',
   borderBottomWidth: 1,
-  padding: 20
+  borderRightColor: '#DFDEDE',
+  borderRightWidth: 1,
+  padding: 15
 };
 
 const styles = StyleSheet.create({
