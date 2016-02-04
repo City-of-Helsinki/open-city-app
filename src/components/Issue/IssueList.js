@@ -22,6 +22,7 @@ class IssueList extends Component {
     super();
 
     this.watchID = null;
+    this.isLoading = false;
 
     this.state = {
       position: null,
@@ -59,10 +60,12 @@ class IssueList extends Component {
   }
 
   loadIssues(position) {
-    if (position) {
+    if (!this.isLoading && position) {
+      this.isLoading = true;
+
       findIssues({
         bbox: calculateBoundingBox(position.coords, 1),
-        offset: PAGE_SIZE * (this.state.pageNumber - 1),
+        page: this.state.pageNumber + 1,
         limit: PAGE_SIZE
       })
         .then(result => {
@@ -71,6 +74,8 @@ class IssueList extends Component {
               dataSource: this.state.dataSource.cloneWithRows(result.data.objects),
               pageNumber: this.state.pageNumber + 1
             });
+
+            this.isLoading = false;
           }
         })
         .catch(err => alert(err));
@@ -97,7 +102,7 @@ class IssueList extends Component {
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
-          onEndReached={this.loadIssues.bind(this)}
+          onEndReached={this.loadIssues.bind(this, this.state.position)}
           style={styles.list}
         />
       </View>
