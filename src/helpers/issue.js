@@ -56,3 +56,16 @@ export function getIssueAddressText(issue) {
 export function getIssueCategoryColor(issue) {
   return categoryColorMap[Number(14 - issue.category_origin_id.split(' ')[0])];
 }
+
+/**
+ *
+ * @param {object} issue
+ * @returns {{latitude: *, longitude: *}}
+ */
+export function getIssuePosition(issue) {
+  // TODO: check that the properties exists
+  return {
+    latitude: issue.geometries[0].coordinates[1],
+    longitude: issue.geometries[0].coordinates[0]
+  }
+}
