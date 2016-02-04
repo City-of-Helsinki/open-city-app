@@ -87,9 +87,9 @@ class NavBar extends Component {
       <View style={[styles.navBarContainer, this.props.containerStyle, customTintColor ]}>
         {statusBar}
         <View style={[styles.navBar, this.props.style ]}>
-          {this.getTitleElement(this.props.title)}
-          {this.getButtonElement(this.props.leftButton, {marginLeft: 8})}
-          {this.getButtonElement(this.props.rightButton, {marginRight: 8})}
+          {NavBar.getTitleElement(this.props.title)}
+          {NavBar.getButtonElement(this.props.leftButton, {marginLeft: 8})}
+          {NavBar.getButtonElement(this.props.rightButton, {marginRight: 8})}
         </View>
       </View>
     );
