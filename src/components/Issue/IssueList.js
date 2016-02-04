@@ -17,23 +17,7 @@ import {calculateBoundingBox, comparePositions} from '../../helpers/map';
 const POSITION_UNKNOWN = 'unknown';
 const PAGE_SIZE = 20;
 
-const styles = StyleSheet.create({
-  container: {
-    backgroundColor: '#FFFFFF',
-    borderBottomColor: '#DFDEDE',
-    borderBottomWidth: 1,
-    borderRightColor: '#DFDEDE',
-    borderRightWidth: 1,
-    borderTopColor: '#DFDEDE',
-    borderTopWidth: 1,
-    flex: 1,
-    marginTop: 80
-  },
-  separator: {
-    backgroundColor: '#DFDEDE',
-    height: 1
-  }
-});
+import {listStyles as styles} from './styles';
 
 class IssueList extends Component {
   constructor() {
@@ -116,12 +100,13 @@ class IssueList extends Component {
 
     return (
       <View style={styles.container}>
-        <NavBar title={{ title: 'PÄÄTÖKSET' }} />
+        <NavBar title={{title: 'PÄÄTÖKSET'}} />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
           onEndReached={this.loadIssues.bind(this)}
+          style={styles.list}
         />
       </View>
     );

@@ -9,36 +9,7 @@ import React, {
 import {getIssueAddressText, getIssueCategoryColor} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
-const defaultContainerStyle = {
-  borderLeftColor: '#39A795',
-  borderLeftWidth: 4,
-  padding: 15
-};
-
-const styles = StyleSheet.create({
-  container: defaultContainerStyle,
-  subject: {
-    color: '##4E4D4D',
-    fontSize: 18,
-    marginBottom: 10
-  },
-  address: {
-    color: '#A7A7A7',
-    fontSize: 18,
-    marginBottom: 10
-  },
-  distance: {
-    color: '#D7D7D7',
-    fontSize: 14
-  }
-});
-
-function containerStyle(stripeColor) {
-  return {
-    ...defaultContainerStyle,
-    ...{borderLeftColor: stripeColor}
-  }
-}
+import {rowStyles as styles} from './styles';
 
 class IssueRow extends Component {
   constructor() {
@@ -61,7 +32,7 @@ class IssueRow extends Component {
   render() {
     return (
       <TouchableWithoutFeedback onPress={this.handlePress.bind(this)}>
-        <View style={containerStyle(getIssueCategoryColor(this.props.issue))}>
+        <View style={[styles.container, {borderLeftColor: getIssueCategoryColor(this.props.issue)}]}>
           <Text style={styles.subject}>{this.props.issue.subject}</Text>
           <Text style={styles.address}>{getIssueAddressText(this.props.issue)}</Text>
           <Text style={styles.distance}>{Math.round(this.distance * 10)  / 10} km</Text>
