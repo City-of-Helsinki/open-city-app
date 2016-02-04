@@ -7,7 +7,7 @@ import React, {
   PropTypes,
 } from 'react-native';
 
-import styles from './styles';
+import {navBarButtonStyles as styles} from './styles';
 
 class NavBarButton extends Component {
   /**
@@ -44,11 +44,9 @@ class NavBarButton extends Component {
    */
   render() {
     return (
-      <TouchableOpacity onPress={this.props.handler}>
-        <View style={this.props.style}>
-          {this.renderText()}
-          {this.renderImage()}
-        </View>
+      <TouchableOpacity onPress={this.props.handler} style={[styles.navBarButton, this.props.style]}>
+        {this.renderText()}
+        {this.renderImage()}
       </TouchableOpacity>
     );
   }

@@ -6,10 +6,12 @@ import React, {
   PropTypes,
 } from 'react-native';
 
-import styles from './styles';
+import {navBarStyles as styles} from './styles';
+import {navBarButtonStyles} from './styles';
 
 const ButtonShape = {
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
+  source: PropTypes.number,
   style: PropTypes.object,
   handler: PropTypes.func
 };
@@ -47,16 +49,17 @@ class NavBar extends Component {
     customizeStatusBar(this.props.statusBar);
   }
 
-  static getButtonElement(data = {}, style) {
+  static getButtonElement(data = {}, type) {
     if (React.isValidElement(data)) {
-      return <View style={styles.navBarButton}>{data}</View>;
+      return <View style={navBarButtonStyles.navBarButton}>{data}</View>;
     }
 
     let NavBarButton = require('./NavBarButton');
 
     return <NavBarButton
       title={data.title}
-      style={[data.style, style ]}
+      source={data.source}
+      style={[data.style, type === 'left' ? navBarButtonStyles.navBarButtonLeft : navBarButtonStyles.navBarButtonRight]}
       tintColor={data.tintColor}
       handler={data.handler}/>;
   }
@@ -88,8 +91,8 @@ class NavBar extends Component {
         {statusBar}
         <View style={[styles.navBar, this.props.style ]}>
           {NavBar.getTitleElement(this.props.title)}
-          {NavBar.getButtonElement(this.props.leftButton, {marginLeft: 8})}
-          {NavBar.getButtonElement(this.props.rightButton, {marginRight: 8})}
+          {NavBar.getButtonElement(this.props.leftButton, 'left')}
+          {NavBar.getButtonElement(this.props.rightButton, 'right')}
         </View>
       </View>
     );

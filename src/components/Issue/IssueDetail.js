@@ -7,7 +7,6 @@ import React, {
 } from 'react-native';
 
 import NavBar from '../NavBar/NavBar';
-import NavBarButton from '../NavBar/NavBarButton';
 
 import {getIssuePosition, getIssueCategoryColor} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
@@ -41,12 +40,10 @@ class IssueDetail extends Component {
       <View>
         <NavBar
           title={{ title: 'PÄÄTÖKSET' }}
-          leftButton={
-            <NavBarButton
-              source={require('../../images/arrow-right.png')}
-              handler={(event) => {this.props.navigator.pop();}}
-            />
-          }
+          leftButton={{
+            source: require('../../images/arrow-right.png'),
+            handler: (event) => {this.props.navigator.pop();}
+          }}
         />
         <View style={[styles.container, {borderTopColor: getIssueCategoryColor(this.props.issue)}]}>
           <MapView

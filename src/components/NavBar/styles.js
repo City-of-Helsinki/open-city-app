@@ -7,10 +7,10 @@ import { COLOR_BLUE } from '../../constants/color';
 const NAV_BAR_HEIGHT = 39;
 const STATUS_BAR_HEIGHT = 20;
 
-export default StyleSheet.create({
+export const navBarStyles = StyleSheet.create({
   navBarContainer: {
     backgroundColor: '#ffffff',
-    paddingBottom: 5
+    paddingBottom: 29,
   },
   statusBar: {
     height: STATUS_BAR_HEIGHT
@@ -27,8 +27,28 @@ export default StyleSheet.create({
     bottom: 7,
     alignItems: 'center'
   },
+  navBarTitleText: {
+    fontSize: 16,
+    letterSpacing: 0.5,
+    color: COLOR_BLUE,
+    fontWeight: '300',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 7,
+    textAlign: 'center'
+  }
+});
+
+export const navBarButtonStyles = StyleSheet.create({
   navBarButton: {
     marginTop: 12
+  },
+  navBarButtonLeft: {
+    marginLeft: 8
+  },
+  navBarButtonRight: {
+    marginRight: 8
   },
   navBarButtonText: {
     fontSize: 17,
@@ -36,16 +56,5 @@ export default StyleSheet.create({
     marginTop: 12
   },
   navBarButtonImage: {
-  },
-  navBarTitleText: {
-    fontSize: 17,
-    letterSpacing: 0.5,
-    color: COLOR_BLUE,
-    fontWeight: '500',
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    bottom: 7,
-    textAlign: 'center'
   }
 });
