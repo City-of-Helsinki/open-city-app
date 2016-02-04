@@ -30,21 +30,13 @@ export function findIssueById(id, options) {
 }
 
 /**
- * @param {string} bbox
+ * @param {object} query
  * @param {object} options
  * @returns {Promise}
  */
-export function findIssuesByLocation(bbox, options) {
-  return makeRequest(`issue/search?bbox=${bbox}`, options);
-}
-
-
-/**
- * @param {object} options
- * @returns {Promise}
- */
-export function findAllIssues(options) {
-  return makeRequest('issue/search', options);
+export function findIssues(query, options) {
+  let queryString = query ? '?' + buildQueryString(query) : '';
+  return makeRequest(`issue/search${queryString}`, options);
 }
 
 /**
@@ -63,4 +55,19 @@ export function getIssueAddressText(issue) {
  */
 export function getIssueCategoryColor(issue) {
   return categoryColorMap[Number(14 - issue.category_origin_id.split(' ')[0])];
+}
+
+/**
+ *
+ * @param {object} query
+ * @returns {string}
+ */
+function buildQueryString(query) {
+  let parts = [];
+  for (let key in query) {
+    if (query.hasOwnProperty(key)) {
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`);
+    }
+  }
+  return parts.join('&');
 }

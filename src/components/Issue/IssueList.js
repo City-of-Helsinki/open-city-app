@@ -11,10 +11,11 @@ import NavBarImageButton from '../NavBar/NavBarImageButton';
 import IssueRow from '../IssueRow/IssueRow';
 import IssueDetail from '../IssueDetail/IssueDetail';
 
-import {findIssuesByLocation} from '../../helpers/issue';
+import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
 
 const POSITION_UNKNOWN = 'unknown';
+const PAGE_SIZE = 20;
 
 const styles = StyleSheet.create({
   container: {
@@ -43,7 +44,8 @@ class IssueList extends Component {
 
     this.state = {
       position: POSITION_UNKNOWN,
-      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2})
+      dataSource: new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2}),
+      pageNumber: 0
     };
   }
 
@@ -67,7 +69,7 @@ class IssueList extends Component {
 
   componentDidUpdate() {
     if (this.hasLocationChanged()) {
-      this.updateIssues(this.state.position);
+      this.loadIssues(this.state.pageNumber);
       this.previousPosition = this.state.position;
     }
   }
@@ -80,16 +82,23 @@ class IssueList extends Component {
     return !this.previousPosition || comparePositions(this.previousPosition, this.state.position);
   }
 
-  updateIssues(position) {
-    findIssuesByLocation(calculateBoundingBox(position.coords, 1))
-      .then(result => {
-        if (result.data.objects) {
-          this.setState({
-            dataSource: this.state.dataSource.cloneWithRows(result.data.objects)
-          });
-        }
+  loadIssues() {
+    if (this.state.position) {
+      findIssues({
+        bbox: calculateBoundingBox(this.state.position.coords, 1),
+        offset: PAGE_SIZE * (this.state.pageNumber - 1),
+        limit: PAGE_SIZE
       })
-      .catch(err => alert(err));
+        .then(result => {
+          if (result.data.objects) {
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(result.data.objects),
+              pageNumber: this.state.pageNumber + 1
+            });
+          }
+        })
+        .catch(err => alert(err));
+    }
   }
 
   handlePress(issue) {
@@ -112,6 +121,7 @@ class IssueList extends Component {
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
           renderSeparator={(sectionID, rowID) => <View key={`${sectionID}-${rowID}`} style={styles.separator} />}
+          onEndReached={this.loadIssues.bind(this)}
         />
       </View>
     );
