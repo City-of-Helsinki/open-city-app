@@ -39,6 +39,22 @@ export function makeRequest(url, options) {
 
 /**
  *
+ * @param {object} query
+ * @returns {string}
+ */
+export function buildQueryString(query) {
+  let parts = [];
+  for (let key in query) {
+    if (query.hasOwnProperty(key)) {
+      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`);
+    }
+  }
+  return parts.join('&');
+}
+
+
+/**
+ *
  * @param {object} value
  */
 export function configureApi(value) {

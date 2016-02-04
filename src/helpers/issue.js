@@ -1,4 +1,4 @@
-import {makeRequest} from './api';
+import {makeRequest, buildQueryString} from './api';
 
 const categoryColorMap = [
   '#39A795',
@@ -55,19 +55,4 @@ export function getIssueAddressText(issue) {
  */
 export function getIssueCategoryColor(issue) {
   return categoryColorMap[Number(14 - issue.category_origin_id.split(' ')[0])];
-}
-
-/**
- *
- * @param {object} query
- * @returns {string}
- */
-function buildQueryString(query) {
-  let parts = [];
-  for (let key in query) {
-    if (query.hasOwnProperty(key)) {
-      parts.push(`${encodeURIComponent(key)}=${encodeURIComponent(query[key])}`);
-    }
-  }
-  return parts.join('&');
 }
