@@ -2,15 +2,18 @@ import React, {
   StyleSheet
 } from 'react-native';
 
-import { COLOR_BLUE } from '../../constants/color';
+import {
+  COLOR_WHITE,
+  COLOR_BLUE
+} from '../../constants/color';
 
 const NAV_BAR_HEIGHT = 39;
 const STATUS_BAR_HEIGHT = 20;
 
 export const navBarStyles = StyleSheet.create({
   navBarContainer: {
-    backgroundColor: '#ffffff',
-    paddingBottom: 29,
+    backgroundColor: COLOR_WHITE,
+    paddingBottom: 20
   },
   statusBar: {
     height: STATUS_BAR_HEIGHT
