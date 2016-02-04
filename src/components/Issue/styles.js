@@ -1,4 +1,7 @@
-import {StyleSheet} from 'react-native';
+import {StyleSheet, PixelRatio} from 'react-native';
+import {COLOR_GRAY} from '../../constants/color';
+
+const pixelRatio = PixelRatio.get();
 
 export const listStyles = StyleSheet.create({
   container: {
@@ -10,12 +13,12 @@ export const listStyles = StyleSheet.create({
     height: 1
   },
   list: {
-    borderBottomColor: '#DFDEDE',
-    borderBottomWidth: 1,
-    borderRightColor: '#DFDEDE',
-    borderRightWidth: 1,
-    borderTopColor: '#DFDEDE',
-    borderTopWidth: 1
+    borderBottomColor: COLOR_GRAY,
+    borderBottomWidth: 1 / pixelRatio,
+    borderRightColor: COLOR_GRAY,
+    borderRightWidth: 1 / pixelRatio,
+    borderTopColor: COLOR_GRAY,
+    borderTopWidth: 1 / pixelRatio
   }
 });
 
@@ -23,12 +26,12 @@ export const rowStyles = StyleSheet.create({
   container: {
     borderLeftColor: '#39A795',
     borderLeftWidth: 4,
-    borderBottomColor: '#DFDEDE',
-    borderBottomWidth: 1,
+    borderBottomColor: COLOR_GRAY,
+    borderBottomWidth: 1 / pixelRatio,
     padding: 20
   },
   subject: {
-    color: '##4E4D4D',
+    color: '#4E4D4D',
     fontSize: 18,
     marginBottom: 10
   },
