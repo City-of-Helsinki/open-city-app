@@ -95,9 +95,9 @@ class IssueDetail extends Component {
             handler: (event) => {this.props.navigator.pop();}
           }}
         />
+        <View style={[styles.divider, {backgroundColor: getIssueCategoryColor(this.props.issue)}]}/>
         <ScrollView style={styles.scroller}>
           {this.renderMap()}
-
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
             <View style={styles.distance}>
@@ -105,7 +105,6 @@ class IssueDetail extends Component {
               <Text style={styles.distanceText}>{Math.round(distance * 10) / 10} km</Text>
             </View>
           </View>
-          <View style={[styles.divider, {backgroundColor: getIssueCategoryColor(this.props.issue)}]}/>
           <View style={styles.content}>
             <Text style={styles.summary}>{issue.summary}</Text>
           </View>
