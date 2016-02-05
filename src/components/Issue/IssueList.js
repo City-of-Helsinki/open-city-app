@@ -18,9 +18,7 @@ import translationsIssue from '../../translations/issue';
 
 import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
-import {
-  COLOR_BLUE
-} from '../../constants/color';
+import {COLOR_BLUE} from '../../constants/color';
 
 const PAGE_SIZE = 20;
 
@@ -83,7 +81,7 @@ class IssueList extends Component {
       });
 
       findIssues({
-        bbox: calculateBoundingBox(position.coords, 1),
+        bbox: calculateBoundingBox(position.coords, 1/* distance in km */),
         page: this.state.pageNumber + 1,
         limit: PAGE_SIZE
       })
