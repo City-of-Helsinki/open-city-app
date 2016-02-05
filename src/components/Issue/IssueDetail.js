@@ -6,10 +6,10 @@ import React, {
   ScrollView,
   StyleSheet,
   InteractionManager,
-  ActivityIndicatorIOS
 } from 'react-native';
 
 import NavBar from '../NavBar/NavBar';
+import ActivityIndicator from '../ActivityIndicator';
 
 import {getIssuePosition, getIssueCategoryColor, getIssueAddressText} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
@@ -46,7 +46,7 @@ class IssueDetail extends Component {
     if (!this.state.renderMap) {
       return (
         <View style={styles.map}>
-          <ActivityIndicatorIOS style={styles.mapLoader}/>
+          <ActivityIndicator style={styles.mapLoader} />
         </View>
       );
     }
