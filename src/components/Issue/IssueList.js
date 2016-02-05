@@ -13,6 +13,9 @@ import NavBar from '../NavBar/NavBar';
 import IssueRow from '../Issue/IssueRow';
 import IssueDetail from '../Issue/IssueDetail';
 
+import translationsGeneral from '../../translations/general';
+import translationsIssue from '../../translations/issue';
+
 import {findIssues} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
 import {
@@ -26,6 +29,9 @@ import {listStyles as styles} from './styles';
 class IssueList extends Component {
   constructor() {
     super();
+
+    translationsGeneral.setLanguage('fi');
+    translationsIssue.setLanguage('fi');
 
     this.watchID = null;
 
@@ -143,7 +149,7 @@ class IssueList extends Component {
 
     return (
       <View style={styles.container}>
-        <NavBar title={{title: 'PÄÄTÖKSET'}}/>
+        <NavBar title={{title: translationsIssue.issueListTitle}}/>
         <ListView
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}
@@ -155,7 +161,7 @@ class IssueList extends Component {
               refreshing={this.state.isRefreshing}
               onRefresh={this.onRefresh.bind(this, position)}
               tintColor={COLOR_BLUE}
-              title="Ladataan..."
+              title={translationsGeneral.loading}
             />
         }/>
       </View>

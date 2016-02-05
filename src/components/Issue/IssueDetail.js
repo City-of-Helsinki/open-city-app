@@ -11,6 +11,9 @@ import React, {
 import NavBar from '../NavBar/NavBar';
 import ActivityIndicator from '../ActivityIndicator';
 
+import translationsGeneral from '../../translations/general';
+import translationsIssue from '../../translations/issue';
+
 import {getIssuePosition, getIssueCategoryColor, getIssueAddressText} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
@@ -19,6 +22,9 @@ import {detailStyles as styles} from './styles';
 class IssueDetail extends Component {
   constructor() {
     super();
+
+    translationsGeneral.setLanguage('fi');
+    translationsIssue.setLanguage('fi');
 
     this.state = {
       position: null,
@@ -82,7 +88,7 @@ class IssueDetail extends Component {
     return (
       <View style={styles.container}>
         <NavBar
-          title={{ title: 'PÄÄTÖKSET' }}
+          title={{ title: translationsIssue.issueDetailTitle }}
           leftButton={{
             source: require('../../images/arrow-right.png'),
             handler: (event) => {this.props.navigator.pop();}
