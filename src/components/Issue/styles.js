@@ -47,8 +47,18 @@ export const rowStyles = StyleSheet.create({
     marginBottom: 10
   },
   distance: {
+    flexDirection: 'row'
+  },
+  distanceText: {
     color: COLOR_LIGHTER_GRAY,
-    fontSize: 14
+    fontSize: 14,
+    flex: 1,
+    paddingLeft: 3
+  },
+  distanceIcon: {
+    paddingLeft: 2,
+    paddingRight: 3,
+    paddingTop: 2
   }
 });
 
@@ -78,8 +88,18 @@ export const detailStyles = StyleSheet.create({
     marginBottom: 10
   },
   distance: {
+    flexDirection: 'row'
+  },
+  distanceText: {
     color: COLOR_LIGHTER_GRAY,
-    fontSize: 14
+    fontSize: 14,
+    flex: 1,
+    paddingLeft: 3
+  },
+  distanceIcon: {
+    paddingLeft: 2,
+    paddingRight: 3,
+    paddingTop: 2
   },
   content: {
     padding: 15

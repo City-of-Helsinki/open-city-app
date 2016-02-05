@@ -3,7 +3,8 @@ import React, {
   TouchableWithoutFeedback,
   View,
   Text,
-  StyleSheet
+  StyleSheet,
+  Image
 } from 'react-native';
 
 import {getIssuePosition, getIssueAddressText, getIssueCategoryColor} from '../../helpers/issue';
@@ -39,7 +40,12 @@ class IssueRow extends Component {
       return null;
     }
 
-    return (<Text style={styles.distance}>{Math.round(this.state.distance * 10)  / 10} km</Text>);
+    return (
+      <View style={styles.distance}>
+        <View style={styles.distanceIcon}><Image source={require('../../images/pin.png')} /></View>
+        <Text style={styles.distanceText}>{Math.round(this.state.distance * 10)  / 10} km</Text>
+      </View>
+    );
   }
 
   render() {

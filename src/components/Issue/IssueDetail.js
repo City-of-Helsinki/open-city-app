@@ -2,6 +2,7 @@ import React, {
   Component,
   View,
   Text,
+  Image,
   MapView,
   ScrollView,
   StyleSheet,
@@ -99,7 +100,10 @@ class IssueDetail extends Component {
           {this.renderMap()}
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
-            <Text style={styles.distance}>{Math.round(distance * 10) / 10} km</Text>
+            <View style={styles.distance}>
+              <View style={styles.distanceIcon}><Image source={require('../../images/pin.png')} /></View>
+              <Text style={styles.distanceText}>{Math.round(distance * 10) / 10} km</Text>
+            </View>
           </View>
           <View style={styles.content}>
             <Text style={styles.summary}>{issue.summary}</Text>
