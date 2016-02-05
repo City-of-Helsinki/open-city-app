@@ -77,10 +77,12 @@ export const detailStyles = StyleSheet.create({
   scroller: {
   },
   map: {
+    alignItems: 'center',
     height: 200
   },
   mapLoader: {
-    flex: 1
+    flex: 1,
+    width: 20
   },
   top: {
     paddingLeft: 17,

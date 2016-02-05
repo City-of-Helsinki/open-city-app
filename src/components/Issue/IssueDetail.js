@@ -3,11 +3,12 @@ import React, {
   View,
   Text,
   Image,
-  MapView,
   ScrollView,
   StyleSheet,
   InteractionManager,
 } from 'react-native';
+
+import MapView from 'react-native-maps';
 
 import NavBar from '../NavBar/NavBar';
 import ActivityIndicator from '../ActivityIndicator';
@@ -54,7 +55,7 @@ class IssueDetail extends Component {
     if (!this.state.renderMap) {
       return (
         <View style={styles.map}>
-          <ActivityIndicator style={styles.mapLoader} />
+          <ActivityIndicator style={styles.mapLoader}/>
         </View>
       );
     }
@@ -67,19 +68,16 @@ class IssueDetail extends Component {
         style={styles.map}
         showsUserLocation={true}
         region={{
-            latitude: position.latitude,
-            longitude: position.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01
-          }}
-        annotations={[
-            {
-              latitude: position.latitude,
-              longitude: position.longitude,
-              title: getIssueAddressText(issue)
-            }
-         ]}
-      />
+          latitude: position.latitude,
+          longitude: position.longitude,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01
+        }}>
+        <MapView.Marker
+          coordinate={{latitude: position.latitude, longitude: position.longitude}}
+          title={getIssueAddressText(issue)}
+        />
+      </MapView>
     );
   }
 
@@ -102,7 +100,7 @@ class IssueDetail extends Component {
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
             <View style={styles.distance}>
-              <View style={styles.distanceIcon}><Image source={require('../../images/pin.png')} /></View>
+              <View style={styles.distanceIcon}><Image source={require('../../images/pin.png')}/></View>
               <Text style={styles.distanceText}>{Math.round(distance * 10) / 10} km</Text>
             </View>
           </View>
