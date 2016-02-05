@@ -55,8 +55,13 @@ export const rowStyles = StyleSheet.create({
 export const detailStyles = StyleSheet.create({
   container: {
     backgroundColor: COLOR_WHITE,
-    borderTopColor: COLOR_LIGHTER_GRAY,
-    borderTopWidth: 4
+    flex: 1
+  },
+  divider: {
+    backgroundColor: COLOR_LIGHTER_GRAY,
+    height: 4
+  },
+  scroller: {
   },
   map: {
     height: 200

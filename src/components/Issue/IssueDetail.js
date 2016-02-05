@@ -3,6 +3,7 @@ import React, {
   View,
   Text,
   MapView,
+  ScrollView,
   StyleSheet,
   InteractionManager,
   ActivityIndicatorIOS
@@ -10,7 +11,7 @@ import React, {
 
 import NavBar from '../NavBar/NavBar';
 
-import {getIssuePosition, getIssueCategoryColor} from '../../helpers/issue';
+import {getIssuePosition, getIssueCategoryColor, getIssueAddressText} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
 import {detailStyles as styles} from './styles';
@@ -50,7 +51,8 @@ class IssueDetail extends Component {
       );
     }
 
-    const {position} = this.state;
+    const issue = this.props.issue;
+    const position = this.state.position;
 
     return (
       <MapView
@@ -65,19 +67,20 @@ class IssueDetail extends Component {
         annotations={[
             {
               latitude: position.latitude,
-              longitude: position.longitude
+              longitude: position.longitude,
+              title: getIssueAddressText(issue)
             }
-          ]}
+         ]}
       />
     );
   }
 
   render() {
     const issue = this.props.issue;
-    const {distance} = this.state;
+    const distance = this.state.distance;
 
     return (
-      <View>
+      <View style={styles.container}>
         <NavBar
           title={{ title: 'PÄÄTÖKSET' }}
           leftButton={{
@@ -85,7 +88,8 @@ class IssueDetail extends Component {
             handler: (event) => {this.props.navigator.pop();}
           }}
         />
-        <View style={[styles.container, {borderTopColor: getIssueCategoryColor(this.props.issue)}]}>
+        <View style={[styles.divider, {backgroundColor: getIssueCategoryColor(this.props.issue)}]}/>
+        <ScrollView style={styles.scroller}>
           {this.renderMap()}
           <View style={styles.top}>
             <Text style={styles.subject}>{issue.subject}</Text>
@@ -94,7 +98,7 @@ class IssueDetail extends Component {
           <View style={styles.content}>
             <Text style={styles.summary}>{issue.summary}</Text>
           </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
