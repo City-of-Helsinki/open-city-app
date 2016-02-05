@@ -1,51 +1,66 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- */
-'use strict';
 import React, {
   AppRegistry,
   Component,
   StyleSheet,
-  Text,
-  View
+  Navigator
 } from 'react-native';
 
-class OpenCity extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          Welcome to React Native!
-        </Text>
-        <Text style={styles.instructions}>
-          To get started, edit index.android.js
-        </Text>
-        <Text style={styles.instructions}>
-          Shake or press menu button for dev menu
-        </Text>
-      </View>
-    );
-  }
-}
+import IssueList from './src/components/Issue/IssueList';
+
+import {configureApi} from './src/helpers/api';
+import {configureLog, LOG_LEVEL_DEBUG} from './src/helpers/log';
+
+configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
+configureLog({isLogging: true, logLevel: LOG_LEVEL_DEBUG});
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF'
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5
+    flex: 1
   }
 });
+
+class OpenCity extends Component {
+  /**
+   * Scene configuration method for the navigator.
+   * @param route
+   * @returns {*}
+   */
+  configureScene(route) {
+    if (route.sceneConfig) {
+      return route.sceneConfig;
+    }
+
+    return Object.assign({}, Navigator.SceneConfigs.HorizontalSwipeJump, {
+      gestures: {
+        pop: null
+      }
+    });
+  }
+
+  /**
+   * Render method for the navigator scene.
+   * @param route
+   * @param navigator
+   * @returns {XML}
+   */
+  renderScene(route, navigator) {
+    return <route.component {...route.passProps} route={route} navigator={navigator}/>;
+  }
+
+  /**
+   * OpenCity component render method.
+   * @returns {XML}
+   */
+  render() {
+    return (
+      <Navigator
+        style={styles.container}
+        initialRoute={{component: IssueList}}
+        renderScene={this.renderScene.bind(this)}
+        configureScene={this.configureScene.bind(this)}
+      />
+    );
+  }
+}
 
 AppRegistry.registerComponent('OpenCity', () => OpenCity);
