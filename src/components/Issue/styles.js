@@ -111,7 +111,8 @@ export const detailStyles = StyleSheet.create({
   content: {
     paddingLeft: 17,
     paddingRight: 17,
-    paddingTop: 15
+    paddingTop: 15,
+    paddingBottom: 15
   },
   summary: {
     color: COLOR_GRAY,
