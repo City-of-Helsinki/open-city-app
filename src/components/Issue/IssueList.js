@@ -86,7 +86,8 @@ class IssueList extends Component {
         limit: PAGE_SIZE
       })
         .then(result => {
-          console.log(result);
+          console.log('findIssues result:', result);
+
           if (result.data.objects) {
             const rows = concat(this.state.rows, result.data.objects);
 

@@ -120,3 +120,10 @@ export const detailStyles = StyleSheet.create({
     fontWeight: '300'
   }
 });
+
+export const agendaItemStyles = StyleSheet.create({
+  container: {
+    backgroundColor: COLOR_WHITE,
+    flex: 1
+  }
+});

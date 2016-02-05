@@ -11,6 +11,7 @@ import React, {
 
 import NavBar from '../NavBar/NavBar';
 import ActivityIndicator from '../ActivityIndicator';
+import IssueAgendaItems from './IssueAgendaItems';
 
 import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
@@ -106,7 +107,7 @@ class IssueDetail extends Component {
             </View>
           </View>
           <View style={styles.content}>
-            <Text style={styles.summary}>{issue.summary}</Text>
+            <IssueAgendaItems issue={issue} />
           </View>
         </ScrollView>
       </View>
