@@ -39,12 +39,14 @@ export const rowStyles = StyleSheet.create({
   subject: {
     color: COLOR_DARK_GRAY,
     fontSize: 18,
-    marginBottom: 10
+    marginBottom: 10,
+    lineHeight: 22
   },
   address: {
     color: COLOR_LIGHT_GRAY,
     fontSize: 18,
-    marginBottom: 10
+    marginBottom: 10,
+    fontWeight: '300'
   },
   distance: {
     flexDirection: 'row'
@@ -53,7 +55,8 @@ export const rowStyles = StyleSheet.create({
     color: COLOR_LIGHTER_GRAY,
     fontSize: 14,
     flex: 1,
-    paddingLeft: 3
+    paddingLeft: 3,
+    fontWeight: '300'
   },
   distanceIcon: {
     paddingLeft: 2,
@@ -80,7 +83,10 @@ export const detailStyles = StyleSheet.create({
     flex: 1
   },
   top: {
-    padding: 15
+    paddingLeft: 17,
+    paddingRight: 17,
+    paddingTop: 21,
+    paddingBottom: 10
   },
   subject: {
     color: COLOR_DARK_GRAY,
@@ -94,7 +100,8 @@ export const detailStyles = StyleSheet.create({
     color: COLOR_LIGHTER_GRAY,
     fontSize: 14,
     flex: 1,
-    paddingLeft: 3
+    paddingLeft: 3,
+    fontWeight: '300'
   },
   distanceIcon: {
     paddingLeft: 2,
@@ -102,10 +109,14 @@ export const detailStyles = StyleSheet.create({
     paddingTop: 2
   },
   content: {
-    padding: 15
+    paddingLeft: 17,
+    paddingRight: 17,
+    paddingTop: 15
   },
   summary: {
     color: COLOR_GRAY,
-    fontSize: 18
+    fontSize: 18,
+    lineHeight: 22,
+    fontWeight: '300'
   }
 });
