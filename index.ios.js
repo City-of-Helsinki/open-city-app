@@ -8,10 +8,8 @@ import React, {
 import IssueList from './src/components/Issue/IssueList';
 
 import {configureApi} from './src/helpers/api';
-import {configureLog, LOG_LEVEL_DEBUG} from './src/helpers/log';
 
 configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
-configureLog({isLogging: true, logLevel: LOG_LEVEL_DEBUG});
 
 const styles = StyleSheet.create({
   container: {

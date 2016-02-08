@@ -1,5 +1,3 @@
-import {debug} from './log';
-
 let config = {
   endpoint: 'http://example.com'
 };
@@ -29,7 +27,7 @@ export function makeRequest(url, options) {
         return response.json()
           .then(data => {
             const result = {response: response, data: data};
-            //debug('result:', result);
+            console.debug('result:', result);
             return resolve(result);
           })
       })
