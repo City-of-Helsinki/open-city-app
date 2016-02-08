@@ -49,7 +49,19 @@ class IssueAgendaItems extends Component {
    * @returns {Array}
    */
   renderAgendaItems() {
-    let html = '';
+    const styles = `
+      <style>
+          body, html {
+          padding: 0;
+          margin: 0;
+          font: 100% arial, sans-serif;
+          font-weight: 300;
+          font-size: 16px;
+        }
+      </style>
+    `;
+
+    let html = styles;
     forEach(this.state.agendaItems, (agendaItem, agendaItemKey) => {
       forEach(agendaItem.content, (content, contentKey) => {
         html += content.text;
