@@ -9,6 +9,7 @@
   "dependencies": {
     "geolib": "^2.0.18",
     "geopoint": "^1.0.1",
+    "hex-rgba": "^1.0.0",
     "lodash": "^4.2.1",
     "react-native": "^0.19.0",
     "react-native-html-webview": "0.0.17",

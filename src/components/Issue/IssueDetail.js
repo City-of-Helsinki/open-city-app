@@ -9,6 +9,7 @@ import React, {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
+import hexToRgba from 'hex-rgba';
 
 import NavBar from '../NavBar/NavBar';
 import ActivityIndicator from '../ActivityIndicator';
@@ -59,10 +60,13 @@ class IssueDetail extends Component {
       return null;
     }
 
+    const issueCategoryColor = getIssueCategoryColor(issue);
+
     return (
       <MapView.Polygon
         coordinates={polygon}
-        fillColor={getIssueCategoryColor(issue)}
+        strokeColor={issueCategoryColor}
+        fillColor={hexToRgba(issueCategoryColor, 40)}
       />
     );
   }
