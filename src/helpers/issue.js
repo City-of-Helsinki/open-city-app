@@ -1,9 +1,11 @@
 import {makeRequest, buildQueryString} from './api';
 import {forEach} from 'lodash';
-import geolib from 'geolib';
 
-export const GEOMETRY_TYPE_POINT = 'Point';
-export const GEOMETRY_TYPE_POLYGON = 'Polygon';
+import {
+  GEOMETRY_TYPE_POINT,
+  GEOMETRY_TYPE_POLYGON,
+  getPolygonCenter
+} from './map';
 
 const categoryColorMap = [
   '#39A795',
@@ -89,10 +91,8 @@ export function getIssuePosition(issue) {
       forEach(geometry.coordinates[0], (item) => {
         coordinates.push({ latitude: item[1], longitude: item[0] });
       });
-      let center = geolib.getCenter(coordinates);
 
-      center.latitude = Number(center.latitude);
-      center.longitude = Number(center.longitude);
+      let center = getPolygonCenter(coordinates);
 
       return {
         ...center
