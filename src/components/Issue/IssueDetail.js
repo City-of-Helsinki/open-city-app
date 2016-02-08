@@ -6,6 +6,7 @@ import React, {
   ScrollView,
   StyleSheet,
   InteractionManager,
+  Dimensions,
 } from 'react-native';
 
 import MapView from 'react-native-maps';
@@ -19,9 +20,14 @@ import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
 
 import {getIssuePosition, getIssueCategoryColor, getIssueAddressText, getPolygon} from '../../helpers/issue';
-import {calculateDistance, GEOMETRY_TYPE_POLYGON} from '../../helpers/map';
+import {calculateDistance} from '../../helpers/map';
 
 import {detailStyles as styles} from './styles';
+
+const screen = Dimensions.get('window');
+const ASPECT_RATIO = screen.width / screen.height;
+const LATITUDE_DELTA = 0.01;
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 class IssueDetail extends Component {
   constructor() {
@@ -82,17 +88,18 @@ class IssueDetail extends Component {
 
     const issue = this.props.issue;
     const position = this.state.position;
+    const region = {
+      latitude: position.latitude,
+      longitude: position.longitude,
+      latitudeDelta: LATITUDE_DELTA,
+      longitudeDelta: LONGITUDE_DELTA
+    };
 
     return (
       <MapView
         style={styles.map}
         showsUserLocation={true}
-        region={{
-          latitude: position.latitude,
-          longitude: position.longitude,
-          latitudeDelta: 0.01,
-          longitudeDelta: 0.01
-        }}>
+        region={region}>
         {this.renderPolygon()}
         <MapView.Marker
           coordinate={{latitude: position.latitude, longitude: position.longitude}}
