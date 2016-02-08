@@ -17,8 +17,8 @@ import IssueAgendaItems from './IssueAgendaItems';
 import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
 
-import {getIssuePosition, getIssueCategoryColor, getIssueAddressText} from '../../helpers/issue';
-import {calculateDistance} from '../../helpers/map';
+import {getIssuePosition, getIssueCategoryColor, getIssueAddressText, getPolygon} from '../../helpers/issue';
+import {calculateDistance, GEOMETRY_TYPE_POLYGON} from '../../helpers/map';
 
 import {detailStyles as styles} from './styles';
 
@@ -51,6 +51,22 @@ class IssueDetail extends Component {
     });
   }
 
+  renderPolygon() {
+    const issue = this.props.issue;
+    const polygon = getPolygon(issue);
+
+    if (!polygon) {
+      return null;
+    }
+
+    return (
+      <MapView.Polygon
+        coordinates={polygon}
+        fillColor={getIssueCategoryColor(issue)}
+      />
+    );
+  }
+
   renderMap() {
     if (!this.state.renderMap) {
       return (
@@ -73,6 +89,7 @@ class IssueDetail extends Component {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01
         }}>
+        {this.renderPolygon()}
         <MapView.Marker
           coordinate={{latitude: position.latitude, longitude: position.longitude}}
           title={getIssueAddressText(issue)}

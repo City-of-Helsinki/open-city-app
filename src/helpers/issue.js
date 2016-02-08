@@ -101,3 +101,24 @@ export function getIssuePosition(issue) {
       return null;
   }
 }
+
+/**
+ *
+ * @param issue
+ * @returns {*}
+ */
+export function getPolygon(issue) {
+  let polygon = null;
+  forEach(issue.geometries, (geometryItem, index) => {
+    if (geometryItem.type === GEOMETRY_TYPE_POLYGON) {
+      polygon = [];
+
+      forEach(geometryItem.coordinates[0], (item) => {
+        polygon.push({ latitude: item[1], longitude: item[0] });
+      });
+      return false;
+    }
+  });
+
+  return polygon;
+}
