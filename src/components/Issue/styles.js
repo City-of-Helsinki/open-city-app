@@ -128,5 +128,8 @@ export const agendaItemStyles = StyleSheet.create({
   container: {
     backgroundColor: COLOR_WHITE,
     flex: 1
+  },
+  agendaItem: {
+    flex: 1
   }
 });

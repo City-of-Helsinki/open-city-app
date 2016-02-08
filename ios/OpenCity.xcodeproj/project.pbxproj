@@ -24,6 +24,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8335BAB01C60CB4000C2D0C3 /* libReactNativeLocalization.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8335BAAF1C60CB0100C2D0C3 /* libReactNativeLocalization.a */; };
 		83FF66A41C63402C009F1F48 /* Test.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 83FF66A31C63402C009F1F48 /* Test.gpx */; };
+		D601EB01419D492D9D65A6C6 /* libAIBHTMLWebView.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C9923D5EBFFC49B3B616B423 /* libAIBHTMLWebView.a */; };
 		FC1B3EDF9D5A40B4B038A072 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A33033AB4B804E7EBDB62D42 /* libAirMaps.a */; };
 /* End PBXBuildFile section */
 
@@ -69,6 +70,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
 			remoteInfo = OpenCity;
+		};
+		0916B8E91C6898AD00F4C488 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3794179143F34E3BA05515A9 /* AIBHTMLWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E236CCD31AD173A500D5FC85;
+			remoteInfo = AIBHTMLWebView;
+		};
+		0916B8EB1C6898AD00F4C488 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3794179143F34E3BA05515A9 /* AIBHTMLWebView.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E236CCDE1AD173A500D5FC85;
+			remoteInfo = AIBHTMLWebViewTests;
 		};
 		139105C01AF99BAD00B5F7CC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -141,12 +156,14 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OpenCity/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OpenCity/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		3794179143F34E3BA05515A9 /* AIBHTMLWebView.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AIBHTMLWebView.xcodeproj; path = "../node_modules/react-native-html-webview/AIBHTMLWebView.xcodeproj"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8335BAA01C60CB0100C2D0C3 /* ReactNativeLocalization.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeLocalization.xcodeproj; path = "../node_modules/react-native-localization/ReactNativeLocalization.xcodeproj"; sourceTree = "<group>"; };
 		83FF66A31C63402C009F1F48 /* Test.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = Test.gpx; path = ../data/Test.gpx; sourceTree = "<group>"; };
 		8C95C8DA21E94D1FA13764E8 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
 		A33033AB4B804E7EBDB62D42 /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
+		C9923D5EBFFC49B3B616B423 /* libAIBHTMLWebView.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAIBHTMLWebView.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -173,6 +190,7 @@
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
 				FC1B3EDF9D5A40B4B038A072 /* libAirMaps.a in Frameworks */,
+				D601EB01419D492D9D65A6C6 /* libAIBHTMLWebView.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +254,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		0916B8E51C6898AD00F4C488 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0916B8EA1C6898AD00F4C488 /* libAIBHTMLWebView.a */,
+				0916B8EC1C6898AD00F4C488 /* AIBHTMLWebViewTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		139105B71AF99BAD00B5F7CC /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -297,6 +324,7 @@
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				8C95C8DA21E94D1FA13764E8 /* AirMaps.xcodeproj */,
+				3794179143F34E3BA05515A9 /* AIBHTMLWebView.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -414,6 +442,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 0916B8E51C6898AD00F4C488 /* Products */;
+					ProjectRef = 3794179143F34E3BA05515A9 /* AIBHTMLWebView.xcodeproj */;
+				},
+				{
 					ProductGroup = 83FF66B01C64D251009F1F48 /* Products */;
 					ProjectRef = 8C95C8DA21E94D1FA13764E8 /* AirMaps.xcodeproj */;
 				},
@@ -504,6 +536,20 @@
 			fileType = archive.ar;
 			path = libRCTVibration.a;
 			remoteRef = 00C302E31ABCB9EE00DB3ED1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0916B8EA1C6898AD00F4C488 /* libAIBHTMLWebView.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libAIBHTMLWebView.a;
+			remoteRef = 0916B8E91C6898AD00F4C488 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0916B8EC1C6898AD00F4C488 /* AIBHTMLWebViewTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = AIBHTMLWebViewTests.xctest;
+			remoteRef = 0916B8EB1C6898AD00F4C488 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		139105C11AF99BAD00B5F7CC /* libRCTSettings.a */ = {
@@ -653,6 +699,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
@@ -674,6 +721,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
@@ -690,6 +738,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-html-webview/iOS",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -707,6 +756,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-html-webview/iOS",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -754,6 +804,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-html-webview/iOS",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -795,6 +846,7 @@
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-html-webview/iOS",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

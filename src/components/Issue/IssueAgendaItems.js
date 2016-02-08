@@ -4,6 +4,7 @@ import React, {
   Text,
 } from 'react-native';
 import {forEach} from 'lodash';
+import HTMLWebView from 'react-native-html-webview';
 
 import {findAgendaItemByIssueId} from '../../helpers/agendaItem';
 
@@ -30,14 +31,14 @@ class IssueAgendaItems extends Component {
       isLoading: true
     });
 
-    findAgendaItemByIssueId({ issue: this.props.issue.id })
+    findAgendaItemByIssueId({issue: this.props.issue.id})
       .then((result) => {
         console.log('findAgendaItemByIssueId result:', result);
 
         if (result.data.objects) {
           this.setState({
             isLoading: false,
-            agendaItems: result.data.objects
+            agendaItems: result.data.objects,
           });
         }
       });
@@ -48,19 +49,23 @@ class IssueAgendaItems extends Component {
    * @returns {Array}
    */
   renderAgendaItems() {
-    let output = [];
-
+    let html = '';
     forEach(this.state.agendaItems, (agendaItem, agendaItemKey) => {
       forEach(agendaItem.content, (content, contentKey) => {
-        output.push((
-          <View key={'agenda-item-'+agendaItemKey+'-content-'+contentKey} style={styles.agendaItem}>
-            <Text>{content.text}</Text>
-          </View>
-        ));
+        html += content.text;
       });
     });
 
-    return output;
+    return (
+      <View style={styles.agendaItem}>
+        <HTMLWebView
+          scalesPageToFit={false}
+          makeSafe={true}
+          autoHeight={true}
+          html={html}
+        />
+      </View>
+    );
   }
 
   /**
