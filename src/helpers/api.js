@@ -27,7 +27,7 @@ export function makeRequest(url, options) {
         return response.json()
           .then(data => {
             const result = {response: response, data: data};
-            console.debug('result:', result);
+            console.log('result:', result);
             return resolve(result);
           })
       })
