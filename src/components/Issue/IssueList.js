@@ -81,7 +81,10 @@ class IssueList extends Component {
       });
 
       findIssues({
-        bbox: calculateBoundingBox(position.coords, 1/* distance in km */),
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+        distance: 1000,
+        order_by: '-latest_decision_date',
         page: this.state.pageNumber + 1,
         limit: PAGE_SIZE
       })
@@ -121,12 +124,14 @@ class IssueList extends Component {
     });
 
     findIssues({
-      bbox: calculateBoundingBox(position.coords, 1),
+      lat: position.coords.latitude,
+      lon: position.coords.longitude,
+      distance: 1000,
+      order_by: '-latest_decision_date',
       page: 1,
       limit: PAGE_SIZE
     })
       .then(result => {
-        console.log(result);
         if (result.data.objects) {
           const rows = result.data.objects;
 

@@ -41,7 +41,7 @@ export function findIssueById(id, options) {
  * @param {object} options
  * @returns {Promise}
  */
-export function findIssues(query, options) {
+export function findIssues(query, options = {}) {
   let queryString = query ? '?' + buildQueryString(query) : '';
   return makeRequest(`issue/search${queryString}`, options);
 }
