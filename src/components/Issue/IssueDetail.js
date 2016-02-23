@@ -39,6 +39,7 @@ class IssueDetail extends Component {
     this.state = {
       position: null,
       distance: null,
+      region: null,
       renderMap: false
     };
   }
@@ -48,7 +49,13 @@ class IssueDetail extends Component {
 
     this.setState({
       position,
-      distance: calculateDistance(this.props.position.coords, position)
+      distance: calculateDistance(this.props.position.coords, position),
+      region: {
+        latitude: position.latitude,
+        longitude: position.longitude,
+        latitudeDelta: LATITUDE_DELTA,
+        longitudeDelta: LONGITUDE_DELTA
+      }
     });
 
     InteractionManager.runAfterInteractions(() => {
@@ -88,24 +95,20 @@ class IssueDetail extends Component {
 
     const issue = this.props.issue;
     const position = this.state.position;
-    const region = {
-      latitude: position.latitude,
-      longitude: position.longitude,
-      latitudeDelta: LATITUDE_DELTA,
-      longitudeDelta: LONGITUDE_DELTA
-    };
+    const region = this.state.region;
 
     return (
-      <MapView
+      <MapView.Animated
         style={styles.map}
         showsUserLocation={true}
+        followUserLocation={false}
         region={region}>
         {this.renderPolygon()}
         <MapView.Marker
           coordinate={{latitude: position.latitude, longitude: position.longitude}}
           title={getIssueAddressText(issue)}
         />
-      </MapView>
+      </MapView.Animated>
     );
   }
 
@@ -133,7 +136,7 @@ class IssueDetail extends Component {
             </View>
           </View>
           <View style={styles.content}>
-            <IssueAgendaItems issue={issue} />
+            <IssueAgendaItems issue={issue}/>
           </View>
         </ScrollView>
       </View>
