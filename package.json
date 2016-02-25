@@ -11,7 +11,7 @@
     "geopoint": "^1.0.1",
     "hex-rgba": "^1.0.0",
     "lodash": "^4.2.1",
-    "react-native": "^0.21.0-rc",
+    "react-native": "^0.19.0",
     "react-native-background-geolocation": "^0.3.4",
     "react-native-html-webview": "0.0.17",
     "react-native-localization": "^0.1.11",
