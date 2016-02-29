@@ -1,5 +1,8 @@
 import {makeRequest, buildQueryString} from './api';
+import {setInStorage, getFromStorage, unsetFromStorage} from './storage';
 import {forEach} from 'lodash';
+
+export const STORAGE_ISSUE_META_DATA = 'issue_meta_data';
 
 import {
   GEOMETRY_TYPE_POINT,
@@ -25,6 +28,76 @@ const categoryColorMap = [
   '#CC4D5A',
   '#FF495B'
 ];
+
+/**
+ *
+ * @param issue
+ * @returns {Promise.<T>}
+ */
+export function setIssueOpened(issue) {
+  return getFromStorage(STORAGE_ISSUE_META_DATA).then((value) => {
+    let metaData = JSON.parse(value),
+      issueMetaData = null,
+      now = new Date().getTime();
+
+    if (!metaData) {
+      metaData = {};
+    }
+
+    if (metaData && metaData[issue.id]) {
+      issueMetaData = metaData[issue.id];
+      issueMetaData.openedAt = now;
+    } else {
+      issueMetaData = {openedAt: now, notifiedAt: null};
+    }
+
+    metaData[issue.id] = issueMetaData;
+
+    return setInStorage(STORAGE_ISSUE_META_DATA, JSON.stringify(metaData));
+  });
+}
+
+/**
+ *
+ * @param issues
+ * @returns {Promise.<T>}
+ */
+export function setIssuesNotified(issues) {
+  return getFromStorage(STORAGE_ISSUE_META_DATA).then((value) => {
+    let metaData = JSON.parse(value),
+      now = new Date().getTime();
+
+    if (!metaData) {
+      metaData = {};
+    }
+
+    forEach(issues, (issue) => {
+      let issueMetaData = null;
+      if (metaData && metaData[issue.id]) {
+        issueMetaData = metaData[issue.id];
+        issueMetaData.notifiedAt = now;
+      } else {
+        issueMetaData = {openedAt: null, notifiedAt: now};
+      }
+
+      metaData[issue.id] = issueMetaData;
+    });
+
+    return setInStorage(STORAGE_ISSUE_META_DATA, JSON.stringify(metaData));
+  });
+}
+
+export async function getIssueMetaData() {
+  return getFromStorage(STORAGE_ISSUE_META_DATA).then((value) => {
+    let metaData = JSON.parse(value);
+
+    if (!metaData) {
+      metaData = {};
+    }
+
+    return metaData;
+  });
+}
 
 /**
  *
@@ -89,7 +162,7 @@ export function getIssuePosition(issue) {
     case GEOMETRY_TYPE_POLYGON:
       let coordinates = [];
       forEach(geometry.coordinates[0], (item) => {
-        coordinates.push({ latitude: item[1], longitude: item[0] });
+        coordinates.push({latitude: item[1], longitude: item[0]});
       });
 
       let center = getPolygonCenter(coordinates);
@@ -114,7 +187,7 @@ export function getPolygon(issue) {
       polygon = [];
 
       forEach(geometryItem.coordinates[0], (item) => {
-        polygon.push({ latitude: item[1], longitude: item[0] });
+        polygon.push({latitude: item[1], longitude: item[0]});
       });
       return false;
     }

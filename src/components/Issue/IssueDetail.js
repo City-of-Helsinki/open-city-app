@@ -19,7 +19,7 @@ import IssueAgendaItems from './IssueAgendaItems';
 import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
 
-import {getIssuePosition, getIssueCategoryColor, getIssueAddressText, getPolygon} from '../../helpers/issue';
+import {getIssuePosition, getIssueCategoryColor, getIssueAddressText, getPolygon, setIssueOpened} from '../../helpers/issue';
 import {calculateDistance} from '../../helpers/map';
 
 import {detailStyles as styles} from './styles';
@@ -63,6 +63,8 @@ class IssueDetail extends Component {
         renderMap: true
       });
     });
+
+    setIssueOpened(this.props.issue);
   }
 
   renderPolygon() {

@@ -16,7 +16,7 @@ import IssueDetail from '../Issue/IssueDetail';
 import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
 
-import {findIssues} from '../../helpers/issue';
+import {findIssues, setIssuesNotified} from '../../helpers/issue';
 import {calculateBoundingBox, comparePositions} from '../../helpers/map';
 import {COLOR_BLUE} from '../../constants/color';
 
@@ -24,7 +24,13 @@ const PAGE_SIZE = 20;
 
 import {listStyles as styles} from './styles';
 
+/**
+ *
+ */
 class IssueList extends Component {
+  /**
+   *
+   */
   constructor() {
     super();
 
@@ -46,6 +52,9 @@ class IssueList extends Component {
     };
   }
 
+  /**
+   *
+   */
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       position => {
@@ -64,16 +73,28 @@ class IssueList extends Component {
     });
   }
 
+  /**
+   *
+   * @param nextProps
+   * @param nextState
+   */
   componentWillUpdate(nextProps, nextState) {
     if ((!this.state.position && nextState.position) || comparePositions(this.state.position, nextState.position)) {
       this.loadIssues(nextState.position);
     }
   }
 
+  /**
+   *
+   */
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
   }
 
+  /**
+   *
+   * @param position
+   */
   loadIssues(position) {
     if (!this.state.lastPage && !this.state.isLoading && position) {
       this.setState({
@@ -101,12 +122,18 @@ class IssueList extends Component {
               lastPage: result.data.objects.length < PAGE_SIZE,
               isLoading: false
             });
+
+            setIssuesNotified(rows);
           }
         })
         .catch(err => alert(err));
     }
   }
 
+  /**
+   *
+   * @param issue
+   */
   handlePress(issue) {
     this.props.navigator.push({
       component: IssueDetail,
@@ -117,6 +144,10 @@ class IssueList extends Component {
     });
   }
 
+  /**
+   *
+   * @param position
+   */
   onRefresh(position) {
     this.setState({
       isRefreshing: true,
@@ -143,11 +174,17 @@ class IssueList extends Component {
             isRefreshing: false,
             isLoading: false
           });
+
+          setIssuesNotified(rows);
         }
       })
       .catch(err => alert(err));
   }
 
+  /**
+   *
+   * @returns {XML}
+   */
   render() {
     const position = this.state.position;
 

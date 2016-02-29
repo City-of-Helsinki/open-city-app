@@ -2,12 +2,17 @@ import React, {
   AppRegistry,
   Component,
   StyleSheet,
-  Navigator
+  Navigator,
+  PushNotificationIOS,
+  AppState
 } from 'react-native';
 
 import IssueList from './src/components/Issue/IssueList';
 
 import {configureApi} from './src/helpers/api';
+import {mountBackgroundTask, unmountBackgroundTask} from './src/helpers/backgroundTask';
+
+import BackgroundGeolocation from 'react-native-background-geolocation';
 
 configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
 
@@ -18,6 +23,18 @@ const styles = StyleSheet.create({
 });
 
 class OpenCity extends Component {
+  constructor() {
+    super();
+  }
+
+  componentDidMount() {
+    mountBackgroundTask(this.refs.nav);
+  }
+
+  componentWillUnmount() {
+    unmountBackgroundTask();
+  }
+
   /**
    * Scene configuration method for the navigator.
    * @param route
@@ -52,6 +69,7 @@ class OpenCity extends Component {
   render() {
     return (
       <Navigator
+        ref="nav"
         style={styles.container}
         initialRoute={{component: IssueList}}
         renderScene={this.renderScene.bind(this)}
