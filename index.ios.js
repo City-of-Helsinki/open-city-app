@@ -23,14 +23,23 @@ const styles = StyleSheet.create({
 });
 
 class OpenCity extends Component {
+  /**
+   * @constructor
+   */
   constructor() {
     super();
   }
 
+  /**
+   * Component is now mounted.
+   */
   componentDidMount() {
     mountBackgroundTask(this.refs.nav);
   }
 
+  /**
+   * Component is unmounting.
+   */
   componentWillUnmount() {
     unmountBackgroundTask();
   }

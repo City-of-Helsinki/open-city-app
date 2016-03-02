@@ -85,6 +85,7 @@ function _onNotification(notification) {
   const issues = data.userInfo.issues;
   const position = data.userInfo.position;
 
+  // Navigate to the issue, if the notification has only one issue attached to it.
   if (issues.length === 1) {
     _navigator.immediatelyResetRouteStack([{
       component: IssueList
