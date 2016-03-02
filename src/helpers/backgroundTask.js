@@ -21,8 +21,17 @@ let _navigator = null;
  */
 function _onLocationChanged(location) {
   console.log('_onLocationChanged', location);
+}
 
-  if (_appState === 'background') {
+/**
+ *
+ * @param location
+ * @private
+ */
+function _onMotionChange(location) {
+  console.log('_onMotionChange', location)
+
+  if (_appState === 'background' && location.is_moving === false) {
     findIssues({
       lat: location.coords.latitude,
       lon: location.coords.longitude,
@@ -113,15 +122,15 @@ export function mountBackgroundTask(navigator) {
 
   BackgroundGeolocation.configure({
     desiredAccuracy: 0,
-    stationaryRadius: 50,
+    stationaryRadius: 100,
     distanceFilter: 500,
     locationUpdateInterval: 5000,
     minimumActivityRecognitionConfidence: 80,   // 0-100%.  Minimum activity-confidence for a state-change
     fastestLocationUpdateInterval: 5000,
     activityRecognitionInterval: 5000,
     stopDetectionDelay: 1,  // <--  minutes to delay after motion stops before engaging stop-detection system
-    stopTimeout: 2, // 2 minutes
-    activityType: 'AutomotiveNavigation',
+    stopTimeout: 30, // 30 minutes
+    activityType: 'Other',
 
     // Application config
     debug: false, // <-- enable this hear sounds for background-geolocation life-cycle.
@@ -134,6 +143,8 @@ export function mountBackgroundTask(navigator) {
 
   // This handler fires whenever bgGeo receives a location update.
   BackgroundGeolocation.on('location', _onLocationChanged);
+  BackgroundGeolocation.on('motionchange', _onMotionChange);
+
   PushNotificationIOS.addEventListener('localNotification', _onNotification);
   AppState.addEventListener('change', _handleAppStateChange);
 }
