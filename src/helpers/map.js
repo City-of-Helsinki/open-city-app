@@ -33,10 +33,16 @@ export function calculateDistance(coords, target) {
  *
  * @param {object} position
  * @param {object} other
+ * @param {Number} tolerance
  * @returns {boolean}
  */
-export function comparePositions(position, other) {
-  return position.coords.latitude !== other.coords.latitude || position.coords.longitude !== other.coords.longitude;
+export function comparePositions(position, other, tolerance = 0) {
+  const distance = geolib.getDistance(
+    {latitude: position.coords.latitude, longitude: position.coords.longitude},
+    {latitude: other.coords.latitude, longitude: other.coords.longitude}
+  );
+
+  return (distance === 0 || distance <= tolerance);
 }
 
 /**

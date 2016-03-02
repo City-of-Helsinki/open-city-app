@@ -4,7 +4,8 @@ import React, {
   Text,
   ListView,
   StyleSheet,
-  RefreshControl
+  RefreshControl,
+  AppState
 } from 'react-native';
 
 import {concat} from 'lodash';
@@ -38,6 +39,7 @@ class IssueList extends Component {
     translationsIssue.setLanguage('fi');
 
     this.watchID = null;
+    this.position = null;
 
     this.state = {
       position: null,
@@ -68,9 +70,11 @@ class IssueList extends Component {
 
     this.watchID = navigator.geolocation.watchPosition(position => {
       if (position) {
-        this.setState({position});
+        this.position = position;
       }
     });
+
+    AppState.addEventListener('change', this.onAppStateChange.bind(this));
   }
 
   /**
@@ -79,8 +83,8 @@ class IssueList extends Component {
    * @param nextState
    */
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.state.position && nextState.position) || comparePositions(this.state.position, nextState.position)) {
-      this.loadIssues(nextState.position);
+    if (!this.state.position && nextState.position) {
+      this.loadIssues(nextState.position, true);
     }
   }
 
@@ -89,13 +93,32 @@ class IssueList extends Component {
    */
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+
+    AppState.removeEventListener('change', this.onAppStateChange);
+  }
+
+  /**
+   *
+   * @param currentAppState
+   */
+  onAppStateChange(currentAppState) {
+    // Update position in state and load issues with the new position, when app is brought back from background.
+    if (currentAppState === 'active') {
+      const position = this.position;
+      this.setState({
+        position: position
+      });
+
+      this.loadIssues(position, true);
+    }
   }
 
   /**
    *
    * @param position
+   * @param reset
    */
-  loadIssues(position) {
+  loadIssues(position, reset = false) {
     if (!this.state.lastPage && !this.state.isLoading && position) {
       this.setState({
         isLoading: true
@@ -106,19 +129,23 @@ class IssueList extends Component {
         lon: position.coords.longitude,
         distance: 1000,
         order_by: '-latest_decision_date',
-        page: this.state.pageNumber + 1,
+        page: reset ? 1 : this.state.pageNumber + 1,
         limit: PAGE_SIZE
       })
         .then(result => {
           console.log('findIssues result:', result);
 
           if (result.data.objects) {
-            const rows = concat(this.state.rows, result.data.objects);
+            let rows = result.data.objects;
+
+            if (!reset) {
+              rows = concat(this.state.rows, result.data.objects);
+            }
 
             this.setState({
               rows: rows,
               dataSource: this.state.dataSource.cloneWithRows(rows),
-              pageNumber: this.state.pageNumber + 1,
+              pageNumber: reset ? 1 : this.state.pageNumber + 1,
               lastPage: result.data.objects.length < PAGE_SIZE,
               isLoading: false
             });
@@ -148,10 +175,13 @@ class IssueList extends Component {
    *
    * @param position
    */
-  onRefresh(position) {
+  onRefresh() {
+    const position = this.position;
+
     this.setState({
       isRefreshing: true,
-      isLoading: true
+      isLoading: true,
+      position: position
     });
 
     findIssues({
@@ -200,7 +230,7 @@ class IssueList extends Component {
           refreshControl={
             <RefreshControl
               refreshing={this.state.isRefreshing}
-              onRefresh={this.onRefresh.bind(this, position)}
+              onRefresh={this.onRefresh.bind(this)}
               tintColor={COLOR_BLUE}
               title={translationsGeneral.loading}
             />
