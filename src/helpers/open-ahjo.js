@@ -1,8 +1,4 @@
-import {buildQueryString} from './src/helpers/api';
-
-let config = {
-  endpoint: 'http://example.com'
-};
+const API_URL = 'http://dev.hel.fi/openahjo/v1';
 
 const defaultOptions = {
   method: 'GET',
@@ -21,7 +17,7 @@ const defaultOptions = {
  */
 export function makeRequest(url, options) {
   return new Promise((resolve, reject) => {
-    return fetch(`${config.endpoint}/${url}`, {
+    return fetch(`${API_URL}/${url}`, {
       ...options,
       ...defaultOptions
     })
@@ -35,13 +31,4 @@ export function makeRequest(url, options) {
       })
       .catch(err => reject(err));
   });
-}
-
-
-/**
- *
- * @param {object} value
- */
-export function configureApi(value) {
-  config = value;
 }
