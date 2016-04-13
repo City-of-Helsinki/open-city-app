@@ -2,6 +2,7 @@ package com.opencity;
 
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.facebook.react.ReactActivity;
+import com.imagepicker.ImagePickerPackage;
 import com.AirMaps.AirPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
@@ -38,7 +39,8 @@ public class MainActivity extends ReactActivity {
         return Arrays.<ReactPackage>asList(
         new AirPackage(),
                 new ReactNativeLocalizationPackage()
-            new MainReactPackage()
+            new MainReactPackage(),
+        new ImagePickerPackage()
         );
     }
 }
