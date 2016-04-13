@@ -1,6 +1,6 @@
 import React, {
   Component,
-  StatusBarIOS,
+  StatusBar,
   Text,
   View,
   PropTypes,
@@ -31,13 +31,13 @@ const StatusBarShape = {
 
 function customizeStatusBar(data) {
   if (data.style) {
-    StatusBarIOS.setStyle(data.style, true);
+    StatusBar.setBarStyle(data.style, true);
   }
   const animation = data.hidden ?
     (data.hideAnimation || NavBar.defaultProps.statusBar.hideAnimation) :
     (data.showAnimation || NavBar.defaultProps.statusBar.showAnimation);
 
-  StatusBarIOS.setHidden(data.hidden, animation);
+  StatusBar.setHidden(data.hidden, animation);
 }
 
 class NavBar extends Component {

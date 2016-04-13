@@ -6,7 +6,7 @@ import React, {
   ScrollView,
   StyleSheet,
   InteractionManager,
-  Dimensions,
+  Dimensions
 } from 'react-native';
 
 import MapView from 'react-native-maps';
@@ -124,7 +124,7 @@ class IssueDetail extends Component {
           title={{ title: translationsIssue.issueDetailTitle }}
           leftButton={{
             source: require('../../images/arrow-right.png'),
-            handler: (event) => {this.props.navigator.pop();}
+            handler: () => {this.props.navigator.pop();}
           }}
         />
         <View style={[styles.divider, {backgroundColor: getIssueCategoryColor(this.props.issue)}]}/>

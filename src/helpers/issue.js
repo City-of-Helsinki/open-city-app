@@ -1,4 +1,5 @@
-import {makeRequest, buildQueryString} from './api';
+import {makeRequest} from './open-ahjo';
+import {buildQueryString} from './api';
 import {setInStorage, getFromStorage, unsetFromStorage} from './storage';
 import {forEach} from 'lodash';
 

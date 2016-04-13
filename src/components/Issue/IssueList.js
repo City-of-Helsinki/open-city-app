@@ -8,7 +8,7 @@ import React, {
   AppState
 } from 'react-native';
 
-import {concat} from 'lodash';
+import { concat } from 'lodash';
 
 import NavBar from '../NavBar/NavBar';
 import IssueRow from '../Issue/IssueRow';
@@ -17,13 +17,13 @@ import IssueDetail from '../Issue/IssueDetail';
 import translationsGeneral from '../../translations/general';
 import translationsIssue from '../../translations/issue';
 
-import {findIssues, setIssuesNotified} from '../../helpers/issue';
-import {calculateBoundingBox, comparePositions} from '../../helpers/map';
-import {COLOR_BLUE} from '../../constants/color';
+import { findIssues, setIssuesNotified } from '../../helpers/issue';
+import { calculateBoundingBox, comparePositions } from '../../helpers/map';
+import { COLOR_BLUE } from '../../constants/color';
 
 const PAGE_SIZE = 20;
 
-import {listStyles as styles} from './styles';
+import { listStyles as styles } from './styles';
 
 /**
  *
@@ -61,11 +61,11 @@ class IssueList extends Component {
     navigator.geolocation.getCurrentPosition(
       position => {
         if (position) {
-          this.setState({position});
+          this.setState({ position });
         }
       },
       error => alert(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000}
+      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
     );
 
     this.watchID = navigator.geolocation.watchPosition(position => {
@@ -173,7 +173,6 @@ class IssueList extends Component {
 
   /**
    *
-   * @param position
    */
   onRefresh() {
     const position = this.position;
@@ -220,7 +219,12 @@ class IssueList extends Component {
 
     return (
       <View style={styles.container}>
-        <NavBar title={{title: translationsIssue.issueListTitle}}/>
+        <NavBar title={{title: translationsIssue.issueListTitle}}
+                leftButton={{
+                  source: require('../../images/arrow-right.png'),
+                  handler: () => {this.props.navigator.pop();}
+                }}
+        />
         <ListView
           dataSource={this.state.dataSource}
           renderRow={issue => <IssueRow issue={issue} position={position} onPress={this.handlePress.bind(this)} />}

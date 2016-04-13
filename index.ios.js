@@ -7,14 +7,8 @@ import React, {
   AppState
 } from 'react-native';
 
-import IssueList from './src/components/Issue/IssueList';
-
-import {configureApi} from './src/helpers/api';
-import {mountBackgroundTask, unmountBackgroundTask} from './src/helpers/backgroundTask';
-
-import BackgroundGeolocation from 'react-native-background-geolocation';
-
-configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
+import StartScreen from './src/components/StartScreen';
+import { mountBackgroundTask, unmountBackgroundTask } from './src/helpers/backgroundTask';
 
 const styles = StyleSheet.create({
   container: {
@@ -80,7 +74,7 @@ class OpenCity extends Component {
       <Navigator
         ref="nav"
         style={styles.container}
-        initialRoute={{component: IssueList}}
+        initialRoute={{component: StartScreen}}
         renderScene={this.renderScene.bind(this)}
         configureScene={this.configureScene.bind(this)}
       />

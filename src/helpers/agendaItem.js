@@ -1,4 +1,5 @@
-import {makeRequest, buildQueryString} from './api';
+import {buildQueryString} from './api';
+import {makeRequest} from './open-ahjo';
 import {forEach} from 'lodash';
 
 /**
