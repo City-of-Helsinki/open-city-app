@@ -2,9 +2,11 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en:{
-    loading: 'Loading...'
+    loading: 'Loading...',
+    cancel: 'Cancel'
   },
   fi: {
-    loading: 'Ladataan...'
+    loading: 'Ladataan...',
+    cancel: 'Peruuta'
   }
 });

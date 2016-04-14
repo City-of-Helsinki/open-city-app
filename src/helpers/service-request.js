@@ -28,5 +28,6 @@ const categoryColorMap = [
  */
 export function findServiceRequests(query, options = {}) {
   let queryString = query ? '?' + buildQueryString(query) : '';
+  console.log(queryString);
   return makeRequest(`requests.json${queryString}`, options);
 }

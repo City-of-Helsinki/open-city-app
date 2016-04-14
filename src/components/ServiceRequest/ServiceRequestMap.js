@@ -183,10 +183,10 @@ class ServiceRequestMap extends Component {
           coordinate={{latitude: serviceRequest.lat, longitude: serviceRequest.long}}
         >
           <MapView.Callout>
-              {this.renderMapMarkerTitle(serviceRequest)}
-              <View style={{ paddingRight: 40 }}>
-                <Text>{serviceRequest.description}</Text>
-              </View>
+            {this.renderMapMarkerTitle(serviceRequest)}
+            <View style={{ paddingRight: 40 }}>
+              <Text>{serviceRequest.description}</Text>
+            </View>
           </MapView.Callout>
         </MapView.Marker>
       ));
@@ -215,11 +215,17 @@ class ServiceRequestMap extends Component {
                 }}
                 rightButton={{
                   title: '+',
-                  handler: () => {this.props.navigator.push({
-                    component: ServiceRequestForm
-                  });}
+                  handler: () => {
+                    this.props.navigator.push({
+                      component: ServiceRequestForm,
+                      passProps: {
+                        position: this.state.position
+                      }
+                    });
+                  }
                 }}
         />
+        <View style={styles.divider}/>
         {this.renderMap()}
       </View>
     );

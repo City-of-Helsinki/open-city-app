@@ -10,6 +10,10 @@ import React, {
 import IssueList from './Issue/IssueList';
 import ServiceRequestMap from './ServiceRequest/ServiceRequestMap';
 
+import translationsIssue from '../translations/issue';
+import translationsServiceRequest from '../translations/serviceRequest';
+
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -21,7 +25,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   },
-  feedbackButton: {
+  serviceRequestButton: {
     flex: 1,
     backgroundColor: '#287467',
     alignItems: 'center',
@@ -32,6 +36,9 @@ const styles = StyleSheet.create({
 class StartScreen extends Component {
   constructor() {
     super();
+
+    translationsIssue.setLanguage('fi');
+    translationsServiceRequest.setLanguage('fi');
 
     this.state = {};
   }
@@ -57,12 +64,12 @@ class StartScreen extends Component {
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={this.onIssuesPress.bind(this)}>
           <View style={styles.issuesButton}>
-            <Text>Päätökset</Text>
+            <Text>{translationsIssue.issueListTitle}</Text>
           </View>
         </TouchableWithoutFeedback>
         <TouchableWithoutFeedback onPress={this.onFeedbackPress.bind(this)}>
-          <View style={styles.feedbackButton}>
-            <Text>Palaute</Text>
+          <View style={styles.serviceRequestButton}>
+            <Text>{translationsServiceRequest.serviceRequestTitle}</Text>
           </View>
         </TouchableWithoutFeedback>
       </View>
