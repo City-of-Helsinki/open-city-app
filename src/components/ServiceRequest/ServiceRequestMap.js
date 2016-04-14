@@ -19,6 +19,10 @@ import translationsServiceRequest from '../../translations/serviceRequest';
 
 import { mapStyles as styles } from './styles';
 
+import {
+  COLOR_BLUE
+} from '../../constants/color';
+
 import { findServiceRequests } from '../../helpers/service-request';
 
 const screen = Dimensions.get('window');
@@ -215,6 +219,8 @@ class ServiceRequestMap extends Component {
                 }}
                 rightButton={{
                   title: '+',
+                  style: { marginTop: 0 },
+                  textStyle: { fontSize: 33, marginTop: 0 },
                   handler: () => {
                     this.props.navigator.push({
                       component: ServiceRequestForm,

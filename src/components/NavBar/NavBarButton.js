@@ -7,6 +7,10 @@ import React, {
   PropTypes,
 } from 'react-native';
 
+import {
+  COLOR_BLUE
+} from '../../constants/color';
+
 import {navBarButtonStyles as styles} from './styles';
 
 class NavBarButton extends Component {
@@ -20,7 +24,7 @@ class NavBarButton extends Component {
     }
 
     return (
-      <Text style={[styles.navBarButtonText, { color: this.props.tintColor }]}>
+      <Text style={[styles.navBarButtonText, this.props.textStyle, { color: this.props.tintColor }]}>
         {this.props.title}
       </Text>
     )
@@ -57,6 +61,10 @@ NavBarButton.propTypes = {
     PropTypes.object,
     PropTypes.array
   ]),
+  textStyle: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.array
+  ]),
   tintColor: PropTypes.string,
   title: PropTypes.string,
   source: PropTypes.number,
@@ -65,8 +73,10 @@ NavBarButton.propTypes = {
 
 NavBarButton.defaultProps = {
   style: {},
+  textStyle: {},
   title: '',
   image: null,
+  tintColor: COLOR_BLUE,
   handler: () => {
     return {};
   }

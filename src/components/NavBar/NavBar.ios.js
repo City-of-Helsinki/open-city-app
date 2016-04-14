@@ -60,6 +60,7 @@ class NavBar extends Component {
       title={data.title}
       source={data.source}
       style={[data.style, type === 'left' ? navBarButtonStyles.navBarButtonLeft : navBarButtonStyles.navBarButtonRight]}
+      textStyle={data.textStyle}
       tintColor={data.tintColor}
       handler={data.handler}/>;
   }
