@@ -1,4 +1,5 @@
 const API_URL = 'https://asiointi.hel.fi/palautews/rest/v1';
+const API_URL_DEV = 'http://dev.hel.fi/open311-test/v1';
 
 const defaultOptions = {
   method: 'GET',
@@ -17,9 +18,9 @@ const defaultOptions = {
  */
 export function makeRequest(url, options) {
   return new Promise((resolve, reject) => {
-    return fetch(`${API_URL}/${url}`, {
-      ...options,
-      ...defaultOptions
+    return fetch(`${API_URL_DEV}/${url}`, {
+      ...defaultOptions,
+      ...options
     })
       .then(response => {
         return response.json()

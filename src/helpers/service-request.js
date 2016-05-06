@@ -21,6 +21,9 @@ const categoryColorMap = [
   '#FF495B'
 ];
 
+const API_KEY = 'f1301b1ded935eabc5faa6a2ce975f6';
+
+
 /**
  * @param {object} query
  * @param {object} options
@@ -29,4 +32,20 @@ const categoryColorMap = [
 export function findServiceRequests(query, options = {}) {
   let queryString = query ? '?' + buildQueryString(query) : '';
   return makeRequest(`requests.json${queryString}`, options);
+}
+
+export function createServiceRequest(serviceRequest, options = {}) {
+  options.method = 'POST';
+
+  var data = new FormData();
+
+  data.append('api_key', API_KEY);
+
+  _.forEach(serviceRequest, function(value, key) {
+    data.append(key, value);
+  });
+
+  options.body = data;
+
+  return makeRequest(`requests.json`, options);
 }

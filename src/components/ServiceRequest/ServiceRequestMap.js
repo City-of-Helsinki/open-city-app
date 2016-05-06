@@ -19,10 +19,6 @@ import translationsServiceRequest from '../../translations/serviceRequest';
 
 import { mapStyles as styles } from './styles';
 
-import {
-  COLOR_BLUE
-} from '../../constants/color';
-
 import { findServiceRequests } from '../../helpers/service-request';
 
 const screen = Dimensions.get('window');
@@ -94,7 +90,6 @@ class ServiceRequestMap extends Component {
    */
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
-
   }
 
   /**
@@ -109,10 +104,11 @@ class ServiceRequestMap extends Component {
       });
 
       findServiceRequests({
+        locale: 'fi_FI',
         lat: position.coords.latitude,
-        lon: position.coords.longitude,
-        radius: 100//,
-        //status: 'open'
+        long: position.coords.longitude,
+        radius: 100,
+        status: 'open'
       })
         .then(result => {
           console.log('findServiceRequests result:', result);
@@ -177,7 +173,7 @@ class ServiceRequestMap extends Component {
     let markers = [];
 
     forEach(this.state.serviceRequests, (serviceRequest, i) => {
-      if (!serviceRequest.lat) {
+      if (!serviceRequest.lat || !serviceRequest.long) {
         return;
       }
 
@@ -220,7 +216,7 @@ class ServiceRequestMap extends Component {
                 rightButton={{
                   title: '+',
                   style: { marginTop: 0 },
-                  textStyle: { fontSize: 33, marginTop: 0 },
+                  textStyle: { fontSize: 33 , marginTop: 0 },
                   handler: () => {
                     this.props.navigator.push({
                       component: ServiceRequestForm,

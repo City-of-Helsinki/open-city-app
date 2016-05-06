@@ -14,7 +14,8 @@ export default new LocalizedStrings({
     takePhoto: 'Take Photo...',
     chooseFromLibrary: 'Choose from Library...',
     removePhoto: 'Remove Photo',
-    sendServiceRequestButtonText: 'Send'
+    sendServiceRequestButtonText: 'Send',
+    formRequiredError: 'Missing required information. Check form and try again.'
   },
   fi: {
     serviceRequestTitle: 'PALVELUPYYNNÖT',
@@ -29,6 +30,7 @@ export default new LocalizedStrings({
     takePhoto: 'Ota kuva...',
     chooseFromLibrary: 'Valitse kirjastosta...',
     removePhoto: 'Poista kuva',
-    sendServiceRequestButtonText: 'Lähetä'
+    sendServiceRequestButtonText: 'Lähetä',
+    formRequiredError: 'Lomakkeesta puuttuu vaadittuja tietoja. Tarkista lomake ja yritä uudelleen.'
   }
 });

@@ -5,10 +5,14 @@ import React, {
   Image,
   TextInput,
   TouchableWithoutFeedback,
-  ScrollView
+  ScrollView,
+  Picker,
+  Alert
 } from 'react-native';
 
-import NativeModules, { ImagePickerManager } from 'NativeModules';
+import {forEach} from 'lodash';
+
+import NativeModules, {ImagePickerManager} from 'NativeModules';
 import dismissKeyboard from 'dismissKeyboard';
 
 import NavBar from '../NavBar/NavBar';
@@ -17,7 +21,10 @@ import ActivityIndicator from '../ActivityIndicator';
 import translationsGeneral from '../../translations/general';
 import translationsServiceRequest from '../../translations/serviceRequest';
 
-import { formStyles as styles } from './styles';
+import {createServiceRequest} from '../../helpers/service-request';
+import {findServices} from '../../helpers/service';
+
+import {formStyles as styles} from './styles';
 
 class ServiceRequestForm extends Component {
   /**
@@ -51,8 +58,33 @@ class ServiceRequestForm extends Component {
       email: '',
       firstName: '',
       lastName: '',
-      phone: ''
+      phone: '',
+      services: null,
+      service_code: null
     };
+  }
+
+  /**
+   *
+   */
+  componentWillMount() {
+    this.setState({
+      isLoading: true
+    });
+
+    findServices({ locale: 'fi_FI' })
+      .then(result => {
+        console.log('findServices result:', result);
+
+        if (result.data) {
+          this.setState({
+            services: result.data,
+            service_code: result.data[0].service_code,
+            isLoading: false
+          });
+        }
+      })
+      .catch(err => alert(err));
   }
 
   /**
@@ -65,26 +97,47 @@ class ServiceRequestForm extends Component {
       this.imagePickerOptions.customButtons = {};
       this.imagePickerOptions.customButtons[translationsServiceRequest.removePhoto] = 'removePhoto';
     }
-    
+
     ImagePickerManager.showImagePicker(this.imagePickerOptions, (response) => {
       console.log('ImagePickerManager.showImagePicker - ', response);
 
       if (!response.didCancel && !response.error) {
         if (response.customButton === 'removePhoto') {
-          this.setState({ imageSource: null });
+          this.setState({imageSource: null});
         } else {
-          let imageSource = { uri: 'data:image/jpeg;base64,' + response.data, isStatic: true };
-          this.setState({ imageSource });
+          let imageSource = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+          this.setState({imageSource});
         }
       }
     });
   }
 
   /**
-   * 
+   *
    */
   sendServiceRequest() {
+    if (this.state.service_code && this.state.description) {
+      let params = {
+        service_code: this.state.service_code,
+        description: this.state.description,
+        lat: this.props.position.coords.latitude,
+        long: this.props.position.coords.longitude
+      };
 
+      console.log(params, this.state);
+      createServiceRequest(params)
+        .then(result => {
+          if (result.data) {
+            this.props.navigator.pop();
+          }
+        })
+        .catch(err => alert(err));
+    } else {
+      Alert.alert(
+        translationsGeneral.errorTitle,
+        translationsServiceRequest.formRequiredError,
+      )
+    }
   }
 
   /**
@@ -94,7 +147,8 @@ class ServiceRequestForm extends Component {
   renderAddImageButton() {
     let content = (
       <View style={[styles.button, styles.addImageButton]}>
-        <Text style={[styles.buttonText, styles.addImageButtonText]}>{translationsServiceRequest.addImageButtonText}</Text>
+        <Text
+          style={[styles.buttonText, styles.addImageButtonText]}>{translationsServiceRequest.addImageButtonText}</Text>
       </View>
     );
 
@@ -109,6 +163,27 @@ class ServiceRequestForm extends Component {
         {content}
       </TouchableWithoutFeedback>
     )
+  }
+
+  renderServicesPicker() {
+    if (!this.state.services) {
+      return null;
+    }
+
+    let items = [];
+    forEach(this.state.services, (service) => {
+      items.push((
+        <Picker.Item label={service.service_name} value={service.service_code} key={'service-'+service.service_code}/>
+      ))
+    });
+
+    return (
+      <Picker
+        selectedValue={this.state.service_code}
+        onValueChange={(service_code) => this.setState({service_code: service_code})}>
+        {items}
+      </Picker>
+    );
   }
 
   /**
@@ -128,10 +203,12 @@ class ServiceRequestForm extends Component {
           style={styles.scroller}
           rejectResponderTermination={false}
           keyboardShouldPersistTaps={true}
+          automaticallyAdjustContentInsets={false}
         >
           <TouchableWithoutFeedback onPress={()=> dismissKeyboard()}>
             <View style={styles.form}>
               {this.renderAddImageButton()}
+              {this.renderServicesPicker()}
               <View style={styles.inputWrapper}>
                 <Text style={[styles.label]}>{translationsServiceRequest.description} <Text
                   style={styles.required}>*</Text></Text>
@@ -187,7 +264,8 @@ class ServiceRequestForm extends Component {
               </View>
               <TouchableWithoutFeedback onPress={this.sendServiceRequest.bind(this)}>
                 <View style={[styles.button, styles.sendServiceRequestButton]}>
-                  <Text style={[styles.buttonText, styles.sendServiceRequestButtonText]}>{translationsServiceRequest.sendServiceRequestButtonText}</Text>
+                  <Text
+                    style={[styles.buttonText, styles.sendServiceRequestButtonText]}>{translationsServiceRequest.sendServiceRequestButtonText}</Text>
                 </View>
               </TouchableWithoutFeedback>
             </View>

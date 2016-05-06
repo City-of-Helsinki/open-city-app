@@ -7,23 +7,29 @@ import React, {
   Image
 } from 'react-native';
 
+import NavBar from './NavBar/NavBar';
 import IssueList from './Issue/IssueList';
 import ServiceRequestMap from './ServiceRequest/ServiceRequestMap';
 
+import translationsGeneral from '../translations/general';
 import translationsIssue from '../translations/issue';
 import translationsServiceRequest from '../translations/serviceRequest';
 
+import {
+    COLOR_BLUE
+} from '../constants/color';
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    paddingTop: 21
+    flex: 1
   },
   issuesButton: {
     flex: 1,
     backgroundColor: '#39A795',
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    borderTopColor: COLOR_BLUE,
+    borderTopWidth: 4
   },
   serviceRequestButton: {
     flex: 1,
@@ -37,6 +43,7 @@ class StartScreen extends Component {
   constructor() {
     super();
 
+    translationsGeneral.setLanguage('fi');
     translationsIssue.setLanguage('fi');
     translationsServiceRequest.setLanguage('fi');
 
@@ -62,6 +69,7 @@ class StartScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <NavBar title={{title: translationsGeneral.startScreenTitle}}/>
         <TouchableWithoutFeedback onPress={this.onIssuesPress.bind(this)}>
           <View style={styles.issuesButton}>
             <Text>{translationsIssue.issueListTitle}</Text>
