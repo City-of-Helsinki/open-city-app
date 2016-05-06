@@ -25,6 +25,10 @@ export const mapStyles = StyleSheet.create({
     flex: 1,
     borderTopColor: COLOR_LIGHTER_GRAY,
     borderTopWidth: 1 / pixelRatio
+  },
+  mapLoader: {
+    flex: 1,
+    width: 20
   }
 });
 
