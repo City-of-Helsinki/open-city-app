@@ -42,7 +42,16 @@ export function createServiceRequest(serviceRequest, options = {}) {
   data.append('api_key', API_KEY);
 
   _.forEach(serviceRequest, function(value, key) {
-    data.append(key, value);
+    if (key === 'media') {
+      data.append('media[]', {
+        uri: value,
+        type: 'image/jpeg',
+        name: 'image.jpg'
+      });
+    } else {
+      data.append(key, value);
+    }
+
   });
 
   options.body = data;

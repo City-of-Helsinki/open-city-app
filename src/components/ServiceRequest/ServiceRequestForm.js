@@ -53,6 +53,7 @@ class ServiceRequestForm extends Component {
     this.state = {
       position: null,
       imageSource: null,
+      imageData: null,
       description: '',
       address: '',
       email: '',
@@ -106,7 +107,10 @@ class ServiceRequestForm extends Component {
           this.setState({imageSource: null});
         } else {
           let imageSource = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-          this.setState({imageSource});
+          this.setState({
+            imageSource: imageSource,
+            imageData: response
+          });
         }
       }
     });
@@ -121,10 +125,18 @@ class ServiceRequestForm extends Component {
         service_code: this.state.service_code,
         description: this.state.description,
         lat: this.props.position.coords.latitude,
-        long: this.props.position.coords.longitude
+        long: this.props.position.coords.longitude,
+        address_string: this.state.address,
+        email: this.state.email,
+        first_name: this.state.firstName,
+        last_name: this.state.lastName,
+        phone: this.state.phone
       };
 
-      console.log(params, this.state);
+      if (this.state.imageData.uri) {
+        params.media = this.state.imageData.uri;
+      }
+
       createServiceRequest(params)
         .then(result => {
           if (result.data) {
