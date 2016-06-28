@@ -17,7 +17,7 @@
     "react-native-html-webview": "0.0.17",
     "react-native-image-picker": "^0.18.13",
     "react-native-localization": "^0.1.11",
-    "react-native-maps": "^0.3.1"
+    "react-native-maps": "^0.3.2"
   },
   "devDependencies": {}
 }

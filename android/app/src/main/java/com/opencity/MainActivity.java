@@ -37,10 +37,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-        new AirPackage(),
-                new ReactNativeLocalizationPackage()
-            new MainReactPackage(),
-        new ImagePickerPackage()
+          new AirPackage(),
+          new ReactNativeLocalizationPackage(),
+          new MainReactPackage(),
+          new ImagePickerPackage()
         );
     }
 }

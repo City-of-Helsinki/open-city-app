@@ -7,10 +7,6 @@ import React, {
 
 import IssueList from './src/components/Issue/IssueList';
 
-import {configureApi} from './src/helpers/api';
-
-configureApi({endpoint: 'http://dev.hel.fi/openahjo/v1'});
-
 const styles = StyleSheet.create({
   container: {
     flex: 1

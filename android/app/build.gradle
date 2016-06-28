@@ -120,10 +120,10 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-image-picker')
     compile project(':react-native-maps')
+    compile project(':react-native-localization')
+    compile project(':react-native-image-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])
     compile "com.android.support:appcompat-v7:23.0.1"
-    compile project(':ReactNativeLocalization')
     compile "com.facebook.react:react-native:+"  // From node_modules
 }
