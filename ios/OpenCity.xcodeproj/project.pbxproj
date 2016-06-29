@@ -13,8 +13,6 @@
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
 		00E356F31AD99517003FC87E /* OpenCityTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* OpenCityTests.m */; };
-		093F80791C85A535007F0313 /* hki-route.gpx in Resources */ = {isa = PBXBuildFile; fileRef = 093F80781C85A535007F0313 /* hki-route.gpx */; };
-		093F807B1C85A5AE007F0313 /* gpxgmap_converted (1).gpx in Resources */ = {isa = PBXBuildFile; fileRef = 093F807A1C85A5AE007F0313 /* gpxgmap_converted (1).gpx */; };
 		095BFAD21C7DAF40009B55A4 /* libRCTPushNotification.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 095BFAC91C7DAF27009B55A4 /* libRCTPushNotification.a */; };
 		097B8D7D1C87269F00AEE1F3 /* main.jsbundle in Resources */ = {isa = PBXBuildFile; fileRef = 097B8D7C1C87269F00AEE1F3 /* main.jsbundle */; };
 		09F7AB8F1C7C666300FD71CA /* libRNBackgroundGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F7AB8C1C7C663600FD71CA /* libRNBackgroundGeolocation.a */; };
@@ -181,8 +179,6 @@
 		00E356EE1AD99517003FC87E /* OpenCityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenCityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* OpenCityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenCityTests.m; sourceTree = "<group>"; };
-		093F80781C85A535007F0313 /* hki-route.gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "hki-route.gpx"; path = "../../../Desktop/hki-route.gpx"; sourceTree = "<group>"; };
-		093F807A1C85A5AE007F0313 /* gpxgmap_converted (1).gpx */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "gpxgmap_converted (1).gpx"; path = "../../../Desktop/gpxgmap_converted (1).gpx"; sourceTree = "<group>"; };
 		095BFABC1C7DAF27009B55A4 /* RCTPushNotification.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTPushNotification.xcodeproj; path = "../node_modules/react-native/Libraries/PushNotificationIOS/RCTPushNotification.xcodeproj"; sourceTree = "<group>"; };
 		097B8D7C1C87269F00AEE1F3 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.jsbundle; path = OpenCity/main.jsbundle; sourceTree = "<group>"; };
 		09F7AB781C7C663600FD71CA /* RNBackgroundGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundGeolocation.xcodeproj; path = "../node_modules/react-native-background-geolocation/RNBackgroundGeolocation.xcodeproj"; sourceTree = "<group>"; };
@@ -425,8 +421,6 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
-				093F807A1C85A5AE007F0313 /* gpxgmap_converted (1).gpx */,
-				093F80781C85A535007F0313 /* hki-route.gpx */,
 				09F7AB921C7C66C800FD71CA /* libsqlite3.tbd */,
 				09F7AB901C7C66A400FD71CA /* TSLocationManager.framework */,
 				83FF66A31C63402C009F1F48 /* Test.gpx */,
@@ -744,10 +738,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
-				093F807B1C85A5AE007F0313 /* gpxgmap_converted (1).gpx in Resources */,
 				83FF66A41C63402C009F1F48 /* Test.gpx in Resources */,
 				097B8D7D1C87269F00AEE1F3 /* main.jsbundle in Resources */,
-				093F80791C85A535007F0313 /* hki-route.gpx in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
