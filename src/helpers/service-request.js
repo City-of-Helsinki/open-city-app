@@ -1,6 +1,6 @@
 import {makeRequest} from './open311';
 import {buildQueryString} from './api';
-import {forEach} from 'lodash';
+import _ from 'lodash';
 
 const categoryColorMap = [
   '#39A795',
@@ -23,7 +23,6 @@ const categoryColorMap = [
 
 const API_KEY = 'f1301b1ded935eabc5faa6a2ce975f6';
 
-
 /**
  * @param {object} query
  * @param {object} options
@@ -36,18 +35,18 @@ export function findServiceRequests(query, options = {}) {
 
 export function createServiceRequest(serviceRequest, options = {}) {
   options.method = 'POST';
+  options.headers = {
+    'Content-Type': 'multipart/form-data',
+  }
 
   var data = new FormData();
 
   data.append('api_key', API_KEY);
+  console.log(serviceRequest);
 
   _.forEach(serviceRequest, function(value, key) {
     if (key === 'media') {
-      data.append('media[]', {
-        uri: value,
-        type: 'image/jpeg',
-        name: 'image.jpg'
-      });
+      data.append('media[]', atob(value), 'image.jpg');
     } else {
       data.append(key, value);
     }

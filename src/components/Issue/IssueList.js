@@ -64,8 +64,11 @@ class IssueList extends Component {
           this.setState({ position });
         }
       },
-      error => alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      error => {
+        console.log(error);
+        alert('Laitteen sijaintia ei pystytty selvittämään.');
+      },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
     );
 
     this.watchID = navigator.geolocation.watchPosition(position => {
@@ -153,7 +156,10 @@ class IssueList extends Component {
             setIssuesNotified(rows);
           }
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          console.log('findIssues error: ', err);
+          alert(err.message);
+        });
     }
   }
 

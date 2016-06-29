@@ -55,8 +55,8 @@ class ServiceRequestMap extends Component {
           this.setState({ position });
         }
       },
-      error => alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      error => alert(`Location error: ${error.message}`),
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
     );
 
     this.watchID = navigator.geolocation.watchPosition(position => {
@@ -76,6 +76,13 @@ class ServiceRequestMap extends Component {
 
   /**
    *
+   */
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  /**
+   *
    * @param nextProps
    * @param nextState
    */
@@ -83,13 +90,6 @@ class ServiceRequestMap extends Component {
     if (!this.state.position && nextState.position) {
       this.loadServiceRequests(nextState.position);
     }
-  }
-
-  /**
-   *
-   */
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
   }
 
   /**
@@ -107,7 +107,7 @@ class ServiceRequestMap extends Component {
         locale: 'fi_FI',
         lat: position.coords.latitude,
         long: position.coords.longitude,
-        radius: 100,
+        radius: 1000000,
         status: 'open'
       })
         .then(result => {
@@ -120,7 +120,10 @@ class ServiceRequestMap extends Component {
             });
           }
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          console.log('ERROR while fetching service requests: ', err)
+          alert(err);
+        });
     }
   }
 

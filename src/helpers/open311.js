@@ -1,12 +1,13 @@
 const API_URL = 'https://asiointi.hel.fi/palautews/rest/v1';
-const API_URL_DEV = 'http://dev.hel.fi/open311-test/v1';
+const API_URL_DEV = 'https://open311-demo.6aika.fi/api/georeport/v2';
+// https://open311-demo.6aika.fi/api/georeport/v2/requests.json
 
 const defaultOptions = {
   method: 'GET',
   mode: 'cors',
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   }
 };
 
@@ -23,6 +24,7 @@ export function makeRequest(url, options) {
       ...options
     })
       .then(response => {
+        console.log(response);
         return response.json()
           .then(data => {
             const result = {response: response, data: data};

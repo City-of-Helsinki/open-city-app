@@ -10,9 +10,8 @@ import React, {
   Alert
 } from 'react-native';
 
-import {forEach} from 'lodash';
+import _ from 'lodash';
 
-import NativeModules, {ImagePickerManager} from 'NativeModules';
 import dismissKeyboard from 'dismissKeyboard';
 
 import NavBar from '../NavBar/NavBar';
@@ -25,6 +24,8 @@ import {createServiceRequest} from '../../helpers/service-request';
 import {findServices} from '../../helpers/service';
 
 import {formStyles as styles} from './styles';
+
+import ImagePicker from 'react-native-image-picker';
 
 class ServiceRequestForm extends Component {
   /**
@@ -85,7 +86,10 @@ class ServiceRequestForm extends Component {
           });
         }
       })
-      .catch(err => alert(err));
+      .catch(err => {
+        console.log('findServices error:', err);
+        alert(err);
+      });
   }
 
   /**
@@ -99,8 +103,8 @@ class ServiceRequestForm extends Component {
       this.imagePickerOptions.customButtons[translationsServiceRequest.removePhoto] = 'removePhoto';
     }
 
-    ImagePickerManager.showImagePicker(this.imagePickerOptions, (response) => {
-      console.log('ImagePickerManager.showImagePicker - ', response);
+    ImagePicker.showImagePicker(this.imagePickerOptions, (response) => {
+      console.log('ImagePicker.showImagePicker - ', response);
 
       if (!response.didCancel && !response.error) {
         if (response.customButton === 'removePhoto') {
@@ -124,8 +128,8 @@ class ServiceRequestForm extends Component {
       let params = {
         service_code: this.state.service_code,
         description: this.state.description,
-        lat: this.props.position.coords.latitude,
-        long: this.props.position.coords.longitude,
+        lat: _.get(this.props, 'position.coords.latitude', null),
+        long: _.get(this.props, 'position.coords.longitude', null),
         address_string: this.state.address,
         email: this.state.email,
         first_name: this.state.firstName,
@@ -133,8 +137,8 @@ class ServiceRequestForm extends Component {
         phone: this.state.phone
       };
 
-      if (this.state.imageData.uri) {
-        params.media = this.state.imageData.uri;
+      if (_.get(this.state, 'imageData.data', null)) {
+        params.media = this.state.imageData.data;
       }
 
       createServiceRequest(params)
@@ -143,7 +147,10 @@ class ServiceRequestForm extends Component {
             this.props.navigator.pop();
           }
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          console.log('createServiceRequest', err);
+          alert(err);
+        });
     } else {
       Alert.alert(
         translationsGeneral.errorTitle,
@@ -183,7 +190,8 @@ class ServiceRequestForm extends Component {
     }
 
     let items = [];
-    forEach(this.state.services, (service) => {
+
+    _.forEach(this.state.services, (service) => {
       items.push((
         <Picker.Item label={service.service_name} value={service.service_code} key={'service-'+service.service_code}/>
       ))
