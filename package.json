@@ -7,17 +7,16 @@
     "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "dependencies": {
+    "base-64": "^0.1.0",
     "geolib": "^2.0.18",
     "geopoint": "^1.0.1",
     "hex-rgba": "^1.0.0",
     "lodash": "^4.2.1",
-    "react": "^0.14.8",
-    "react-native": "^0.23.1",
-    "react-native-background-geolocation": "^0.3.4",
-    "react-native-html-webview": "0.0.17",
-    "react-native-image-picker": "^0.19.7",
-    "react-native-localization": "^0.1.11",
-    "react-native-maps": "^0.3.2"
+    "react": "^15.1.0",
+    "react-native": "^0.27.2",
+    "react-native-image-picker": "^0.20.0",
+    "react-native-localization": "^0.1.15",
+    "react-native-maps": "^0.6.0"
   },
   "devDependencies": {}
 }

@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   View,
   Text,
   StyleSheet,
@@ -152,14 +152,13 @@ class ServiceRequestMap extends Component {
 
     return (
       <View style={styles.mapContainer}>
-        <MapView.Animated
+        <MapView
           style={styles.map}
           showsUserLocation={true}
           followUserLocation={false}
           onRegionChangeComplete={this.onMapRegionChange.bind(this)}
         >
-          {this.renderMapMarkers()}
-        </MapView.Animated>
+        </MapView>
       </View>
     );
   }
@@ -230,7 +229,6 @@ class ServiceRequestMap extends Component {
                   }
                 }}
         />
-        <View style={styles.divider}/>
         {this.renderMap()}
       </View>
     );

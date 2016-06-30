@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   View,
   Text,
   Image,
@@ -97,7 +97,7 @@ class ServiceRequestForm extends Component {
    */
   addImageButtonPress() {
     if (!this.state.imageSource) {
-      this.imagePickerOptions.customButtons = null;
+      this.imagePickerOptions.customButtons = undefined;
     } else {
       this.imagePickerOptions.customButtons = {};
       this.imagePickerOptions.customButtons[translationsServiceRequest.removePhoto] = 'removePhoto';

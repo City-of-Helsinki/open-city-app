@@ -1,9 +1,9 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+
+import {
   StatusBar,
   Text,
   View,
-  PropTypes,
 } from 'react-native';
 
 import {navBarStyles as styles} from './styles';

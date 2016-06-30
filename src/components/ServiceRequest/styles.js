@@ -24,7 +24,7 @@ export const mapStyles = StyleSheet.create({
   mapContainer: {
     flex: 1,
     borderTopColor: COLOR_LIGHTER_GRAY,
-    borderTopWidth: 1 / pixelRatio
+    borderTopWidth: 1 / pixelRatio,
   },
   mapLoader: {
     flex: 1,
@@ -63,7 +63,7 @@ export const formStyles = StyleSheet.create({
     marginBottom: 20
   },
   addImageButtonText: {
-   
+
   },
   addImageButtonImage: {
     height: 200,
@@ -78,7 +78,7 @@ export const formStyles = StyleSheet.create({
     marginBottom: 10
   },
   sendServiceRequestButtonText: {
-    
+
   },
   inputWrapper: {
     marginBottom: 10

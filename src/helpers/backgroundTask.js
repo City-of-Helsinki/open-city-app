@@ -1,4 +1,4 @@
-import React, {
+import React, { Component, PropTypes } from 'react';
   PushNotificationIOS,
   AppState
 } from 'react-native';

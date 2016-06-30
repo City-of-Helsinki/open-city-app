@@ -1,10 +1,10 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   View,
   Text,
+  WebView,
 } from 'react-native';
 import {forEach} from 'lodash';
-import HTMLWebView from 'react-native-html-webview';
 
 import {findAgendaItemByIssueId} from '../../helpers/agendaItem';
 
@@ -67,13 +67,13 @@ class IssueAgendaItems extends Component {
       });
     });
 
+    // TODO: add make-safe
     return (
       <View style={styles.agendaItem}>
-        <HTMLWebView
+        <WebView
+          source={{ html: html }}
           scalesPageToFit={false}
-          makeSafe={true}
-          autoHeight={true}
-          html={html}
+          automaticallyAdjustContentInsets
         />
       </View>
     );

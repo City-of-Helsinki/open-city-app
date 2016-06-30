@@ -1,6 +1,6 @@
 const API_URL = 'https://asiointi.hel.fi/palautews/rest/v1';
+// const API_URL_DEV = 'http://dev.hel.fi/open311-test/v1';
 const API_URL_DEV = 'https://open311-demo.6aika.fi/api/georeport/v2';
-// https://open311-demo.6aika.fi/api/georeport/v2/requests.json
 
 const defaultOptions = {
   method: 'GET',

@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   View,
   Text,
   ListView,
@@ -28,7 +28,7 @@ import { listStyles as styles } from './styles';
 /**
  *
  */
-class IssueList extends Component {
+export default class IssueList extends Component {
   /**
    *
    */
@@ -130,7 +130,7 @@ class IssueList extends Component {
       findIssues({
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-        distance: 1000,
+        distance: 100000,
         order_by: '-latest_decision_date',
         page: reset ? 1 : this.state.pageNumber + 1,
         limit: PAGE_SIZE
@@ -249,5 +249,3 @@ class IssueList extends Component {
     );
   }
 }
-
-export default IssueList;

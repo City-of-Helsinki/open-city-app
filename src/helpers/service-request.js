@@ -2,6 +2,10 @@ import {makeRequest} from './open311';
 import {buildQueryString} from './api';
 import _ from 'lodash';
 
+if (!global.atob) {
+  global.atob = require('base-64').decode;
+}
+
 const categoryColorMap = [
   '#39A795',
   '#287467',
@@ -41,16 +45,17 @@ export function createServiceRequest(serviceRequest, options = {}) {
 
   var data = new FormData();
 
-  data.append('api_key', API_KEY);
+  //data.append('api_key', API_KEY);
   console.log(serviceRequest);
 
   _.forEach(serviceRequest, function(value, key) {
     if (key === 'media') {
-      data.append('media[]', atob(value), 'image.jpg');
+      data.append('media[]', global.atob(value), 'image.jpg');
     } else {
-      data.append(key, value);
+      if(value !== undefined || value !== null) {
+        data.append(key, value);
+      }
     }
-
   });
 
   options.body = data;

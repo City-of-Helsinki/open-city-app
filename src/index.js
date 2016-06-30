@@ -1,6 +1,7 @@
-import React, {
+import React, { Component, PropTypes } from 'react';
+
+import {
   AppRegistry,
-  Component,
   StyleSheet,
   Navigator,
   Platform,
