@@ -1,4 +1,4 @@
-const API_URL = 'http://dev.hel.fi/openahjo/v1';
+import { openahjo_url as API_URL } from '../config';
 
 const defaultOptions = {
   method: 'GET',

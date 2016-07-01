@@ -28,6 +28,9 @@ Running on android (you have to have a device connected which has developer mode
 ## HOX! Adding react-native libraries
 Normally you would install a react-native package with `npm install react-native-<cool package> && rnpm link`. This will break the build currently because react-native-maps has a broken rnpm script. All native libraries have to be added manually into the build.
 
+## Changing API urls
+Edit `./src/config.js` to change API urls
+
 ## Building Android release
 
 0. Make sure you can run the app with `react-native run-android`
