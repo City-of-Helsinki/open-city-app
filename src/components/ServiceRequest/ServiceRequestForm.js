@@ -7,7 +7,8 @@ import {
   TouchableWithoutFeedback,
   ScrollView,
   Picker,
-  Alert
+  Alert,
+  Platform,
 } from 'react-native';
 
 import _ from 'lodash';
@@ -43,8 +44,8 @@ class ServiceRequestForm extends Component {
       cameraType: 'back', // 'front' or 'back'
       mediaType: 'photo', // 'photo' or 'video'
       durationLimit: 10, // video recording max time in seconds
-      allowsEditing: true, // Built in functionality to resize/reposition the image after selection
-      noData: false, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
+      allowsEditing: false, // Built in functionality to resize/reposition the image after selection
+      noData: true, // photos only - disables the base64 `data` field from being generated (greatly improves performance on large photos)
       storageOptions: { // if this key is provided, the image will get saved in the documents directory on ios, and the pictures directory on android (rather than a temporary directory)
         skipBackup: true, // ios only - image will NOT be backed up to icloud
         path: 'images' // ios only - will save image at /Documents/images rather than the root
@@ -110,7 +111,11 @@ class ServiceRequestForm extends Component {
         if (response.customButton === 'removePhoto') {
           this.setState({imageSource: null});
         } else {
-          let imageSource = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
+          let imageSource = {
+            uri: (Platform.OS === 'ios') ? response.uri.replace('file://', '') : response.uri,
+            isStatic: true
+          };
+
           this.setState({
             imageSource: imageSource,
             imageData: response
