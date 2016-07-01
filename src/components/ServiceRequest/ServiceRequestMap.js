@@ -21,6 +21,8 @@ import { mapStyles as styles } from './styles';
 
 import { findServiceRequests } from '../../helpers/service-request';
 
+import { map_fetch_radius } from '../../config';
+
 const screen = Dimensions.get('window');
 const ASPECT_RATIO = screen.width / screen.height;
 const LATITUDE_DELTA = 0.01;
@@ -107,7 +109,7 @@ class ServiceRequestMap extends Component {
         locale: 'fi_FI',
         lat: position.coords.latitude,
         long: position.coords.longitude,
-        radius: 1000000,
+        radius: map_fetch_radius,
         status: 'open'
       })
         .then(result => {

@@ -56,10 +56,11 @@ Edit `./src/config.js` to change API urls
 
 1. Generate signing key and place it in ./android/app (don't lose this when publishing the app. You can't make updates for the app unless the signing key is the same as the last release)
 
-        keytool -genkey -v -keystore my-release-key.keystore -alias open-city-app -keyalg RSA -keysize 2048 -validity 10000
+        `keytool -genkey -v -keystore my-release-key.keystore -alias open-city-app -keyalg RSA -keysize 2048 -validity 10000`
 
 1. Generate fingerprint from keystore and add it to your Google Maps API fingerprints
-        keytool -list -v -keystore my-release-key.keystore -alias open-city-app -storepass <password> -keypass <password>
+
+        `keytool -list -v -keystore my-release-key.keystore -alias open-city-app -storepass PASSWORD -keypass PASSWORD`
 
 2. Add these lines into ~/.gradle/gradle.properties
         OPEN_CITY_APP_STORE_FILE=my-release-key.keystore
