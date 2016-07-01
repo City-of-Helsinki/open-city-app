@@ -37,11 +37,10 @@ Normally you would install a react-native package with `npm install react-native
         keytool -genkey -v -keystore my-release-key.keystore -alias open-city-app -keyalg RSA -keysize 2048 -validity 10000
 
 2. Add these lines into ~/.gradle/gradle.properties
-
-       OPEN_CITY_APP_STORE_FILE=my-release-key.keystore
-       OPEN_CITY_APP_KEY_ALIAS=open-city-app
-       OPEN_CITY_APP_STORE_PASSWORD=**\*Keystore password\***
-       OPEN_CITY_APP_KEY_PASSWORD=**\*Keystore password\***
+        OPEN_CITY_APP_STORE_FILE=my-release-key.keystore
+        OPEN_CITY_APP_KEY_ALIAS=open-city-app
+        OPEN_CITY_APP_STORE_PASSWORD=**\*Keystore password\***
+        OPEN_CITY_APP_KEY_PASSWORD=**\*Keystore password\***
 
 3. Run `./gradlew assembleRelease` in ./android
 
