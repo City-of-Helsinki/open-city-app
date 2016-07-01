@@ -39,4 +39,6 @@ buck-out/
 android/app/libs
 android/keystores/debug.keystore
 
+# OPEN CITY related
+api-keys.xml
 my-release-key.keystore

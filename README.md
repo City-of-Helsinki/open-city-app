@@ -23,11 +23,13 @@ Running on iOS simulator:
 
 Running on android (you have to have a device connected which has developer mode enabled, or simulator running)
 
-1. Generate a Google Maps Android API KEY and add it to AndroidManifest.xml
+1. `cp ./android/app/src/main/res/values/api-keys.example.xml ./android/app/src/main/res/values/api-keys.xml`
+
+2. Generate a Google Maps Android API KEY and add it to `/android/app/src/main/res/values/api-keys.xml`
 
 https://console.developers.google.com/apis/
 
-2. Add fingerprint of debug keystore into Google API credentials
+3. Add fingerprint of debug keystore into Google API credentials
 
         keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
 
