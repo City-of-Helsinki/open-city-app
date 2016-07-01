@@ -1,10 +1,8 @@
+import {Platform} from 'react-native';
+
 import {makeRequest} from './open311';
 import {buildQueryString} from './api';
 import _ from 'lodash';
-
-if (!global.atob) {
-  global.atob = require('base-64').decode;
-}
 
 const categoryColorMap = [
   '#39A795',
@@ -39,9 +37,6 @@ export function findServiceRequests(query, options = {}) {
 
 export function createServiceRequest(serviceRequest, options = {}) {
   options.method = 'POST';
-  options.headers = {
-    'Content-Type': 'multipart/form-data',
-  }
 
   var data = new FormData();
 
@@ -50,7 +45,24 @@ export function createServiceRequest(serviceRequest, options = {}) {
 
   _.forEach(serviceRequest, function(value, key) {
     if (key === 'media') {
-      data.append('media[]', global.atob(value), 'image.jpg');
+      const image = {
+        uri: value.uri,
+        width: value.width,
+        height: value.height,
+        isStored: true,
+      };
+
+      if(Platform.OS === 'ios') {
+        data.append('media', {
+          ...image, name: value.fileName
+        });
+      } else {
+        data.append('media', {
+          ...image, type:'image/jpg', name: value.fileName
+        });
+      }
+
+
     } else {
       if(value !== undefined || value !== null) {
         data.append(key, value);
@@ -60,5 +72,5 @@ export function createServiceRequest(serviceRequest, options = {}) {
 
   options.body = data;
 
-  return makeRequest(`requests.json`, options);
+  return makeRequest(`requests.json?extensions=media,citysdk`, options);
 }

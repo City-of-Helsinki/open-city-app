@@ -137,8 +137,8 @@ class ServiceRequestForm extends Component {
         phone: this.state.phone
       };
 
-      if (_.get(this.state, 'imageData.data', null)) {
-        params.media = this.state.imageData.data;
+      if (_.get(this.state, 'imageData', null)) {
+        params.media = this.state.imageData;
       }
 
       createServiceRequest(params)
