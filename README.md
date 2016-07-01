@@ -23,6 +23,15 @@ Running on iOS simulator:
 
 Running on android (you have to have a device connected which has developer mode enabled, or simulator running)
 
+1. Generate a Google Maps Android API KEY and add it to AndroidManifest.xml
+
+https://console.developers.google.com/apis/
+
+2. Add fingerprint of debug keystore into Google API credentials
+
+        keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
+
+
 `react-native run-android`
 
 If you run debug build on device you have to forward the dev server port to the device:
@@ -43,9 +52,12 @@ Edit `./src/config.js` to change API urls
 
 0. Make sure you can run the app with `react-native run-android`
 
-1. Generate signing key and place it in ./android/app
+1. Generate signing key and place it in ./android/app (don't lose this when publishing the app. You can't make updates for the app unless the signing key is the same as the last release)
 
         keytool -genkey -v -keystore my-release-key.keystore -alias open-city-app -keyalg RSA -keysize 2048 -validity 10000
+
+1. Generate fingerprint from keystore and add it to your Google Maps API fingerprints
+        keytool -list -v -keystore my-release-key.keystore -alias open-city-app -storepass <password> -keypass <password>
 
 2. Add these lines into ~/.gradle/gradle.properties
         OPEN_CITY_APP_STORE_FILE=my-release-key.keystore

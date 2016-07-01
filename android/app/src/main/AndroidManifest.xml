@@ -14,10 +14,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+        <!-- Add Google Maps Android API key to /android/app/src/main/res/values/api-keys.xml -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDEvZ8_A_I8rgBcTsYKS4LBf006Q2tHdqw" />
-
+            android:value="@string/GoogleMapsKey" />
         <activity
             android:name=".MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
