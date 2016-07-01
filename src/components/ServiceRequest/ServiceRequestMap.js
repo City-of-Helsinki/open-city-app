@@ -156,8 +156,10 @@ class ServiceRequestMap extends Component {
           style={styles.map}
           showsUserLocation={true}
           followUserLocation={false}
+
           onRegionChangeComplete={this.onMapRegionChange.bind(this)}
         >
+        {this.renderMapMarkers()}
         </MapView>
       </View>
     );

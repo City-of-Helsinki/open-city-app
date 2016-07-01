@@ -25,6 +25,14 @@ Running on android (you have to have a device connected which has developer mode
 
 `react-native run-android`
 
+If you run debug build on device you have to forward the dev server port to the device:
+
+`adb reverse tcp:8081 tcp:8081`
+
+or
+
+`adb -s <Device ID> reverse tcp:8081 tcp:8081` if multiple devices/simulators are connected
+
 ## HOX! Adding react-native libraries
 Normally you would install a react-native package with `npm install react-native-<cool package> && rnpm link`. This will break the build currently because react-native-maps has a broken rnpm script. All native libraries have to be added manually into the build.
 
