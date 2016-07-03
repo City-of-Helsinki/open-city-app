@@ -44,8 +44,8 @@ or
 
 `adb -s <Device ID> reverse tcp:8081 tcp:8081` if multiple devices/simulators are connected
 
-## HOX! Adding react-native libraries
-Normally you would install a react-native package with `npm install react-native-<cool package> && rnpm link`. This will break the build currently because react-native-maps has a broken rnpm script. All native libraries have to be added manually into the build.
+## HOX! Adding new react-native bridge libraries
+*Don't use `rnpm link` to install/setup new react-native libraries!* You have to add native dependencies manually. Using rnpm will break react-native-maps setup and also react-native-background-geolocation, which have to be setup manually (there are problems with their rnpm scripts)
 
 ## Changing API urls
 Edit `./src/config.js` to change API urls

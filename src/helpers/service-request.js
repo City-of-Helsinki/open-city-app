@@ -32,6 +32,7 @@ const API_KEY = 'f1301b1ded935eabc5faa6a2ce975f6';
  */
 export function findServiceRequests(query, options = {}) {
   let queryString = query ? '?' + buildQueryString(query) : '';
+  console.log(`requests.json${queryString}`);
   return makeRequest(`requests.json${queryString}`, options);
 }
 

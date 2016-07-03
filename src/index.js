@@ -28,8 +28,8 @@ class OpenCity extends Component {
    */
   componentDidMount() {
     if (Platform.OS === 'ios') {
-      // const { mountBackgroundTask } = require('./src/helpers/backgroundTask');
-      // mountBackgroundTask(this.refs.nav);
+      const { mountBackgroundTask } = require('./helpers/backgroundTask');
+      mountBackgroundTask(this.refs.nav);
     }
   }
 
@@ -38,8 +38,8 @@ class OpenCity extends Component {
    */
   componentWillUnmount() {
     if (Platform.OS === 'ios') {
-      // const { unmountBackgroundTask } = require('./src/helpers/backgroundTask');
-      // unmountBackgroundTask();
+      const { unmountBackgroundTask } = require('./helpers/backgroundTask');
+      unmountBackgroundTask();
     }
   }
 
