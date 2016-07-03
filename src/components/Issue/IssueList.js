@@ -5,7 +5,8 @@ import {
   ListView,
   StyleSheet,
   RefreshControl,
-  AppState
+  AppState,
+  PushNotificationIOS,
 } from 'react-native';
 
 import { concat } from 'lodash';
@@ -24,8 +25,6 @@ import { COLOR_BLUE } from '../../constants/color';
 const PAGE_SIZE = 20;
 
 import { listStyles as styles } from './styles';
-
-import { issuesBBoxLatDelta, issuesBBoxLngDelta } from '../../config';
 
 /**
  *
@@ -129,9 +128,10 @@ export default class IssueList extends Component {
         isLoading: true
       });
 
-      // TODO: calculate with a distance using inverse haversine function
       findIssues({
-        bbox: `${position.coords.longitude - issuesBBoxLngDelta},${position.coords.latitude - issuesBBoxLatDelta},${position.coords.longitude + issuesBBoxLngDelta},${position.coords.latitude + issuesBBoxLatDelta}`,
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+        distance: 1500,
         order_by: '-latest_decision_date',
         page: reset ? 1 : this.state.pageNumber + 1,
         limit: PAGE_SIZE
