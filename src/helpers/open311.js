@@ -1,12 +1,10 @@
-const API_URL = 'https://asiointi.hel.fi/palautews/rest/v1';
-const API_URL_DEV = 'http://dev.hel.fi/open311-test/v1';
+import { open311_url as API_URL } from '../config';
 
 const defaultOptions = {
   method: 'GET',
   mode: 'cors',
   headers: {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    Accept: 'application/json',
   }
 };
 
@@ -18,7 +16,7 @@ const defaultOptions = {
  */
 export function makeRequest(url, options) {
   return new Promise((resolve, reject) => {
-    return fetch(`${API_URL_DEV}/${url}`, {
+    return fetch(`${API_URL}/${url}`, {
       ...defaultOptions,
       ...options
     })

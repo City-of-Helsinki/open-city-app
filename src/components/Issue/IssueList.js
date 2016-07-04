@@ -1,11 +1,12 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   View,
   Text,
   ListView,
   StyleSheet,
   RefreshControl,
-  AppState
+  AppState,
+  PushNotificationIOS,
 } from 'react-native';
 
 import { concat } from 'lodash';
@@ -28,7 +29,7 @@ import { listStyles as styles } from './styles';
 /**
  *
  */
-class IssueList extends Component {
+export default class IssueList extends Component {
   /**
    *
    */
@@ -64,8 +65,11 @@ class IssueList extends Component {
           this.setState({ position });
         }
       },
-      error => alert(error.message),
-      { enableHighAccuracy: true, timeout: 20000, maximumAge: 1000 }
+      error => {
+        console.log(error);
+        alert('Laitteen sijaintia ei pystytty selvittämään.');
+      },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
     );
 
     this.watchID = navigator.geolocation.watchPosition(position => {
@@ -127,7 +131,7 @@ class IssueList extends Component {
       findIssues({
         lat: position.coords.latitude,
         lon: position.coords.longitude,
-        distance: 1000,
+        distance: 1500,
         order_by: '-latest_decision_date',
         page: reset ? 1 : this.state.pageNumber + 1,
         limit: PAGE_SIZE
@@ -153,7 +157,10 @@ class IssueList extends Component {
             setIssuesNotified(rows);
           }
         })
-        .catch(err => alert(err));
+        .catch(err => {
+          console.log('findIssues error: ', err);
+          alert(err.message);
+        });
     }
   }
 
@@ -243,5 +250,3 @@ class IssueList extends Component {
     );
   }
 }
-
-export default IssueList;

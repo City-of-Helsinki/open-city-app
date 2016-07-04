@@ -1,6 +1,4 @@
-import React, {
-  StyleSheet
-} from 'react-native';
+import { StyleSheet } from 'react-native';
 
 import {
   COLOR_WHITE,

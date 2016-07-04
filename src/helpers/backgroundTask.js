@@ -1,6 +1,8 @@
-import React, {
+import React, { Component, PropTypes } from 'react';
+
+import {
   PushNotificationIOS,
-  AppState
+  AppState,
 } from 'react-native';
 
 import BackgroundGeolocation from 'react-native-background-geolocation';

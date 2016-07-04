@@ -1,5 +1,5 @@
-import React, {
-  Component,
+import React, { Component, PropTypes } from 'react';
+import {
   ActivityIndicatorIOS
 } from 'react-native';
 

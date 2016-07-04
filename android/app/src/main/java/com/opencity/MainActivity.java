@@ -1,9 +1,9 @@
 package com.opencity;
 
-import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.facebook.react.ReactActivity;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.imagepicker.ImagePickerPackage;
-import com.AirMaps.AirPackage;
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 
@@ -37,10 +37,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
-        new AirPackage(),
-                new ReactNativeLocalizationPackage()
             new MainReactPackage(),
-        new ImagePickerPackage()
+            new MapsPackage(this),
+            new ReactNativeLocalizationPackage(),
+            new ImagePickerPackage()
         );
     }
 }
