@@ -1,90 +1,45 @@
-import React, { Component, PropTypes } from 'react';
-
+import React, { Component } from 'react';
 import {
   AppRegistry,
-  StyleSheet,
+  AsyncStorage,
   Navigator,
-  Platform,
+  Platform
 } from 'react-native';
 
-import StartScreen from './components/StartScreen';
+import SplashScreen from './views/SplashScreen';
+import MainView     from './views/MainView';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1
-  }
-});
+console.ignoredYellowBox = ['Warning: You are manually'];
 
 class OpenCity extends Component {
-  /**
-   * @constructor
-   */
-  constructor() {
-    super();
+
+  constructor(props, context) {
+    super(props);
+
+    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'MainView';
+    this.state = {
+      initialView: initialView
+    };
   }
 
-  /**
-   * Component is now mounted.
-   */
-  componentDidMount() {
-    if (Platform.OS === 'ios') {
-      const { mountBackgroundTask } = require('./helpers/backgroundTask');
-      mountBackgroundTask(this.refs.nav);
-    }
-  }
-
-  /**
-   * Component is unmounting.
-   */
-  componentWillUnmount() {
-    if (Platform.OS === 'ios') {
-      const { unmountBackgroundTask } = require('./helpers/backgroundTask');
-      unmountBackgroundTask();
-    }
-  }
-
-  /**
-   * Scene configuration method for the navigator.
-   * @param route
-   * @returns {*}
-   */
-  configureScene(route) {
-    if (route.sceneConfig) {
-      return route.sceneConfig;
-    }
-
-    return Object.assign({}, Navigator.SceneConfigs.HorizontalSwipeJump, {
-      gestures: {
-        pop: null
-      }
-    });
-  }
-
-  /**
-   * Render method for the navigator scene.
-   * @param route
-   * @param navigator
-   * @returns {XML}
-   */
-  renderScene(route, navigator) {
-    return <route.component {...route.passProps} route={route} navigator={navigator}/>;
-  }
-
-  /**
-   * OpenCity component render method.
-   * @returns {XML}
-   */
   render() {
     return (
       <Navigator
-        ref="nav"
-        style={styles.container}
-        initialRoute={{component: StartScreen}}
-        renderScene={this.renderScene.bind(this)}
-        configureScene={this.configureScene.bind(this)}
-      />
+        initialRoute={{id: this.state.initialView}}
+        renderScene={this.navigatorRenderScene} />
     );
   }
+
+  navigatorRenderScene(route, navigator) {
+    _navigator = navigator;
+    switch (route.id) {
+      case 'SplashScreen':
+        return(<SplashScreen navigator={navigator} route={route} title='SplashScreen' />);
+      case 'MainView':
+        return(<MainView navigator={navigator} route={route} title='MainView' />);
+    }
+  }
 }
+
 
 AppRegistry.registerComponent('OpenCity', () => OpenCity);

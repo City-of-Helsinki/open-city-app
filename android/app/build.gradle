@@ -78,7 +78,7 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.2"
 
     defaultConfig {
         applicationId "com.opencity"
@@ -88,14 +88,6 @@ android {
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
-        }
-    }
-    signingConfigs {
-        release {
-            storeFile file(OPEN_CITY_APP_STORE_FILE)
-            storePassword OPEN_CITY_APP_STORE_PASSWORD
-            keyAlias OPEN_CITY_APP_KEY_ALIAS
-            keyPassword OPEN_CITY_APP_KEY_PASSWORD
         }
     }
     splits {
@@ -110,7 +102,6 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
-            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
