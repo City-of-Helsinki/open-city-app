@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
-    backgroundColor: '#F15A24',
+    backgroundColor: 'yellow',
   },
   iosStatusBar: {
     flexDirection: 'row',

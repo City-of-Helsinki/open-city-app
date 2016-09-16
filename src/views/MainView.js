@@ -8,6 +8,7 @@ import {
 
 import MapView from 'react-native-maps';
 import Navbar  from './../components/Navbar';
+import Drawer  from 'react-native-drawer'
 
 class MainView extends Component {
 
@@ -39,14 +40,14 @@ class MainView extends Component {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: 'red',
     flexDirection: 'column',
+  },
+  mapContainer: {
     flex: 1,
     flexDirection: 'column',
     alignItems: 'stretch',
-  },
-  mapContainer: {
-
   },
   map: {
     flex: 1,
