@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 import MapView from 'react-native-maps';
+import Navbar  from './../components/Navbar';
 
 class MainView extends Component {
 
@@ -22,12 +23,15 @@ class MainView extends Component {
 
     return (
       <View style={styles.container}>
-        <MapView
-          style={styles.map}
-          showsUserLocation={true}
-          followUserLocation={false}
-          onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
-        </MapView>
+        <Navbar />
+        <View style={styles.mapContainer}>
+          <MapView
+            style={styles.map}
+            showsUserLocation={true}
+            followUserLocation={false}
+            onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
+          </MapView>
+        </View>
       </View>
     );
   }
@@ -38,12 +42,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'red',
     flexDirection: 'column',
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignItems: 'stretch',
+  },
+  mapContainer: {
+
   },
   map: {
     flex: 1,
-
   },
 });
 
