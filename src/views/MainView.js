@@ -11,6 +11,8 @@ import Menu    from './../components/Menu';
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 
+import transMap from '../translations/map';
+
 class MainView extends Component {
 
   constructor(props, context) {
@@ -18,6 +20,8 @@ class MainView extends Component {
     this.state = {
       drawerIsOpen: false
     };
+
+    transMap.setLanguage('fi');
   }
 
   onMapRegionChange() {
@@ -38,7 +42,7 @@ class MainView extends Component {
         <View style={styles.container}>
           <Navbar
             menuAction={()=>this._drawer.open()}
-            />
+            header={transMap.mapViewTitle}/>
           <View style={styles.mapContainer}>
             <MapView
               style={styles.map}
