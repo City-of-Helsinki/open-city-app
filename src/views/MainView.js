@@ -6,13 +6,19 @@ import {
   Text
 } from 'react-native';
 
-import MapView from 'react-native-maps';
 import Navbar  from './../components/Navbar';
+import Menu    from './../components/Menu';
+import MapView from 'react-native-maps';
+import Drawer  from 'react-native-drawer'
+
 
 class MainView extends Component {
 
   constructor(props, context) {
     super(props, context);
+    this.state = {
+      drawerIsOpen: false
+    };
   }
 
   onMapRegionChange() {
@@ -21,18 +27,29 @@ class MainView extends Component {
 
   render() {
 
+    var drawerIsOpen = false;
+
     return (
-      <View style={styles.container}>
-        <Navbar />
-        <View style={styles.mapContainer}>
-          <MapView
-            style={styles.map}
-            showsUserLocation={true}
-            followUserLocation={false}
-            onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
-          </MapView>
+      <Drawer
+        ref={(ref) => this._drawer = ref}
+        type="static"
+        content={<Menu mapView={()=>{alert('mappii')}} feedbackView={()=>{alert('feedbackView')}}/>}
+        openDrawerOffset={100}
+        tweenHandler={Drawer.tweenPresets.parallax}>
+        <View style={styles.container}>
+          <Navbar
+            menuAction={()=>this._drawer.open()}
+            />
+          <View style={styles.mapContainer}>
+            <MapView
+              style={styles.map}
+              showsUserLocation={true}
+              followUserLocation={false}
+              onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
+            </MapView>
+          </View>
         </View>
-      </View>
+      </Drawer>
     );
   }
 }

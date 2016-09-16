@@ -5,6 +5,7 @@ import {
   Image,
   StyleSheet,
   Platform,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 class Navbar extends Component {
@@ -15,6 +16,7 @@ class Navbar extends Component {
 
   render() {
 
+
     // Add Padding for iOS status bar
     var iosStatusBar = null;
     if (Platform.OS !== 'android') {
@@ -22,9 +24,15 @@ class Navbar extends Component {
     }
 
     return (
+
       <View>
         {iosStatusBar}
         <View style={styles.container}>
+          <View>
+            <TouchableWithoutFeedback onPress={this.props.menuAction}>
+              <View style={styles.menuButton}></View>
+            </TouchableWithoutFeedback>
+          </View>
         </View>
       </View>
     );
@@ -44,6 +52,12 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     height: 15,
     backgroundColor: '#F15A24',
+  },
+  menuButton: {
+    width: 40,
+    height: 40,
+    marginLeft: 20,
+    backgroundColor: 'blue',
   },
 });
 
