@@ -6,8 +6,12 @@ import {
   Text
 } from 'react-native';
 
-import Navbar  from './../components/Navbar';
-import Menu    from './../components/Menu';
+import Navbar               from './../components/Navbar';
+import Menu                 from './../components/Menu';
+import FloatingActionButton from './../components/FloatingActionButton';
+import Request              from './../util/requests';
+import Config               from './../config.json';
+
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 
@@ -22,6 +26,10 @@ class MainView extends Component {
     };
 
     transMap.setLanguage('fi');
+  }
+
+  componentWillMount() {
+
   }
 
   onMapRegionChange() {
@@ -41,7 +49,7 @@ class MainView extends Component {
         tweenHandler={Drawer.tweenPresets.parallax}>
         <View style={styles.container}>
           <Navbar
-            menuAction={()=>this._drawer.open()}
+            buttonAction={()=>this._drawer.open()}
             header={transMap.mapViewTitle}/>
           <View style={styles.mapContainer}>
             <MapView
@@ -51,6 +59,8 @@ class MainView extends Component {
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
             </MapView>
           </View>
+          <FloatingActionButton
+            buttonAction={()=>alert('lisäykseen')}/>
         </View>
       </Drawer>
     );

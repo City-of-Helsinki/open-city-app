@@ -29,7 +29,7 @@ class Navbar extends Component {
         {iosStatusBar}
         <View style={styles.container}>
           <View style={styles.innerContainer}>
-            <TouchableWithoutFeedback onPress={this.props.menuAction}>
+            <TouchableWithoutFeedback onPress={this.props.buttonAction}>
               <View style={styles.menuButton}></View>
             </TouchableWithoutFeedback>
             <Text style={styles.header}>{this.props.header}</Text>
