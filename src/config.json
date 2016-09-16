@@ -1,3 +1,8 @@
 {
-  "OPENAHJO_API_URL": "http://dev.hel.fi/openahjo/v1/issue/148/?format=json",
+  // API URLs
+  "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
+  "OPENAHJO_API_ISSUE_URL": "issue/",
+
+  // Map
+  "ISSUE_LIMIT": 100,
 }

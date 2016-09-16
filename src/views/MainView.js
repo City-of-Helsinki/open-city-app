@@ -9,27 +9,39 @@ import {
 import Navbar               from './../components/Navbar';
 import Menu                 from './../components/Menu';
 import FloatingActionButton from './../components/FloatingActionButton';
-import Request              from './../util/requests';
+import showAlert            from './../components/Alert';
 import Config               from './../config.json';
+import makeRequest          from './../util/requests';
 
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 
-import transMap from '../translations/map';
+import transMap   from '../translations/map';
+import transError from '../translations/errors';
 
 class MainView extends Component {
 
   constructor(props, context) {
     super(props, context);
-    this.state = {
-      drawerIsOpen: false
-    };
 
     transMap.setLanguage('fi');
+    transError.setLanguage('fi');
   }
 
   componentWillMount() {
+    var url = Config.OPENAHJO_API_BASE_URL + Config.OPENAHJO_API_ISSUE_URL + Config.ISSUE_LIMIT;
 
+    makeRequest(url, 'GET')
+    .then(result => {
+      this.parseIssues(result);
+    }, err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk)
+    });
+  }
+
+  parseIssues(data) {
+    console.log('safaf')
+    console.log(JSON.parse(data._bodyBlob))
   }
 
   onMapRegionChange() {
@@ -37,16 +49,18 @@ class MainView extends Component {
   }
 
   render() {
-
-    var drawerIsOpen = false;
-
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="static"
-        content={<Menu mapView={()=>{alert('mappii')}} feedbackView={()=>{alert('feedbackView')}}/>}
         openDrawerOffset={100}
-        tweenHandler={Drawer.tweenPresets.parallax}>
+        tapToClose={true}
+        tweenHandler={Drawer.tweenPresets.parallax}
+        content={
+          <Menu
+            mapView={()=>{alert('mappii')}}
+            feedbackView={()=>{alert('feedbackView')}}/>
+        }>
         <View style={styles.container}>
           <Navbar
             buttonAction={()=>this._drawer.open()}

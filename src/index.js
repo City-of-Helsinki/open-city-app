@@ -9,7 +9,7 @@ import {
 import SplashScreen from './views/SplashScreen';
 import MainView     from './views/MainView';
 
-console.ignoredYellowBox = ['Warning: You are manually'];
+console.disableYellowBox = true;
 
 class OpenCity extends Component {
 
