@@ -43,6 +43,13 @@ class MainView extends Component {
     console.log('safaf')
     console.log(data._bodyBlob)
   }
+  navToFeedbackView() {
+    this.props.navigator.push({
+      id: 'FeedbackView',
+    })
+  }
+
+  render() {
 
   onMapRegionChange() {
 
@@ -53,6 +60,8 @@ class MainView extends Component {
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="static"
+
+        content={<Menu mapView={()=>{alert('mappii')}} FeedbackView={()=>{this.navToFeedbackView(this)}}/>}
         openDrawerOffset={100}
         tapToClose={true}
         tweenHandler={Drawer.tweenPresets.parallax}
