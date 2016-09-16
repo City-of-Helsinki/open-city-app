@@ -8,7 +8,6 @@ import {
 
 import MapView from 'react-native-maps';
 import Navbar  from './../components/Navbar';
-import Drawer  from 'react-native-drawer'
 
 class MainView extends Component {
 
