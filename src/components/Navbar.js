@@ -8,6 +8,11 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+import menuIcon from './../img/menu.png';
+
+const BUTTON_WIDTH  = 40;
+const BUTTON_HEIGHT = 40;
+
 class Navbar extends Component {
 
   constructor(props, context) {
@@ -30,7 +35,11 @@ class Navbar extends Component {
         <View style={styles.container}>
           <View style={styles.innerContainer}>
             <TouchableWithoutFeedback onPress={this.props.buttonAction}>
-              <View style={styles.menuButton}></View>
+              <View style={styles.menuButtonView}>
+                <Image
+                  source={menuIcon}
+                  style={styles.menuIcon}/>
+              </View>
             </TouchableWithoutFeedback>
             <Text style={styles.header}>{this.props.header}</Text>
           </View>
@@ -59,18 +68,22 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: 40,
+    height: BUTTON_HEIGHT,
   },
-  menuButton: {
+  menuButtonView: {
     position: 'absolute',
     left: 10,
-    width: 40,
-    height: 40,
-    backgroundColor: 'blue',
+    width: BUTTON_WIDTH,
+    height: BUTTON_HEIGHT,
+  },
+  menuIcon: {
+    height: BUTTON_HEIGHT,
+    width: BUTTON_WIDTH,
   },
   header: {
     alignItems: 'center',
     fontSize: 18,
+    color: '#000'
   }
 });
 

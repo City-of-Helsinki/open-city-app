@@ -41,7 +41,7 @@ class MainView extends Component {
 
   parseIssues(data) {
     console.log('safaf')
-    console.log(JSON.parse(data._bodyBlob))
+    console.log(data._bodyBlob)
   }
 
   onMapRegionChange() {

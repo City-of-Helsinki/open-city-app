@@ -8,6 +8,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
+import plusIcon from './../img/plus.png';
+
 const BUTTON_WIDTH         = 70;
 const BUTTON_HEIGHT        = 70;
 const BUTTON_BORDER_RADIUS = 35;
@@ -23,7 +25,9 @@ class FloatingActionButton extends Component {
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={this.props.buttonAction}>
           <View style={styles.buttonView}>
-            <Text style={styles.floatingActionButtonText}>uus</Text>
+            <Image
+              source={plusIcon}
+              style={styles.plusIcon}/>
           </View>
         </TouchableWithoutFeedback>
       </View>
@@ -39,7 +43,6 @@ const styles = StyleSheet.create({
     position: 'absolute',
     bottom: 20,
     right: 20,
-    backgroundColor: 'red',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -53,6 +56,10 @@ const styles = StyleSheet.create({
   floatingActionButtonText: {
     fontSize: 16,
   },
+  plusIcon: {
+    width: BUTTON_WIDTH,
+    height: BUTTON_HEIGHT
+  }
 });
 
 
