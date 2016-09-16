@@ -11,7 +11,6 @@ import Menu    from './../components/Menu';
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 
-
 class MainView extends Component {
 
   constructor(props, context) {
@@ -25,6 +24,12 @@ class MainView extends Component {
 
   }
 
+  navToFeedbackView() {
+    this.props.navigator.push({
+      id: 'FeedbackView',
+    })
+  }
+
   render() {
 
     var drawerIsOpen = false;
@@ -33,7 +38,7 @@ class MainView extends Component {
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="static"
-        content={<Menu mapView={()=>{alert('mappii')}} feedbackView={()=>{alert('feedbackView')}}/>}
+        content={<Menu mapView={()=>{alert('mappii')}} FeedbackView={()=>{this.navToFeedbackView(this)}}/>}
         openDrawerOffset={100}
         tweenHandler={Drawer.tweenPresets.parallax}>
         <View style={styles.container}>

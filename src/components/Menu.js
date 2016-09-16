@@ -22,7 +22,7 @@ class Menu extends Component {
             <Text style={styles.menuText}>Kartta viewiin</Text>
           </View>
         </TouchableWithoutFeedback>
-        <TouchableWithoutFeedback onPress={this.props.feedbackView}>
+        <TouchableWithoutFeedback onPress={this.props.FeedbackView}>
           <View style={styles.buttonView}>
             <Text style={styles.menuText}>Toiseen viewiin</Text>
           </View>
