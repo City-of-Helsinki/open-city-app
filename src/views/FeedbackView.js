@@ -99,7 +99,6 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: 'white',
     fontSize: 16,
-
   },
   contentInput: {
     flex: 0.62,
