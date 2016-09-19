@@ -24,13 +24,22 @@ class MainView extends Component {
   constructor(props, context) {
     super(props, context);
 
+    this.state = {
+      issues: [],
+    }
+
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
   }
 
   componentWillMount() {
-    var url = Config.OPENAHJO_API_BASE_URL + Config.OPENAHJO_API_ISSUE_URL + Config.ISSUE_LIMIT;
+    this.fetchIssues();
+  }
 
+  // Fetch a fixed amount of issues from Openahjo API
+  fetchIssues() {
+    var url = Config.OPENAHJO_API_BASE_URL + Config.OPENAHJO_API_ISSUE_URL + Config.ISSUE_LIMIT;
+    console.log(url)
     makeRequest(url, 'GET')
     .then(result => {
       this.parseIssues(result);
@@ -39,17 +48,35 @@ class MainView extends Component {
     });
   }
 
+  // Get all issues with coordinates and show them on the map
   parseIssues(data) {
-    console.log('safaf')
-    console.log(data._bodyBlob)
+    var temp = [];
+    var issueObjects = data.objects;
+
+    for (var i=0; i < issueObjects.length; i++) {
+      if (issueObjects[i].geometries.length > 0) {
+        if (issueObjects[i].geometries[0].coordinates.length > 0 &&
+          typeof issueObjects[i].geometries[0].coordinates[0] != 'undefined' &&
+          typeof issueObjects[i].geometries[0].coordinates[1] != 'undefined') {
+          console.log(i)
+          console.log(issueObjects[i])
+          console.log(issueObjects[i].geometries[0].coordinates[0])
+          console.log(issueObjects[i].geometries[0].coordinates[1])
+          temp.push({coordinates: {latitude: issueObjects[i].geometries[0].coordinates[1], longitude: issueObjects[i].geometries[0].coordinates[0]}, title: issueObjects[i].category_name, description: issueObjects[i].category_name})
+        }
+      }
+    }
+    console.log('lopu')
+    this.setState({
+      issues: temp,
+    });
   }
+
   navToFeedbackView() {
     this.props.navigator.push({
       id: 'FeedbackView',
     })
   }
-
-  render() {
 
   onMapRegionChange() {
 
@@ -80,6 +107,13 @@ class MainView extends Component {
               showsUserLocation={true}
               followUserLocation={false}
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
+              {this.state.issues.map(issue => (
+                <MapView.Marker
+                  coordinate={issue.coordinates}
+                  title={issue.title}
+                  description={issue.description}
+                />
+              ))}
             </MapView>
           </View>
           <FloatingActionButton

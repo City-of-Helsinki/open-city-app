@@ -4,5 +4,5 @@
   "OPENAHJO_API_ISSUE_URL": "issue/",
 
   // Map
-  "ISSUE_LIMIT": 100,
+  "ISSUE_LIMIT": "?limit=200",
 }

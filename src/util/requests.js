@@ -8,9 +8,7 @@ module.exports = function(url, method) {
         'Content-Type': 'application/json'
       }
     }).then((response) => {
-      console.log('response')
-      console.log(response)
-      resolve(response);
+      resolve(response.json());
     }).catch((error) => {
       //alert
       console.log('error')
