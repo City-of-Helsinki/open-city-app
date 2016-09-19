@@ -12,6 +12,7 @@ import {
 import feedbackIcon from '../img/feedback.png';
 import listIcon     from '../img/list.png';
 import mapIcon      from '../img/map.png';
+import menuIcon     from '../img/menu_white.png';
 
 import transMenu   from '../translations/menu';
 
@@ -26,6 +27,11 @@ class Menu extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={this.props.buttonAction}>
+          <Image
+            source={menuIcon}
+            style={[styles.icon, styles.menuIcon]}/>
+        </TouchableWithoutFeedback>
         <View style={styles.innerContainer}>
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleView}</Text>
@@ -35,26 +41,26 @@ class Menu extends Component {
               <Image
                 source={mapIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>Kartta viewiin</Text>
+              <Text style={styles.menuText}>{transMenu.menuTitleMapButton}</Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.props.FeedbackView}>
+          <TouchableWithoutFeedback onPress={this.props.feedbackView}>
             <View style={styles.buttonView}>
               <Image
                 source={listIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>Toiseen viewiin</Text>
+              <Text style={styles.menuText}>{transMenu.menuTitleListButton}</Text>
             </View>
           </TouchableWithoutFeedback>
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
           </View>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={this.props.appFeedback}>
             <View style={styles.buttonView}>
               <Image
                 source={feedbackIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>Palaute hommaan</Text>
+              <Text style={styles.menuText}>{transMenu.menuTitleFeedbackButton}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -68,10 +74,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: 'rgba(0,0,0,0.75)',
-    paddingTop: 50,
-    marginTop: 55,
-    borderWidth: 2,
-    borderColor: 'red'
+    paddingTop: 55,
+  },
+  menuIcon: {
+    height: 40,
+    width: 40,
+    position: 'absolute', // Menu icon positioned on top of the navbar menu icon
+    top: 7,
+    left: 10,
   },
   innerContainer: {
     flexDirection: 'column',

@@ -114,16 +114,17 @@ class MainView extends Component {
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="overlay"
-
-        content={<Menu mapView={()=>{alert('mappii')}} FeedbackView={()=>{this.navToFeedbackView(this)}}/>}
-        openDrawerOffset={0.3}
+        openDrawerOffset={0.2}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
+        captureGestures={'open'}
         content={
           <Menu
             mapView={()=>{alert('mappii')}}
-            feedbackView={()=>{alert('feedbackView')}}/>
+            feedbackView={()=>{this.navToFeedbackView(this)}}
+            buttonAction={()=>this._drawer.close()}
+            appFeedback={()=>alert('palautetta')}/>
         }>
         <View style={styles.container}>
           <Navbar
