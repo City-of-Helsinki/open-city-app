@@ -21,7 +21,6 @@ class Navbar extends Component {
 
   render() {
 
-
     // Add Padding for iOS status bar
     var iosStatusBar = null;
     if (Platform.OS !== 'android') {
