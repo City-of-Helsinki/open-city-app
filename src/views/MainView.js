@@ -3,7 +3,9 @@ import {
   View,
   StyleSheet,
   Image,
-  Text
+  Text,
+  Platform,
+  Linking
 } from 'react-native';
 
 // Components and helpers
@@ -27,11 +29,11 @@ import redMarker    from '../img/red_marker.png';
 import yellowMarker from '../img/yellow_marker.png';
 import greenMarker  from '../img/green_marker.png';
 
-
-const LATITUDE        = 60.1680574;
-const LONGITUDE       = 24.9339746;
-const LATITUDE_DELTA  = 0.0922;
-const LONGITUDE_DELTA = 0.0421;
+// Default region set as Helsinki
+const DEFAULT_LATITUDE        = 60.1680574;
+const DEFAULT_LONGITUDE       = 24.9339746;
+const DEFAULT_LATITUDE_DELTA  = 0.0922;
+const DEFAULT_LONGITUDE_DELTA = 0.0421;
 
 class MainView extends Component {
 
@@ -42,10 +44,10 @@ class MainView extends Component {
     this.state = {
       issues: [],
       region: {
-        latitude: LATITUDE,
-        longitude: LONGITUDE,
-        latitudeDelta: LATITUDE_DELTA,
-        longitudeDelta: LONGITUDE_DELTA,
+        latitude: DEFAULT_LATITUDE,
+        longitude: DEFAULT_LONGITUDE,
+        latitudeDelta: DEFAULT_LATITUDE_DELTA,
+        longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
     }
 
@@ -65,7 +67,7 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, err => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk)
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk);
     });
   }
 
@@ -79,9 +81,8 @@ class MainView extends Component {
         if (issueObjects[i].geometries[0].coordinates.length > 0 &&
           typeof issueObjects[i].geometries[0].coordinates[0] != 'undefined' &&
           typeof issueObjects[i].geometries[0].coordinates[1] != 'undefined') {
-          console.log(i)
-          console.log(issueObjects[i])
-          // Magic for showing different types of markers
+
+          // Testing Magic for showing different types of markers
           var image = i % 3 == 0 ? redMarker : i % 2 == 0 ? yellowMarker : greenMarker;
           temp.push(
             {coordinates:
@@ -105,6 +106,18 @@ class MainView extends Component {
     })
   }
 
+  // Open a detailed view of the selected issue
+  openIssueDetails() {
+
+  }
+
+  openWebViewMarket() {
+    var url = Platform.OS === 'android' ? Config.ANDROID_STORE_URL : Config.IOS_STORE_URL;
+    Linking.openURL(url).catch(err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk);
+    });
+  }
+
   onMapRegionChange() {
 
   }
@@ -114,7 +127,7 @@ class MainView extends Component {
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="overlay"
-        openDrawerOffset={0.2}
+        openDrawerOffset={0.25}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
@@ -124,7 +137,7 @@ class MainView extends Component {
             mapView={()=>{alert('mappii')}}
             feedbackView={()=>{this.navToFeedbackView(this)}}
             buttonAction={()=>this._drawer.close()}
-            appFeedback={()=>alert('palautetta')}/>
+            appFeedback={()=>this.openWebViewMarket(this)}/>
         }>
         <View style={styles.container}>
           <Navbar
@@ -143,7 +156,10 @@ class MainView extends Component {
                   title={issue.title}
                   description={issue.description}
                   image={issue.image}
-                />
+                >
+                  <MapView.Callout onPress={()=>{alert('callout')}}>
+                  </MapView.Callout>
+                </MapView.Marker>
               ))}
             </MapView>
           </View>
@@ -158,7 +174,6 @@ class MainView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'red',
     flexDirection: 'column',
   },
   mapContainer: {

@@ -3,6 +3,10 @@
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
   "OPENAHJO_API_ISSUE_URL": "issue/",
 
+  // Store URLs for feedback
+  "ANDROID_STORE_URL": "http://google.com/android/",
+  "IOS_STORE_URL": "http://apple.com/",
+
   // Map
   "ISSUE_LIMIT": "?limit=200",
 }

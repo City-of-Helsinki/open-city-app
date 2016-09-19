@@ -10,9 +10,9 @@ import {
 
 import plusIcon from './../img/plus.png';
 
-const BUTTON_WIDTH         = 70;
-const BUTTON_HEIGHT        = 70;
-const BUTTON_BORDER_RADIUS = 35;
+const BUTTON_WIDTH         = 56;
+const BUTTON_HEIGHT        = 56;
+const BUTTON_BORDER_RADIUS = 28;
 
 class FloatingActionButton extends Component {
 
