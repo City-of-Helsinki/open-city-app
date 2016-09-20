@@ -51,6 +51,11 @@ class MainView extends Component {
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
       showPopup: false,
+      popupSubject: '',
+      popupSummary: '',
+      popupDate: '',
+      popupDistance: '',
+      popupImage: null,
     }
 
     transMap.setLanguage('fi');
@@ -91,7 +96,10 @@ class MainView extends Component {
               {latitude: issueObjects[i].geometries[0].coordinates[1],
               longitude: issueObjects[i].geometries[0].coordinates[0]},
             title: issueObjects[i].category_name,
-            description: issueObjects[i].category_name,
+            subject: issueObjects[i].subject,
+            summary: issueObjects[i].summary,
+            date: issueObjects[i].last_modified_time,
+            categoryName: issueObjects[i].category_name,
             image: image});
         }
       }
@@ -109,11 +117,17 @@ class MainView extends Component {
   }
 
   // Open a detailed view of the selected issue
-  showIssueDetailPopup() {
+  showIssueDetailPopup(issue) {
     console.log('show')
+    console.log(issue)
     this.setState({
       showPopup: true,
-    })
+      popupSubject: issue.subject,
+      popupSummary: issue.summary,
+      popupDate: issue.date,
+      popupDistance: 50,
+      popupCategoryName: issue.categoryName,
+    });
   }
 
   openWebViewMarket() {
@@ -132,6 +146,12 @@ class MainView extends Component {
     // Initialize Popup which will be shown when a marker is clicked
     var issueDetailPopup = this.state.showPopup ?
       <MarkerPopup
+        subject={this.state.popupSubject}
+        summary={this.state.popupSummary}
+        date={this.state.popupDate}
+        categoryName={this.popupCategoryName}
+        distance={this.state.popupDistance}
+        image={this.state.popupImage}
         onExitClick={()=>this.setState({showPopup:false})}
 
         />
@@ -168,9 +188,9 @@ class MainView extends Component {
                 <MapView.Marker
                   coordinate={issue.coordinates}
                   title={issue.title}
-                  description={issue.description}
+                  description={issue.summary}
                   image={issue.image}
-                  onPress={this.showIssueDetailPopup.bind(this)}
+                  onPress={()=> this.showIssueDetailPopup(issue)}
                 />
               ))}
             </MapView>

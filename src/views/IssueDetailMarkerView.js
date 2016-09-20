@@ -31,60 +31,13 @@ class IssueDetailCallout extends Component {
   render() {
     return (
       <View style={styles.container}>
-
-
         <ScrollView>
           <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>Kaupunki xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>22222222222 xxx</Text>
-            <Text>xxxxxxxxxxxxxxxx ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>22222222222 xxx</Text>
-            <Text>Desscription ackocko</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>22222222222</Text>
-            <Text>yyyyyyyyyyy</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>22222222222</Text>
-            <Text>yyyyyyyyyyy</Text>
-          </View>
-          <View style={styles.row}>
-            <Text>22222222222</Text>
-            <Text>yyyyyyyyyyy</Text>
+            <Text style={styles.text}>{this.props.categoryName}</Text>
+            <Text style={styles.text}>{this.props.subject}</Text>
+            <Text style={styles.text}>{this.props.summary}</Text>
+            <Text style={styles.infoText}>{this.props.date}</Text>
+            <Text style={styles.infoText}>{this.props.distance}</Text>
           </View>
         </ScrollView>
         <TouchableWithoutFeedback onPress={this.props.onExitClick}>
@@ -116,7 +69,13 @@ const styles = StyleSheet.create({
     right: 5,
     height: CLOSE_ICON_HEIGHT,
     width: CLOSE_ICON_WIDTH,
-  }
+  },
+  text: {
+    color: '#000',
+  },
+  infoText: {
+    color: '#888',
+  },
 });
 
 module.exports = IssueDetailCallout

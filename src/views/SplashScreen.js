@@ -17,8 +17,6 @@ class SplashScreen extends Component {
     });
   }
 
-
-
   render() {
 
     return (
