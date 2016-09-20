@@ -15,6 +15,7 @@ import FloatingActionButton from './../components/FloatingActionButton';
 import showAlert            from './../components/Alert';
 import Config               from './../config.json';
 import makeRequest          from './../util/requests';
+import MarkerPopup          from './IssueDetailMarkerView';
 
 // External modules
 import MapView from 'react-native-maps';
@@ -49,6 +50,7 @@ class MainView extends Component {
         latitudeDelta: DEFAULT_LATITUDE_DELTA,
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
+      showPopup: false,
     }
 
     transMap.setLanguage('fi');
@@ -107,8 +109,11 @@ class MainView extends Component {
   }
 
   // Open a detailed view of the selected issue
-  openIssueDetails() {
-
+  showIssueDetailPopup() {
+    console.log('show')
+    this.setState({
+      showPopup: true,
+    })
   }
 
   openWebViewMarket() {
@@ -123,6 +128,15 @@ class MainView extends Component {
   }
 
   render() {
+
+    // Initialize Popup which will be shown when a marker is clicked
+    var issueDetailPopup = this.state.showPopup ?
+      <MarkerPopup
+        onExitClick={()=>this.setState({showPopup:false})}
+
+        />
+      : null;
+
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
@@ -136,12 +150,12 @@ class MainView extends Component {
           <Menu
             mapView={()=>{alert('mappii')}}
             feedbackView={()=>{this.navToFeedbackView(this)}}
-            buttonAction={()=>this._drawer.close()}
+            onMenuClick={()=>this._drawer.close()}
             appFeedback={()=>this.openWebViewMarket(this)}/>
         }>
         <View style={styles.container}>
           <Navbar
-            buttonAction={()=>this._drawer.open()}
+            onMenuClick={()=>this._drawer.open()}
             header={transMap.mapViewTitle}/>
           <View style={styles.mapContainer}>
             <MapView
@@ -156,15 +170,14 @@ class MainView extends Component {
                   title={issue.title}
                   description={issue.description}
                   image={issue.image}
-                >
-                  <MapView.Callout onPress={()=>{alert('callout')}}>
-                  </MapView.Callout>
-                </MapView.Marker>
+                  onPress={this.showIssueDetailPopup.bind(this)}
+                />
               ))}
             </MapView>
           </View>
+          {issueDetailPopup}
           <FloatingActionButton
-            buttonAction={()=>alert('lisäykseen')}/>
+            onButtonClick={()=>alert('lisäykseen')}/>
         </View>
       </Drawer>
     );

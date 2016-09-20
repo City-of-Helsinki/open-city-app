@@ -10,8 +10,8 @@ import {
 
 import menuIcon from './../img/menu.png';
 
-const BUTTON_WIDTH  = 40;
-const BUTTON_HEIGHT = 40;
+const MENU_BUTTON_WIDTH  = 40;
+const MENU_BUTTON_HEIGHT = 40;
 
 class Navbar extends Component {
 
@@ -33,7 +33,7 @@ class Navbar extends Component {
         {iosStatusBar}
         <View style={styles.container}>
           <View style={styles.innerContainer}>
-            <TouchableWithoutFeedback onPress={this.props.buttonAction}>
+            <TouchableWithoutFeedback onPress={this.props.onMenuClick}>
               <View style={styles.menuButtonView}>
                 <Image
                   source={menuIcon}
@@ -67,17 +67,17 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: BUTTON_HEIGHT,
+    height: MENU_BUTTON_HEIGHT,
   },
   menuButtonView: {
     position: 'absolute',
     left: 10,
-    width: BUTTON_WIDTH,
-    height: BUTTON_HEIGHT,
+    width: MENU_BUTTON_WIDTH,
+    height: MENU_BUTTON_HEIGHT,
   },
   menuIcon: {
-    height: BUTTON_HEIGHT,
-    width: BUTTON_WIDTH,
+    height: MENU_BUTTON_HEIGHT,
+    width: MENU_BUTTON_WIDTH,
   },
   header: {
     alignItems: 'center',

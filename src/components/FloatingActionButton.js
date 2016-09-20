@@ -10,9 +10,9 @@ import {
 
 import plusIcon from './../img/plus.png';
 
-const BUTTON_WIDTH         = 56;
-const BUTTON_HEIGHT        = 56;
-const BUTTON_BORDER_RADIUS = 28;
+const BUTTON_WIDTH         = 80;
+const BUTTON_HEIGHT        = 80;
+const BUTTON_BORDER_RADIUS = 40;
 
 class FloatingActionButton extends Component {
 
@@ -23,7 +23,7 @@ class FloatingActionButton extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={this.props.buttonAction}>
+        <TouchableWithoutFeedback onPress={this.props.onButtonClick}>
           <View style={styles.buttonView}>
             <Image
               source={plusIcon}
@@ -41,8 +41,8 @@ const styles = StyleSheet.create({
     height: BUTTON_HEIGHT,
     borderRadius: BUTTON_BORDER_RADIUS,
     position: 'absolute',
-    bottom: 20,
-    right: 20,
+    bottom: 10,
+    right: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },

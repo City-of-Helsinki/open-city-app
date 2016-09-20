@@ -27,7 +27,7 @@ class Menu extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <TouchableWithoutFeedback onPress={this.props.buttonAction}>
+        <TouchableWithoutFeedback onPress={this.props.onMenuClick}>
           <Image
             source={menuIcon}
             style={[styles.icon, styles.menuIcon]}/>
