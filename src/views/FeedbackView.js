@@ -6,6 +6,7 @@ import {
   Text,
   TextInput,
   TouchableHighlight,
+  BackAndroid
 } from 'react-native';
 
 import Dimensions from 'Dimensions';
@@ -14,9 +15,13 @@ import Drawer  from 'react-native-drawer'
 import Navbar  from './../components/Navbar';
 import Menu    from './../components/Menu';
 
+var navigator;
+
 class FeedbackView extends Component {
   constructor(props, context) {
     super(props, context);
+
+    navigator = this.props.navigator;
   }
 
   render() {
@@ -123,6 +128,14 @@ const styles = StyleSheet.create({
     marginRight: 25,
   }
 
+});
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  if (navigator) {
+      navigator.pop();
+      return true;
+  }
+  return false;
 });
 
 module.exports = FeedbackView

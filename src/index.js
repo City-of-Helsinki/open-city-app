@@ -9,15 +9,16 @@ import {
 import SplashScreen from './views/SplashScreen';
 import MainView     from './views/MainView';
 import FeedbackView from './views/FeedbackView';
+import IssueListView from './views/IssueListView';
 
-console.disableYellowBox = true;
+console.ignoredYellowBox = ['Warning: You are manually'];
 
 class OpenCity extends Component {
 
   constructor(props, context) {
     super(props);
 
-    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'SplashScreen';
+    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'MainView';
     this.state = {
       initialView: initialView
     };
@@ -40,6 +41,8 @@ class OpenCity extends Component {
         return(<MainView navigator={navigator} route={route} title='MainView' />);
       case 'FeedbackView':
         return(<FeedbackView navigator={navigator} route={route} title='FeedbackView' />);
+      case 'IssueListView':
+        return(<IssueListView navigator={navigator} route={route} title='IssueListView' />);
     }
   }
 }

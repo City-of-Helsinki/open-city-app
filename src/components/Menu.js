@@ -6,7 +6,10 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
+  Linking,
 } from 'react-native';
+
+import Config from './../config.json';
 
 // Images
 import feedbackIcon from '../img/feedback.png';
@@ -14,7 +17,7 @@ import listIcon     from '../img/list.png';
 import mapIcon      from '../img/map.png';
 import menuIcon     from '../img/menu_white.png';
 
-import transMenu   from '../translations/menu';
+import transMenu from '../translations/menu';
 
 class Menu extends Component {
 
@@ -22,6 +25,13 @@ class Menu extends Component {
     super(props);
 
     transMenu.setLanguage('fi');
+  }
+
+  openWebViewMarket() {
+    var url = Platform.OS === 'android' ? Config.ANDROID_STORE_URL : Config.IOS_STORE_URL;
+    Linking.openURL(url).catch(err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk);
+    });
   }
 
   render() {
@@ -55,7 +65,7 @@ class Menu extends Component {
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
           </View>
-          <TouchableWithoutFeedback onPress={this.props.appFeedback}>
+          <TouchableWithoutFeedback onPress={this.openWebViewMarket.bind(this)}>
             <View style={styles.buttonView}>
               <Image
                 source={feedbackIcon}

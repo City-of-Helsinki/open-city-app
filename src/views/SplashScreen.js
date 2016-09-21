@@ -3,7 +3,10 @@ import {
   View,
   StyleSheet,
   Image,
+  Dimensions
 } from 'react-native';
+
+import splashImage from './../img/HK_logo.png';
 
 class SplashScreen extends Component {
 
@@ -12,15 +15,20 @@ class SplashScreen extends Component {
   }
 
   componentDidMount() {
-    this.props.navigator.resetTo({
-      id: 'MainView'
-    });
+    setTimeout(()=> {
+      this.props.navigator.resetTo({
+        id: 'MainView'
+      });
+    }, 1000)
   }
 
   render() {
 
     return (
       <View style={styles.container}>
+        <Image
+          source={splashImage}
+          style={styles.splashImage}/>
       </View>
     );
   }
@@ -28,11 +36,17 @@ class SplashScreen extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: 'blue',
     flexDirection: 'column',
-    padding: 20,
     flex: 1,
+    backgroundColor: 'black'
   },
+  splashImage: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    height: Dimensions.get('window').height,
+    width: Dimensions.get('window').width,
+  }
 });
 
 module.exports = SplashScreen

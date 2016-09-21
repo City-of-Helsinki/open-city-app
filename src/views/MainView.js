@@ -98,7 +98,7 @@ class MainView extends Component {
             title: issueObjects[i].category_name,
             subject: issueObjects[i].subject,
             summary: issueObjects[i].summary,
-            date: issueObjects[i].last_modified_time,
+            date: this.parseDate(issueObjects[i].last_modified_time),
             categoryName: issueObjects[i].category_name,
             image: image});
         }
@@ -110,10 +110,24 @@ class MainView extends Component {
     });
   }
 
+  // Return date as dd/mm/yyyy hh:mm
+  parseDate(input) {
+    var date = new Date(input);
+    return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear() + ' ' +
+           date.getHours() + ':' + date.getMinutes();;
+  }
+
   navToFeedbackView() {
     this.props.navigator.push({
       id: 'FeedbackView',
     })
+  }
+
+  navToIssueListView(drawer) {
+    drawer.close();
+    this.props.navigator.push({
+      id: 'IssueListView',
+    });
   }
 
   // Open a detailed view of the selected issue
@@ -130,15 +144,12 @@ class MainView extends Component {
     });
   }
 
-  openWebViewMarket() {
-    var url = Platform.OS === 'android' ? Config.ANDROID_STORE_URL : Config.IOS_STORE_URL;
-    Linking.openURL(url).catch(err => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk);
+  // Keep track of mapview region in order for the map not to reset after
+  // closing popup which causes UI to refresh
+  onMapRegionChange(region) {
+    this.setState({
+      region: region
     });
-  }
-
-  onMapRegionChange() {
-
   }
 
   render() {
@@ -149,7 +160,7 @@ class MainView extends Component {
         subject={this.state.popupSubject}
         summary={this.state.popupSummary}
         date={this.state.popupDate}
-        categoryName={this.popupCategoryName}
+        categoryName={this.state.popupCategoryName}
         distance={this.state.popupDistance}
         image={this.state.popupImage}
         onExitClick={()=>this.setState({showPopup:false})}
@@ -168,10 +179,9 @@ class MainView extends Component {
         captureGestures={'open'}
         content={
           <Menu
-            mapView={()=>{alert('mappii')}}
-            feedbackView={()=>{this.navToFeedbackView(this)}}
-            onMenuClick={()=>this._drawer.close()}
-            appFeedback={()=>this.openWebViewMarket(this)}/>
+            mapView={()=>{this._drawer.close()}}
+            feedbackView={()=>{this.navToIssueListView(this._drawer)}}
+            onMenuClick={()=>this._drawer.close()}/>
         }>
         <View style={styles.container}>
           <Navbar
@@ -197,7 +207,7 @@ class MainView extends Component {
           </View>
           {issueDetailPopup}
           <FloatingActionButton
-            onButtonClick={()=>alert('lisäykseen')}/>
+            onButtonClick={()=>this.navToFeedbackView(this)}/>
         </View>
       </Drawer>
     );
