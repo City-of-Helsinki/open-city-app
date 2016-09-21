@@ -13,6 +13,7 @@ import Navbar               from './../components/Navbar';
 import Menu                 from './../components/Menu';
 import FloatingActionButton from './../components/FloatingActionButton';
 import showAlert            from './../components/Alert';
+import EmptyMarkerCallout   from './../components/EmptyMarkerCallout';
 import Config               from './../config.json';
 import makeRequest          from './../util/requests';
 import MarkerPopup          from './IssueDetailMarkerView';
@@ -50,6 +51,7 @@ class MainView extends Component {
         latitudeDelta: DEFAULT_LATITUDE_DELTA,
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
+
       showPopup: false,
       popupSubject: '',
       popupSummary: '',
@@ -66,6 +68,49 @@ class MainView extends Component {
     this.fetchIssues();
   }
 
+  componentDidMount() {
+    this.geoLocation();
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  // Fetch users position and set the region of the map accordingly
+  geoLocation() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        var region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: DEFAULT_LATITUDE_DELTA,
+          longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+        };
+        this.setState({
+          region: region
+        });
+      },
+      (error) => {
+      },
+      {
+        enableHighAccuracy: Config.GPS_HIGH_ACCURACY,
+        timeout: Config.GPS_TIMEOUT,
+        maximumAge: Config.GPS_MAXIMUM_AGE
+      }
+    );
+    this.watchID = navigator.geolocation.watchPosition((position) => {
+        var region = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          latitudeDelta: DEFAULT_LATITUDE_DELTA,
+          longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+        };
+        this.setState({
+          region: region
+        });
+    });
+  }
+
   // Fetch a fixed amount of issues from Openahjo API
   fetchIssues() {
     var url = Config.OPENAHJO_API_BASE_URL + Config.OPENAHJO_API_ISSUE_URL + Config.ISSUE_LIMIT;
@@ -74,13 +119,13 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, err => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorOk);
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
 
   // Get all issues with coordinates and show them on the map
   parseIssues(data) {
-    var temp = [];
+    var issues = [];
     var issueObjects = data.objects;
 
     for (var i=0; i < issueObjects.length; i++) {
@@ -91,7 +136,7 @@ class MainView extends Component {
 
           // Testing Magic for showing different types of markers
           var image = i % 3 == 0 ? redMarker : i % 2 == 0 ? yellowMarker : greenMarker;
-          temp.push(
+          issues.push(
             {coordinates:
               {latitude: issueObjects[i].geometries[0].coordinates[1],
               longitude: issueObjects[i].geometries[0].coordinates[0]},
@@ -106,7 +151,7 @@ class MainView extends Component {
     }
 
     this.setState({
-      issues: temp,
+      issues: issues,
     });
   }
 
@@ -193,6 +238,7 @@ class MainView extends Component {
               region={this.state.region}
               showsUserLocation={true}
               followUserLocation={false}
+              toolbarEnabled={false}
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
               {this.state.issues.map(issue => (
                 <MapView.Marker
@@ -200,8 +246,11 @@ class MainView extends Component {
                   title={issue.title}
                   description={issue.summary}
                   image={issue.image}
-                  onPress={()=> this.showIssueDetailPopup(issue)}
-                />
+                  onPress={()=> this.showIssueDetailPopup(issue)}>
+                  <MapView.Callout tooltip={true}>
+                    <EmptyMarkerCallout />
+                  </MapView.Callout>
+                </MapView.Marker>
               ))}
             </MapView>
           </View>

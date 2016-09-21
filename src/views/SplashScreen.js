@@ -8,6 +8,7 @@ import {
 
 import splashImage from './../img/HK_logo.png';
 
+// SplashScreen intended for android
 class SplashScreen extends Component {
 
   constructor(props, context) {

@@ -9,4 +9,9 @@
 
   // Map
   "ISSUE_LIMIT": "?limit=200",
+
+  // GPS Settings
+  "GPS_HIGH_ACCURACY": true,
+  "GPS_TIMEOUT": 10000,
+  "GPS_MAXIMUM_AGE": 5000,
 }

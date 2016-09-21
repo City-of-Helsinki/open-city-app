@@ -25,7 +25,7 @@ const CLOSE_ICON_HEIGHT    = 50;
 const CLOSE_ICON_WIDTH     = 50;
 const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
 
-class IssueDetailCallout extends Component {
+class IssueDetailMarkerView extends Component {
   constructor(props, context) {
     super(props, context);
   }
@@ -103,4 +103,4 @@ const styles = StyleSheet.create({
   },
 });
 
-module.exports = IssueDetailCallout
+module.exports = IssueDetailMarkerView

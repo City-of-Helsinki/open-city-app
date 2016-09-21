@@ -6,9 +6,9 @@ import {
   Platform
 } from 'react-native';
 
-import SplashScreen from './views/SplashScreen';
-import MainView     from './views/MainView';
-import FeedbackView from './views/FeedbackView';
+import SplashScreen  from './views/SplashScreen';
+import MainView      from './views/MainView';
+import FeedbackView  from './views/FeedbackView';
 import IssueListView from './views/IssueListView';
 
 console.ignoredYellowBox = ['Warning: You are manually'];
