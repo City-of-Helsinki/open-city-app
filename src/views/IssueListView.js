@@ -23,11 +23,13 @@ class IssueListView extends Component {
   }
 
   componentWillMount() {
-    
+
   }
 
   navToMapView() {
-    this.props.navigator.pop();
+    this.props.navigator.resetTo({
+      id: 'MainView',
+    });
   }
 
   render() {
