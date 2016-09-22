@@ -20,7 +20,7 @@ import closeIcon from './../img/close.png';
 
 const SIDE_PADDING         = 32;
 const TOP_MARGIN           = Platform.OS === 'android' ? 60 : 75;
-const BOTTOM_MARGIN        = 100;
+const BOTTOM_MARGIN        = 120;
 const CLOSE_ICON_HEIGHT    = 50;
 const CLOSE_ICON_WIDTH     = 50;
 const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;

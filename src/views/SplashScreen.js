@@ -3,6 +3,7 @@ import {
   View,
   StyleSheet,
   Image,
+  Text,
   Dimensions
 } from 'react-native';
 
@@ -27,9 +28,10 @@ class SplashScreen extends Component {
 
     return (
       <View style={styles.container}>
-        <Image
+        {/*<Image
           source={splashImage}
-          style={styles.splashImage}/>
+          style={styles.splashImage}/>*/}
+        <Text style={{color: 'white', textAlign: 'center'}}>SplashScreen</Text>
       </View>
     );
   }
@@ -39,7 +41,8 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: 'black'
+    backgroundColor: 'black',
+    justifyContent: 'center'
   },
   splashImage: {
     position: 'absolute',

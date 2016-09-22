@@ -17,57 +17,100 @@ import Menu    from './../components/Menu';
 
 var navigator;
 
+// Components
+import FloatingActionButton from '../components/FloatingActionButton';
+
+// Translations
+import transFeedback from '../translations/feedback';
+import transError    from '../translations/errors';
+
+// Images
+import sendIcon   from '../img/plus.png';
+import markerIcon from '../img/location_marker.png';
+
 class FeedbackView extends Component {
   constructor(props, context) {
     super(props, context);
 
     navigator = this.props.navigator;
+
+    this.state = {
+      // Initialize the marker with the center coordinates from region of the map being shown
+      markerPosition: {
+        latitude: this.props.route.mapRegion.latitude,
+        longitude: this.props.route.mapRegion.longitude
+      },
+    };
+
+    transFeedback.setLanguage('fi');
+    transError.setLanguage('fi');
+  }
+
+  sendFeedback() {
+    alert('lähetysx')
   }
 
   render() {
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
-        type="static"
-        content={<Menu mapView={()=>{alert('mappii')}} FeedbackView={()=>{this._drawer.close()}}/>}
-        openDrawerOffset={100}
-        tweenHandler={Drawer.tweenPresets.parallax}>
+        type="overlay"
+        openDrawerOffset={0.25}
+        closedDrawerOffset={0}
+        tapToClose={true}
+        acceptTap={true}
+        captureGestures={'open'}
+        content={
+          <Menu
+            mapView={()=>{this.props.navigator.pop()}}
+            feedbackView={()=>{this.navToIssueListView(this._drawer)}}
+            onMenuClick={()=>this._drawer.close()}/>
+        }>
         <View style={styles.container}>
           <Navbar
-            menuAction={()=>this._drawer.open()}
-            />
+            onMenuClick={()=>this._drawer.open()}
+            header={transFeedback.feedbackViewTitle}/>
         <View style={styles.mapContainer}>
           <MapView
             style={styles.map}
-            showsUserLocation={true}
+            region={this.props.route.mapRegion}
+            showsUserLocation={false}
             followUserLocation={false}
-            >
+            toolbarEnabled={false}>
+            <MapView.Marker draggable
+              image={markerIcon}
+              coordinate={this.state.markerPosition}
+              onPress={() => alert('ssas')}
+            />
           </MapView>
         </View>
         <View style={styles.feedbackContainer}>
+          <View style={styles.categoryContainer}>
+            <Text>{transFeedback.category}</Text>
+          </View>
 
           <TextInput
-          style={styles.titleInput}
-          placeholder="Title"
-          name="title"
-
+            style={styles.titleInput}
+            placeholder="Title"
+            name="title"
           />
 
           <TextInput
-          style={styles.contentInput}
-          placeholder="Give city of Helsinki feedback"
-          name="content"
-          multiline={true}
+            style={styles.contentInput}
+            placeholder="Give city of Helsinki feedback"
+            name="content"
+            multiline={true}
           />
 
           <View style={styles.bottomContainer}>
               <View style={{flex: 0.8}}>
               </View>
               <View style={styles.buttonView}>
+                <FloatingActionButton
+                  icon={sendIcon}
+                  onButtonClick={()=>this.sendFeedback(this)}/>
               </View>
-
           </View>
-
         </View>
       </View>
       </Drawer>
@@ -77,10 +120,8 @@ class FeedbackView extends Component {
 
 const styles = StyleSheet.create({
   container: {
-
     flexDirection: 'column',
     flex: 1,
-    height: 100,
   },
   mapContainer: {
     flex: 0.35,
@@ -93,6 +134,9 @@ const styles = StyleSheet.create({
   feedbackContainer: {
     flex: 0.65,
     backgroundColor: '#EEEEEE',
+  },
+  categoryContainer: {
+    flexDirection: 'row',
   },
   bottomContainer:{
     flex: 0.18,
@@ -120,14 +164,6 @@ const styles = StyleSheet.create({
     },
     shadowRadius:1,
   },
-  buttonView: {
-    borderRadius: (Dimensions.get('window').height * (0.12) -10) / 2,
-    backgroundColor: 'blue',
-    width: Dimensions.get('window').height * (0.12) - 10,
-    height: Dimensions.get('window').height * (0.12) - 10,
-    marginRight: 25,
-  }
-
 });
 
 BackAndroid.addEventListener('hardwareBackPress', function() {

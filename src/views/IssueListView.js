@@ -22,6 +22,10 @@ class IssueListView extends Component {
     navigator = this.props.navigator;
   }
 
+  componentWillMount() {
+    
+  }
+
   navToMapView() {
     this.props.navigator.pop();
   }

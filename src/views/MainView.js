@@ -21,6 +21,7 @@ import MarkerPopup          from './IssueDetailMarkerView';
 // External modules
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
+import Geolib  from 'geolib';
 
 // Translations
 import transMap   from '../translations/map';
@@ -30,6 +31,7 @@ import transError from '../translations/errors';
 import redMarker    from '../img/red_marker.png';
 import yellowMarker from '../img/yellow_marker.png';
 import greenMarker  from '../img/green_marker.png';
+import plusIcon     from '../img/plus.png'
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE        = 60.1680574;
@@ -51,7 +53,10 @@ class MainView extends Component {
         latitudeDelta: DEFAULT_LATITUDE_DELTA,
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
-
+      userPosition: {
+        latitude: null,
+        longitude: null,
+      },
       showPopup: false,
       popupSubject: '',
       popupSummary: '',
@@ -86,8 +91,13 @@ class MainView extends Component {
           latitudeDelta: DEFAULT_LATITUDE_DELTA,
           longitudeDelta: DEFAULT_LONGITUDE_DELTA,
         };
+        var userPosition = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }
         this.setState({
-          region: region
+          region: region,
+          userPosition: userPosition
         });
       },
       (error) => {
@@ -105,8 +115,13 @@ class MainView extends Component {
           latitudeDelta: DEFAULT_LATITUDE_DELTA,
           longitudeDelta: DEFAULT_LONGITUDE_DELTA,
         };
+        var userPosition = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        }
         this.setState({
-          region: region
+          region: region,
+          userPosition: userPosition
         });
     });
   }
@@ -155,6 +170,16 @@ class MainView extends Component {
     });
   }
 
+  // Return the distance of 2 points in meters
+  getDistance(origin, destination) {
+    const distance = Geolib.getDistance(
+      {latitude: origin.latitude, longitude: origin.longitude},
+      {latitude: destination.latitude, longitude: destination.longitude}
+    );
+
+    return distance;
+  }
+
   // Return date as dd/mm/yyyy hh:mm
   parseDate(input) {
     var date = new Date(input);
@@ -163,9 +188,22 @@ class MainView extends Component {
   }
 
   navToFeedbackView() {
+    var mapRegion = {
+      latitude: DEFAULT_LATITUDE,
+      longitude: DEFAULT_LONGITUDE,
+      latitudeDelta: DEFAULT_LATITUDE_DELTA,
+      longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+    };
+
+    if (this.state.userPosition.latitude !== null && this.state.userPosition.longitude !== null) {
+      mapRegion.latitude = this.state.userPosition.latitude;
+      mapRegion.longitude = this.state.userPosition.longitude;
+    }
+
     this.props.navigator.push({
       id: 'FeedbackView',
-    })
+      mapRegion: mapRegion,
+    });
   }
 
   navToIssueListView(drawer) {
@@ -177,14 +215,12 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
-    console.log('show')
-    console.log(issue)
     this.setState({
       showPopup: true,
       popupSubject: issue.subject,
       popupSummary: issue.summary,
       popupDate: issue.date,
-      popupDistance: 50,
+      popupDistance: this.getDistance(this.state.userPosition, {latitude: issue.coordinates.latitude, longitude: issue.coordinates.longitude}),
       popupCategoryName: issue.categoryName,
     });
   }
@@ -209,7 +245,6 @@ class MainView extends Component {
         distance={this.state.popupDistance}
         image={this.state.popupImage}
         onExitClick={()=>this.setState({showPopup:false})}
-
         />
       : null;
 
@@ -256,6 +291,7 @@ class MainView extends Component {
           </View>
           {issueDetailPopup}
           <FloatingActionButton
+            icon={plusIcon}
             onButtonClick={()=>this.navToFeedbackView(this)}/>
         </View>
       </Drawer>
