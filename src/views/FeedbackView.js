@@ -23,22 +23,27 @@ import Navbar               from '../components/Navbar';
 import Menu                 from '../components/Menu';
 import Thumbnail            from '../components/Thumbnail';
 import showAlert            from '../components/Alert';
+import Config               from '../config';
+import makeRequest          from '../util/requests';
 
 // Translations
 import transFeedback from '../translations/feedback';
 import transError    from '../translations/errors';
 
 // Images
-import sendIcon        from '../img/send.png';
-import markerIcon      from '../img/location_marker.png';
-import attachmentIcon  from '../img/attachment.png';
-import locationOnIcon  from '../img/location_on.png';
-import locationOffIcon from '../img/location_off.png';
+import sendEnabledIcon  from '../img/send.png';
+import sendDisabledIcon from '../img/send_disabled.png';
+import markerIcon       from '../img/location_marker.png';
+import attachmentIcon   from '../img/attachment.png';
+import locationOnIcon   from '../img/location_on.png';
+import locationOffIcon  from '../img/location_off.png';
 
 var navigator;
-const DEFAULT_CATEGORY   = 'Muu';
-const BUTTON_ICON_HEIGHT = 40;
-const BUTTON_ICON_WIDTH  = 40;
+const DEFAULT_CATEGORY       = 'Muu';
+const BUTTON_ICON_HEIGHT     = 40;
+const BUTTON_ICON_WIDTH      = 40;
+const DESCRIPTION_MIN_LENGTH = 10;
+const DESCRIPTION_MAX_LENGTH = 5000;
 
 class FeedbackView extends Component {
   constructor(props, context) {
@@ -52,10 +57,13 @@ class FeedbackView extends Component {
         latitude: this.props.route.mapRegion.latitude,
         longitude: this.props.route.mapRegion.longitude
       },
-      pickerData: [DEFAULT_CATEGORY],
-      selectedCategory: DEFAULT_CATEGORY,
+      sendEnabled: false,
+      pickerData: [],
+      selectedCategory: '',
       locationEnabled: true,
-      imageSource: null,
+      descriptionText: '',
+      titleText: '',
+      image: {source: null, name: null},
     };
 
     transFeedback.setLanguage('fi');
@@ -63,14 +71,73 @@ class FeedbackView extends Component {
   }
 
   componentWillMount() {
-    //fetch categories
+    this.fetchServices();
     this.setState({
-      pickerData: [DEFAULT_CATEGORY, 'xx'],
+      pickerData: [{label: '', key: ''}],
+    });
+  }
+
+  fetchServices() {
+    var url     = Config.OPEN311_SERVICE_LIST_URL + Config.OPEN311_SERVICE_LIST_LOCALE + 'fi';
+    var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+
+    makeRequest(url, 'GET', headers, null)
+    .then(result => {
+      this.parseServiceList(result);
+    }, err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+    });
+  }
+
+  parseServiceList(data) {
+    var services = [];
+    console.log('data')
+    console.log(data)
+    for (var i=0; i < data.length; i++) {
+      services.push({label: data[i].service_name, key: data[i].service_code});
+    }
+
+    this.setState({
+      pickerData: services,
     });
   }
 
   sendFeedback() {
-    alert('lähetysx')
+    var url     = Config.OPEN311_SEND_SERVICE_URL;
+    var method  = 'POST';
+    var headers = {'Content-Type': 'multipart/form-data',};
+    var body    = new FormData();
+
+    body.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
+    body.append('service_code', this.state.selectedCategory);
+    body.append('description', this.state.descriptionText);
+
+    if (this.state.locationEnabled &&
+        this.state.markerPosition.latitude !== null &&
+        this.state.markerPosition.longitude !== null) {
+      body.append('lat', this.state.markerPosition.latitude);
+      body.append('long', this.state.markerPosition.longitude);
+    }
+
+    if (this.state.image.source !== null) {
+      var file = {
+        uri: this.state.image.source,
+        type: 'image/jpeg',
+        name: this.state.image.fileName
+      }
+      body.append('media', file);
+    }
+
+    if (this.state.titleText !== '') {
+      body.append('title', this.state.titleText);
+    }
+
+    makeRequest(url, method, headers, body)
+    .then(result => {
+      showAlert('200', 'onnistu', 'ok');
+    }, err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+    });
   }
 
   onLocationIconClick() {
@@ -94,32 +161,26 @@ class FeedbackView extends Component {
       mediaType: 'photo'
     };
     ImagePicker.showImagePicker(options, (response) => {
-      var source = null;
+      var source   = null;
+      var fileName = null;
 
       if (response.error) {
         showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentErrorOk);
       } else if (response.didCancel) {
         source = null;
       } else {
-        // You can display the image using either data...
         const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
 
-        // or a reference to the platform specific asset location
-        if (Platform.OS === 'android') {
-          const source = {uri: response.uri, isStatic: true};
-        } else {
-          const source = {uri: response.uri.replace('file://', ''), isStatic: true};
-        }
-
         this.setState({
-          imageSource: source
+          image: {source: source, name: response.fileName}
         });
       }
+
     });
   }
 
   render() {
-    var showThumbnail = this.state.imageSource !== null;
+    var showThumbnail = this.state.image.source !== null;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
                         <View style={styles.mapContainer}>
@@ -137,7 +198,7 @@ class FeedbackView extends Component {
                               onDragEnd={(e) => alert('drag')} />
                           </MapView>
                         </View> : null;
-
+    var sendIcon = this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon;
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
@@ -166,6 +227,7 @@ class FeedbackView extends Component {
             <NativePicker
               data={this.state.pickerData}
               defaultItem={this.state.selectedCategory}
+              selectedItem={this.state.selectedCategory}
               itemChange={(item)=>this.setState({ selectedCategory: item })}/>
           </View>
 
@@ -173,6 +235,7 @@ class FeedbackView extends Component {
             style={styles.titleInput}
             placeholder={transFeedback.inputTitlePlaceholder}
             name="title"
+            onChangeText={(text)=> {this.setState({titleText: text})}}
           />
 
           <View style={styles.contentContainer}>
@@ -181,6 +244,13 @@ class FeedbackView extends Component {
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}
+              onChangeText={(text)=> {
+                var sendEnabled = text.length >= DESCRIPTION_MIN_LENGTH && text.length <= DESCRIPTION_MAX_LENGTH;
+                this.setState({
+                  sendEnabled: sendEnabled,
+                  descriptionText: text,
+                });
+              }}
             />
             <View style={styles.bottomContainer}>
                 <View style={styles.buttonView}>
@@ -196,10 +266,10 @@ class FeedbackView extends Component {
                   </TouchableWithoutFeedback>
                   <Thumbnail
                     show={showThumbnail}
-                    imageSource={this.state.imageSource}
+                    imageSource={this.state.image.source}
                     imageHeight={100}
                     imageWidth={100}
-                    imageClickAction={()=>this.setState({ imageSource: null })} />
+                    imageClickAction={()=>this.setState({ image: {source: null, fileName: null} })} />
                 </View>
             </View>
           </View>
@@ -207,7 +277,7 @@ class FeedbackView extends Component {
         </View>
           <FloatingActionButton
             icon={sendIcon}
-            onButtonClick={()=>this.sendFeedback(this)} />
+            onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
         </View>
       </Drawer>
     );

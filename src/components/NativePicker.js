@@ -16,52 +16,27 @@ class NativePicker extends Component {
 
   constructor(props, context) {
     super(props);
-    this.state = {
-      data: [this.props.defaultItem],
-      selectedItem: this.props.defaultItem,
-    };
 
     transGeneral.setLanguage('fi');
   }
 
-  componentWillMount() {
-
-    // This is required for ModalPicker which handles data differently
-    if (Platform.OS !== 'android') {
-      var arr = [];
-      for (var i=0; i < this.props.data.length; i++) {
-        arr.push({key: this.props.data[i], label: this.props.data[i]});
-      }
-      this.setState({
-        data: arr,
-      });
-    } else {
-      this.setState({
-        data: this.props.data,
-      });
-    }
-  }
-
   itemChange(item) {
-    this.setState({
-      selectedItem: item,
-    });
     this.props.itemChange(item);
   }
 
   render() {
     var picker = <ModalPicker
-                  data={this.state.data}
-                  initValue={this.state.selectedItem}
+                  data={this.props.data}
+                  initValue={this.props.selectedItem}
                   cancelText={transGeneral.cancel}
                   onChange={(item)=>this.itemChange(item)} />;
 
     if (Platform.OS === 'android') {
       picker = <Picker
-                selectedValue={this.state.selectedItem}
+                selectedValue={this.props.selectedItem}
                 onValueChange={(item)=>this.itemChange(item)}>
-                {this.state.data.map((item) => (
-                  <Picker.Item label={item} value={item} key={item} />
+                {this.props.data.map((item) => (
+                  <Picker.Item label={item.label} value={item.key} key={item.key} />
                 ))}
               </Picker>;
     }

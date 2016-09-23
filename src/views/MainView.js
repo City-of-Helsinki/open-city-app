@@ -129,8 +129,9 @@ class MainView extends Component {
   // Fetch a fixed amount of issues from Openahjo API
   fetchIssues() {
     var url = Config.OPENAHJO_API_BASE_URL + Config.OPENAHJO_API_ISSUE_URL + Config.ISSUE_LIMIT;
-    console.log(url)
-    makeRequest(url, 'GET')
+    var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+
+    makeRequest(url, 'GET', headers, null)
     .then(result => {
       this.parseIssues(result);
     }, err => {

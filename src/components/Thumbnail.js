@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import removeIcon from '../img/close.png';
+import removeIcon from '../img/close_image.png';
 
 const CONTAINER_PADDING  = 10;
 const REMOVE_ICON_HEIGHT = 20;
@@ -60,8 +60,6 @@ const styles = StyleSheet.create({
     right: 0,
     height: REMOVE_ICON_HEIGHT,
     width: REMOVE_ICON_WIDTH,
-    borderColor: 'red',
-    borderWidth: 1,
   }
 });
 

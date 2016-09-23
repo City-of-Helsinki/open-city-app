@@ -8,9 +8,9 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-const BUTTON_WIDTH         = 80;
-const BUTTON_HEIGHT        = 80;
-const BUTTON_BORDER_RADIUS = 40;
+const BUTTON_WIDTH         = 72;
+const BUTTON_HEIGHT        = 72;
+const BUTTON_BORDER_RADIUS = 36;
 
 class FloatingActionButton extends Component {
 
