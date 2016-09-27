@@ -44,12 +44,18 @@ class IssueDetailMarkerView extends Component {
   }
 
   render() {
-    var extendedItems = null;
+    console.log('this.issueDetails.media_url');
+    console.log(this.issueDetails.media_url);
+    var image = this.issueDetails.media_url !== null ?
+                <View style={styles.imageView}>
+                  <Image source={{uri: this.issueDetails.media_url}} />
+                </View> : null;
 
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.issueContainer}>
+            {image}
             <View style={styles.subjectView}>
               <Text style={[styles.text, styles.title]}>{this.issueDetails.title}</Text>
             </View>
@@ -97,6 +103,10 @@ const styles = StyleSheet.create({
   },
   issueContainer: {
     flexDirection: 'column',
+  },
+  imageView: {
+    height: 300,
+    width: Dimensions.get('window').width - SIDE_PADDING,
   },
   rowContainer: {
     flexDirection: 'row',

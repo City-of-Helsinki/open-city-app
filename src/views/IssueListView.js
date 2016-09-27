@@ -5,12 +5,19 @@ import {
   Image,
   Text,
   Platform,
-  BackAndroid
+  BackAndroid,
+  ScrollView
 } from 'react-native';
 
-import Drawer  from 'react-native-drawer'
-import Navbar  from './../components/Navbar';
-import Menu    from './../components/Menu';
+import Drawer      from 'react-native-drawer'
+import Navbar      from './../components/Navbar';
+import Menu        from './../components/Menu';
+import makeRequest from './../util/requests';
+import Config      from './../config';
+
+// Translations
+import transList  from '../translations/list';
+import transError from '../translations/errors';
 
 var navigator;
 
@@ -20,10 +27,25 @@ class IssueListView extends Component {
     super(props, context);
 
     navigator = this.props.navigator;
+
+    transList.setLanguage('fi');
+    transError.setLanguage('fi');
   }
 
   componentWillMount() {
+    this.fetchIssues();
+  }
 
+  fetchIssues() {
+    var url = Config.OPEN311_SERVICE_REQUESTS_URL + '?start_date=2016-08-24T00:00:00Z&end_date=2016-09-24T00:00:00Z';
+    var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+
+    makeRequest(url, 'GET', headers, null)
+    .then(result => {
+
+    }, err => {
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+    });
   }
 
   navToMapView() {
@@ -51,8 +73,12 @@ class IssueListView extends Component {
         <View style={styles.container}>
           <Navbar
             onMenuClick={()=>this._drawer.open()}
-            header={'lista foo'}/>
-          <Text>lista</Text>
+            header={transList.listViewTitle}/>
+          <ScrollView>
+            <View style={styles.issueContainer}>
+              <Text>afafaf</Text>
+            </View>
+          </ScrollView>
         </View>
       </Drawer>
     );
@@ -71,8 +97,13 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'red'
+    backgroundColor: '#EEEEEE'
   },
+  issueContainer: {
+    padding: 10,
+    borderColor: 'black',
+    borderWidth: 1,
+  }
 });
 
 module.exports = IssueListView
