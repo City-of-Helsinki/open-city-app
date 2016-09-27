@@ -91,8 +91,6 @@ class FeedbackView extends Component {
 
   parseServiceList(data) {
     var services = [];
-    console.log('data')
-    console.log(data)
     for (var i=0; i < data.length; i++) {
       services.push({label: data[i].service_name, key: data[i].service_code});
     }
@@ -105,7 +103,7 @@ class FeedbackView extends Component {
   sendFeedback() {
     var url     = Config.OPEN311_SEND_SERVICE_URL;
     var method  = 'POST';
-    var headers = {'Content-Type': 'multipart/form-data',};
+    var headers = {'Content-Type': 'multipart/form-data', 'Accept': 'application/json'};
     var body    = new FormData();
 
     body.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
@@ -119,23 +117,30 @@ class FeedbackView extends Component {
       body.append('long', this.state.markerPosition.longitude);
     }
 
+    console.log(this.state.image.source)
+    console.log(this.state.image.name)
     if (this.state.image.source !== null) {
       var file = {
-        uri: this.state.image.source,
+        uri: this.state.image.source.uri,
         type: 'image/jpeg',
-        name: this.state.image.fileName
-      }
+        name: this.state.image.name
+      };
       body.append('media', file);
     }
 
     if (this.state.titleText !== '') {
       body.append('title', this.state.titleText);
     }
+    console.log(body)
 
     makeRequest(url, method, headers, body)
     .then(result => {
-      showAlert('200', 'onnistu', 'ok');
-    }, err => {
+      this.props.navigator.resetTo({
+        id: 'MainView',
+      });
+    }, error => {
+      console.log('error')
+      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }

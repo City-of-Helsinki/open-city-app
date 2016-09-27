@@ -15,36 +15,61 @@ import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 import Navbar  from './../components/Navbar';
 import Menu    from './../components/Menu';
+import Util    from './../util/util';
 
 import closeIcon from './../img/close.png';
 
 const SIDE_PADDING         = 32;
 const TOP_MARGIN           = Platform.OS === 'android' ? 60 : 75;
-const BOTTOM_MARGIN        = 120;
-const CLOSE_ICON_HEIGHT    = 50;
-const CLOSE_ICON_WIDTH     = 50;
+const BOTTOM_MARGIN        = 320;
+const CLOSE_ICON_HEIGHT    = 42;
+const CLOSE_ICON_WIDTH     = 42;
 const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
+
+const F_RECEIVED = 'Palaute vastaanotettu';
+const F_INPROCESS = 'Palaute käsittelyssä';
+const F_PROCESSED = 'Palaute käsitelty';
 
 class IssueDetailMarkerView extends Component {
   constructor(props, context) {
     super(props, context);
+    this.issueDetails;
+  }
+
+  componentWillMount() {
+    this.issueDetails = Util.parseIssueDetails(this.props.data, this.props.userPosition);
+
+    console.log('done parse')
+    console.log(this.issueDetails.extendedData)
   }
 
   render() {
+    var extendedItems = null;
+
     return (
       <View style={styles.container}>
         <ScrollView>
           <View style={styles.issueContainer}>
             <View style={styles.subjectView}>
-              <Text style={[styles.text, styles.title]}>{this.props.subject}</Text>
+              <Text style={[styles.text, styles.title]}>{this.issueDetails.title}</Text>
             </View>
             <View style={styles.summaryView}>
-              <Text style={styles.text}>{this.props.summary}</Text>
+              <Text style={styles.text}>{this.issueDetails.description}</Text>
             </View>
             <View style={[styles.detail, styles.rowContainer]}>
-              <Text style={styles.infoText}>{this.props.distance}m</Text>
-              <Text style={styles.infoText}>{this.props.date}</Text>
+              <Text style={styles.infoText}>{this.issueDetails.distance}m</Text>
+              <Text style={styles.infoText}>{this.issueDetails.date}</Text>
             </View>
+          </View>
+          <View style={styles.extendedDataContainer}>
+            {this.issueDetails.extendedData.map((item) => (
+              <View style={styles.extendedDataItemContainer}>
+                <View style={[styles.detail, styles.rowContainer]}>
+                  <Text style={styles.detailText}>{item.agency}</Text>
+                  <Text style={styles.detailText}>{item.date}</Text>
+                </View>
+              </View>
+            ))}
           </View>
         </ScrollView>
         <TouchableWithoutFeedback onPress={this.props.onExitClick}>
@@ -60,7 +85,7 @@ class IssueDetailMarkerView extends Component {
 const styles = StyleSheet.create({
   container: {
     position: 'absolute',
-    top: TOP_MARGIN,
+    top: Dimensions.get('window').height / 4,
     left: SIDE_PADDING / 2,
     height: CONTAINER_MAX_HEIGHT,
     width: Dimensions.get('window').width - SIDE_PADDING,
@@ -100,6 +125,14 @@ const styles = StyleSheet.create({
   },
   infoText: {
     color: '#888',
+  },
+  extendedDataContainer: {
+    flexDirection: 'column',
+    alignItems: 'stretch',
+    marginTop: 20,
+  },
+  detailText: {
+    fontSize: 12,
   },
 });
 
