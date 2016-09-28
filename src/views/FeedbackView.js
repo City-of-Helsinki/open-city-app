@@ -197,8 +197,8 @@ class FeedbackView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
     }
 
     this.refs.map.animateToRegion(markerRegion)
@@ -228,7 +228,7 @@ class FeedbackView extends Component {
                             ref='map'
                             style={styles.map}
                             region={this.state.region}
-                            showsUserLocation={false}
+                            showsUserLocation={true}
                             followUserLocation={false}
                             toolbarEnabled={false}
                             onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
