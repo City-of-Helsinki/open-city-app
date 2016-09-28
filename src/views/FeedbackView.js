@@ -8,7 +8,8 @@ import {
   TouchableWithoutFeedback,
   BackAndroid,
   Dimensions,
-  Platform
+  Platform,
+  Animated
 } from 'react-native';
 
 // External modules
@@ -46,19 +47,23 @@ const DESCRIPTION_MIN_LENGTH = 10;
 const DESCRIPTION_MAX_LENGTH = 5000;
 
 class FeedbackView extends Component {
+
   constructor(props, context) {
     super(props, context);
 
-    navigator = this.props.navigator;
 
+    navigator = this.props.navigator;
     this.state = {
+
       // Initialize the marker with the center coordinates from region of the map being shown
-      markerPosition: {
-        latitude: this.props.route.mapRegion.latitude,
-        longitude: this.props.route.mapRegion.longitude
-      },
+      markerPosition:{ latitude: this.props.route.mapRegion.latitude,
+        longitude: this.props.route.mapRegion.longitude},
       sendEnabled: false,
       pickerData: [],
+      region: {latitude: this.props.route.mapRegion.latitude,
+              longitude: this.props.route.mapRegion.longitude,
+              latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
+              longitudeDelta: this.props.route.mapRegion.longitudeDelta/2},
       selectedCategory: '',
       locationEnabled: true,
       descriptionText: '',
@@ -66,6 +71,8 @@ class FeedbackView extends Component {
       image: {source: null, name: null},
     };
 
+
+    //this.refs.map.animateToRegion(region)
     transFeedback.setLanguage('fi');
     transError.setLanguage('fi');
   }
@@ -109,12 +116,11 @@ class FeedbackView extends Component {
     body.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
     body.append('service_code', this.state.selectedCategory);
     body.append('description', this.state.descriptionText);
-
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
         this.state.markerPosition.longitude !== null) {
-      body.append('lat', this.state.markerPosition.latitude);
-      body.append('long', this.state.markerPosition.longitude);
+      body.append('lat', this.markerLatitude);
+      body.append('long', this.markerLongitude);
     }
 
     console.log(this.state.image.source)
@@ -184,26 +190,59 @@ class FeedbackView extends Component {
     });
   }
 
+  // Update marker position after dragging marker and center map on marker.
+  updateMarkerPos(location) {
+    this.markerPosition = location
+
+    var markerRegion = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta
+    }
+
+    this.refs.map.animateToRegion(markerRegion)
+
+  }
+
+  // Set marker position by long clicking the map. Center map on marker.
+  setMarkerPos(location) {
+    var markerRegion = {
+      latitude: location.latitude,
+      longitude: location.longitude,
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
+    }
+
+    this.setState({markerPosition: location})
+
+    this.refs.map.animateToRegion(markerRegion)
+  }
+
   render() {
     var showThumbnail = this.state.image.source !== null;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
                         <View style={styles.mapContainer}>
                           <MapView
+                            ref='map'
                             style={styles.map}
-                            region={this.props.route.mapRegion}
+                            region={this.state.region}
                             showsUserLocation={false}
                             followUserLocation={false}
                             toolbarEnabled={false}
-                            onMarkerDragEnd={(e) => alert('drag')} >
-                            <MapView.Marker draggable
+                            onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
+                            onRegionChangeComplete={(e) => this.state.region=e}
+                            >
+                            <MapView.Marker.Animated draggable
+                              ref='marker'
                               image={markerIcon}
                               coordinate={this.state.markerPosition}
-                              onDragStart={(e) => alert('sdrag')}
-                              onDragEnd={(e) => alert('drag')} />
+                              onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate)} />
                           </MapView>
                         </View> : null;
     var sendIcon = this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon;
+
     return (
       <Drawer
         ref={(ref) => this._drawer = ref}
@@ -333,7 +372,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 0.53,
     backgroundColor: 'white',
-    fontSize: 16,
     flexDirection: 'column',
     shadowColor: 'black',
     shadowOpacity: 0.8,
