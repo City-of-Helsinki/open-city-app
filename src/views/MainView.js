@@ -37,8 +37,8 @@ import plusIcon     from '../img/plus.png'
 // Default region set as Helsinki
 const DEFAULT_LATITUDE        = 60.1680574;
 const DEFAULT_LONGITUDE       = 24.9339746;
-const DEFAULT_LATITUDE_DELTA  = 0.0922;
-const DEFAULT_LONGITUDE_DELTA = 0.0421;
+const DEFAULT_LATITUDE_DELTA  = 0.02208;
+const DEFAULT_LONGITUDE_DELTA = 0.01010;
 const STATUS_OPEN             = 'open';
 
 class MainView extends Component {
