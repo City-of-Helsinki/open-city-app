@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#EEEEEE'
   },
   issueContainer: {
-    padding: 20,
+    padding: 10,
   }
 });
 

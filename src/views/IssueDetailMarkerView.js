@@ -41,11 +41,12 @@ class IssueDetailMarkerView extends Component {
     }
 
 
-    console.log(this.issueDetails)
-    console.log('done parse')
+    console.log('popup will receive props')
+    console.log(this.props.data)
   }
 
   render() {
+    console.log('popup render')
     var image = this.issueDetails.media_url !== null ?
                 <View style={styles.imageView}>
                   <Image source={{uri: this.issueDetails.media_url}} />

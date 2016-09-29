@@ -6,9 +6,10 @@ module.exports = {
   // Return date as dd/mm/yyyy hh:mm
   parseDate: function(input) {
     var date = new Date(input);
+    var hours   = date.getHours()   < 10 ? '0' + date.getHours() : date.getHours();
     var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
     return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear() + ' ' +
-           date.getHours() + ':' + minutes;
+           hours + ':' + minutes;
   },
 
   // Parse issues for issue popup

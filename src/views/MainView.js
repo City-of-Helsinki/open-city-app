@@ -23,6 +23,7 @@ import MarkerPopup          from './IssueDetailMarkerView';
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 import Geolib  from 'geolib';
+import Spinner from 'react-native-loading-spinner-overlay';
 
 // Translations
 import transMap   from '../translations/map';
@@ -62,7 +63,7 @@ class MainView extends Component {
         longitude: null,
       },
       showPopup: false,
-      popupLoading: false,
+      isLoading: false,
       popupData: null,
     }
 
@@ -141,18 +142,13 @@ class MainView extends Component {
   }
 
   fetchIssueDetails(issue) {
-    console.log('issue.id')
-    console.log(issue.id)
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + issue.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
-    console.log(url)
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
-    console.log(1)
 
     makeRequest(url, 'GET', headers, null)
     .then(result => {
-      console.log('responese')
-      console.log(result)
       this.setState({
+        isLoading: false,
         popupData: result,
       });
     }, error => {
@@ -213,20 +209,18 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
-    this.setState({showPopup:true, popupData: null});
+    this.setState({showPopup:true, popupData: null, isLoading: true});
     this.fetchIssueDetails(issue);
   }
 
   // Hide popup when map is clicked
   onMapViewClick() {
-    console.log('click')
     if (this.state.showPopup) {
       this.setState({
         region: this.state.region,
         showPopup: false,
       });
     }
-    console.log('end')
   }
 
   // Keep track of mapview region in order for the map not to reset after
@@ -291,6 +285,7 @@ class MainView extends Component {
             </MapView>
           </View>
           {issueDetailPopup}
+          <Spinner visible={this.state.isLoading} />
           <FloatingActionButton
             icon={plusIcon}
             onButtonClick={()=>this.navToFeedbackView(this)}/>
