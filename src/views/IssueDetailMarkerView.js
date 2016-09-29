@@ -11,6 +11,8 @@ import {
   ScrollView,
 } from 'react-native';
 
+import Spinner from 'react-native-loading-spinner-overlay';
+
 import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 import Navbar  from './../components/Navbar';
@@ -26,26 +28,24 @@ const CLOSE_ICON_HEIGHT    = 42;
 const CLOSE_ICON_WIDTH     = 42;
 const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
 
-const F_RECEIVED = 'Palaute vastaanotettu';
-const F_INPROCESS = 'Palaute käsittelyssä';
-const F_PROCESSED = 'Palaute käsitelty';
 
 class IssueDetailMarkerView extends Component {
   constructor(props, context) {
     super(props, context);
-    this.issueDetails;
+    this.issueDetails = {title: '', description:'', extendedData:[], agency: '', distance: 0, date: '', media_url: null};
   }
 
-  componentWillMount() {
-    this.issueDetails = Util.parseIssueDetails(this.props.data, this.props.userPosition);
+  componentWillReceiveProps() {
+    if (this.props.data !== null) {
+      this.issueDetails = Util.parseIssueDetails(this.props.data, this.props.userPosition);
+    }
 
+
+    console.log(this.issueDetails)
     console.log('done parse')
-    console.log(this.issueDetails.extendedData)
   }
 
   render() {
-    console.log('this.issueDetails.media_url');
-    console.log(this.issueDetails.media_url);
     var image = this.issueDetails.media_url !== null ?
                 <View style={styles.imageView}>
                   <Image source={{uri: this.issueDetails.media_url}} />
