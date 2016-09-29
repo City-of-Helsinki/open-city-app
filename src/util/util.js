@@ -1,4 +1,5 @@
 import Geolib from 'geolib';
+import Config from '../config';
 
 module.exports = {
 
@@ -11,8 +12,10 @@ module.exports = {
   },
 
   // Parse issues for issue popup
-  parseIssueDetails: function(data, userPosition) {
-    var data = data[0];
+  parseIssueDetails: function(input, userPosition) {
+
+    // Fetching a single issue needs the following check because the issue is in an array
+    var data = input.constructor === Array ? input[0] : input;
     var extendedData = [];
 
     if (data.extended_attributes.tasks.length > 0) {
@@ -36,7 +39,6 @@ module.exports = {
       media_url: media,
       extendedData: extendedData
     };
-    console.log(output)
 
     return output;
   },
@@ -52,15 +54,14 @@ module.exports = {
   },
 
   // Parse data to be used in IssueListView
-  parseIssueList: function(data) {
-    console.log('issue list parse')
+  parseIssueList: function(data, userPosition) {
 
     var output = [];
-    var arrayLength = data.length < 20 ? data.length : 20;
+    var arrayLength = data.length < Config.DETAILED_ISSUE_LIMIT ? data.length : Config.DETAILED_ISSUE_LIMIT;
     for (var i=0; i < arrayLength; i++) {
-      output.push(module.exports.parseIssueDetails(data[i], {latitude: 0, longitude: 0}));
+      output.push(module.exports.parseIssueDetails(data[i], userPosition));
     }
-    console.log(output)
+
     return output;
   }
 }

@@ -207,6 +207,7 @@ class MainView extends Component {
     drawer.close();
     this.props.navigator.push({
       id: 'IssueListView',
+      userPosition: this.state.userPosition,
     });
   }
 
