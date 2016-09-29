@@ -39,6 +39,8 @@ const DEFAULT_LATITUDE        = 60.1680574;
 const DEFAULT_LONGITUDE       = 24.9339746;
 const DEFAULT_LATITUDE_DELTA  = 0.02208;
 const DEFAULT_LONGITUDE_DELTA = 0.01010;
+
+// Defines the string which the Open311 API returns. The string is used for status comparison
 const STATUS_OPEN             = 'open';
 
 class MainView extends Component {
@@ -144,14 +146,13 @@ class MainView extends Component {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + issue.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
     console.log(url)
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+    console.log(1)
 
     makeRequest(url, 'GET', headers, null)
     .then(result => {
       console.log('responese')
       console.log(result)
       this.setState({
-        showPopup: true,
-        popupLoading: false,
         popupData: result,
       });
     }, error => {
@@ -206,12 +207,26 @@ class MainView extends Component {
     drawer.close();
     this.props.navigator.push({
       id: 'IssueListView',
+      userPosition: this.state.userPosition,
     });
   }
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
+    this.setState({showPopup:true, popupData: null});
     this.fetchIssueDetails(issue);
+  }
+
+  // Hide popup when map is clicked
+  onMapViewClick() {
+    console.log('click')
+    if (this.state.showPopup) {
+      this.setState({
+        region: this.state.region,
+        showPopup: false,
+      });
+    }
+    console.log('end')
   }
 
   // Keep track of mapview region in order for the map not to reset after
@@ -259,6 +274,7 @@ class MainView extends Component {
               showsUserLocation={true}
               followUserLocation={false}
               toolbarEnabled={false}
+              onPress={this.onMapViewClick.bind(this)}
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
               {this.state.issues.map(issue => (
                 <MapView.Marker

@@ -19,6 +19,9 @@
   // Map
   "ISSUE_LIMIT": "?limit=200",
 
+  // Issue list
+  "DETAILED_ISSUE_LIMIT": 20,
+
   // GPS Settings
   "GPS_HIGH_ACCURACY": true,
   "GPS_TIMEOUT": 10000,
