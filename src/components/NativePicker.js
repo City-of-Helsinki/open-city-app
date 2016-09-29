@@ -26,6 +26,7 @@ class NativePicker extends Component {
 
   render() {
     var picker = <ModalPicker
+                  style={styles.modalPicker}
                   data={this.props.data}
                   initValue={this.props.selectedItem}
                   cancelText={transGeneral.cancel}
@@ -52,7 +53,14 @@ class NativePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent:'space-around',
+    paddingRight:10,
+    paddingTop:10,
+    padding:5,
   },
+  modalPicker:{
+    borderWidth:0,
+  }
 });
 
 module.exports = NativePicker

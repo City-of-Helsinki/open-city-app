@@ -31,12 +31,13 @@ class NativePicker extends Component {
                       style={{
                         height: this.props.imageHeight,
                         width: this.props.imageWidth
-                      }} />
+                      }} >
                     <TouchableWithoutFeedback onPress={this.props.imageClickAction}>
                       <Image
                         source={removeIcon}
                         style={styles.removeIcon} />
                     </TouchableWithoutFeedback>
+                    </Image>
                   </View> : null;
     return (
       <View>

@@ -16,6 +16,7 @@ import {
 import MapView     from 'react-native-maps';
 import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
+import ImageResizer from 'react-native-image-resizer';
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -38,6 +39,7 @@ import markerIcon       from '../img/location_marker.png';
 import attachmentIcon   from '../img/attachment.png';
 import locationOnIcon   from '../img/location_on.png';
 import locationOffIcon  from '../img/location_off.png';
+import ownLocationIcon  from '../img/own_loc.png';
 
 var navigator;
 const DEFAULT_CATEGORY       = 'Muu';
@@ -65,6 +67,7 @@ class FeedbackView extends Component {
               latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
               longitudeDelta: this.props.route.mapRegion.longitudeDelta/2},
       selectedCategory: '',
+      selectedServiceCode: '',
       locationEnabled: true,
       descriptionText: '',
       titleText: '',
@@ -114,7 +117,7 @@ class FeedbackView extends Component {
     var body    = new FormData();
 
     body.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
-    body.append('service_code', this.state.selectedCategory);
+    body.append('service_code', this.state.selectedServiceCode);
     body.append('description', this.state.descriptionText);
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
@@ -157,6 +160,17 @@ class FeedbackView extends Component {
     });
   }
 
+  onFocusButtonClick() {
+      var markerRegion = {
+        latitude: this.props.route.mapRegion.latitude,
+        longitude: this.props.route.mapRegion.longitude,
+        latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
+        longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
+      }
+
+      this.refs.map.animateToRegion(markerRegion)
+  }
+
   navToIssueListView() {
     this.props.navigator.push({
       id: 'IssueListView',
@@ -181,7 +195,13 @@ class FeedbackView extends Component {
         source = null;
       } else {
         const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-
+        /*
+        ImageResizer.createResizedImage(imageUri, newWidth, newHeight, compressFormat, quality, rotation, outputPath).then((resizedImageUri) => {
+          // resizeImageUri is the URI of the new image that can now be displayed, uploaded...
+        }).catch((err) => {
+          alert(err)
+        });
+        */
         this.setState({
           image: {source: source, name: response.fileName}
         });
@@ -197,11 +217,11 @@ class FeedbackView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta*20,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta*20
     }
 
-    this.refs.map.animateToRegion(markerRegion)
+    //this.refs.map.animateToRegion(markerRegion)
 
   }
 
@@ -210,13 +230,25 @@ class FeedbackView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta*20,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta*20
     }
 
     this.setState({markerPosition: location})
 
-    this.refs.map.animateToRegion(markerRegion)
+    //this.refs.map.animateToRegion(markerRegion)
+  }
+
+  centerMarker(region) {
+    var latitude = region.latitude;
+    var longitude = region.longitude;
+
+    var location = {
+      latitude: latitude,
+      longitude: longitude,
+    }
+
+    this.setState({markerPosition: location, region:region})
   }
 
   render() {
@@ -228,18 +260,24 @@ class FeedbackView extends Component {
                             ref='map'
                             style={styles.map}
                             region={this.state.region}
-                            showsUserLocation={true}
+                            showsUserLocation={false}
                             followUserLocation={false}
                             toolbarEnabled={false}
                             onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
-                            onRegionChangeComplete={(e) => this.state.region=e}
+                            onRegionChange={(e) => this.centerMarker(e)}
+                            //onRegionChangeComplete={(e) => this.state.region=e}
                             >
                             <MapView.Marker.Animated draggable
                               ref='marker'
                               image={markerIcon}
-                              coordinate={this.state.markerPosition}
+                              coordinate={this.state.region}
                               onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate)} />
                           </MapView>
+                          <TouchableWithoutFeedback onPress={this.onFocusButtonClick.bind(this)}>
+                            <Image
+                              source={ownLocationIcon}
+                              style={styles.focusIcon} />
+                          </TouchableWithoutFeedback>
                         </View> : null;
     var sendIcon = this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon;
 
@@ -272,15 +310,18 @@ class FeedbackView extends Component {
               data={this.state.pickerData}
               defaultItem={this.state.selectedCategory}
               selectedItem={this.state.selectedCategory}
-              itemChange={(item)=>this.setState({ selectedCategory: item })}/>
+              itemChange={(item)=>this.setState({ selectedCategory: item.label, selectedServiceCode: item.key })}/>
           </View>
 
-          <TextInput
-            style={styles.titleInput}
-            placeholder={transFeedback.inputTitlePlaceholder}
-            name="title"
-            onChangeText={(text)=> {this.setState({titleText: text})}}
-          />
+          <View
+            style={styles.titleWrapper}>
+            <TextInput
+              style={styles.titleInput}
+              placeholder={transFeedback.inputTitlePlaceholder}
+              name="title"
+              onChangeText={(text)=> {this.setState({titleText: text})}}
+            />
+          </View>
 
           <View style={styles.contentContainer}>
             <TextInput
@@ -296,25 +337,33 @@ class FeedbackView extends Component {
                 });
               }}
             />
-            <View style={styles.bottomContainer}>
-                <View style={styles.buttonView}>
-                  <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
-                    <Image
-                      source={attachmentIcon}
-                      style={styles.icon} />
-                  </TouchableWithoutFeedback>
-                  <TouchableWithoutFeedback onPress={this.onLocationIconClick.bind(this)}>
-                    <Image
-                      source={locationIcon}
-                      style={styles.icon} />
-                  </TouchableWithoutFeedback>
-                  <Thumbnail
-                    show={showThumbnail}
-                    imageSource={this.state.image.source}
-                    imageHeight={100}
-                    imageWidth={100}
-                    imageClickAction={()=>this.setState({ image: {source: null, fileName: null} })} />
-                </View>
+            <View style={[styles.bottomContainer,
+              showThumbnail
+                ? { height: 150 }
+                : { height: 50 },]}>
+
+              <View style={styles.thumbnailWrapper}>
+                <Thumbnail
+                  show={showThumbnail}
+                  imageSource={this.state.image.source}
+                  imageHeight={100}
+                  imageWidth={100}
+                  imageClickAction={()=>this.setState({ image: {source: null, fileName: null} })} />
+              </View>
+
+              <View style={styles.buttonView}>
+                <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
+                  <Image
+                    source={attachmentIcon}
+                    style={styles.icon} />
+                </TouchableWithoutFeedback>
+                <TouchableWithoutFeedback onPress={this.onLocationIconClick.bind(this)}>
+                  <Image
+                    source={locationIcon}
+                    style={styles.icon} />
+                </TouchableWithoutFeedback>
+
+              </View>
             </View>
           </View>
 
@@ -334,7 +383,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapContainer: {
-    flex: 0.35,
+    flex: 0.3,
     flexDirection: 'column',
     alignItems: 'stretch',
   },
@@ -342,7 +391,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedbackContainer: {
-    flex: 0.65,
+    flex: 0.7,
     backgroundColor: '#EEEEEE',
   },
   categoryContainer: {
@@ -354,20 +403,28 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   bottomContainer:{
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
     paddingLeft: 5,
-    height: 100,
+    flexDirection: 'column',
   },
-  titleInput: {
-    flex: 0.1,
-    paddingLeft: 10,
+  titleWrapper: {
+    shadowColor: 'black',
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      height: 0,
+      width: 0
+    },
+    shadowRadius:1,
     marginBottom: 10,
     marginLeft: 10,
     marginRight: 10,
     marginTop: 5,
+  },
+  titleInput: {
+    height: 40,
+    paddingLeft: 10,
     backgroundColor: 'white',
     fontSize: 16,
+
   },
   contentContainer: {
     flex: 0.53,
@@ -390,13 +447,27 @@ const styles = StyleSheet.create({
   },
   buttonView: {
     flexDirection: 'row',
-    flex: 1,
     alignItems: 'flex-end',
+    position: 'absolute',
+    bottom:0,
+    left:0
   },
   icon: {
     height: BUTTON_ICON_HEIGHT,
     width: BUTTON_ICON_WIDTH,
     marginRight: 5,
+  },
+  focusIcon: {
+    height:BUTTON_ICON_HEIGHT,
+    width:BUTTON_ICON_WIDTH,
+    position: 'absolute',
+    bottom: 10,
+    right: 10
+  },
+  thumbnailWrapper: {
+    position: 'absolute',
+    left: 0,
+    bottom: 45,
   }
 });
 
