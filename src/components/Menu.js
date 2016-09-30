@@ -65,7 +65,7 @@ class Menu extends Component {
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
           </View>
-          <TouchableWithoutFeedback onPress={this.openWebViewMarket.bind(this)}>
+          <TouchableWithoutFeedback onPress={this.props.appFeedbackView}>
             <View style={styles.buttonView}>
               <Image
                 source={feedbackIcon}

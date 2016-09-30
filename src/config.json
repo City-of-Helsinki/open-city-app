@@ -13,9 +13,8 @@
   // API Keys
   "OPEN311_SEND_SERVICE_API_KEY": "f1301b1ded935eabc5faa6a2ce975f6",
 
-  // Store URLs for feedback
-  "ANDROID_STORE_URL": "http://google.com/android/",
-  "IOS_STORE_URL": "http://apple.com/",
+  // App feedback view
+  "APP_FEEDBACK_SERVICE_CODE": 2802,
 
   // Map
   "ISSUE_LIMIT": "?limit=200",

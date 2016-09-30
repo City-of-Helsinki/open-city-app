@@ -31,34 +31,23 @@ const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BO
 const MAX_DISTANCE_THRESHOLD = 500000;
 
 class IssueDetailMarkerView extends Component {
+
   constructor(props, context) {
     super(props, context);
-    this.issueDetails = {title: '', description:'', extendedData:[], agency: '', distance: 0, date: '', media_url: null};
-  }
-
-  componentWillReceiveProps() {
-    if (this.props.data !== null) {
-      this.issueDetails = Util.parseIssueDetails(this.props.data, this.props.userPosition);
-    }
-
-
-    console.log('popup will receive props')
-    console.log(this.props.data)
   }
 
   render() {
-    console.log('popup render')
-    var image = this.issueDetails.media_url !== null ?
+    var image = this.props.data.media_url !== null ?
                 <View style={styles.imageView}>
-                  <Image source={{uri: this.issueDetails.media_url}} />
+                  <Image source={{uri: this.props.data.media_url}} />
                 </View> : null;
 
-    var distance = this.issueDetails.distance > 0 && this.issueDetails.distance < MAX_DISTANCE_THRESHOLD ?
+    var distance = this.props.data.distance > 0 && this.props.data.distance < MAX_DISTANCE_THRESHOLD ?
             <View style={styles.distanceContainer}>
               <Image
                 style={styles.distanceIcon}
                 source={distanceIcon} />
-              <Text>{this.issueDetails.distance}m</Text>
+              <Text>{this.props.data.distance}m</Text>
             </View> : null;
 
     return (
@@ -67,18 +56,18 @@ class IssueDetailMarkerView extends Component {
           <View style={styles.issueContainer}>
             {image}
             <View style={styles.subjectView}>
-              <Text style={[styles.text, styles.title]}>{this.issueDetails.title}</Text>
+              <Text style={[styles.text, styles.title]}>{this.props.data.title}</Text>
             </View>
             <View style={styles.summaryView}>
-              <Text style={styles.text}>{this.issueDetails.description}</Text>
+              <Text style={styles.text}>{this.props.data.description}</Text>
             </View>
             <View style={[styles.detail, styles.rowContainer]}>
               {distance}
-              <Text style={styles.infoText}>{this.issueDetails.date}</Text>
+              <Text style={styles.infoText}>{this.props.data.date}</Text>
             </View>
           </View>
           <View style={styles.extendedDataContainer}>
-            {this.issueDetails.extendedData.map((item) => (
+            {this.props.data.extendedData.map((item) => (
               <View style={styles.extendedDataItemContainer}>
                 <View style={[styles.detail, styles.rowContainer]}>
                   <Text style={styles.detailText}>{item.agency}</Text>
@@ -88,7 +77,7 @@ class IssueDetailMarkerView extends Component {
             ))}
           </View>
         </ScrollView>
-        <TouchableWithoutFeedback onPress={this.props.onExitClick}>
+        <TouchableWithoutFeedback onPress={this.props.data.onExitClick}>
           <Image
             source={closeIcon}
             style={styles.closeIcon}/>
@@ -107,7 +96,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - SIDE_PADDING,
     padding: 5,
     backgroundColor: '#fff',
-    borderColor: '#000',
+    borderColor: '#EEEEEE',
     borderWidth: 1,
     borderRadius: 5,
   },
