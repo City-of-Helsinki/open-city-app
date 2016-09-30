@@ -8,6 +8,7 @@
   "OPEN311_SERVICE_REQUESTS_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests.json",
   "OPEN311_SERVICE_REQUEST_BASE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests/",
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
+  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
 
   // API Keys
   "OPEN311_SEND_SERVICE_API_KEY": "f1301b1ded935eabc5faa6a2ce975f6",

@@ -64,5 +64,18 @@ module.exports = {
     }
 
     return output;
+  },
+
+  // Return an object with a timespan as ISO dates
+  getTimeSpan: function() {
+    const timeSpanInMonths = 2;
+
+    var endDate = new Date();
+    var endDateISO = endDate.toISOString();
+    var month = (endDate.getMonth() + 1) - timeSpanInMonths;
+    var startMonth = month < 1 ? 12 + month : month;
+    var startDateISO = new Date(endDate.getFullYear(), endDate.getMonth() - timeSpanInMonths, endDate.getDate()).toISOString();
+
+    return {startDate: startDateISO, endDate: endDateISO};
   }
 }

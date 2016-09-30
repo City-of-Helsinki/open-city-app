@@ -19,15 +19,16 @@ import Navbar  from './../components/Navbar';
 import Menu    from './../components/Menu';
 import Util    from './../util/util';
 
-import closeIcon from './../img/close.png';
+import closeIcon    from './../img/close.png';
+import distanceIcon from '../img/location_marker.png';
 
-const SIDE_PADDING         = 32;
-const TOP_MARGIN           = Platform.OS === 'android' ? 60 : 75;
-const BOTTOM_MARGIN        = 320;
-const CLOSE_ICON_HEIGHT    = 42;
-const CLOSE_ICON_WIDTH     = 42;
-const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
-
+const SIDE_PADDING           = 32;
+const TOP_MARGIN             = Platform.OS === 'android' ? 60 : 75;
+const BOTTOM_MARGIN          = 320;
+const CLOSE_ICON_HEIGHT      = 32;
+const CLOSE_ICON_WIDTH       = 32;
+const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
+const MAX_DISTANCE_THRESHOLD = 500000;
 
 class IssueDetailMarkerView extends Component {
   constructor(props, context) {
@@ -52,6 +53,14 @@ class IssueDetailMarkerView extends Component {
                   <Image source={{uri: this.issueDetails.media_url}} />
                 </View> : null;
 
+    var distance = this.issueDetails.distance > 0 && this.issueDetails.distance < MAX_DISTANCE_THRESHOLD ?
+            <View style={styles.distanceContainer}>
+              <Image
+                style={styles.distanceIcon}
+                source={distanceIcon} />
+              <Text>{this.issueDetails.distance}m</Text>
+            </View> : null;
+
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -64,7 +73,7 @@ class IssueDetailMarkerView extends Component {
               <Text style={styles.text}>{this.issueDetails.description}</Text>
             </View>
             <View style={[styles.detail, styles.rowContainer]}>
-              <Text style={styles.infoText}>{this.issueDetails.distance}m</Text>
+              {distance}
               <Text style={styles.infoText}>{this.issueDetails.date}</Text>
             </View>
           </View>
@@ -113,6 +122,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  distanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  distanceIcon: {
+    height: 12,
+    width: 12,
   },
   subjectView: {
     marginBottom: 20,

@@ -46,7 +46,12 @@ class IssueListView extends Component {
   }
 
   fetchIssues() {
-    var url = Config.OPEN311_SERVICE_REQUESTS_URL + '?start_date=2016-08-24T00:00:00Z&end_date=2016-09-24T00:00:00Z&extensions=true';
+    var timeSpan = Util.getTimeSpan();
+    console.log('timeSpan');
+    console.log(timeSpan);
+    var parameters = '?start_date=' + timeSpan.startDate + '&end_date=' + timeSpan.endDate
+                   + Config.OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX;
+    var url = Config.OPEN311_SERVICE_REQUESTS_URL + parameters;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
     makeRequest(url, 'GET', headers, null)

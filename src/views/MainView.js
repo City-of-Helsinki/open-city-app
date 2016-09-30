@@ -51,20 +51,20 @@ class MainView extends Component {
     super(props, context);
 
     this.state = {
-      issues: [],
-      region: {
+      issues: [],           // List of all issues which will be shown on the map
+      region: {             // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
         latitudeDelta: DEFAULT_LATITUDE_DELTA,
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
-      userPosition: {
+      userPosition: {       // The position of the user
         latitude: null,
         longitude: null,
       },
-      showPopup: false,
-      isLoading: false,
-      popupData: null,
+      showPopup: false,     // Show/hide the popup which displays the details of a selected issue
+      isLoading: false,     // Show/hide loading spinner
+      popupData: null,      // The data which will be passed to a child component and displayed in the popup
     }
 
     transMap.setLanguage('fi');
@@ -128,7 +128,7 @@ class MainView extends Component {
     });
   }
 
-  // Fetch a fixed amount of issues from Openahjo API
+  // Fetch a fixed amount of issues from Open311 API
   fetchIssues() {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
