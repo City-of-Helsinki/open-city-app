@@ -6,6 +6,7 @@ export default new LocalizedStrings({
     menuTitleFeedback: 'Feedback',
     menuTitleMapButton: 'Map',
     menuTitleListButton: 'List',
+    menuTitleUserFeedbackButton: 'Your feedback',
     menuTitleFeedbackButton: 'Give feedback',
   },
   fi: {
@@ -13,6 +14,7 @@ export default new LocalizedStrings({
     menuTitleFeedback: 'Palaute',
     menuTitleMapButton: 'Kartta',
     menuTitleListButton: 'Lista',
+    menuTitleUserFeedbackButton: 'Oma palautteesi',
     menuTitleFeedbackButton: 'Anna palautetta',
   }
 });

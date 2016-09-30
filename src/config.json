@@ -8,13 +8,17 @@
   "OPEN311_SERVICE_REQUESTS_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests.json",
   "OPEN311_SERVICE_REQUEST_BASE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests/",
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
+  "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
+
+  // API Settings
+  "OPEN311_DESCRIPTION_MIN_LENGTH": 10,
+  "OPEN311_DESCRIPTION_MAX_LENGTH": 5000,
 
   // API Keys
   "OPEN311_SEND_SERVICE_API_KEY": "f1301b1ded935eabc5faa6a2ce975f6",
 
-  // Store URLs for feedback
-  "ANDROID_STORE_URL": "http://google.com/android/",
-  "IOS_STORE_URL": "http://apple.com/",
+  // App feedback view
+  "APP_FEEDBACK_SERVICE_CODE": 2802,
 
   // Map
   "ISSUE_LIMIT": "?limit=200",

@@ -18,6 +18,7 @@ import Config               from './../config.json';
 import makeRequest          from './../util/requests';
 import Util                 from './../util/util';
 import MarkerPopup          from './IssueDetailMarkerView';
+import AppFeedbackModal     from './AppFeedbackView';
 
 // External modules
 import MapView from 'react-native-maps';
@@ -51,21 +52,33 @@ class MainView extends Component {
     super(props, context);
 
     this.state = {
-      issues: [],
-      region: {
+      issues: [],           // List of all issues which will be shown on the map
+      region: {             // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
         latitudeDelta: DEFAULT_LATITUDE_DELTA,
         longitudeDelta: DEFAULT_LONGITUDE_DELTA,
       },
-      userPosition: {
+      userPosition: {       // The position of the user
         latitude: null,
         longitude: null,
       },
-      showPopup: false,
-      isLoading: false,
-      popupData: null,
+      showAppFeedbackModal: false, // Show/hide modal for giving feedback
+      showPopup: false,     // Show/hide the popup which displays the details of a selected issue
+      isLoading: false,     // Show/hide loading spinner
+      popupData: null,      // The data which will be passed to a child component and displayed in the popup
     }
+
+    // Details with default data for marker popups
+    this.issueDetails = {
+      title: '',
+      description:'',
+      extendedData:[],
+      agency: '',
+      distance: 0,
+      date: '',
+      media_url: null
+    };
 
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
@@ -128,7 +141,7 @@ class MainView extends Component {
     });
   }
 
-  // Fetch a fixed amount of issues from Openahjo API
+  // Fetch a fixed amount of issues from Open311 API
   fetchIssues() {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
@@ -136,7 +149,7 @@ class MainView extends Component {
     makeRequest(url, 'GET', headers, null)
     .then(result => {
       this.parseIssues(result);
-    }, err => {
+    }, error => {
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
@@ -147,9 +160,10 @@ class MainView extends Component {
 
     makeRequest(url, 'GET', headers, null)
     .then(result => {
+      var data = Util.parseIssueDetails(result, this.state.userPosition);
       this.setState({
         isLoading: false,
-        popupData: result,
+        popupData: data,
       });
     }, error => {
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
@@ -188,6 +202,7 @@ class MainView extends Component {
       longitudeDelta: DEFAULT_LONGITUDE_DELTA,
     };
 
+    // If users position has been located it will be set as the region for feedback view
     if (this.state.userPosition.latitude !== null && this.state.userPosition.longitude !== null) {
       mapRegion.latitude = this.state.userPosition.latitude;
       mapRegion.longitude = this.state.userPosition.longitude;
@@ -195,7 +210,7 @@ class MainView extends Component {
 
     this.props.navigator.push({
       id: 'FeedbackView',
-      mapRegion: mapRegion,
+      mapRegion: mapRegion, // Sets default region for the map in feedback view
     });
   }
 
@@ -209,8 +224,21 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
-    this.setState({showPopup:true, popupData: null, isLoading: true});
+    this.setState({showPopup:true, popupData: this.issueDetails, isLoading: true});
     this.fetchIssueDetails(issue);
+  }
+
+  onAppFeedbackModalClick(drawer) {
+    drawer.close();
+    this.setState({
+      showAppFeedbackModal: true,
+    });
+  }
+
+  onAppFeedbackModalClose() {
+    this.setState({
+      showAppFeedbackModal: false,
+    });
   }
 
   // Hide popup when map is clicked
@@ -255,6 +283,7 @@ class MainView extends Component {
           <Menu
             mapView={()=>{this._drawer.close()}}
             feedbackView={()=>{this.navToIssueListView(this._drawer)}}
+            appFeedbackView={()=>{this.onAppFeedbackModalClick(this._drawer)}}
             onMenuClick={()=>this._drawer.close()}/>
         }>
         <View style={styles.container}>
@@ -285,7 +314,10 @@ class MainView extends Component {
             </MapView>
           </View>
           {issueDetailPopup}
-          <Spinner visible={this.state.isLoading} />
+          <AppFeedbackModal
+            visible={this.state.showAppFeedbackModal}
+            onClose={()=>this.onAppFeedbackModalClose(this)} />
+          <Spinner visible={this.state.isLoading} overlayColor={'rgba(0,0,0,0.0)'} color={'#000'} />
           <FloatingActionButton
             icon={plusIcon}
             onButtonClick={()=>this.navToFeedbackView(this)}/>

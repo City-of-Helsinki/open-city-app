@@ -4,7 +4,7 @@ module.exports = function(url, method, headers, body) {
     fetch(url, {
       method: method,
       headers: headers,
-      body: body
+      body: body,
     }).then((response) => {
       resolve(response.json());
     }).catch((error) => {

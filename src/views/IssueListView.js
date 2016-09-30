@@ -12,12 +12,13 @@ import {
 import Drawer  from 'react-native-drawer'
 import Spinner from 'react-native-loading-spinner-overlay';
 
-import Navbar       from './../components/Navbar';
-import Menu         from './../components/Menu';
-import IssueListRow from './../components/IssueListRow';
-import makeRequest  from './../util/requests';
-import Util         from './../util/util';
-import Config       from './../config';
+import Navbar           from './../components/Navbar';
+import Menu             from './../components/Menu';
+import IssueListRow     from './../components/IssueListRow';
+import makeRequest      from './../util/requests';
+import Util             from './../util/util';
+import Config           from './../config';
+import AppFeedbackModal from './AppFeedbackView';
 
 // Translations
 import transList  from '../translations/list';
@@ -31,8 +32,9 @@ class IssueListView extends Component {
     super(props, context);
 
     this.state = {
-      issueList: [],          // All objects to be shown (max 20)
-      isLoading: true,        // Show/hide spinner
+      issueList: [],               // All objects to be shown (max 20)
+      isLoading: true,             // Show/hide spinner
+      showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
 
     navigator = this.props.navigator;
@@ -46,7 +48,12 @@ class IssueListView extends Component {
   }
 
   fetchIssues() {
-    var url = Config.OPEN311_SERVICE_REQUESTS_URL + '?start_date=2016-08-24T00:00:00Z&end_date=2016-09-24T00:00:00Z&extensions=true';
+    var timeSpan = Util.getTimeSpan();
+    console.log('timeSpan');
+    console.log(timeSpan);
+    var parameters = '?start_date=' + timeSpan.startDate + '&end_date=' + timeSpan.endDate
+                   + Config.OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX;
+    var url = Config.OPEN311_SERVICE_REQUESTS_URL + parameters;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
     makeRequest(url, 'GET', headers, null)
@@ -68,6 +75,20 @@ class IssueListView extends Component {
     });
   }
 
+  onAppFeedbackModalClick(drawer) {
+    console.log('saffa')
+    drawer.close();
+    this.setState({
+      showAppFeedbackModal: true,
+    });
+  }
+
+  onAppFeedbackModalClose() {
+    this.setState({
+      showAppFeedbackModal: false,
+    });
+  }
+
   render() {
     return (
       <Drawer
@@ -82,6 +103,7 @@ class IssueListView extends Component {
           <Menu
             mapView={()=>{this.navToMapView(this)}}
             feedbackView={()=>{this._drawer.close()}}
+            appFeedbackView={()=>{this.onAppFeedbackModalClick(this._drawer)}}
             onMenuClick={()=>this._drawer.close()}/>
         }>
         <View style={styles.container}>
@@ -102,6 +124,9 @@ class IssueListView extends Component {
               ))}
             </View>
           </ScrollView>
+          <AppFeedbackModal
+            visible={this.state.showAppFeedbackModal}
+            onClose={()=>this.onAppFeedbackModalClose(this)} />
         </View>
       </Drawer>
     );

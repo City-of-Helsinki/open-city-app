@@ -19,38 +19,36 @@ import Navbar  from './../components/Navbar';
 import Menu    from './../components/Menu';
 import Util    from './../util/util';
 
-import closeIcon from './../img/close.png';
+import closeIcon    from './../img/close.png';
+import distanceIcon from '../img/location_marker.png';
 
-const SIDE_PADDING         = 32;
-const TOP_MARGIN           = Platform.OS === 'android' ? 60 : 75;
-const BOTTOM_MARGIN        = 320;
-const CLOSE_ICON_HEIGHT    = 42;
-const CLOSE_ICON_WIDTH     = 42;
-const CONTAINER_MAX_HEIGHT = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
-
+const SIDE_PADDING           = 32;
+const TOP_MARGIN             = Platform.OS === 'android' ? 60 : 75;
+const BOTTOM_MARGIN          = 320;
+const CLOSE_ICON_HEIGHT      = 32;
+const CLOSE_ICON_WIDTH       = 32;
+const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
+const MAX_DISTANCE_THRESHOLD = 500000;
 
 class IssueDetailMarkerView extends Component {
+
   constructor(props, context) {
     super(props, context);
-    this.issueDetails = {title: '', description:'', extendedData:[], agency: '', distance: 0, date: '', media_url: null};
-  }
-
-  componentWillReceiveProps() {
-    if (this.props.data !== null) {
-      this.issueDetails = Util.parseIssueDetails(this.props.data, this.props.userPosition);
-    }
-
-
-    console.log('popup will receive props')
-    console.log(this.props.data)
   }
 
   render() {
-    console.log('popup render')
-    var image = this.issueDetails.media_url !== null ?
+    var image = this.props.data.media_url !== null ?
                 <View style={styles.imageView}>
-                  <Image source={{uri: this.issueDetails.media_url}} />
+                  <Image source={{uri: this.props.data.media_url}} />
                 </View> : null;
+
+    var distance = this.props.data.distance > 0 && this.props.data.distance < MAX_DISTANCE_THRESHOLD ?
+            <View style={styles.distanceContainer}>
+              <Image
+                style={styles.distanceIcon}
+                source={distanceIcon} />
+              <Text>{this.props.data.distance}m</Text>
+            </View> : null;
 
     return (
       <View style={styles.container}>
@@ -58,18 +56,18 @@ class IssueDetailMarkerView extends Component {
           <View style={styles.issueContainer}>
             {image}
             <View style={styles.subjectView}>
-              <Text style={[styles.text, styles.title]}>{this.issueDetails.title}</Text>
+              <Text style={[styles.text, styles.title]}>{this.props.data.title}</Text>
             </View>
             <View style={styles.summaryView}>
-              <Text style={styles.text}>{this.issueDetails.description}</Text>
+              <Text style={styles.text}>{this.props.data.description}</Text>
             </View>
             <View style={[styles.detail, styles.rowContainer]}>
-              <Text style={styles.infoText}>{this.issueDetails.distance}m</Text>
-              <Text style={styles.infoText}>{this.issueDetails.date}</Text>
+              {distance}
+              <Text style={styles.infoText}>{this.props.data.date}</Text>
             </View>
           </View>
           <View style={styles.extendedDataContainer}>
-            {this.issueDetails.extendedData.map((item) => (
+            {this.props.data.extendedData.map((item) => (
               <View style={styles.extendedDataItemContainer}>
                 <View style={[styles.detail, styles.rowContainer]}>
                   <Text style={styles.detailText}>{item.agency}</Text>
@@ -98,7 +96,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - SIDE_PADDING,
     padding: 5,
     backgroundColor: '#fff',
-    borderColor: '#000',
+    borderColor: '#EEEEEE',
     borderWidth: 1,
     borderRadius: 5,
   },
@@ -113,6 +111,14 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+  },
+  distanceContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  distanceIcon: {
+    height: 12,
+    width: 12,
   },
   subjectView: {
     marginBottom: 20,
