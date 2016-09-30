@@ -25,6 +25,7 @@ import Navbar               from '../components/Navbar';
 import Menu                 from '../components/Menu';
 import Thumbnail            from '../components/Thumbnail';
 import showAlert            from '../components/Alert';
+import AppFeedbackModal     from './AppFeedbackView';
 import Config               from '../config';
 import makeRequest          from '../util/requests';
 
@@ -45,8 +46,6 @@ var navigator;
 const DEFAULT_CATEGORY       = 'Muu';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
-const DESCRIPTION_MIN_LENGTH = 10;
-const DESCRIPTION_MAX_LENGTH = 5000;
 
 class FeedbackView extends Component {
 
@@ -72,6 +71,7 @@ class FeedbackView extends Component {
       descriptionText: '',
       titleText: '',
       image: {source: null, name: null},
+      showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
 
 
@@ -251,6 +251,19 @@ class FeedbackView extends Component {
     this.setState({markerPosition: location, region:region})
   }
 
+  onAppFeedbackModalClick(drawer) {
+    drawer.close();
+    this.setState({
+      showAppFeedbackModal: true,
+    });
+  }
+
+  onAppFeedbackModalClose() {
+    this.setState({
+      showAppFeedbackModal: false,
+    });
+  }
+
   render() {
     var showThumbnail = this.state.image.source !== null;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
@@ -294,6 +307,7 @@ class FeedbackView extends Component {
           <Menu
             mapView={()=>{this.props.navigator.pop()}}
             feedbackView={()=>{this.navToIssueListView(this._drawer)}}
+            appFeedbackView={()=>{this.onAppFeedbackModalClick(this._drawer)}}
             onMenuClick={()=>this._drawer.close()}/>
         }>
         <View style={styles.container}>
@@ -330,7 +344,8 @@ class FeedbackView extends Component {
               name="content"
               multiline={true}
               onChangeText={(text)=> {
-                var sendEnabled = text.length >= DESCRIPTION_MIN_LENGTH && text.length <= DESCRIPTION_MAX_LENGTH;
+                var sendEnabled = text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+                                  text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH;
                 this.setState({
                   sendEnabled: sendEnabled,
                   descriptionText: text,
@@ -368,6 +383,9 @@ class FeedbackView extends Component {
           </View>
 
         </View>
+          <AppFeedbackModal
+            visible={this.state.showAppFeedbackModal}
+            onClose={()=>this.onAppFeedbackModalClose(this)} />
           <FloatingActionButton
             icon={sendIcon}
             onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />

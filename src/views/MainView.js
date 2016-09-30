@@ -63,7 +63,7 @@ class MainView extends Component {
         latitude: null,
         longitude: null,
       },
-      showAppFeedbackModal: false, //Show/hide modal for giving feedback
+      showAppFeedbackModal: false, // Show/hide modal for giving feedback
       showPopup: false,     // Show/hide the popup which displays the details of a selected issue
       isLoading: false,     // Show/hide loading spinner
       popupData: null,      // The data which will be passed to a child component and displayed in the popup
@@ -150,7 +150,6 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, error => {
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
@@ -230,7 +229,6 @@ class MainView extends Component {
   }
 
   onAppFeedbackModalClick(drawer) {
-    console.log('show')
     drawer.close();
     this.setState({
       showAppFeedbackModal: true,
@@ -316,14 +314,14 @@ class MainView extends Component {
             </MapView>
           </View>
           {issueDetailPopup}
+          <AppFeedbackModal
+            visible={this.state.showAppFeedbackModal}
+            onClose={()=>this.onAppFeedbackModalClose(this)} />
           <Spinner visible={this.state.isLoading} overlayColor={'rgba(0,0,0,0.0)'} color={'#000'} />
           <FloatingActionButton
             icon={plusIcon}
             onButtonClick={()=>this.navToFeedbackView(this)}/>
         </View>
-          <AppFeedbackModal
-            visible={this.state.showAppFeedbackModal}
-            onClose={()=>this.onAppFeedbackModalClose(this)} />
       </Drawer>
     );
   }
