@@ -124,21 +124,10 @@ class FeedbackView extends Component {
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
         this.state.markerPosition.longitude !== null) {
-      body.append('lat', this.markerPosition.latitude);
-      body.append('long', this.markerPosition.longitude);
+      body.append('lat', this.state.markerPosition.latitude);
+      body.append('long', this.state.markerPosition.longitude);
     }
-    /*
-    console.log(this.state.image.source)
-    console.log(this.state.image.name)
-    if (this.state.image.source !== null) {
-      var file = {
-        uri: this.state.image.source.uri,
-        type: 'image/jpeg',
-        name: this.state.image.name
-      };
-      body.append('media', file);
-    }
-    */
+
 
     if (this.state.imageData !== null) {
 
@@ -225,7 +214,7 @@ class FeedbackView extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
-        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 80).then((resizedImageUri) => {
+        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 50).then((resizedImageUri) => {
             NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
