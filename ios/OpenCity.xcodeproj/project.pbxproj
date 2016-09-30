@@ -21,6 +21,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		49C3A954E0CD49B4991C207D /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 91AEF5E1CF214A999732D578 /* libRCTImageResizer.a */; };
 		5B52C00B53DD4382A84C4226 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C3C39D6DD0543448E28D40C /* libRNImagePicker.a */; };
 		7AA518F4892D4959821EBEC5 /* libAirMaps.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3E74F2A462BE45F4BE567046 /* libAirMaps.a */; };
 		81A1434F1D2963E100CB8F06 /* TSLocationManager.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81A1434E1D2963E100CB8F06 /* TSLocationManager.framework */; };
@@ -31,6 +32,7 @@
 		D55BA2421D8BFE1F00CAF916 /* RNBackgroundFetch+AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D55BA2411D8BFE1F00CAF916 /* RNBackgroundFetch+AppDelegate.m */; };
 		D55BA2431D8BFE3600CAF916 /* libRNBackgroundFetch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D55BA2401D8BFDD500CAF916 /* libRNBackgroundFetch.a */; };
 		D55BA2451D8BFE7300CAF916 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55BA2441D8BFE7300CAF916 /* TSBackgroundFetch.framework */; };
+		D584AE291D9E95DA00546D68 /* libRNImageToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D584AE281D9E95CA00546D68 /* libRNImageToBase64.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,6 +162,20 @@
 			remoteGlobalIDString = 835318541D52293F005738CD;
 			remoteInfo = RNBackgroundFetch;
 		};
+		D57E99981D9E8D66008C5FF6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 10DE7670821D4D4D80B1BE08 /* RCTImageResizer.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D72D2E81C16249000E22EC1;
+			remoteInfo = RCTImageResizer;
+		};
+		D584AE271D9E95CA00546D68 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D584AE101D9E95C900546D68 /* RNImageToBase64.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = E7E77AF21D911ED5004B91C7;
+			remoteInfo = RNImageToBase64;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -172,6 +188,7 @@
 		00E356EE1AD99517003FC87E /* OpenCityTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OpenCityTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* OpenCityTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenCityTests.m; sourceTree = "<group>"; };
+		10DE7670821D4D4D80B1BE08 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* OpenCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -192,10 +209,12 @@
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		8C3C39D6DD0543448E28D40C /* libRNImagePicker.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNImagePicker.a; sourceTree = "<group>"; };
 		8E5D41990A6D41F8B8D401EF /* ReactNativeLocalization.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeLocalization.xcodeproj; path = "../node_modules/react-native-localization/ReactNativeLocalization.xcodeproj"; sourceTree = "<group>"; };
+		91AEF5E1CF214A999732D578 /* libRCTImageResizer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 0; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTImageResizer.a; sourceTree = "<group>"; };
 		D507E2F91D9BC27E0046A91D /* RNBackgroundGeolocation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundGeolocation.xcodeproj; path = "../node_modules/react-native-background-geolocation/ios/RNBackgroundGeolocation.xcodeproj"; sourceTree = "<group>"; };
 		D55BA23A1D8BFDD500CAF916 /* RNBackgroundFetch.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNBackgroundFetch.xcodeproj; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch.xcodeproj"; sourceTree = "<group>"; };
 		D55BA2411D8BFE1F00CAF916 /* RNBackgroundFetch+AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "RNBackgroundFetch+AppDelegate.m"; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/RNBackgroundFetch/RNBackgroundFetch+AppDelegate.m"; sourceTree = "<group>"; };
 		D55BA2441D8BFE7300CAF916 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = "<group>"; };
+		D584AE101D9E95C900546D68 /* RNImageToBase64.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImageToBase64.xcodeproj; path = "../node_modules/react-native-image-to-base64/ios/RNImageToBase64.xcodeproj"; sourceTree = "<group>"; };
 		F6B263DD376D474EA017ED3C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -211,6 +230,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D584AE291D9E95DA00546D68 /* libRNImageToBase64.a in Frameworks */,
 				D55BA2451D8BFE7300CAF916 /* TSBackgroundFetch.framework in Frameworks */,
 				D55BA2431D8BFE3600CAF916 /* libRNBackgroundFetch.a in Frameworks */,
 				81A143511D29640E00CB8F06 /* libsqlite3.tbd in Frameworks */,
@@ -229,6 +249,7 @@
 				5B52C00B53DD4382A84C4226 /* libRNImagePicker.a in Frameworks */,
 				8ADC290D977D47878D2C6EE8 /* libReactNativeLocalization.a in Frameworks */,
 				7AA518F4892D4959821EBEC5 /* libAirMaps.a in Frameworks */,
+				49C3A954E0CD49B4991C207D /* libRCTImageResizer.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,6 +387,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				D584AE101D9E95C900546D68 /* RNImageToBase64.xcodeproj */,
 				D507E2F91D9BC27E0046A91D /* RNBackgroundGeolocation.xcodeproj */,
 				D55BA23A1D8BFDD500CAF916 /* RNBackgroundFetch.xcodeproj */,
 				81A143521D296A2800CB8F06 /* RCTPushNotification.xcodeproj */,
@@ -382,6 +404,7 @@
 				F6B263DD376D474EA017ED3C /* RNImagePicker.xcodeproj */,
 				8E5D41990A6D41F8B8D401EF /* ReactNativeLocalization.xcodeproj */,
 				352B78DC5F8E4B4CB355A920 /* AirMaps.xcodeproj */,
+				10DE7670821D4D4D80B1BE08 /* RCTImageResizer.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -439,6 +462,22 @@
 			isa = PBXGroup;
 			children = (
 				D55BA2401D8BFDD500CAF916 /* libRNBackgroundFetch.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D57E99911D9E8D66008C5FF6 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D57E99991D9E8D66008C5FF6 /* libRCTImageResizer.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D584AE111D9E95C900546D68 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D584AE281D9E95CA00546D68 /* libRNImageToBase64.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -533,6 +572,10 @@
 					ProjectRef = 00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */;
 				},
 				{
+					ProductGroup = D57E99911D9E8D66008C5FF6 /* Products */;
+					ProjectRef = 10DE7670821D4D4D80B1BE08 /* RCTImageResizer.xcodeproj */;
+				},
+				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
 				},
@@ -579,6 +622,10 @@
 				{
 					ProductGroup = 81A143211D2417EC00CB8F06 /* Products */;
 					ProjectRef = F6B263DD376D474EA017ED3C /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = D584AE111D9E95C900546D68 /* Products */;
+					ProjectRef = D584AE101D9E95C900546D68 /* RNImageToBase64.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -709,6 +756,20 @@
 			remoteRef = D55BA23F1D8BFDD500CAF916 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		D57E99991D9E8D66008C5FF6 /* libRCTImageResizer.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTImageResizer.a;
+			remoteRef = D57E99981D9E8D66008C5FF6 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		D584AE281D9E95CA00546D68 /* libRNImageToBase64.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNImageToBase64.a;
+			remoteRef = D584AE271D9E95CA00546D68 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -805,6 +866,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
@@ -821,6 +883,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -848,6 +911,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -877,6 +941,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -929,6 +994,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -972,6 +1038,7 @@
 					"$(SRCROOT)/../node_modules/react-native-image-picker/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
+					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

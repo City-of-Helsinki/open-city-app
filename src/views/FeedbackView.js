@@ -9,7 +9,8 @@ import {
   BackAndroid,
   Dimensions,
   Platform,
-  Animated
+  Animated,
+  NativeModules
 } from 'react-native';
 
 // External modules
@@ -72,6 +73,7 @@ class FeedbackView extends Component {
       descriptionText: '',
       titleText: '',
       image: {source: null, name: null},
+      imageData: null,
     };
 
 
@@ -122,10 +124,10 @@ class FeedbackView extends Component {
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
         this.state.markerPosition.longitude !== null) {
-      body.append('lat', this.markerLatitude);
-      body.append('long', this.markerLongitude);
+      body.append('lat', this.markerPosition.latitude);
+      body.append('long', this.markerPosition.longitude);
     }
-
+    /*
     console.log(this.state.image.source)
     console.log(this.state.image.name)
     if (this.state.image.source !== null) {
@@ -135,6 +137,30 @@ class FeedbackView extends Component {
         name: this.state.image.name
       };
       body.append('media', file);
+    }
+    */
+
+    if (this.state.imageData !== null) {
+
+
+      const file = {
+        name:this.state.image.name,
+        width: this.state.imageData.width,
+        height: this.state.imageData.height,
+        isStored: true,
+
+      }
+      body.append('media_url', this.state.imageData)
+      if(Platform.OS === 'ios') {
+        body.append('media', {
+          ...file, name: this.state.imageData.fileName
+        });
+      } else {
+        body.append('media', {
+          ...file, type:'image/jpeg', name: this.state.imageData.fileName
+        });
+      }
+
     }
 
     if (this.state.titleText !== '') {
@@ -188,23 +214,32 @@ class FeedbackView extends Component {
     ImagePicker.showImagePicker(options, (response) => {
       var source   = null;
       var fileName = null;
-
+      alert(Object.keys(response))
       if (response.error) {
         showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentErrorOk);
       } else if (response.didCancel) {
         source = null;
       } else {
-        const source = {uri: 'data:image/jpeg;base64,' + response.data, isStatic: true};
-        /*
-        ImageResizer.createResizedImage(imageUri, newWidth, newHeight, compressFormat, quality, rotation, outputPath).then((resizedImageUri) => {
-          // resizeImageUri is the URI of the new image that can now be displayed, uploaded...
+        if (Platform.OS === 'ios') {
+          source = {uri: response.uri.replace('file://', ''), isStatic: true};
+        } else {
+          source = {uri: response.uri, isStatic: true};
+        }
+        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 80).then((resizedImageUri) => {
+            NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
+              var resizedSource = {uri: resizedImageUri, isStatic: true}
+              response.data = base64;
+              response.uri = resizedImageUri;
+              this.setState({
+                image: {source: resizedSource, name: response.fileName},
+                imageData: response
+              });
+            })
         }).catch((err) => {
           alert(err)
         });
-        */
-        this.setState({
-          image: {source: source, name: response.fileName}
-        });
+
+
       }
 
     });
