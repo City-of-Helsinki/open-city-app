@@ -12,10 +12,11 @@ import {
 import Config from './../config.json';
 
 // Images
-import feedbackIcon from '../img/feedback.png';
-import listIcon     from '../img/list.png';
-import mapIcon      from '../img/map.png';
-import menuIcon     from '../img/menu_white.png';
+import feedbackIcon     from '../img/feedback.png';
+import listIcon         from '../img/list.png';
+import mapIcon          from '../img/map.png';
+import menuIcon         from '../img/menu.png';
+import userFeedbackIcon from '../img/user_feedback.png';
 
 import transMenu from '../translations/menu';
 
@@ -62,6 +63,14 @@ class Menu extends Component {
               <Text style={styles.menuText}>{transMenu.menuTitleListButton}</Text>
             </View>
           </TouchableWithoutFeedback>
+          <TouchableWithoutFeedback onPress={this.props.userFeedbackView}>
+            <View style={styles.buttonView}>
+              <Image
+                source={userFeedbackIcon}
+                style={styles.icon}/>
+              <Text style={styles.menuText}>{transMenu.menuTitleUserFeedbackButton}</Text>
+            </View>
+          </TouchableWithoutFeedback>
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
           </View>
@@ -83,7 +92,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'rgba(0,0,0,0.75)',
+    backgroundColor: 'rgba(255,255,255,1)',
     paddingTop: 55,
   },
   menuIcon: {
@@ -109,7 +118,7 @@ const styles = StyleSheet.create({
   },
   menuText: {
     fontSize: 18,
-    color: '#fff',
+    color: '#000',
   },
   icon: {
     height: 30,

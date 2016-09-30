@@ -77,7 +77,7 @@ class IssueDetailMarkerView extends Component {
             ))}
           </View>
         </ScrollView>
-        <TouchableWithoutFeedback onPress={this.props.data.onExitClick}>
+        <TouchableWithoutFeedback onPress={this.props.onExitClick}>
           <Image
             source={closeIcon}
             style={styles.closeIcon}/>
