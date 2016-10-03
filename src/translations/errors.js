@@ -14,6 +14,9 @@ export default new LocalizedStrings({
     feedbackTextLengthErrorTitle: 'Oops...',
     feedbackTextLengthErrorMessage: 'The description must be between 10 and 5000 characters long.',
     feedbackErrorButton: 'OK',
+    feedbackImageErrorTitle: 'Error',
+    feedbackImageErrorMessage: 'Something went wrong with the image you were trying to attach.',
+    feedbackImageErrorButton: 'OK',
   },
   fi: {
     networkErrorTitle: 'Yhteysvirhe',
@@ -25,8 +28,8 @@ export default new LocalizedStrings({
     attachmentErrorTitle: 'Liite virhe',
     attachmentErrorMessage: 'Jotain meni vikaan kuvan liittämisen yhteydessä.',
     attachmentErrorButton: 'OK',
-    feedbackTextLengthErrorTitle: 'Virhe',
-    feedbackTextLengthErrorMessage: 'Kuvauksen tulee olla vähintään 10 merkkiä ja maksimissaan 5000 merkkiä.',
-    feedbackErrorButton: 'OK',
+    feedbackImageErrorTitle: 'Virhe',
+    feedbackImageErrorMessage: 'Jotain meni vikaan kuvan kanssa.',
+    feedbackImageErrorButton: 'OK',
   },
 });

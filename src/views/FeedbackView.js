@@ -95,7 +95,7 @@ class FeedbackView extends Component {
     var url     = Config.OPEN311_SERVICE_LIST_URL + Config.OPEN311_SERVICE_LIST_LOCALE + 'fi';
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
-    makeRequest(url, 'GET', headers, null)
+    makeRequest(url, 'GET', headers, null, null)
     .then(result => {
       this.parseServiceList(result);
     }, err => {
@@ -118,16 +118,16 @@ class FeedbackView extends Component {
     var url     = Config.OPEN311_SEND_SERVICE_URL;
     var method  = 'POST';
     var headers = {'Content-Type': 'multipart/form-data', 'Accept': 'application/json'};
-    var body    = new FormData();
+    var data    = new FormData();
 
-    body.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
-    body.append('service_code', this.state.selectedServiceCode);
-    body.append('description', this.state.descriptionText);
+    data.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
+    data.append('service_code', this.state.selectedServiceCode);
+    data.append('description', this.state.descriptionText);
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
         this.state.markerPosition.longitude !== null) {
-      body.append('lat', this.state.markerPosition.latitude);
-      body.append('long', this.state.markerPosition.longitude);
+      data.append('lat', this.state.markerPosition.latitude);
+      data.append('long', this.state.markerPosition.longitude);
     }
 
 
@@ -141,13 +141,13 @@ class FeedbackView extends Component {
         isStored: true,
 
       }
-      body.append('media_url', this.state.imageData)
+      data.append('media_url', this.state.imageData)
       if(Platform.OS === 'ios') {
-        body.append('media', {
+        data.append('media', {
           ...file, name: this.state.imageData.fileName
         });
       } else {
-        body.append('media', {
+        data.append('media', {
           ...file, type:'image/jpeg', name: this.state.imageData.fileName
         });
       }
@@ -155,18 +155,15 @@ class FeedbackView extends Component {
     }
 
     if (this.state.titleText !== '') {
-      body.append('title', this.state.titleText);
+      data.append('title', this.state.titleText);
     }
-    console.log(body)
 
-    makeRequest(url, method, headers, body)
+    makeRequest(url, method, headers, body, data)
     .then(result => {
       this.props.navigator.resetTo({
         id: 'MainView',
       });
     }, error => {
-      console.log('error')
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
@@ -207,7 +204,7 @@ class FeedbackView extends Component {
       var fileName = null;
 
       if (response.error) {
-        showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentErrorOk);
+        showAlert(transError.attachmentErrorTitle, transError.attachmentErrorMessage, transError.attachmentError);
       } else if (response.didCancel) {
         source = null;
       } else {
@@ -216,7 +213,7 @@ class FeedbackView extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
-        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 50).then((resizedImageUri) => {
+        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 20).then((resizedImageUri) => {
             NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
@@ -227,7 +224,7 @@ class FeedbackView extends Component {
               });
             })
         }).catch((err) => {
-          alert(err)
+          showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
 
 

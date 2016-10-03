@@ -17,6 +17,7 @@ import EmptyMarkerCallout   from './../components/EmptyMarkerCallout';
 import Config               from './../config.json';
 import makeRequest          from './../util/requests';
 import Util                 from './../util/util';
+import Models               from './../util/models';
 import MarkerPopup          from './IssueDetailMarkerView';
 import AppFeedbackModal     from './AppFeedbackView';
 
@@ -25,6 +26,7 @@ import MapView from 'react-native-maps';
 import Drawer  from 'react-native-drawer'
 import Geolib  from 'geolib';
 import Spinner from 'react-native-loading-spinner-overlay';
+import Realm   from 'realm';
 
 // Translations
 import transMap   from '../translations/map';
@@ -79,6 +81,8 @@ class MainView extends Component {
       date: '',
       media_url: null
     };
+
+    this.userSubmittedIssues = Models.fetchAllIssues();
 
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
@@ -146,7 +150,7 @@ class MainView extends Component {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
-    makeRequest(url, 'GET', headers, null)
+    makeRequest(url, 'GET', headers, null, null)
     .then(result => {
       this.parseIssues(result);
     }, error => {
@@ -158,7 +162,7 @@ class MainView extends Component {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + issue.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
-    makeRequest(url, 'GET', headers, null)
+    makeRequest(url, 'GET', headers, null, null)
     .then(result => {
       var data = Util.parseIssueDetails(result, this.state.userPosition);
       this.setState({
@@ -179,7 +183,7 @@ class MainView extends Component {
         issues.push({coordinates:
                       {latitude: data[i].lat,
                       longitude: data[i].long},
-                    markerImage: this.selectMarkerImage(data[i].status),
+                    markerImage: this.selectMarkerImage(data[i].status, data[i].service_request_id),
                     id: data[i].service_request_id});
       }
     }
@@ -190,8 +194,18 @@ class MainView extends Component {
   }
 
   // Parse status and return the appropriate marker
-  selectMarkerImage(status) {
-    return status === STATUS_OPEN ? yellowMarker : greenMarker;
+  selectMarkerImage(status, issueId) {
+    if (!this.userSubmittedIssue(issueId)) {
+      return status === STATUS_OPEN ? yellowMarker : greenMarker;
+    } else {
+      // TODO: user marker icon
+      return status === STATUS_OPEN ? yellowMarker : greenMarker;
+    }
+  }
+
+  // Return true if the id was found in the database, false otherwise
+  userSubmittedIssue(issueId) {
+    return this.userSubmittedIssues.indexOf(issueId) > -1;
   }
 
   navToFeedbackView() {

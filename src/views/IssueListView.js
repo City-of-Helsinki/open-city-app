@@ -49,21 +49,18 @@ class IssueListView extends Component {
 
   fetchIssues() {
     var timeSpan = Util.getTimeSpan();
-    console.log('timeSpan');
-    console.log(timeSpan);
     var parameters = '?start_date=' + timeSpan.startDate + '&end_date=' + timeSpan.endDate
                    + Config.OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX;
     var url = Config.OPEN311_SERVICE_REQUESTS_URL + parameters;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
-    makeRequest(url, 'GET', headers, null)
+    makeRequest(url, 'GET', headers, null, null)
     .then(result => {
       var issueList = Util.parseIssueList(result, this.props.route.userPosition);
       this.setState({
         isLoading: false,
         issueList: issueList,
       });
-      console.log('parse done')
     }, err => {
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
@@ -76,7 +73,6 @@ class IssueListView extends Component {
   }
 
   onAppFeedbackModalClick(drawer) {
-    console.log('saffa')
     drawer.close();
     this.setState({
       showAppFeedbackModal: true,
