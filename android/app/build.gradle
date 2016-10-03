@@ -129,6 +129,9 @@ android {
 }
 
 dependencies {
+    compile project(':realm')
+    compile project(':react-native-image-to-base64')
+    compile project(':react-native-image-resizer')
     compile 'com.airbnb.android:react-native-maps:0.6.0'
     compile project(':react-native-localization')
     compile project(':react-native-image-picker')

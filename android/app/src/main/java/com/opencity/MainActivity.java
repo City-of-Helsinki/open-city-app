@@ -1,6 +1,10 @@
 package com.opencity;
 
 import com.facebook.react.ReactActivity;
+import io.realm.react.RealmReactPackage;
+import com.airbnb.android.react.maps.MapsPackage;
+import com.github.xfumihiro.react_native_image_to_base64.ImageToBase64Package;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
 import com.imagepicker.ImagePickerPackage;
@@ -38,6 +42,9 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
+            new RealmReactPackage(),
+            new ImageToBase64Package(),
+            new ImageResizerPackage(),
             new MapsPackage(this),
             new ReactNativeLocalizationPackage(),
             new ImagePickerPackage()

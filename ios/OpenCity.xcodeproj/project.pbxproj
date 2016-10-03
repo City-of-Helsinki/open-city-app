@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -33,6 +32,9 @@
 		D55BA2431D8BFE3600CAF916 /* libRNBackgroundFetch.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D55BA2401D8BFDD500CAF916 /* libRNBackgroundFetch.a */; };
 		D55BA2451D8BFE7300CAF916 /* TSBackgroundFetch.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D55BA2441D8BFE7300CAF916 /* TSBackgroundFetch.framework */; };
 		D584AE291D9E95DA00546D68 /* libRNImageToBase64.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D584AE281D9E95CA00546D68 /* libRNImageToBase64.a */; };
+		D1ED20826C6149209D8D87F0 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E911B354DCED4EB9AD3FDBD5 /* libRealmReact.a */; };
+		E6E60BAA0D3143ABA5690C4C /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 65FD9B7CBFC24D189909EF3D /* libc++.tbd */; };
+		BC1101284C3642EA821D2E80 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E6E0D6643414A0AB6AA1FCA /* libz.tbd */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -216,6 +218,10 @@
 		D55BA2441D8BFE7300CAF916 /* TSBackgroundFetch.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TSBackgroundFetch.framework; path = "../node_modules/react-native-background-fetch/ios/RNBackgroundFetch/TSBackgroundFetch.framework"; sourceTree = "<group>"; };
 		D584AE101D9E95C900546D68 /* RNImageToBase64.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImageToBase64.xcodeproj; path = "../node_modules/react-native-image-to-base64/ios/RNImageToBase64.xcodeproj"; sourceTree = "<group>"; };
 		F6B263DD376D474EA017ED3C /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
+		F8FFC62D3497422F9D2E94F7 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; name = "RealmReact.xcodeproj"; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
+		E911B354DCED4EB9AD3FDBD5 /* libRealmReact.a */ = {isa = PBXFileReference; name = "libRealmReact.a"; path = "libRealmReact.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
+		65FD9B7CBFC24D189909EF3D /* libc++.tbd */ = {isa = PBXFileReference; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
+		8E6E0D6643414A0AB6AA1FCA /* libz.tbd */ = {isa = PBXFileReference; name = "libz.tbd"; path = "usr/lib/libz.tbd"; sourceTree = SDKROOT; fileEncoding = undefined; lastKnownFileType = sourcecode.text-based-dylib-definition; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -250,6 +256,9 @@
 				8ADC290D977D47878D2C6EE8 /* libReactNativeLocalization.a in Frameworks */,
 				7AA518F4892D4959821EBEC5 /* libAirMaps.a in Frameworks */,
 				49C3A954E0CD49B4991C207D /* libRCTImageResizer.a in Frameworks */,
+				D1ED20826C6149209D8D87F0 /* libRealmReact.a in Frameworks */,
+				E6E60BAA0D3143ABA5690C4C /* libc++.tbd in Frameworks */,
+				BC1101284C3642EA821D2E80 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -405,6 +414,7 @@
 				8E5D41990A6D41F8B8D401EF /* ReactNativeLocalization.xcodeproj */,
 				352B78DC5F8E4B4CB355A920 /* AirMaps.xcodeproj */,
 				10DE7670821D4D4D80B1BE08 /* RCTImageResizer.xcodeproj */,
+				F8FFC62D3497422F9D2E94F7 /* RealmReact.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -427,6 +437,7 @@
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* OpenCityTests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
+				23A366E4C1834F908155B65F /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -480,6 +491,16 @@
 				D584AE281D9E95CA00546D68 /* libRNImageToBase64.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		23A366E4C1834F908155B65F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				65FD9B7CBFC24D189909EF3D /* libc++.tbd */,
+				8E6E0D6643414A0AB6AA1FCA /* libz.tbd */,
+			);
+			name = Frameworks;
+			path = "";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -867,6 +888,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
@@ -883,6 +905,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -912,6 +935,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -942,6 +966,7 @@
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native/Libraries/PushNotificationIOS/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				INFOPLIST_FILE = OpenCity/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -995,6 +1020,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1039,6 +1065,7 @@
 					"$(SRCROOT)/../node_modules/react-native-localization",
 					"$(SRCROOT)/../node_modules/react-native-maps/ios/AirMaps/**",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/realm/src/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
