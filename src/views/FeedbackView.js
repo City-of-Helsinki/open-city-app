@@ -133,11 +133,8 @@ class FeedbackView extends Component {
     if (this.state.imageData !== null) {
 
       const file = {
-        name:this.state.image.name,
-        width: this.state.imageData.width,
-        height: this.state.imageData.height,
+        uri: this.state.imageData.uri,
         isStored: true,
-
       }
       data.append('media_url', this.state.imageData)
       if(Platform.OS === 'ios') {
@@ -146,7 +143,8 @@ class FeedbackView extends Component {
         });
       } else {
         data.append('media', {
-          ...file, type:'image/jpeg', name: this.state.imageData.fileName
+          ...file, name: this.state.imageData.fileName,
+          type: 'image/jpeg',
         });
       }
 
@@ -156,13 +154,20 @@ class FeedbackView extends Component {
       data.append('title', this.state.titleText);
     }
 
-    makeRequest(url, method, headers, null, data)
+    //makeRequest(url, method, headers, data)
+    makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
+      console.log(data)
+      console.log(result)
 
+      console.log(this.state.selectedServiceCode)
       this.props.navigator.resetTo({
         id: 'MainView',
       });
     }, error => {
+      console.log(data)
+
+      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
@@ -218,7 +223,11 @@ class FeedbackView extends Component {
             NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
+              response.path = resizedImageUri
+              response.height = 800;
+              response.width = 600;
               response.uri = resizedImageUri;
+              console.log(resizedImageUri)
               this.setState({
                 image: {source: resizedSource, name: response.fileName},
                 imageData: response
@@ -301,8 +310,8 @@ class FeedbackView extends Component {
                             followUserLocation={false}
                             toolbarEnabled={false}
                             onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
-                            onRegionChange={(e) => this.centerMarker(e)}
-                            //onRegionChangeComplete={(e) => this.state.region=e}
+                            //onRegionChange={(e) => this.centerMarker(e)}
+                            onRegionChangeComplete={(e) => this.centerMarker(e)}
                             >
                             <MapView.Marker.Animated draggable
                               ref='marker'
@@ -348,7 +357,8 @@ class FeedbackView extends Component {
               data={this.state.pickerData}
               defaultItem={this.state.selectedCategory}
               selectedItem={this.state.selectedCategory}
-              itemChange={(item)=>this.setState({ selectedCategory: item.label, selectedServiceCode: item.key })}/>
+              itemChange={(item)=>this.setState({ selectedCategory: (Platform.OS === 'ios') ? item.label : item,
+              selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item })}/>
           </View>
 
           <View
@@ -387,7 +397,7 @@ class FeedbackView extends Component {
                   imageSource={this.state.image.source}
                   imageHeight={100}
                   imageWidth={100}
-                  imageClickAction={()=>this.setState({ image: {source: null, fileName: null} })} />
+                  imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
               </View>
 
               <View style={styles.buttonView}>
