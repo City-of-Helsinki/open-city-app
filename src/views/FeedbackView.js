@@ -29,6 +29,7 @@ import showAlert            from '../components/Alert';
 import AppFeedbackModal     from './AppFeedbackView';
 import Config               from '../config';
 import makeRequest          from '../util/requests';
+import issueModels          from '../util/models';
 
 // Translations
 import transFeedback from '../translations/feedback';
@@ -161,6 +162,16 @@ class FeedbackView extends Component {
       console.log(result)
 
       console.log(this.state.selectedServiceCode)
+      console.log('-------------------')
+      console.log(issueModels.fetchAllIssues())
+      console.log('-------------------')
+      if ('service_request_id' in result[0]) {
+        issueModels.insert(result[0]['service_request_id'])
+      }
+      console.log('-------------------')
+      console.log(issueModels.fetchAllIssues())
+      console.log('-------------------')
+
       this.props.navigator.resetTo({
         id: 'MainView',
       });
@@ -224,10 +235,7 @@ class FeedbackView extends Component {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
               response.path = resizedImageUri
-              response.height = 800;
-              response.width = 600;
               response.uri = resizedImageUri;
-              console.log(resizedImageUri)
               this.setState({
                 image: {source: resizedSource, name: response.fileName},
                 imageData: response

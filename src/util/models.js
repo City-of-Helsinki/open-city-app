@@ -11,14 +11,14 @@ const IssueSchema = {
   }
 };
 
-var realm = new Realm({schema: [IssueSchema]});
+const realm = new Realm({schema: [IssueSchema]});
 
 module.exports = {
 
   // Insert given issue to the database
   insert: function(issueId) {
     realm.write(()=> {
-      realm.create(ISSUE, {issueId: issueId});
+      savedIssue = realm.create(ISSUE_MODEL, {issueId: issueId});
     });
   },
 

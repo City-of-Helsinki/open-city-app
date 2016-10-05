@@ -17,6 +17,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import makeRequest          from '../util/requests';
+import issueModels          from '../util/models';
 
 import showAlert from '../components/Alert';
 import Thumbnail            from '../components/Thumbnail';

@@ -83,7 +83,6 @@ class MainView extends Component {
     };
 
     this.userSubmittedIssues = Models.fetchAllIssues();
-
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
   }
@@ -195,17 +194,29 @@ class MainView extends Component {
 
   // Parse status and return the appropriate marker
   selectMarkerImage(status, issueId) {
+
     if (!this.userSubmittedIssue(issueId)) {
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     } else {
       // TODO: user marker icon
+      console.log("FOUND")
+      console.log(issueId)
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     }
   }
 
   // Return true if the id was found in the database, false otherwise
   userSubmittedIssue(issueId) {
-    return this.userSubmittedIssues.indexOf(issueId) > -1;
+
+    mArray = [];
+    this.userSubmittedIssues.forEach(function(value, index, ar) {
+      console.log(value.issueId + " - " + issueId)
+      if(value.issueId == issueId) {
+        return true;
+      }
+    })
+
+    return false;
   }
 
   navToFeedbackView() {
