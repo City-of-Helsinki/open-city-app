@@ -130,9 +130,7 @@ class FeedbackView extends Component {
       data.append('long', this.state.markerPosition.longitude);
     }
 
-
     if (this.state.imageData !== null) {
-
 
       const file = {
         name:this.state.image.name,
@@ -158,8 +156,9 @@ class FeedbackView extends Component {
       data.append('title', this.state.titleText);
     }
 
-    makeRequest(url, method, headers, body, data)
+    makeRequest(url, method, headers, null, data)
     .then(result => {
+
       this.props.navigator.resetTo({
         id: 'MainView',
       });
@@ -199,6 +198,7 @@ class FeedbackView extends Component {
       chooseFromLibraryButtonTitle: transFeedback.imagePickerLibraryButton,
       mediaType: 'photo'
     };
+
     ImagePicker.showImagePicker(options, (response) => {
       var source   = null;
       var fileName = null;
@@ -208,6 +208,7 @@ class FeedbackView extends Component {
       } else if (response.didCancel) {
         source = null;
       } else {
+
         if (Platform.OS === 'ios') {
           source = {uri: response.uri.replace('file://', ''), isStatic: true};
         } else {
