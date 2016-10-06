@@ -63,14 +63,6 @@ class Menu extends Component {
               <Text style={styles.menuText}>{transMenu.menuTitleListButton}</Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback onPress={this.props.userFeedbackView}>
-            <View style={styles.buttonView}>
-              <Image
-                source={userFeedbackIcon}
-                style={styles.icon}/>
-              <Text style={styles.menuText}>{transMenu.menuTitleUserFeedbackButton}</Text>
-            </View>
-          </TouchableWithoutFeedback>
           <View style={styles.titleView}>
             <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
           </View>

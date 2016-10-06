@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   Platform,
-  LayoutAnimation
+  LayoutAnimation,
+  BackAndroid
 } from 'react-native';
 
 // Components and helpers
@@ -46,6 +47,10 @@ const DEFAULT_LONGITUDE_DELTA = 0.01010;
 
 // Defines the string which the Open311 API returns. The string is used for status comparison
 const STATUS_OPEN             = 'open';
+
+// Global reference for drawer is needed in order to enable 'back to close' functionality
+var menuRef  = null;
+var menuOpen = false;
 
 class MainView extends Component {
 
@@ -295,13 +300,18 @@ class MainView extends Component {
 
     return (
       <Drawer
-        ref={(ref) => this._drawer = ref}
-        type="overlay"
+        ref={(ref) => {
+          this._drawer = ref;
+          menuRef = ref;
+        }}
+        type={'overlay'}
         openDrawerOffset={0.25}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
+        onOpen={()=> menuOpen = true}
+        onClose={()=> menuOpen = false}
         content={
           <Menu
             mapView={()=>{this._drawer.close()}}
@@ -363,6 +373,14 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+});
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  if (menuOpen && menuRef !== null) {
+    menuRef.close();
+    return true;
+  }
+  return false;
 });
 
 module.exports = MainView

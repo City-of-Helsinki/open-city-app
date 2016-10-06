@@ -45,11 +45,18 @@ module.exports = {
   },
 
   // Return the distance of 2 points in meters
+  // If either point, origin or destination, is not defined, 0 is returned.
   getDistance: function(origin, destination) {
-    const distance = Geolib.getDistance(
-      {latitude: origin.latitude, longitude: origin.longitude},
-      {latitude: destination.latitude, longitude: destination.longitude}
-    );
+    var distance = 0;
+
+    if (module.exports.isNumeric(origin.latitude) && module.exports.isNumeric(origin.longitude) &&
+        module.exports.isNumeric(destination.latitude) && module.exports.isNumeric(destination.latitude)) {
+
+      distance = Geolib.getDistance(
+        {latitude: origin.latitude, longitude: origin.longitude},
+        {latitude: destination.latitude, longitude: destination.longitude}
+      );
+    }
 
     return distance;
   },
@@ -77,5 +84,9 @@ module.exports = {
     var startDateISO = new Date(endDate.getFullYear(), endDate.getMonth() - timeSpanInMonths, endDate.getDate()).toISOString();
 
     return {startDate: startDateISO, endDate: endDateISO};
+  },
+
+  isNumeric: function(num) {
+    return !isNaN(parseFloat(num)) && isFinite(num);
   }
 }
