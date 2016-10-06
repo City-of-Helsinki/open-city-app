@@ -54,7 +54,6 @@ var menuOpen = false;
 
 class MainView extends Component {
 
-
   constructor(props, context) {
     super(props, context);
 
@@ -162,6 +161,7 @@ class MainView extends Component {
     });
   }
 
+  // Fetch details of a single issue
   fetchIssueDetails(issue) {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + issue.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};

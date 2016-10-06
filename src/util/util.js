@@ -86,6 +86,7 @@ module.exports = {
     return {startDate: startDateISO, endDate: endDateISO};
   },
 
+  // Return true if input was a number
   isNumeric: function(num) {
     return !isNaN(parseFloat(num)) && isFinite(num);
   }
