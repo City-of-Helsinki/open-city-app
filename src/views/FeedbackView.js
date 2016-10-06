@@ -15,7 +15,6 @@ import {
   DeviceEventEmitter,
   UIManager,
   LayoutAnimation,
-  AsyncStorage
 } from 'react-native';
 
 // External modules
@@ -23,7 +22,6 @@ import MapView     from 'react-native-maps';
 import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
-import KeyListener from 'react-native-keyboard-event';
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -103,21 +101,7 @@ class FeedbackView extends Component {
     Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
     Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
 
-
     var keys = ['descriptionText', 'titleText', 'serviceCode', 'imageData', 'imageSource', 'locationEnabled']
-
-
-    AsyncStorage.multiGet(keys, (err, stores) => {
-        console.log(stores)
-        /*
-        this.setState({
-          descriptionText: store[]
-        })
-        */
-     });
-
-
-   console.log('!!!!!!!!!!!!!!!!')
   }
 
   componentWillUnmount () {
@@ -133,7 +117,6 @@ class FeedbackView extends Component {
       keyboardVisible: true,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Show keyboard')
   }
 
   keyboardWillHide (e) {
@@ -142,7 +125,6 @@ class FeedbackView extends Component {
       keyboardVisible: false,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Hide keyboard')
   }
 
 
@@ -222,9 +204,6 @@ class FeedbackView extends Component {
         id: 'MainView',
       });
     }, error => {
-      console.log(data)
-
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }

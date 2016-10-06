@@ -5,7 +5,7 @@ import {
   Image,
   Text,
   Platform,
-  Linking
+  LayoutAnimation
 } from 'react-native';
 
 // Components and helpers
@@ -199,8 +199,6 @@ class MainView extends Component {
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     } else {
       // TODO: user marker icon
-      console.log("FOUND")
-      console.log(issueId)
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     }
   }
@@ -210,7 +208,6 @@ class MainView extends Component {
 
     mArray = [];
     this.userSubmittedIssues.forEach(function(value, index, ar) {
-      console.log(value.issueId + " - " + issueId)
       if(value.issueId == issueId) {
         return true;
       }
@@ -249,6 +246,7 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear)
     this.setState({showPopup:true, popupData: this.issueDetails, isLoading: true});
     this.fetchIssueDetails(issue);
   }

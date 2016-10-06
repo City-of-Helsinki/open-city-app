@@ -77,7 +77,6 @@ class AppFeedbackView extends Component {
       keyboardVisible: true,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Show keyboard')
   }
 
   keyboardWillHide (e) {
@@ -85,7 +84,6 @@ class AppFeedbackView extends Component {
       keyboardVisible: false,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Hide keyboard')
   }
   sendFeedback() {
     var url     = Config.OPEN311_SEND_SERVICE_URL;
@@ -122,14 +120,10 @@ class AppFeedbackView extends Component {
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
-      console.log(data)
-      console.log(result)
       this.props.onClose()
 
     }, error => {
-      console.log(data)
       this.props.onClose()
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
