@@ -11,6 +11,9 @@ import {
   ScrollView,
   Modal,
   NativeModules,
+  Keyboard,
+  UIManager,
+  LayoutAnimation,
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -47,12 +50,43 @@ class AppFeedbackView extends Component {
       feedbackText: '',
       imageData: null,
       image: {source: null, name: null},
+      showThumbnail: false,
+      keyboardVisible: false,
     };
 
     transFeedback.setLanguage('fi');
     transError.setLanguage('fi');
+
+    // Needed for LayoutAnimation to work on android.
+    if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
+  componentWillMount() {
+    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+  }
+
+  componentWillUnmount () {
+    Keyboard.removeAllListeners('keyboardDidShow');
+    Keyboard.removeAllListeners('keyboardDidHide');
+  }
+
+  keyboardWillShow (e) {
+    let newSize = e.endCoordinates.height - 50
+    this.setState({
+      keyboardVisible: true,
+    })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    console.log('Show keyboard')
+  }
+
+  keyboardWillHide (e) {
+    this.setState({
+      keyboardVisible: false,
+    })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    console.log('Hide keyboard')
+  }
   sendFeedback() {
     var url     = Config.OPEN311_SEND_SERVICE_URL;
     var method  = 'POST';
@@ -156,6 +190,8 @@ class AppFeedbackView extends Component {
 
   render() {
     var showThumbnail = this.state.image.source !== null;
+    var keyboardVisible = this.state.keyboardVisible;
+    this.showThumbnail = showThumbnail;
 
     return (
       <View>
@@ -164,9 +200,22 @@ class AppFeedbackView extends Component {
           transparent={true}
           visible={this.props.visible}
           onRequestClose={this.props.onClose}>
-          <View style={styles.modalContainer}>
+          <View style={[styles.modalContainer,
+            (keyboardVisible) ?
+            {alignItems: 'flex-start', backgroundColor: 'black'}  :
+            {alignItems: 'center'}]}>
             <View style={styles.contentContainer}>
-              <Text style={styles.text}>{transFeedback.appFeedbackViewTitle}</Text>
+              <View style={styles.topContainer}>
+                <Text style={styles.text}>{transFeedback.appFeedbackViewTitle}</Text>
+                <TouchableWithoutFeedback onPress={this.props.onClose}>
+                  <Image
+                    source={closeIcon}
+                    style={styles.closeIcon}/>
+                </TouchableWithoutFeedback>
+              </View>
+              <View
+                style={styles.textContainer}>
+
               <TextInput
                 style={styles.contentInput}
                 placeholder={transFeedback.feedbackInputPlaceholder}
@@ -176,11 +225,18 @@ class AppFeedbackView extends Component {
                     feedbackText: text,
                   });
                 }} />
+                </View>
 
                 <View style={[styles.bottomContainer,
                   showThumbnail
-                    ? { height: 150 }
-                    : { height: 50 },]}>
+                    ? { height: 130 }
+                    : { height: 60 },]}>
+
+                  <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
+                    <Image
+                      source={attachmentIcon}
+                      style={styles.icon} />
+                  </TouchableWithoutFeedback>
 
                   <View style={styles.thumbnailWrapper}>
                     <Thumbnail
@@ -191,13 +247,8 @@ class AppFeedbackView extends Component {
                       imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
                   </View>
 
-                  <View style={styles.buttonView}>
-                    <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
-                      <Image
-                        source={attachmentIcon}
-                        style={styles.icon} />
-                    </TouchableWithoutFeedback>
-                  </View>
+
+
                   <TouchableWithoutFeedback onPress={this.onSendButtonClick.bind(this)}>
                     <View style={styles.sendButtonView}>
                       <Text style={styles.sendButtonText}>{transFeedback.sendButtonText}</Text>
@@ -206,11 +257,7 @@ class AppFeedbackView extends Component {
                 </View>
 
             </View>
-            <TouchableWithoutFeedback onPress={this.props.onClose}>
-              <Image
-                source={closeIcon}
-                style={styles.closeIcon}/>
-            </TouchableWithoutFeedback>
+
           </View>
         </Modal>
       </View>
@@ -222,15 +269,21 @@ const styles = StyleSheet.create({
   modalContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
+
     justifyContent: 'center',
   },
   closeIcon: {
-    position: 'absolute',
-    top: MODAL_HEIGHT / 2 + 10,
-    right: SIDE_PADDING / 2 + 5,
     height: CLOSE_ICON_HEIGHT,
     width: CLOSE_ICON_WIDTH,
+    position:'absolute',
+    right:0,
+    top:-5,
+  },
+  topContainer:{
+    flexDirection:'row',
+    height: CLOSE_ICON_HEIGHT
   },
   contentContainer: {
     shadowOpacity: 0.8,
@@ -242,6 +295,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - SIDE_PADDING,
     backgroundColor: '#EEEEEE',
     padding: 20,
+  },
+  textContainer: {
+    shadowOpacity: 0.8,
+    shadowOffset: {
+      height: 0,
+      width: 0
+    },
+    shadowColor: 'black',
+    shadowRadius: 1,
+    flex: 1,
+    backgroundColor: '#EEEEEE',
   },
   sendButtonView: {
     height: 40,
@@ -264,30 +328,23 @@ const styles = StyleSheet.create({
   },
   bottomContainer:{
     paddingLeft: 5,
-    flexDirection: 'column',
-    position: 'absolute',
-    bottom:0,
-    left:0,
-    right:0,
-  },
-
-  buttonView: {
     flexDirection: 'row',
-    alignItems: 'flex-end',
-    position: 'absolute',
-    bottom:0,
-    left:0
+  },
+  contentInput: {
+    flex: 1,
+    textAlignVertical: 'top',
   },
   icon: {
     height: BUTTON_ICON_HEIGHT,
     width: BUTTON_ICON_WIDTH,
-    marginRight: 5,
-    marginBottom: 10,
+    marginRight: 25,
+    position: 'absolute',
+    bottom:10,
   },
   thumbnailWrapper: {
-    position: 'absolute',
-    left: 10,
-    bottom: 65,
+    position:'absolute',
+    bottom: 10,
+    left: 50,
   }
 });
 

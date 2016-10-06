@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, } from 'react';
 import {
   View,
   StyleSheet,
@@ -10,7 +10,12 @@ import {
   Dimensions,
   Platform,
   Animated,
-  NativeModules
+  NativeModules,
+  Keyboard,
+  DeviceEventEmitter,
+  UIManager,
+  LayoutAnimation,
+  AsyncStorage
 } from 'react-native';
 
 // External modules
@@ -18,6 +23,7 @@ import MapView     from 'react-native-maps';
 import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
+import KeyListener from 'react-native-keyboard-event';
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -28,6 +34,7 @@ import Thumbnail            from '../components/Thumbnail';
 import showAlert            from '../components/Alert';
 import AppFeedbackModal     from './AppFeedbackView';
 import Config               from '../config';
+
 import makeRequest          from '../util/requests';
 import issueModels          from '../util/models';
 
@@ -56,10 +63,10 @@ class FeedbackView extends Component {
   constructor(props, context) {
     super(props, context);
 
-
     navigator = this.props.navigator;
     this.state = {
-
+      visibleHeight: 0,
+      keyboardVisible: false,
       // Initialize the marker with the center coordinates from region of the map being shown
       markerPosition:{ latitude: this.props.route.mapRegion.latitude,
         longitude: this.props.route.mapRegion.longitude},
@@ -79,18 +86,65 @@ class FeedbackView extends Component {
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
 
-
     //this.refs.map.animateToRegion(region)
     transFeedback.setLanguage('fi');
     transError.setLanguage('fi');
+
+    if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
+
 
   componentWillMount() {
     this.fetchServices();
     this.setState({
       pickerData: [{label: '', key: ''}],
     });
+
+    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+
+
+    var keys = ['descriptionText', 'titleText', 'serviceCode', 'imageData', 'imageSource', 'locationEnabled']
+
+
+    AsyncStorage.multiGet(keys, (err, stores) => {
+        console.log(stores)
+        /*
+        this.setState({
+          descriptionText: store[]
+        })
+        */
+     });
+
+
+   console.log('!!!!!!!!!!!!!!!!')
   }
+
+  componentWillUnmount () {
+    Keyboard.removeAllListeners('keyboardDidShow');
+    Keyboard.removeAllListeners('keyboardDidHide');
+
+  }
+
+  keyboardWillShow (e) {
+    let newSize = e.endCoordinates.height - 50
+    this.setState({
+      visibleHeight: newSize,
+      keyboardVisible: true,
+    })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    console.log('Show keyboard')
+  }
+
+  keyboardWillHide (e) {
+    this.setState({
+      visibleHeight: 10,
+      keyboardVisible: false,
+    })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+    console.log('Hide keyboard')
+  }
+
 
   fetchServices() {
     var url     = Config.OPEN311_SERVICE_LIST_URL + Config.OPEN311_SERVICE_LIST_LOCALE + 'fi';
@@ -114,6 +168,7 @@ class FeedbackView extends Component {
       pickerData: services,
     });
   }
+
 
   sendFeedback() {
     var url     = Config.OPEN311_SEND_SERVICE_URL;
@@ -158,19 +213,10 @@ class FeedbackView extends Component {
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
-      console.log(data)
-      console.log(result)
 
-      console.log(this.state.selectedServiceCode)
-      console.log('-------------------')
-      console.log(issueModels.fetchAllIssues())
-      console.log('-------------------')
       if ('service_request_id' in result[0]) {
         issueModels.insert(result[0]['service_request_id'])
       }
-      console.log('-------------------')
-      console.log(issueModels.fetchAllIssues())
-      console.log('-------------------')
 
       this.props.navigator.resetTo({
         id: 'MainView',
@@ -240,6 +286,7 @@ class FeedbackView extends Component {
                 image: {source: resizedSource, name: response.fileName},
                 imageData: response
               });
+              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
             })
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
@@ -305,11 +352,18 @@ class FeedbackView extends Component {
     });
   }
 
+  removeThumbnail() {
+    this.setState({ image: {source: null, fileName: null}, imageData: null })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
+  }
+
   render() {
     var showThumbnail = this.state.image.source !== null;
+    var keyboardVisible = this.state.keyboardVisible;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
-                        <View style={styles.mapContainer}>
+                        <View style={[styles.mapContainer, keyboardVisible ? {flex: 0.001,} : {flex: 0.3}]}>
                           <MapView
                             ref='map'
                             style={styles.map}
@@ -336,6 +390,7 @@ class FeedbackView extends Component {
     var sendIcon = this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon;
 
     return (
+
       <Drawer
         ref={(ref) => this._drawer = ref}
         type="overlay"
@@ -356,7 +411,7 @@ class FeedbackView extends Component {
             onMenuClick={()=>this._drawer.open()}
             header={transFeedback.feedbackViewTitle}/>
         {mapView}
-        <View style={styles.feedbackContainer}>
+        <View style={[styles.feedbackContainer]}>
           <View style={styles.categoryContainer}>
             <View style={styles.categoryTextView}>
               <Text style={styles.categoryText}>{transFeedback.category}</Text>
@@ -396,16 +451,17 @@ class FeedbackView extends Component {
             />
             <View style={[styles.bottomContainer,
               showThumbnail
-                ? { height: 150 }
-                : { height: 50 },]}>
+                ? { height: 130 }
+                : { height: 70 },
+              ]}>
 
-              <View style={styles.thumbnailWrapper}>
+              <View style={[styles.thumbnailWrapper]}>
                 <Thumbnail
                   show={showThumbnail}
                   imageSource={this.state.image.source}
                   imageHeight={100}
                   imageWidth={100}
-                  imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
+                  imageClickAction={()=>this.removeThumbnail()} />
               </View>
 
               <View style={styles.buttonView}>
@@ -421,20 +477,29 @@ class FeedbackView extends Component {
                 </TouchableWithoutFeedback>
 
               </View>
+
             </View>
+            <FloatingActionButton
+              style={styles.FAB}
+              icon={sendIcon}
+              onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
+
           </View>
 
         </View>
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
-          <FloatingActionButton
-            icon={sendIcon}
-            onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
-        </View>
+          </View>
+
+          <View
+          style={{height:this.state.visibleHeight}}></View>
+
       </Drawer>
     );
   }
+
+
 }
 
 const styles = StyleSheet.create({
@@ -443,7 +508,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   mapContainer: {
-    flex: 0.3,
     flexDirection: 'column',
     alignItems: 'stretch',
   },
@@ -457,6 +521,7 @@ const styles = StyleSheet.create({
   categoryContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    flex: 0.2,
   },
   categoryText: {
     marginLeft: 15,
@@ -487,7 +552,7 @@ const styles = StyleSheet.create({
 
   },
   contentContainer: {
-    flex: 0.53,
+    flex: 1,
     backgroundColor: 'white',
     flexDirection: 'column',
     shadowColor: 'black',
@@ -504,6 +569,7 @@ const styles = StyleSheet.create({
   },
   contentInput: {
     flex: 1,
+    textAlignVertical: 'top',
   },
   buttonView: {
     flexDirection: 'row',
@@ -516,6 +582,7 @@ const styles = StyleSheet.create({
     height: BUTTON_ICON_HEIGHT,
     width: BUTTON_ICON_WIDTH,
     marginRight: 5,
+    marginBottom: 30,
   },
   focusIcon: {
     height:BUTTON_ICON_HEIGHT,
@@ -526,9 +593,10 @@ const styles = StyleSheet.create({
   },
   thumbnailWrapper: {
     position: 'absolute',
-    left: 0,
-    bottom: 45,
-  }
+    left: 100,
+    bottom: 15,
+  },
+
 });
 
 BackAndroid.addEventListener('hardwareBackPress', function() {
