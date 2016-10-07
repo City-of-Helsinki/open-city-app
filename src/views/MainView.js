@@ -157,7 +157,13 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, error => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      if (error.message === Config.TIMEOUT_LABEL) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 
@@ -174,7 +180,13 @@ class MainView extends Component {
         popupData: data,
       });
     }, error => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      if (error.message === Config.TIMEOUT_LABEL) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 

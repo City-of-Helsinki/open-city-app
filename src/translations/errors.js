@@ -17,6 +17,9 @@ export default new LocalizedStrings({
     feedbackImageErrorTitle: 'Error',
     feedbackImageErrorMessage: 'Something went wrong with the image you were trying to attach.',
     feedbackImageErrorButton: 'OK',
+    serviceNotAvailableErrorTitle: 'Error',
+    serviceNotAvailableErrorMessage: 'Service is not available at the moment.',
+    serviceNotAvailableErrorButton: 'OK',
   },
   fi: {
     networkErrorTitle: 'Yhteysvirhe',
@@ -31,5 +34,8 @@ export default new LocalizedStrings({
     feedbackImageErrorTitle: 'Virhe',
     feedbackImageErrorMessage: 'Jotain meni vikaan kuvan kanssa.',
     feedbackImageErrorButton: 'OK',
+    serviceNotAvailableErrorTitle: 'Virhe',
+    serviceNotAvailableErrorMessage: 'Palvelu ei ole käytettävissä tällä hetkellä.',
+    serviceNotAvailableErrorButton: 'OK',
   },
 });

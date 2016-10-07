@@ -30,4 +30,8 @@
   "GPS_HIGH_ACCURACY": true,
   "GPS_TIMEOUT": 10000,
   "GPS_MAXIMUM_AGE": 5000,
+
+  // Requests
+  "TIMEOUT_THRESHOLD": 1000,
+  "TIMEOUT_LABEL": "timeout",
 }

@@ -15,6 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Navbar           from './../components/Navbar';
 import Menu             from './../components/Menu';
 import IssueListRow     from './../components/IssueListRow';
+import showAlert        from './../components/Alert';
 import makeRequest      from './../util/requests';
 import Util             from './../util/util';
 import Config           from './../config';
@@ -64,8 +65,15 @@ class IssueListView extends Component {
         isLoading: false,
         issueList: issueList,
       });
-    }, err => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+    }, error => {
+      this.setState({ isLoading: false });
+      if (error.message === Config.TIMEOUT_LABEL) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 
