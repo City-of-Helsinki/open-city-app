@@ -24,12 +24,18 @@ module.exports = {
 
       for (var i=tasks.length-1; i >= 0; i--) {
         extendedData.push({
+          timestamp: tasks[i].task_created,
           date: module.exports.parseDate(tasks[i].task_created),
           agency: tasks[i].owner_name,
           state: tasks[i].task_state,
         });
       }
     }
+
+    // Descending order
+    extendedData.sort(function (x, y) {
+        return new Date(x.timestamp).getTime() > new Date(y.timestamp).getTime() ? -1 : 1;
+    });
 
     var media = typeof data.media_url !== 'undefined' ? data.media_url : null;
     var title = data.extended_attributes.title.length > 0 ? data.extended_attributes.title : data.address;

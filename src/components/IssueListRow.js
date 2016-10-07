@@ -111,7 +111,7 @@ const styles = StyleSheet.create({
     color: '#757575',
   },
   paddingContainer: {
-    paddingLeft: 40,
+    paddingLeft: 30,
   },
   titleText: {
     color: '#212121',
@@ -135,6 +135,7 @@ const styles = StyleSheet.create({
   },
   statusButtonText: {
     fontSize: 16,
+    textAlign: 'center',
     fontWeight: 'bold',
     color: '#546E7A',
   },
@@ -142,7 +143,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     color: '#757575',
-    marginBottom: 5,
+    marginBottom: 10,
   },
   stateText: {
     fontWeight: 'bold',

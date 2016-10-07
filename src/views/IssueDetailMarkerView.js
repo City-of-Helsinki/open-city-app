@@ -9,6 +9,7 @@ import {
   Platform,
   TouchableWithoutFeedback,
   ScrollView,
+  LayoutAnimation
 } from 'react-native';
 
 import Spinner from 'react-native-loading-spinner-overlay';
@@ -22,9 +23,11 @@ import Util    from './../util/util';
 import closeIcon    from './../img/close.png';
 import distanceIcon from '../img/location_marker.png';
 
+import transList    from '../translations/list';
+
 const SIDE_PADDING           = 32;
 const TOP_MARGIN             = Platform.OS === 'android' ? 60 : 75;
-const BOTTOM_MARGIN          = 320;
+const BOTTOM_MARGIN          = 280;
 const CLOSE_ICON_HEIGHT      = 32;
 const CLOSE_ICON_WIDTH       = 32;
 const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
@@ -36,6 +39,19 @@ class IssueDetailMarkerView extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      showStatusNotes: false,
+    };
+
+    transList.setLanguage('fi');
+  }
+
+  showStatusNotesClick() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    this.setState({
+      showStatusNotes: !this.state.showStatusNotes,
+    });
   }
 
   render() {
@@ -43,7 +59,6 @@ class IssueDetailMarkerView extends Component {
                 <View style={styles.imageView}>
                   <Image source={{uri: this.props.data.media_url}} />
                 </View> : null;
-
     var distance = this.props.data.distance > 0 && this.props.data.distance < MAX_DISTANCE_THRESHOLD ?
             <View style={styles.distanceContainer}>
               <Image
@@ -51,6 +66,14 @@ class IssueDetailMarkerView extends Component {
                 source={distanceIcon} />
               <Text>{this.props.data.distance}m</Text>
             </View> : null;
+
+    // Hide status button until data has been loaded
+    var statusButtonText = typeof this.props.data.status_notes === 'undefined' ?  ''
+                          : !this.state.showStatusNotes ? transList.showStatusNotes : transList.hideStatusNotes;
+    var statusNotes      = this.state.showStatusNotes ?
+                           <View>
+                             <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.data.status_notes}</Text>
+                           </View> : null;
 
     return (
       <View style={styles.container}>
@@ -67,16 +90,29 @@ class IssueDetailMarkerView extends Component {
               {distance}
               <Text style={[styles.infoText, styles.textFont]}>{this.props.data.date}</Text>
             </View>
-          </View>
-          <View style={styles.extendedDataContainer}>
-            {this.props.data.extendedData.map((item) => (
-              <View style={styles.extendedDataItemContainer}>
-                <View style={[styles.detail, styles.rowContainer]}>
-                  <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
-                  <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
-                </View>
+            <View style={styles.paddingContainer}>
+              <View style={styles.statusNotesContainer}>
+                {statusNotes}
+                <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
+                  <View style={styles.statusButtonView}>
+                    <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
+                  </View>
+                </TouchableWithoutFeedback>
               </View>
-            ))}
+              <View style={styles.extendedDataContainer}>
+                {this.props.data.extendedData.map((item) => (
+                  <View style={styles.extendedDataItemContainer}>
+                    <View>
+                      <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+                    </View>
+                    <View style={[styles.detail, styles.extendedDataRowContainer]}>
+                      <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
+                      <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                    </View>
+                  </View>
+                ))}
+              </View>
+            </View>
           </View>
         </ScrollView>
         <TouchableWithoutFeedback onPress={this.props.onExitClick}>
@@ -99,7 +135,7 @@ const styles = StyleSheet.create({
     padding: 5,
     backgroundColor: '#fff',
     borderColor: '#EEEEEE',
-    borderWidth: 1,
+    borderWidth: 3,
     borderRadius: 5,
   },
   issueContainer: {
@@ -108,6 +144,22 @@ const styles = StyleSheet.create({
   imageView: {
     height: 300,
     width: Dimensions.get('window').width - SIDE_PADDING,
+  },
+  paddingContainer: {
+    paddingLeft: 20,
+  },
+  statusNotesText: {
+    fontStyle: 'italic',
+  },
+  statusButtonView: {
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  statusButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#546E7A',
+    textAlign: 'center',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -145,10 +197,20 @@ const styles = StyleSheet.create({
   infoText: {
     color: '#757575',
   },
+  stateText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#212121',
+  },
   extendedDataContainer: {
     flexDirection: 'column',
     alignItems: 'stretch',
-    marginTop: 20,
+  },
+  extendedDataRowContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    color: '#757575',
+    marginBottom: 10,
   },
   detailText: {
     fontSize: 12,
