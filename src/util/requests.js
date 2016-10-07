@@ -4,7 +4,7 @@ module.exports = function(url, method, headers, body, data) {
 
   return new Promise(function(resolve, reject) {
     const timeoutId = setTimeout(() => {
-      reject(new Error(Config.TIMEOUT_LABEL))
+      reject(new Error(Config.TIMEOUT_MESSAGE))
     }, Config.TIMEOUT_THRESHOLD);
     fetch(url, {
       method: method,

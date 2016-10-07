@@ -67,7 +67,7 @@ class IssueListView extends Component {
       });
     }, error => {
       this.setState({ isLoading: false });
-      if (error.message === Config.TIMEOUT_LABEL) {
+      if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
       } else {

@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     },
   },
   titleText: {
-    color: '#000',
+    color: '#212121',
     fontSize: 16,
   },
   infoContainer: {
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     alignItems: 'center',
+    color: '#757575',
   },
   distanceContainer: {
     flexDirection: 'row',
@@ -90,6 +91,7 @@ const styles = StyleSheet.create({
   extendedDataRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    color: '#757575',
   }
 
 });

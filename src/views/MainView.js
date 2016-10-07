@@ -157,7 +157,7 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, error => {
-      if (error.message === Config.TIMEOUT_LABEL) {
+      if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
       } else {
@@ -180,7 +180,7 @@ class MainView extends Component {
         popupData: data,
       });
     }, error => {
-      if (error.message === Config.TIMEOUT_LABEL) {
+      if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
       } else {

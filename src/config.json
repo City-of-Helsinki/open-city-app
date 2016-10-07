@@ -32,6 +32,6 @@
   "GPS_MAXIMUM_AGE": 5000,
 
   // Requests
-  "TIMEOUT_THRESHOLD": 1000,
-  "TIMEOUT_LABEL": "timeout",
+  "TIMEOUT_THRESHOLD": 20000,
+  "TIMEOUT_MESSAGE": "timeout",
 }

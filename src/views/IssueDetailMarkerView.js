@@ -137,13 +137,13 @@ const styles = StyleSheet.create({
     width: CLOSE_ICON_WIDTH,
   },
   text: {
-    color: '#000',
+    color: '#212121',
   },
   title: {
     fontWeight: 'bold'
   },
   infoText: {
-    color: '#888',
+    color: '#757575',
   },
   extendedDataContainer: {
     flexDirection: 'column',

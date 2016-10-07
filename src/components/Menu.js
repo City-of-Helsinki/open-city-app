@@ -44,11 +44,8 @@ class Menu extends Component {
             style={[styles.icon, styles.menuIcon]}/>
         </TouchableWithoutFeedback>
         <View style={styles.innerContainer}>
-          <View style={styles.titleView}>
-            <Text style={styles.titleText}>{transMenu.menuTitleView}</Text>
-          </View>
           <TouchableWithoutFeedback onPress={this.props.mapView}>
-            <View style={styles.buttonView}>
+            <View style={[styles.buttonView, styles.buttonDividerGray]}>
               <Image
                 source={mapIcon}
                 style={styles.icon}/>
@@ -56,18 +53,15 @@ class Menu extends Component {
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={this.props.feedbackView}>
-            <View style={styles.buttonView}>
+            <View style={[styles.buttonView, styles.buttonDividerGray]}>
               <Image
                 source={listIcon}
                 style={styles.icon}/>
               <Text style={styles.menuText}>{transMenu.menuTitleListButton}</Text>
             </View>
           </TouchableWithoutFeedback>
-          <View style={styles.titleView}>
-            <Text style={styles.titleText}>{transMenu.menuTitleFeedback}</Text>
-          </View>
           <TouchableWithoutFeedback onPress={this.props.appFeedbackView}>
-            <View style={styles.buttonView}>
+            <View style={[styles.buttonView, styles.buttonDividerYellow]}>
               <Image
                 source={feedbackIcon}
                 style={styles.icon}/>
@@ -100,13 +94,20 @@ const styles = StyleSheet.create({
 
   },
   buttonView: {
-    marginBottom: 10,
     paddingTop: 10,
     paddingBottom: 10,
     paddingLeft: 20,
     paddingRight: 20,
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  buttonDividerGray: {
+    borderTopWidth: 2,
+    borderTopColor: '#757575',
+  },
+  buttonDividerYellow: {
+    borderTopWidth: 2,
+    borderTopColor: '#FBC02D',
   },
   menuText: {
     fontSize: 18,
