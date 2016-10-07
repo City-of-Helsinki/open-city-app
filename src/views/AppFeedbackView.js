@@ -19,6 +19,8 @@ import {
 import Spinner from 'react-native-loading-spinner-overlay';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
+import Toast from 'react-native-simple-toast';
+
 import makeRequest          from '../util/requests';
 import issueModels          from '../util/models';
 
@@ -122,14 +124,12 @@ class AppFeedbackView extends Component {
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
-      console.log(data)
-      console.log(result)
+
+      Toast.show(transFeedback.feedbackSent);
       this.props.onClose()
 
     }, error => {
-      console.log(data)
       this.props.onClose()
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }

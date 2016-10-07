@@ -24,6 +24,7 @@ import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import KeyListener from 'react-native-keyboard-event';
+import Toast from 'react-native-simple-toast';
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -56,7 +57,9 @@ const DEFAULT_CATEGORY       = 'Muu';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 const DESCRIPTION_MIN_LENGTH = 10;
+const ZOOM = 6;
 const DESCRIPTION_MAX_LENGTH = 5000;
+var isFeedbackSent = false;
 
 class FeedbackView extends Component {
 
@@ -74,8 +77,8 @@ class FeedbackView extends Component {
       pickerData: [],
       region: {latitude: this.props.route.mapRegion.latitude,
               longitude: this.props.route.mapRegion.longitude,
-              latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
-              longitudeDelta: this.props.route.mapRegion.longitudeDelta/2},
+              latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
+              longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM},
       selectedCategory: '',
       selectedServiceCode: '',
       locationEnabled: true,
@@ -93,6 +96,9 @@ class FeedbackView extends Component {
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
+  componentDidMount() {
+
+  }
 
   componentWillMount() {
     this.fetchServices();
@@ -102,28 +108,36 @@ class FeedbackView extends Component {
 
     Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
     Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
-
-
-    var keys = ['descriptionText', 'titleText', 'serviceCode', 'imageData', 'imageSource', 'locationEnabled']
-
+    var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
     AsyncStorage.multiGet(keys, (err, stores) => {
         console.log(stores)
-        /*
         this.setState({
-          descriptionText: store[]
+          descriptionText: stores[0][1],
+          titleText: stores[1][1],
+          selectedServiceCode: stores[2][1],
+          selectedCategory: stores[3][1],
         })
-        */
      });
-
-
-   console.log('!!!!!!!!!!!!!!!!')
   }
 
   componentWillUnmount () {
-    Keyboard.removeAllListeners('keyboardDidShow');
-    Keyboard.removeAllListeners('keyboardDidHide');
+    console.log("UNMOUNTING")
 
+    var keyvalues = [['descriptionText', this.state.descriptionText],
+     ['titleText', this.state.titleText],
+     ['serviceCode', this.state.selectedServiceCode],
+     ['selectedCategory', this.state.selectedCategory]]
+
+     if(!this.isFeedbackSent) {
+       AsyncStorage.multiSet(keyvalues, (err) => {
+           console.log("success")
+        });
+      }
+
+      Keyboard.removeAllListeners('keyboardDidShow');
+      Keyboard.removeAllListeners('keyboardDidHide');
+      console.log("removed listeners")
   }
 
   keyboardWillShow (e) {
@@ -134,6 +148,7 @@ class FeedbackView extends Component {
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
     console.log('Show keyboard')
+
   }
 
   keyboardWillHide (e) {
@@ -210,6 +225,7 @@ class FeedbackView extends Component {
       data.append('title', this.state.titleText);
     }
 
+
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
@@ -217,6 +233,13 @@ class FeedbackView extends Component {
       if ('service_request_id' in result[0]) {
         issueModels.insert(result[0]['service_request_id'])
       }
+      var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
+
+      AsyncStorage.multiRemove(keys, (err) => {
+        console.log("success remove")
+       });
+       this.isFeedbackSent = true;
+       Toast.show(transFeedback.feedbackSent);
 
       this.props.navigator.resetTo({
         id: 'MainView',
@@ -230,17 +253,20 @@ class FeedbackView extends Component {
   }
 
   onLocationIconClick() {
+
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
+
+
   }
 
   onFocusButtonClick() {
       var markerRegion = {
         latitude: this.props.route.mapRegion.latitude,
         longitude: this.props.route.mapRegion.longitude,
-        latitudeDelta: this.props.route.mapRegion.latitudeDelta/2,
-        longitudeDelta: this.props.route.mapRegion.longitudeDelta/2
+        latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
+        longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
       }
 
       this.refs.map.animateToRegion(markerRegion)
@@ -286,8 +312,10 @@ class FeedbackView extends Component {
                 image: {source: resizedSource, name: response.fileName},
                 imageData: response
               });
+
               LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
             })
+
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
@@ -305,8 +333,8 @@ class FeedbackView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta*20,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta*20
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
     }
 
     //this.refs.map.animateToRegion(markerRegion)
@@ -318,8 +346,8 @@ class FeedbackView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta*20,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta*20
+      latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
+      longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
     }
 
     this.setState({markerPosition: location})
@@ -406,6 +434,7 @@ class FeedbackView extends Component {
             appFeedbackView={()=>{this.onAppFeedbackModalClick(this._drawer)}}
             onMenuClick={()=>this._drawer.close()}/>
         }>
+
         <View style={styles.container}>
           <Navbar
             onMenuClick={()=>this._drawer.open()}
@@ -430,6 +459,7 @@ class FeedbackView extends Component {
               style={styles.titleInput}
               placeholder={transFeedback.inputTitlePlaceholder}
               name="title"
+              value={this.state.titleText}
               onChangeText={(text)=> {this.setState({titleText: text})}}
             />
           </View>
@@ -440,6 +470,7 @@ class FeedbackView extends Component {
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}
+              value={this.state.descriptionText}
               onChangeText={(text)=> {
                 var sendEnabled = text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
                                   text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH;
