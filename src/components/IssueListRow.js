@@ -3,10 +3,13 @@ import {
   View,
   Text,
   StyleSheet,
-  Image
+  Image,
+  TouchableWithoutFeedback,
+  LayoutAnimation
 } from 'react-native';
 
 import distanceIcon from '../img/location_marker.png';
+import transList    from '../translations/list';
 
 // If distance is over 500km, something is not right
 const MAX_DISTANCE_THRESHOLD = 500000;
@@ -15,6 +18,19 @@ class IssueListRow extends Component {
 
   constructor(props, context) {
     super(props, context);
+
+    this.state = {
+      showStatusNotes: false,
+    };
+
+    transList.setLanguage('fi');
+  }
+
+  showStatusNotesClick() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    this.setState({
+      showStatusNotes: !this.state.showStatusNotes,
+    });
   }
 
   render() {
@@ -26,14 +42,19 @@ class IssueListRow extends Component {
                 source={distanceIcon} />
               <Text>{this.props.distance}m</Text>
             </View> : null;
+    var statusButtonText = !this.state.showStatusNotes ? transList.showStatusNotes : transList.hideStatusNotes;
+    var statusNotes      = this.state.showStatusNotes ?
+                           <View>
+                             <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.statusNotes}</Text>
+                           </View> : null;
     return (
       <View style={styles.container}>
         {image}
         <View>
-          <Text style={styles.titleText}>{this.props.title}</Text>
+          <Text style={[styles.titleText, styles.textFont]}>{this.props.title}</Text>
         </View>
         <View>
-          <Text style={styles.descriptionText}>{this.props.description}</Text>
+          <Text style={[styles.descriptionText, styles.textFont]}>{this.props.description}</Text>
         </View>
         <View style={styles.infoContainer}>
           <View>
@@ -41,15 +62,28 @@ class IssueListRow extends Component {
           </View>
           <Text>{this.props.date}</Text>
         </View>
-        <View style={styles.extendedDataContainer}>
-          {this.props.extendedData.map((item) => (
-            <View style={styles.extendedDataItemContainer}>
-              <View style={[styles.detail, styles.extendedDataRowContainer]}>
-                <Text style={styles.detailText}>{item.agency}</Text>
-                <Text style={styles.detailText}>{item.date}</Text>
+        <View style={styles.paddingContainer}>
+          <View style={styles.statusNotesContainer}>
+            {statusNotes}
+            <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
+              <View style={styles.statusButtonView}>
+                <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
               </View>
-            </View>
-          ))}
+            </TouchableWithoutFeedback>
+          </View>
+          <View style={styles.extendedDataContainer}>
+            {this.props.extendedData.map((item) => (
+              <View style={styles.extendedDataItemContainer}>
+                <View>
+                  <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+                </View>
+                <View style={[styles.detail, styles.extendedDataRowContainer]}>
+                  <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
+                  <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                </View>
+              </View>
+            ))}
+          </View>
         </View>
       </View>
     );
@@ -68,10 +102,6 @@ const styles = StyleSheet.create({
       width: 0
     },
   },
-  titleText: {
-    color: '#212121',
-    fontSize: 16,
-  },
   infoContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -79,6 +109,14 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     alignItems: 'center',
     color: '#757575',
+  },
+  paddingContainer: {
+    paddingLeft: 40,
+  },
+  titleText: {
+    color: '#212121',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
   distanceContainer: {
     flexDirection: 'row',
@@ -88,10 +126,31 @@ const styles = StyleSheet.create({
     height: 12,
     width: 12,
   },
+  statusNotesText: {
+    fontStyle: 'italic',
+  },
+  statusButtonView: {
+    paddingTop: 5,
+    paddingBottom: 5,
+  },
+  statusButtonText: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: '#546E7A',
+  },
   extendedDataRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     color: '#757575',
+    marginBottom: 5,
+  },
+  stateText: {
+    fontWeight: 'bold',
+    fontSize: 14,
+    color: '#212121',
+  },
+  textFont: {
+    fontFamily: 'montserrat',
   }
 
 });

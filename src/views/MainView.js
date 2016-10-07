@@ -263,7 +263,7 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear)
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
     this.setState({showPopup:true, popupData: this.issueDetails, isLoading: true});
     this.fetchIssueDetails(issue);
   }

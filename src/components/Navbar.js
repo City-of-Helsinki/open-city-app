@@ -40,7 +40,7 @@ class Navbar extends Component {
                   style={styles.menuIcon}/>
               </View>
             </TouchableWithoutFeedback>
-            <Text style={styles.header}>{this.props.header}</Text>
+            <Text style={[styles.header, styles.textFont]}>{this.props.header}</Text>
           </View>
         </View>
       </View>
@@ -83,6 +83,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 18,
     color: '#000'
+  },
+  textFont: {
+    fontFamily: 'montserrat',
   }
 });
 

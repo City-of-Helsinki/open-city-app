@@ -121,7 +121,7 @@ class IssueListView extends Component {
         <View style={styles.container}>
           <Navbar
             onMenuClick={()=>this._drawer.open()}
-            header={transList.listViewTitle}/>
+            header={transList.viewTitle}/>
           <Spinner visible={this.state.isLoading} />
           <ScrollView>
             <View style={styles.issueContainer}>
@@ -132,7 +132,8 @@ class IssueListView extends Component {
                   distance={item.distance}
                   date={item.date}
                   description={item.description}
-                  extendedData={item.extendedData} />
+                  extendedData={item.extendedData}
+                  statusNotes={item.status_notes} />
               ))}
             </View>
           </ScrollView>

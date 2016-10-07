@@ -15,6 +15,7 @@ import {
   DeviceEventEmitter,
   UIManager,
   LayoutAnimation,
+  AsyncStorage
 } from 'react-native';
 
 // External modules
@@ -22,7 +23,6 @@ import MapView     from 'react-native-maps';
 import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
-import KeyListener from 'react-native-keyboard-event';
 import Toast from 'react-native-simple-toast';
 
 
@@ -116,7 +116,6 @@ class FeedbackView extends Component {
     var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
     AsyncStorage.multiGet(keys, (err, stores) => {
-        console.log(stores)
         this.setState({
           descriptionText: stores[0][1],
           titleText: stores[1][1],
@@ -130,8 +129,6 @@ class FeedbackView extends Component {
   }
 
   componentWillUnmount () {
-    console.log("UNMOUNTING")
-
     var keyvalues = [['descriptionText', this.state.descriptionText],
      ['titleText', this.state.titleText],
      ['serviceCode', this.state.selectedServiceCode],
@@ -139,13 +136,11 @@ class FeedbackView extends Component {
 
      if(!this.isFeedbackSent) {
        AsyncStorage.multiSet(keyvalues, (err) => {
-           console.log("success")
         });
       }
 
       Keyboard.removeAllListeners('keyboardDidShow');
       Keyboard.removeAllListeners('keyboardDidHide');
-      console.log("removed listeners")
   }
 
   keyboardWillShow (e) {
@@ -242,7 +237,6 @@ class FeedbackView extends Component {
       var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
       AsyncStorage.multiRemove(keys, (err) => {
-        console.log("success remove")
        });
        this.isFeedbackSent = true;
        Toast.show(transFeedback.feedbackSent);
@@ -451,7 +445,7 @@ class FeedbackView extends Component {
         <View style={[styles.feedbackContainer]}>
           <View style={styles.categoryContainer}>
             <View style={styles.categoryTextView}>
-              <Text style={styles.categoryText}>{transFeedback.category}</Text>
+              <Text style={[styles.categoryText, styles.textFont]}>{transFeedback.category}</Text>
             </View>
             <NativePicker
               data={this.state.pickerData}
@@ -635,6 +629,9 @@ const styles = StyleSheet.create({
     left: 100,
     bottom: 15,
   },
+  textFont: {
+    fontFamily: 'montserrat',
+  }
 
 });
 

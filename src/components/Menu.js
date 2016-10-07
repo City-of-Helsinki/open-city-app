@@ -49,7 +49,7 @@ class Menu extends Component {
               <Image
                 source={mapIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>{transMenu.menuTitleMapButton}</Text>
+              <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleMapButton}</Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={this.props.feedbackView}>
@@ -57,7 +57,7 @@ class Menu extends Component {
               <Image
                 source={listIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>{transMenu.menuTitleListButton}</Text>
+              <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleListButton}</Text>
             </View>
           </TouchableWithoutFeedback>
           <TouchableWithoutFeedback onPress={this.props.appFeedbackView}>
@@ -65,7 +65,7 @@ class Menu extends Component {
               <Image
                 source={feedbackIcon}
                 style={styles.icon}/>
-              <Text style={styles.menuText}>{transMenu.menuTitleFeedbackButton}</Text>
+              <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedbackButton}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -126,6 +126,9 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 20,
     color: '#000',
+  },
+  textFont: {
+    fontFamily: 'montserrat',
   }
 });
 

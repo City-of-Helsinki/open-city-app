@@ -204,7 +204,7 @@ class AppFeedbackView extends Component {
             {alignItems: 'center'}]}>
             <View style={styles.contentContainer}>
               <View style={styles.topContainer}>
-                <Text style={styles.text}>{transFeedback.appFeedbackViewTitle}</Text>
+                <Text style={[styles.text, styles.textFont]}>{transFeedback.appFeedbackViewTitle}</Text>
                 <TouchableWithoutFeedback onPress={this.props.onClose}>
                   <Image
                     source={closeIcon}
@@ -249,7 +249,7 @@ class AppFeedbackView extends Component {
 
                   <TouchableWithoutFeedback onPress={this.onSendButtonClick.bind(this)}>
                     <View style={styles.sendButtonView}>
-                      <Text style={styles.sendButtonText}>{transFeedback.sendButtonText}</Text>
+                      <Text style={[styles.sendButtonText, styles.textFont]}>{transFeedback.sendButtonText}</Text>
                     </View>
                   </TouchableWithoutFeedback>
                 </View>
@@ -343,6 +343,9 @@ const styles = StyleSheet.create({
     position:'absolute',
     bottom: 10,
     left: 50,
+  },
+  textFont: {
+    fontFamily: 'montserrat',
   }
 });
 

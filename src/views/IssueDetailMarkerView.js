@@ -58,22 +58,22 @@ class IssueDetailMarkerView extends Component {
           <View style={styles.issueContainer}>
             {image}
             <View style={styles.subjectView}>
-              <Text style={[styles.text, styles.title]}>{this.props.data.title}</Text>
+              <Text style={[styles.text, styles.textFont, styles.title]}>{this.props.data.title}</Text>
             </View>
             <View style={styles.summaryView}>
-              <Text style={styles.text}>{this.props.data.description}</Text>
+              <Text style={[styles.text, styles.textFont]}>{this.props.data.description}</Text>
             </View>
             <View style={[styles.detail, styles.rowContainer]}>
               {distance}
-              <Text style={styles.infoText}>{this.props.data.date}</Text>
+              <Text style={[styles.infoText, styles.textFont]}>{this.props.data.date}</Text>
             </View>
           </View>
           <View style={styles.extendedDataContainer}>
             {this.props.data.extendedData.map((item) => (
               <View style={styles.extendedDataItemContainer}>
                 <View style={[styles.detail, styles.rowContainer]}>
-                  <Text style={styles.detailText}>{item.agency}</Text>
-                  <Text style={styles.detailText}>{item.date}</Text>
+                  <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
+                  <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
                 </View>
               </View>
             ))}
@@ -153,6 +153,9 @@ const styles = StyleSheet.create({
   detailText: {
     fontSize: 12,
   },
+  textFont: {
+    fontFamily: 'montserrat',
+  }
 });
 
 module.exports = IssueDetailMarkerView

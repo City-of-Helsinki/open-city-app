@@ -23,7 +23,11 @@ module.exports = {
       var tasks = data.extended_attributes.tasks;
 
       for (var i=tasks.length-1; i >= 0; i--) {
-        extendedData.push({date: module.exports.parseDate(tasks[i].task_created), agency: tasks[i].owner_name})
+        extendedData.push({
+          date: module.exports.parseDate(tasks[i].task_created),
+          agency: tasks[i].owner_name,
+          state: tasks[i].task_state,
+        });
       }
     }
 
@@ -38,6 +42,7 @@ module.exports = {
       status: data.extended_attributes.detailed_status,
       distance: module.exports.getDistance(userPosition, {latitude: data.lat, longitude: data.long}),
       media_url: media,
+      status_notes: data.status_notes,
       extendedData: extendedData
     };
 
