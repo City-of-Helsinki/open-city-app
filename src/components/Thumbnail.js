@@ -11,21 +11,20 @@ import removeIcon from '../img/close_image.png';
 const CONTAINER_PADDING  = 10;
 const REMOVE_ICON_HEIGHT = 20;
 const REMOVE_ICON_WIDTH  = 20;
-var imageHeight;
-var imageWidth;
 
-// Returns a native picker for Android or native popup with selection for iOS
-class NativePicker extends Component {
+// Return a thumbnail image with a close button place on the top right corner
+class Thumbnail extends Component {
 
   constructor(props, context) {
     super(props);
-    imageHeight = this.props.imageHeight;
-    imageWidth  = this.props.imageWidth;
   }
 
   render() {
     var content = this.props.show ?
-                  <View style={styles.container}>
+                  <View style={[styles.container, {
+                    height: this.props.imageHeight,
+                    width: this.props.imageWidth
+                  }]}>
                     <Image
                       source={this.props.imageSource}
                       style={{
@@ -49,8 +48,6 @@ class NativePicker extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: imageHeight,
-    width: imageWidth,
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
@@ -64,4 +61,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = NativePicker
+module.exports = Thumbnail

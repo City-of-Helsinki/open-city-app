@@ -12,6 +12,7 @@ const BUTTON_WIDTH         = 72;
 const BUTTON_HEIGHT        = 72;
 const BUTTON_BORDER_RADIUS = 36;
 
+// Button which will have an absolute position on the bottom right corner
 class FloatingActionButton extends Component {
 
   constructor(props, context) {

@@ -79,7 +79,6 @@ class AppFeedbackView extends Component {
       keyboardVisible: true,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Show keyboard')
   }
 
   keyboardWillHide (e) {
@@ -87,7 +86,6 @@ class AppFeedbackView extends Component {
       keyboardVisible: false,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Hide keyboard')
   }
   sendFeedback() {
     var url     = Config.OPEN311_SEND_SERVICE_URL;

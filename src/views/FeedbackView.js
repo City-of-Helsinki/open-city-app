@@ -15,7 +15,6 @@ import {
   DeviceEventEmitter,
   UIManager,
   LayoutAnimation,
-  AsyncStorage
 } from 'react-native';
 
 // External modules
@@ -25,6 +24,7 @@ import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import KeyListener from 'react-native-keyboard-event';
 import Toast from 'react-native-simple-toast';
+
 
 // Components
 import FloatingActionButton from '../components/FloatingActionButton';
@@ -52,7 +52,11 @@ import locationOnIcon   from '../img/location_on.png';
 import locationOffIcon  from '../img/location_off.png';
 import ownLocationIcon  from '../img/own_loc.png';
 
+// Global reference for drawer is needed in order to enable 'back to close' functionality
+var menuRef  = null;
+var menuOpen = false;
 var navigator;
+
 const DEFAULT_CATEGORY       = 'Muu';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
@@ -108,6 +112,7 @@ class FeedbackView extends Component {
 
     Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
     Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+
     var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
     AsyncStorage.multiGet(keys, (err, stores) => {
@@ -119,6 +124,9 @@ class FeedbackView extends Component {
           selectedCategory: stores[3][1],
         })
      });
+
+
+
   }
 
   componentWillUnmount () {
@@ -147,7 +155,6 @@ class FeedbackView extends Component {
       keyboardVisible: true,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Show keyboard')
 
   }
 
@@ -157,7 +164,6 @@ class FeedbackView extends Component {
       keyboardVisible: false,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-    console.log('Hide keyboard')
   }
 
 
@@ -245,9 +251,6 @@ class FeedbackView extends Component {
         id: 'MainView',
       });
     }, error => {
-      console.log(data)
-
-      console.log(error)
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
@@ -420,13 +423,18 @@ class FeedbackView extends Component {
     return (
 
       <Drawer
-        ref={(ref) => this._drawer = ref}
-        type="overlay"
+        ref={(ref) => {
+          this._drawer = ref;
+          menuRef = ref;
+        }}
+        type={'overlay'}
         openDrawerOffset={0.25}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
+        onOpen={()=> menuOpen = true}
+        onClose={()=> menuOpen = false}
         content={
           <Menu
             mapView={()=>{this.props.navigator.pop()}}
@@ -631,10 +639,16 @@ const styles = StyleSheet.create({
 });
 
 BackAndroid.addEventListener('hardwareBackPress', function() {
-  if (navigator) {
-      navigator.pop();
-      return true;
+
+  // Close menu if it's open otherwise navigate to the previous view
+  if (menuOpen && menuRef !== null) {
+    menuRef.close();
+    return true;
+  } else if (navigator) {
+    navigator.pop();
+    return true;
   }
+
   return false;
 });
 

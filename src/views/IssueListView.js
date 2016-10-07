@@ -15,6 +15,7 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import Navbar           from './../components/Navbar';
 import Menu             from './../components/Menu';
 import IssueListRow     from './../components/IssueListRow';
+import showAlert        from './../components/Alert';
 import makeRequest      from './../util/requests';
 import Util             from './../util/util';
 import Config           from './../config';
@@ -24,6 +25,9 @@ import AppFeedbackModal from './AppFeedbackView';
 import transList  from '../translations/list';
 import transError from '../translations/errors';
 
+// Global reference for drawer is needed in order to enable 'back to close' functionality
+var menuRef  = null;
+var menuOpen = false;
 var navigator;
 
 class IssueListView extends Component {
@@ -61,8 +65,15 @@ class IssueListView extends Component {
         isLoading: false,
         issueList: issueList,
       });
-    }, err => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+    }, error => {
+      this.setState({ isLoading: false });
+      if (error.message === Config.TIMEOUT_MESSAGE) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 
@@ -88,13 +99,18 @@ class IssueListView extends Component {
   render() {
     return (
       <Drawer
-        ref={(ref) => this._drawer = ref}
-        type="overlay"
+        ref={(ref) => {
+          this._drawer = ref;
+          menuRef = ref;
+        }}
+        type={'overlay'}
         openDrawerOffset={0.25}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
+        onOpen={()=> menuOpen = true}
+        onClose={()=> menuOpen = false}
         content={
           <Menu
             mapView={()=>{this.navToMapView(this)}}
@@ -130,10 +146,16 @@ class IssueListView extends Component {
 }
 
 BackAndroid.addEventListener('hardwareBackPress', function() {
-  if (navigator) {
-      navigator.pop();
-      return true;
+
+  // Close menu if it's open otherwise navigate to the previous view
+  if (menuOpen && menuRef !== null) {
+    menuRef.close();
+    return true;
+  } else if (navigator) {
+    navigator.pop();
+    return true;
   }
+
   return false;
 });
 

@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   Platform,
-  Linking
+  LayoutAnimation,
+  BackAndroid
 } from 'react-native';
 
 // Components and helpers
@@ -47,8 +48,11 @@ const DEFAULT_LONGITUDE_DELTA = 0.01010;
 // Defines the string which the Open311 API returns. The string is used for status comparison
 const STATUS_OPEN             = 'open';
 
-class MainView extends Component {
+// Global reference for drawer is needed in order to enable 'back to close' functionality
+var menuRef  = null;
+var menuOpen = false;
 
+class MainView extends Component {
 
   constructor(props, context) {
     super(props, context);
@@ -153,10 +157,17 @@ class MainView extends Component {
     .then(result => {
       this.parseIssues(result);
     }, error => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      if (error.message === Config.TIMEOUT_MESSAGE) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 
+  // Fetch details of a single issue
   fetchIssueDetails(issue) {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + issue.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
@@ -169,7 +180,13 @@ class MainView extends Component {
         popupData: data,
       });
     }, error => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      if (error.message === Config.TIMEOUT_MESSAGE) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
     });
   }
 
@@ -199,8 +216,6 @@ class MainView extends Component {
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     } else {
       // TODO: user marker icon
-      console.log("FOUND")
-      console.log(issueId)
       return status === STATUS_OPEN ? yellowMarker : greenMarker;
     }
   }
@@ -210,7 +225,6 @@ class MainView extends Component {
 
     mArray = [];
     this.userSubmittedIssues.forEach(function(value, index, ar) {
-      console.log(value.issueId + " - " + issueId)
       if(value.issueId == issueId) {
         return true;
       }
@@ -249,6 +263,7 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear)
     this.setState({showPopup:true, popupData: this.issueDetails, isLoading: true});
     this.fetchIssueDetails(issue);
   }
@@ -297,13 +312,18 @@ class MainView extends Component {
 
     return (
       <Drawer
-        ref={(ref) => this._drawer = ref}
-        type="overlay"
+        ref={(ref) => {
+          this._drawer = ref;
+          menuRef = ref;
+        }}
+        type={'overlay'}
         openDrawerOffset={0.25}
         closedDrawerOffset={0}
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
+        onOpen={()=> menuOpen = true}
+        onClose={()=> menuOpen = false}
         content={
           <Menu
             mapView={()=>{this._drawer.close()}}
@@ -365,6 +385,14 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+});
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+  if (menuOpen && menuRef !== null) {
+    menuRef.close();
+    return true;
+  }
+  return false;
 });
 
 module.exports = MainView

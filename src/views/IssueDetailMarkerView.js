@@ -28,8 +28,10 @@ const BOTTOM_MARGIN          = 320;
 const CLOSE_ICON_HEIGHT      = 32;
 const CLOSE_ICON_WIDTH       = 32;
 const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
+// If distance is over 500km, something is not right
 const MAX_DISTANCE_THRESHOLD = 500000;
 
+// Popup which will be shown when a map marker is clicked
 class IssueDetailMarkerView extends Component {
 
   constructor(props, context) {
@@ -135,13 +137,13 @@ const styles = StyleSheet.create({
     width: CLOSE_ICON_WIDTH,
   },
   text: {
-    color: '#000',
+    color: '#212121',
   },
   title: {
     fontWeight: 'bold'
   },
   infoText: {
-    color: '#888',
+    color: '#757575',
   },
   extendedDataContainer: {
     flexDirection: 'column',
