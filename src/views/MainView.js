@@ -42,6 +42,7 @@ const DEFAULT_LATITUDE        = 60.1680574;
 const DEFAULT_LONGITUDE       = 24.9339746;
 const DEFAULT_LATITUDE_DELTA  = 0.02208;
 const DEFAULT_LONGITUDE_DELTA = 0.01010;
+const MARKER_IMAGE_SIZE       = 35;
 
 // Global reference for drawer is needed in order to enable 'back to close' functionality
 var menuRef  = null;
@@ -307,8 +308,10 @@ class MainView extends Component {
                   coordinate={issue.coordinates}
                   title={issue.title}
                   description={issue.summary}
-                  image={issue.markerImage}
                   onPress={()=> this.showIssueDetailPopup(issue)}>
+                  <Image
+                    source={issue.markerImage}
+                    style={{height:MARKER_IMAGE_SIZE, width: MARKER_IMAGE_SIZE}} />
                   <MapView.Callout tooltip={true}>
                     <EmptyMarkerCallout />
                   </MapView.Callout>

@@ -61,8 +61,9 @@ const DEFAULT_CATEGORY       = 'Muu';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 const DESCRIPTION_MIN_LENGTH = 10;
-const ZOOM = 6;
+const ZOOM                   = 6;
 const DESCRIPTION_MAX_LENGTH = 5000;
+const MARKER_IMAGE_SIZE      = 35;
 var isFeedbackSent = false;
 
 class FeedbackView extends Component {
@@ -402,9 +403,12 @@ class FeedbackView extends Component {
                             >
                             <MapView.Marker.Animated draggable
                               ref='marker'
-                              image={markerIcon}
                               coordinate={this.state.region}
-                              onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate)} />
+                              onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate)}>
+                              <Image
+                                source={markerIcon}
+                                style={{height:MARKER_IMAGE_SIZE, width: MARKER_IMAGE_SIZE}} />
+                            </MapView.Marker.Animated>
                           </MapView>
                           <TouchableWithoutFeedback onPress={this.onFocusButtonClick.bind(this)}>
                             <Image

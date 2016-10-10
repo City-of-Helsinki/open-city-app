@@ -7,8 +7,7 @@ import {
   Dimensions
 } from 'react-native';
 
-import splashImage from './../img/splash_screen_background.jpg';
-import splashLogo  from './../img/splash_screen_logo.png';
+import splashImage from './../img/splash_image.png';
 
 import showAlert   from '../components/Alert';
 import makeRequest from '../util/requests';
@@ -70,9 +69,6 @@ class SplashScreen extends Component {
         <Image
           source={splashImage}
           style={styles.splashImage}/>
-        <Image
-          source={splashLogo}
-          style={styles.splashLogo}/>
       </View>
     );
   }
