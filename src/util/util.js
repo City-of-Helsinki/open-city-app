@@ -1,6 +1,10 @@
 import Geolib from 'geolib';
 import Config from '../config';
 
+import redMarker    from '../img/red_marker.png';
+import yellowMarker from '../img/yellow_marker.png';
+import greenMarker  from '../img/green_marker.png';
+
 module.exports = {
 
   // Return date as dd/mm/yyyy hh:mm
@@ -100,5 +104,47 @@ module.exports = {
   // Return true if input was a number
   isNumeric: function(num) {
     return !isNaN(parseFloat(num)) && isFinite(num);
+  },
+
+  // Get all issues with coordinates and show them on the map
+  parseIssues: function(data, userSubmittedIssues) {
+    var issues = [];
+
+    for (var i=0; i < data.length; i++) {
+      if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
+        issues.push({coordinates:
+                      {latitude: data[i].lat,
+                      longitude: data[i].long},
+                    markerImage: module.exports.selectMarkerImage(
+                      data[i].status, data[i].service_request_id, userSubmittedIssues),
+                    id: data[i].service_request_id});
+      }
+    }
+
+    return issues;
+  },
+
+  // Parse status and return the appropriate marker
+  selectMarkerImage: function(status, issueId, userSubmittedIssues) {
+
+    if (!module.exports.isUserSubmittedIssue(issueId)) {
+      return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
+    } else {
+      // TODO: user marker icon
+      return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
+    }
+  },
+
+  // Return true if the id was found in the database, false otherwise
+  isUserSubmittedIssue: function(issueId, userSubmittedIssues = []) {
+
+    mArray = [];
+    userSubmittedIssues.forEach(function(value, index, ar) {
+      if(value.issueId == issueId) {
+        return true;
+      }
+    });
+
+    return false;
   }
 }

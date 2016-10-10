@@ -54,13 +54,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
-    backgroundColor: '#FEF47D',
+    backgroundColor: '#FFF176',
   },
   iosStatusBar: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     height: 15,
-    backgroundColor: '#FEF47D',
+    backgroundColor: '#FFF176',
   },
   innerContainer: {
     flex: 1,

@@ -18,7 +18,7 @@ class OpenCity extends Component {
   constructor(props, context) {
     super(props);
 
-    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'MainView';
+    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'SplashScreen';
     this.state = {
       initialView: initialView
     };

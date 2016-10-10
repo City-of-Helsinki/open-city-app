@@ -108,7 +108,6 @@ const styles = StyleSheet.create({
     marginTop: 5,
     marginBottom: 10,
     alignItems: 'center',
-    color: '#757575',
   },
   paddingContainer: {
     paddingLeft: 30,
@@ -142,7 +141,6 @@ const styles = StyleSheet.create({
   extendedDataRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    color: '#757575',
     marginBottom: 10,
   },
   stateText: {
@@ -152,6 +150,9 @@ const styles = StyleSheet.create({
   },
   textFont: {
     fontFamily: 'montserrat',
+  },
+  detailText: {
+    color: '#757575',
   }
 
 });

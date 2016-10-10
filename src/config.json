@@ -22,6 +22,8 @@
 
   // Map
   "ISSUE_LIMIT": "?limit=200",
+  "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
+
 
   // Issue list
   "DETAILED_ISSUE_LIMIT": 20,
