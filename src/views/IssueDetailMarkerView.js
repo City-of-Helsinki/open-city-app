@@ -57,7 +57,7 @@ class IssueDetailMarkerView extends Component {
   render() {
     var image = this.props.data.media_url !== null ?
                 <View style={styles.imageView}>
-                  <Image source={{uri: this.props.data.media_url}} />
+                  <Image source={{uri: this.props.data.media_url}} style={styles.image} />
                 </View> : null;
     var distance = this.props.data.distance > 0 && this.props.data.distance < MAX_DISTANCE_THRESHOLD ?
             <View style={styles.distanceContainer}>
@@ -80,37 +80,39 @@ class IssueDetailMarkerView extends Component {
         <ScrollView>
           <View style={styles.issueContainer}>
             {image}
-            <View style={styles.subjectView}>
-              <Text style={[styles.text, styles.textFont, styles.title]}>{this.props.data.title}</Text>
-            </View>
-            <View style={styles.summaryView}>
-              <Text style={[styles.text, styles.textFont]}>{this.props.data.description}</Text>
-            </View>
-            <View style={[styles.detail, styles.rowContainer]}>
-              {distance}
-              <Text style={[styles.infoText, styles.textFont]}>{this.props.data.date}</Text>
-            </View>
-            <View style={styles.paddingContainer}>
-              <View style={styles.statusNotesContainer}>
-                {statusNotes}
-                <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
-                  <View style={styles.statusButtonView}>
-                    <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
-                  </View>
-                </TouchableWithoutFeedback>
+            <View style={styles.textContainer}>
+              <View style={styles.subjectView}>
+                <Text style={[styles.text, styles.textFont, styles.title]}>{this.props.data.title}</Text>
               </View>
-              <View style={styles.extendedDataContainer}>
-                {this.props.data.extendedData.map((item) => (
-                  <View style={styles.extendedDataItemContainer}>
-                    <View>
-                      <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+              <View style={styles.summaryView}>
+                <Text style={[styles.text, styles.textFont]}>{this.props.data.description}</Text>
+              </View>
+              <View style={[styles.detail, styles.rowContainer]}>
+                {distance}
+                <Text style={[styles.infoText, styles.textFont]}>{this.props.data.date}</Text>
+              </View>
+              <View style={styles.paddingContainer}>
+                <View style={styles.statusNotesContainer}>
+                  {statusNotes}
+                  <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
+                    <View style={styles.statusButtonView}>
+                      <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
                     </View>
-                    <View style={[styles.detail, styles.extendedDataRowContainer]}>
-                      <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
-                      <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                  </TouchableWithoutFeedback>
+                </View>
+                <View style={styles.extendedDataContainer}>
+                  {this.props.data.extendedData.map((item) => (
+                    <View style={styles.extendedDataItemContainer}>
+                      <View>
+                        <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+                      </View>
+                      <View style={[styles.detail, styles.extendedDataRowContainer]}>
+                        <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
+                        <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                      </View>
                     </View>
-                  </View>
-                ))}
+                  ))}
+                </View>
               </View>
             </View>
           </View>
@@ -132,7 +134,6 @@ const styles = StyleSheet.create({
     left: SIDE_PADDING / 2,
     height: CONTAINER_MAX_HEIGHT,
     width: Dimensions.get('window').width - SIDE_PADDING,
-    padding: 5,
     backgroundColor: '#fff',
     borderColor: '#EEEEEE',
     borderWidth: 3,
@@ -141,7 +142,13 @@ const styles = StyleSheet.create({
   issueContainer: {
     flexDirection: 'column',
   },
+  textContainer: {
+    padding: 5
+  },
   imageView: {
+    marginBottom: 5,
+  },
+  image: {
     height: 300,
     width: Dimensions.get('window').width - SIDE_PADDING,
   },
@@ -209,11 +216,11 @@ const styles = StyleSheet.create({
   extendedDataRowContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    color: '#757575',
     marginBottom: 10,
   },
   detailText: {
     fontSize: 12,
+    color: '#757575',
   },
   textFont: {
     fontFamily: 'montserrat',

@@ -52,7 +52,9 @@ class MainView extends Component {
   constructor(props, context) {
     super(props, context);
 
+    var issues = typeof this.props.route.issues !== 'undefined' ? this.props.route.issues : [];
     this.state = {
+      issues: issues,       // Data to be shown on the map as markers
       region: {             // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
@@ -80,10 +82,36 @@ class MainView extends Component {
       media_url: null
     };
 
-    this.issues = this.props.route.issues; // Data to be shown on the map as markers
-
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
+  }
+
+  componentWillMount() {
+    if (this.state.issues.length < 1) {
+      this.fetchIssues();
+    }
+  }
+
+  // Fetch a fixed amount of issues from Open311 API
+  fetchIssues() {
+    var url = Config.OPEN311_SERVICE_REQUESTS_URL;
+    var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
+
+    makeRequest(url, 'GET', headers, null, null)
+    .then(result => {
+      var issues = Util.parseIssues(result, Models.fetchAllIssues());
+      this.setState({
+        issues: issues
+      });
+    }, error => {
+      if (error.message === Config.TIMEOUT_MESSAGE) {
+        showAlert(transError.serviceNotAvailableErrorTitle,
+          transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
+      } else {
+        showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
+          transError.networkErrorButton);
+      }
+    });
   }
 
   componentDidMount() {
@@ -274,7 +302,7 @@ class MainView extends Component {
               toolbarEnabled={false}
               onPress={this.onMapViewClick.bind(this)}
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
-              {this.issues.map(issue => (
+              {this.state.issues.map(issue => (
                 <MapView.Marker
                   coordinate={issue.coordinates}
                   title={issue.title}

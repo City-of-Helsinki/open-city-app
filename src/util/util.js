@@ -61,7 +61,7 @@ module.exports = {
 
   // Return the distance of 2 points in meters
   // If either point, origin or destination, is not defined, 0 is returned.
-  getDistance: function(origin, destination) {
+  getDistance: function(origin = {latitude: 0.0, longitude: 0.0}, destination = {latitude: 0.0, longitude: 0.0}) {
     var distance = 0;
 
     if (module.exports.isNumeric(origin.latitude) && module.exports.isNumeric(origin.longitude) &&

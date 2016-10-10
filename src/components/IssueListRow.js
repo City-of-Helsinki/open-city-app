@@ -5,7 +5,8 @@ import {
   StyleSheet,
   Image,
   TouchableWithoutFeedback,
-  LayoutAnimation
+  LayoutAnimation,
+  Dimensions
 } from 'react-native';
 
 import distanceIcon from '../img/location_marker.png';
@@ -34,13 +35,13 @@ class IssueListRow extends Component {
   }
 
   render() {
-    var image = this.props.image !== null ? <Image /> : null;
+    var image = this.props.image !== null ? <Image style={styles.image} source={{uri: this.props.image}} /> : null;
     var distance = this.props.distance > 0 && this.props.distance < MAX_DISTANCE_THRESHOLD ?
             <View style={styles.distanceContainer}>
               <Image
                 style={styles.distanceIcon}
                 source={distanceIcon} />
-              <Text>{this.props.distance}m</Text>
+              <Text style={styles.textFont}>{this.props.distance}m</Text>
             </View> : null;
     var statusButtonText = !this.state.showStatusNotes ? transList.showStatusNotes : transList.hideStatusNotes;
     var statusNotes      = this.state.showStatusNotes ?
@@ -48,41 +49,43 @@ class IssueListRow extends Component {
                              <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.statusNotes}</Text>
                            </View> : null;
     return (
-      <View style={styles.container}>
+      <View>
         {image}
-        <View>
-          <Text style={[styles.titleText, styles.textFont]}>{this.props.title}</Text>
-        </View>
-        <View>
-          <Text style={[styles.descriptionText, styles.textFont]}>{this.props.description}</Text>
-        </View>
-        <View style={styles.infoContainer}>
+        <View style={styles.textContainer}>
           <View>
-            {distance}
+            <Text style={[styles.titleText, styles.textFont]}>{this.props.title}</Text>
           </View>
-          <Text>{this.props.date}</Text>
-        </View>
-        <View style={styles.paddingContainer}>
-          <View style={styles.statusNotesContainer}>
-            {statusNotes}
-            <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
-              <View style={styles.statusButtonView}>
-                <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
-              </View>
-            </TouchableWithoutFeedback>
+          <View>
+            <Text style={[styles.descriptionText, styles.textFont]}>{this.props.description}</Text>
           </View>
-          <View style={styles.extendedDataContainer}>
-            {this.props.extendedData.map((item) => (
-              <View style={styles.extendedDataItemContainer}>
-                <View>
-                  <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+          <View style={styles.infoContainer}>
+            <View>
+              {distance}
+            </View>
+            <Text style={styles.textFont}>{this.props.date}</Text>
+          </View>
+          <View style={styles.paddingContainer}>
+            <View style={styles.statusNotesContainer}>
+              {statusNotes}
+              <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
+                <View style={styles.statusButtonView}>
+                  <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
                 </View>
-                <View style={[styles.detail, styles.extendedDataRowContainer]}>
-                  <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
-                  <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+              </TouchableWithoutFeedback>
+            </View>
+            <View style={styles.extendedDataContainer}>
+              {this.props.extendedData.map((item) => (
+                <View style={styles.extendedDataItemContainer}>
+                  <View>
+                    <Text style={[styles.stateText, styles.textFont]}>{item.state}</Text>
+                  </View>
+                  <View style={[styles.detail, styles.extendedDataRowContainer]}>
+                    <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
+                    <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                  </View>
                 </View>
-              </View>
-            ))}
+              ))}
+            </View>
           </View>
         </View>
       </View>
@@ -91,7 +94,7 @@ class IssueListRow extends Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  textContainer: {
     marginBottom: 10,
     backgroundColor: '#fff',
     padding: 10,
@@ -111,6 +114,10 @@ const styles = StyleSheet.create({
   },
   paddingContainer: {
     paddingLeft: 30,
+  },
+  image: {
+    height: 300,
+    width: Dimensions.get('window').width - 20,
   },
   titleText: {
     color: '#212121',
