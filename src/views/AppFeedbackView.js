@@ -41,7 +41,6 @@ const CLOSE_ICON_HEIGHT      = 32;
 const CLOSE_ICON_WIDTH       = 32;
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
-const APP_FEEDBACK_TITLE = ""
 
 class AppFeedbackView extends Component {
 
@@ -168,7 +167,8 @@ class AppFeedbackView extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
-        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 20).then((resizedImageUri) => {
+        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
+          Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
             NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
@@ -200,7 +200,7 @@ class AppFeedbackView extends Component {
           onRequestClose={this.props.onClose}>
           <View style={[styles.modalContainer,
             (keyboardVisible) ?
-            {alignItems: 'flex-start', backgroundColor: 'black'}  :
+            {alignItems: 'flex-start'}  :
             {alignItems: 'center'}]}>
             <View style={styles.contentContainer}>
               <View style={styles.topContainer}>
@@ -211,19 +211,17 @@ class AppFeedbackView extends Component {
                     style={styles.closeIcon}/>
                 </TouchableWithoutFeedback>
               </View>
-              <View
-                style={styles.textContainer}>
-
-              <TextInput
-                style={styles.contentInput}
-                placeholder={transFeedback.feedbackInputPlaceholder}
-                multiline={true}
-                onChangeText={(text)=> {
-                  this.setState({
-                    feedbackText: text,
-                  });
-                }} />
-                </View>
+              <View style={styles.textContainer}>
+                <TextInput
+                  style={styles.contentInput}
+                  placeholder={transFeedback.feedbackInputPlaceholder}
+                  multiline={true}
+                  onChangeText={(text)=> {
+                    this.setState({
+                      feedbackText: text,
+                    });
+                  }} />
+              </View>
 
                 <View style={[styles.bottomContainer,
                   showThumbnail
@@ -245,17 +243,13 @@ class AppFeedbackView extends Component {
                       imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
                   </View>
 
-
-
                   <TouchableWithoutFeedback onPress={this.onSendButtonClick.bind(this)}>
                     <View style={styles.sendButtonView}>
                       <Text style={[styles.sendButtonText, styles.textFont]}>{transFeedback.sendButtonText}</Text>
                     </View>
                   </TouchableWithoutFeedback>
                 </View>
-
             </View>
-
           </View>
         </Modal>
       </View>
@@ -269,7 +263,6 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-
     justifyContent: 'center',
   },
   closeIcon: {
@@ -284,11 +277,6 @@ const styles = StyleSheet.create({
     height: CLOSE_ICON_HEIGHT
   },
   contentContainer: {
-    shadowOpacity: 0.8,
-    shadowOffset: {
-      height: 0,
-      width: 0
-    },
     height: MODAL_HEIGHT,
     width: Dimensions.get('window').width - SIDE_PADDING,
     backgroundColor: '#EEEEEE',
@@ -331,6 +319,7 @@ const styles = StyleSheet.create({
   contentInput: {
     flex: 1,
     textAlignVertical: 'top',
+    backgroundColor: '#fff',
   },
   icon: {
     height: BUTTON_ICON_HEIGHT,

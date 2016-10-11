@@ -9,8 +9,8 @@ import {
   ScrollView
 } from 'react-native';
 
-import Drawer  from 'react-native-drawer'
-import Spinner from 'react-native-loading-spinner-overlay';
+import Drawer         from 'react-native-drawer'
+import OverlaySpinner from 'react-native-loading-spinner-overlay';
 
 import Navbar           from './../components/Navbar';
 import Menu             from './../components/Menu';
@@ -122,7 +122,7 @@ class IssueListView extends Component {
           <Navbar
             onMenuClick={()=>this._drawer.open()}
             header={transList.viewTitle}/>
-          <Spinner visible={this.state.isLoading} />
+          <OverlaySpinner visible={this.state.isLoading} />
           <ScrollView>
             <View style={styles.issueContainer}>
               {this.state.issueList.map((item) => (

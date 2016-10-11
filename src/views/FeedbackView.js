@@ -300,7 +300,8 @@ class FeedbackView extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
-        ImageResizer.createResizedImage(response.uri, 800, 600, 'JPEG', 20).then((resizedImageUri) => {
+        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
+          Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
             NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
               var resizedSource = {uri: resizedImageUri, isStatic: true}
               response.data = base64;
@@ -574,7 +575,7 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 0,
       width: 0
-    },
+  },
     shadowRadius:1,
     marginBottom: 10,
     marginLeft: 10,
@@ -586,7 +587,6 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     backgroundColor: 'white',
     fontSize: 16,
-
   },
   contentContainer: {
     flex: 1,
@@ -607,6 +607,7 @@ const styles = StyleSheet.create({
   contentInput: {
     flex: 1,
     textAlignVertical: 'top',
+    backgroundColor: 'rgba(0,0,0,0)',
   },
   buttonView: {
     flexDirection: 'row',

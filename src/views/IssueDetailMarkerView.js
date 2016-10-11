@@ -12,11 +12,11 @@ import {
   LayoutAnimation
 } from 'react-native';
 
-import Spinner from 'react-native-loading-spinner-overlay';
-
-import MapView from 'react-native-maps';
+//import Spinner from 'react-native-loading-spinner-overlay';
 import Drawer  from 'react-native-drawer'
+
 import Navbar  from './../components/Navbar';
+import Spinner from './../components/Spinner';
 import Menu    from './../components/Menu';
 import Util    from './../util/util';
 
@@ -77,6 +77,9 @@ class IssueDetailMarkerView extends Component {
 
     return (
       <View style={styles.container}>
+        <View style={styles.spinnerContainer}>
+          <Spinner color={'black'} visible={this.props.isLoading} />
+        </View>
         <ScrollView>
           <View style={styles.issueContainer}>
             {image}
@@ -138,6 +141,13 @@ const styles = StyleSheet.create({
     borderColor: '#EEEEEE',
     borderWidth: 3,
     borderRadius: 5,
+  },
+  spinnerContainer: {
+    position: 'absolute',
+    height: 50,
+    width: 50,
+    top: CONTAINER_MAX_HEIGHT / 2 - 25,
+    left: Dimensions.get('window').width / 2 - SIDE_PADDING / 2 - 25,
   },
   issueContainer: {
     flexDirection: 'column',

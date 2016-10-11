@@ -4,12 +4,15 @@ import {
   StyleSheet,
   Image,
   Text,
-  Dimensions
+  Dimensions,
+  ProgressBarAndroid,
+  ActivityIndicatorIOS
 } from 'react-native';
 
 import splashImage from './../img/splash_image.png';
 
 import showAlert   from '../components/Alert';
+import Spinner     from '../components/Spinner';
 import makeRequest from '../util/requests';
 import Util        from '../util/util';
 import Models      from '../util/models';
@@ -63,12 +66,14 @@ class SplashScreen extends Component {
   }
 
   render() {
-
     return (
       <View style={styles.container}>
         <Image
           source={splashImage}
           style={styles.splashImage}/>
+        <View style={styles.spinnerContainer}>
+          <Spinner color={'white'} visible={true} />
+        </View>
       </View>
     );
   }
@@ -78,7 +83,6 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
-    backgroundColor: 'black',
     justifyContent: 'center',
     alignItems: 'center'
   },
@@ -90,9 +94,17 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width,
   },
   splashLogo: {
-
     height: 300,
     width: 290,
+  },
+  spinnerContainer: {
+    position: 'absolute',
+    bottom: 50,
+    left: Dimensions.get('window').width / 2 - 25,
+    height: 50,
+    width: 50,
+    alignItems: 'center',
+    justifyContent: 'center',
   }
 });
 

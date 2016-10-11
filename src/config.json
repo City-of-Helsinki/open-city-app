@@ -36,4 +36,10 @@
   // Requests
   "TIMEOUT_THRESHOLD": 20000,
   "TIMEOUT_MESSAGE": "timeout",
+
+  // Feedback attachment settings
+  "IMAGE_MAX_HEIGHT": 800,
+  "IMAGE_MAX_WIDTH": 600,
+  "IMAGE_QUALITY": 70,
+  "IMAGE_FORMAT": "JPEG",
 }

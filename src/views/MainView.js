@@ -24,11 +24,11 @@ import MarkerPopup          from './IssueDetailMarkerView';
 import AppFeedbackModal     from './AppFeedbackView';
 
 // External modules
-import MapView from 'react-native-maps';
-import Drawer  from 'react-native-drawer'
-import Geolib  from 'geolib';
-import Spinner from 'react-native-loading-spinner-overlay';
-import Realm   from 'realm';
+import MapView        from 'react-native-maps';
+import Drawer         from 'react-native-drawer'
+import Geolib         from 'geolib';
+import OverlaySpinner from 'react-native-loading-spinner-overlay';
+import Realm          from 'realm';
 
 // Translations
 import transMap   from '../translations/map';
@@ -221,7 +221,7 @@ class MainView extends Component {
 
   // Open a detailed view of the selected issue
   showIssueDetailPopup(issue) {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({showPopup:true, popupData: this.issueDetails, isLoading: true});
     this.fetchIssueDetails(issue);
   }
@@ -265,6 +265,7 @@ class MainView extends Component {
         data={this.state.popupData}
         userPosition={this.state.userPosition}
         onExitClick={()=>this.setState({showPopup:false})}
+        isLoading={this.state.isLoading}
         />
       : null;
 
@@ -323,7 +324,6 @@ class MainView extends Component {
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
-          <Spinner visible={this.state.isLoading} overlayColor={'rgba(0,0,0,0.0)'} color={'#000'} />
           <FloatingActionButton
             icon={plusIcon}
             onButtonClick={()=>this.navToFeedbackView(this)}/>
