@@ -122,10 +122,12 @@ class AppFeedbackView extends Component {
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
 
+      this.setState({ image: {source: null, fileName: null}, imageData: null });
       Toast.show(transFeedback.feedbackSentText);
       this.props.onClose()
 
     }, error => {
+      this.setState({ image: {source: null, fileName: null}, imageData: null });
       this.props.onClose()
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });

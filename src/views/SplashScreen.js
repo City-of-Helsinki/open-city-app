@@ -6,7 +6,8 @@ import {
   Text,
   Dimensions,
   ProgressBarAndroid,
-  ActivityIndicatorIOS
+  ActivityIndicatorIOS,
+  AsyncStorage
 } from 'react-native';
 
 import splashImage from './../img/splash_image.png';
@@ -44,24 +45,26 @@ class SplashScreen extends Component {
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
       this.issues = Util.parseIssues(result, this.userSubmittedIssues);
-      this.navToMainView();
+      this.navToNextView();
     }, error => {
       if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
-        this.navToMainView();
+        this.navToNextView();
       } else {
         showAlert(transError.networkErrorTitle, transError.networkErrorMessage,
           transError.networkErrorButton);
-        this.navToMainView();
+        this.navToNextView();
       }
     });
   }
 
-  navToMainView() {
-    this.props.navigator.resetTo({
-      id: 'MainView',
-      issues: this.issues,
+  navToNextView() {
+    const value = AsyncStorage.getItem(Config.STORAGE_IS_FIRST_TIME).then((value) => {
+      this.props.navigator.resetTo({
+        id: value !== null ? 'MainView' : 'IntroductionView',
+        issues: this.issues,
+      });
     });
   }
 

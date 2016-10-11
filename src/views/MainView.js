@@ -43,7 +43,7 @@ const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 const MARKER_IMAGE_SIZE          = 35;
-const USER_SUBMITTED_MARKER_SIZE = 60;
+const USER_SUBMITTED_MARKER_SIZE = 45;
 
 // Global reference for drawer is needed in order to enable 'back to close' functionality
 var menuRef  = null;

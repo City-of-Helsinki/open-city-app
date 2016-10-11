@@ -6,10 +6,11 @@ import {
   Platform
 } from 'react-native';
 
-import SplashScreen  from './views/SplashScreen';
-import MainView      from './views/MainView';
-import FeedbackView  from './views/FeedbackView';
-import IssueListView from './views/IssueListView';
+import SplashScreen     from './views/SplashScreen';
+import MainView         from './views/MainView';
+import FeedbackView     from './views/FeedbackView';
+import IssueListView    from './views/IssueListView';
+import IntroductionView from './views/IntroductionView';
 
 console.ignoredYellowBox = ['Warning: You are manually'];
 
@@ -32,6 +33,8 @@ class OpenCity extends Component {
     switch (route.id) {
       case 'SplashScreen':
         return(<SplashScreen navigator={navigator} route={route} title='SplashScreen' />);
+      case 'IntroductionView':
+        return(<IntroductionView navigator={navigator} route={route} title='IntroductionView' />);
       case 'MainView':
         return(<MainView navigator={navigator} route={route} title='MainView' />);
       case 'FeedbackView':

@@ -1,3 +1,5 @@
+import { AsyncStorage } from 'react-native';
+
 import Geolib from 'geolib';
 import Config from '../config';
 
@@ -138,5 +140,12 @@ module.exports = {
       return true;
     }
     return userSubmittedIssues.indexOf(issueId) > -1;
-  }
+  },
+
+  setItemToStorage(key, value) {
+    try {
+      AsyncStorage.setItem(key, value);
+    } catch (error) {
+    }
+  },
 }

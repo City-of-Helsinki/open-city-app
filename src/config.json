@@ -46,4 +46,7 @@
   // ADD THESE, REMOVED FOR TESTING PURPOSES 234, 180
   // TODO: ^
   "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, ],
+
+  // Storage keys
+  "STORAGE_IS_FIRST_TIME": "@OpenCity:is_first_time",
 }
