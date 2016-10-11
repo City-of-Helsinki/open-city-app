@@ -22,9 +22,9 @@ module.exports = {
     });
   },
 
-  // Return all data stored in the Issue model.
+  // Return all data stored in the Issue model. Returns issues in an array
   fetchAllIssues: function() {
     var issues = realm.objects(ISSUE_MODEL);
-    return issues.length === 0 ? [] : issues;
-  }
+    return issues.length === 0 ? [] : Object.keys(issues).map(key => Object.values(issues[key])[0]);
+  },
 }

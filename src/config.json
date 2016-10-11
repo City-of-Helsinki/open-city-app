@@ -24,7 +24,6 @@
   "ISSUE_LIMIT": "?limit=200",
   "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
 
-
   // Issue list
   "DETAILED_ISSUE_LIMIT": 20,
 
@@ -42,4 +41,9 @@
   "IMAGE_MAX_WIDTH": 600,
   "IMAGE_QUALITY": 70,
   "IMAGE_FORMAT": "JPEG",
+
+  // Service category blacklist, these categories are not used and need to be excluded
+  // ADD THESE, REMOVED FOR TESTING PURPOSES 234, 180
+  // TODO: ^
+  "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, ],
 }

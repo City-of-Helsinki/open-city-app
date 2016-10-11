@@ -122,7 +122,7 @@ class AppFeedbackView extends Component {
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
 
-      Toast.show(transFeedback.feedbackSent);
+      Toast.show(transFeedback.feedbackSentText);
       this.props.onClose()
 
     }, error => {

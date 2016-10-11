@@ -38,11 +38,12 @@ import transError from '../translations/errors';
 import plusIcon     from '../img/plus.png'
 
 // Default region set as Helsinki
-const DEFAULT_LATITUDE        = 60.1680574;
-const DEFAULT_LONGITUDE       = 24.9339746;
-const DEFAULT_LATITUDE_DELTA  = 0.02208;
-const DEFAULT_LONGITUDE_DELTA = 0.01010;
-const MARKER_IMAGE_SIZE       = 35;
+const DEFAULT_LATITUDE           = 60.1680574;
+const DEFAULT_LONGITUDE          = 24.9339746;
+const DEFAULT_LATITUDE_DELTA     = 0.02208;
+const DEFAULT_LONGITUDE_DELTA    = 0.01010;
+const MARKER_IMAGE_SIZE          = 35;
+const USER_SUBMITTED_MARKER_SIZE = 60;
 
 // Global reference for drawer is needed in order to enable 'back to close' functionality
 var menuRef  = null;
@@ -312,7 +313,10 @@ class MainView extends Component {
                   onPress={()=> this.showIssueDetailPopup(issue)}>
                   <Image
                     source={issue.markerImage}
-                    style={{height:MARKER_IMAGE_SIZE, width: MARKER_IMAGE_SIZE}} />
+                    style={{
+                      height: issue.userSubmitted ? USER_SUBMITTED_MARKER_SIZE : MARKER_IMAGE_SIZE,
+                      width: issue.userSubmitted ? USER_SUBMITTED_MARKER_SIZE : MARKER_IMAGE_SIZE
+                    }} />
                   <MapView.Callout tooltip={true}>
                     <EmptyMarkerCallout />
                   </MapView.Callout>

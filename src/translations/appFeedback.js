@@ -9,6 +9,7 @@ export default new LocalizedStrings({
     imagePickerPictureButton: 'Take picture',
     imagePickerLibraryButton: 'Choose picture from library',
     imagePickerCancelButton: 'Cancel',
+    feedbackSentText: 'Your feedback has been submitted, thank you',
   },
   fi: {
     appFeedbackViewTitle: 'Anna palautetta sovelluksesta',
@@ -18,5 +19,6 @@ export default new LocalizedStrings({
     imagePickerPictureButton: 'Ota kuva',
     imagePickerLibraryButton: 'Valitse kuva kirjastosta',
     imagePickerCancelButton: 'Peruuta',
+    feedbackSentText: 'Palautteesi on lähetetty, kiitos',
   },
 });

@@ -17,17 +17,12 @@ class OpenCity extends Component {
 
   constructor(props, context) {
     super(props);
-
-    var initialView = Platform.OS === 'android' ? 'SplashScreen' : 'SplashScreen';
-    this.state = {
-      initialView: initialView
-    };
   }
 
   render() {
     return (
       <Navigator
-        initialRoute={{id: this.state.initialView}}
+        initialRoute={{id: 'SplashScreen'}}
         renderScene={this.navigatorRenderScene} />
     );
   }

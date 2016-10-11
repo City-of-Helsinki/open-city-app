@@ -178,7 +178,11 @@ class FeedbackView extends Component {
   parseServiceList(data) {
     var services = [];
     for (var i=0; i < data.length; i++) {
-      services.push({label: data[i].service_name, key: data[i].service_code});
+
+      // Exclude blacklisted categories
+      if (Config.SERVICE_BLACKLIST.indexOf(parseInt(data[i].service_code)) === -1) {
+        services.push({label: data[i].service_name, key: data[i].service_code});
+      }
     }
 
     this.setState({
@@ -463,7 +467,7 @@ class FeedbackView extends Component {
           <View
             style={styles.titleWrapper}>
             <TextInput
-              style={styles.titleInput}
+              style={[styles.titleInput, styles.textFont]}
               placeholder={transFeedback.inputTitlePlaceholder}
               name="title"
               value={this.state.titleText}
@@ -473,7 +477,7 @@ class FeedbackView extends Component {
 
           <View style={styles.contentContainer}>
             <TextInput
-              style={styles.contentInput}
+              style={[styles.contentInput, styles.textFont]}
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}

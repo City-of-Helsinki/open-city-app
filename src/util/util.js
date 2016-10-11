@@ -107,7 +107,7 @@ module.exports = {
   },
 
   // Get all issues with coordinates and show them on the map
-  parseIssues: function(data, userSubmittedIssues) {
+  parseIssues: function(data, userSubmittedIssues = []) {
     var issues = [];
 
     for (var i=0; i < data.length; i++) {
@@ -115,8 +115,8 @@ module.exports = {
         issues.push({coordinates:
                       {latitude: data[i].lat,
                       longitude: data[i].long},
-                    markerImage: module.exports.selectMarkerImage(
-                      data[i].status, data[i].service_request_id, userSubmittedIssues),
+                    markerImage: module.exports.selectMarkerImage(data[i].status, data[i].service_request_id),
+                    userSubmitted: module.exports.isUserSubmittedIssue(data[i].service_request_id, userSubmittedIssues),
                     id: data[i].service_request_id});
       }
     }
@@ -125,26 +125,18 @@ module.exports = {
   },
 
   // Parse status and return the appropriate marker
-  selectMarkerImage: function(status, issueId, userSubmittedIssues) {
-
-    if (!module.exports.isUserSubmittedIssue(issueId)) {
-      return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
-    } else {
-      // TODO: user marker icon
-      return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
-    }
+  selectMarkerImage: function(status, issueId) {
+    return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
   },
 
   // Return true if the id was found in the database, false otherwise
-  isUserSubmittedIssue: function(issueId, userSubmittedIssues = []) {
+  isUserSubmittedIssue: function(issueId, userSubmittedIssues) {
+    userSubmittedIssues = [];
 
-    mArray = [];
-    userSubmittedIssues.forEach(function(value, index, ar) {
-      if(value.issueId == issueId) {
-        return true;
-      }
-    });
-
-    return false;
+    // For testing purposes
+    if (issueId == '113dmieqjindqii2kvne' || issueId == '3eohlgf51pu5n5l3bvi8' || issueId == '2usjcfstu6b7piuus1lo' || issueId == '1mevh6h1n750kdfbsqre') {
+      return true;
+    }
+    return userSubmittedIssues.indexOf(issueId) > -1;
   }
 }
