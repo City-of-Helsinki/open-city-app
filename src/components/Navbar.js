@@ -10,8 +10,8 @@ import {
 
 import menuIcon from './../img/menu.png';
 
-const MENU_BUTTON_WIDTH  = 40;
-const MENU_BUTTON_HEIGHT = 40;
+const MENU_BUTTON_WIDTH  = 30;
+const MENU_BUTTON_HEIGHT = 30;
 
 class Navbar extends Component {
 

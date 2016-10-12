@@ -19,6 +19,7 @@ import EmptyMarkerCallout   from './../components/EmptyMarkerCallout';
 import Config               from './../config.json';
 import makeRequest          from './../util/requests';
 import Util                 from './../util/util';
+import Global               from './../util/globals';
 import Models               from './../util/models';
 import MarkerPopup          from './IssueDetailMarkerView';
 import AppFeedbackModal     from './AppFeedbackView';
@@ -44,10 +45,6 @@ const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 const MARKER_IMAGE_SIZE          = 35;
 const USER_SUBMITTED_MARKER_SIZE = 45;
-
-// Global reference for drawer is needed in order to enable 'back to close' functionality
-var menuRef  = null;
-var menuOpen = false;
 
 class MainView extends Component {
 
@@ -259,7 +256,6 @@ class MainView extends Component {
   }
 
   render() {
-
     // Initialize Popup which will be shown when a marker is clicked
     var issueDetailPopup = this.state.showPopup ?
       <MarkerPopup
@@ -274,7 +270,7 @@ class MainView extends Component {
       <Drawer
         ref={(ref) => {
           this._drawer = ref;
-          menuRef = ref;
+          Global.menuRef = ref;
         }}
         type={'overlay'}
         openDrawerOffset={0.25}
@@ -282,8 +278,8 @@ class MainView extends Component {
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
-        onOpen={()=> menuOpen = true}
-        onClose={()=> menuOpen = false}
+        onOpen={()=> Global.menuOpen = true}
+        onClose={()=> Global.menuOpen = false}
         content={
           <Menu
             mapView={()=>{this._drawer.close()}}
@@ -353,12 +349,16 @@ const styles = StyleSheet.create({
 });
 
 BackAndroid.addEventListener('hardwareBackPress', function() {
-  if (menuOpen && menuRef !== null) {
-    menuRef.close();
+
+  // Close menu if it's open otherwise exit the app
+  if (Global.menuOpen && Global.menuRef !== null) {
+    Global.menuRef.close();
     return true;
-  } else {
+  } else if (Global.isMainView) {
     BackAndroid.exitApp();
   }
+
+  return false;
 });
 
 module.exports = MainView

@@ -21,8 +21,8 @@ import progressImage3 from '../img/progress_3.png';
 import markersImage   from '../img/markers.png';
 import menuImage      from '../img/splash_image.png';
 
-const EVENT_RIGHT_SWIPE_THRESHOLD = -30;
-const EVENT_LEFT_SWIPE_THRESHOLD  = 30;
+const EVENT_RIGHT_SWIPE_THRESHOLD = -35;
+const EVENT_LEFT_SWIPE_THRESHOLD  = 35;
 
 // An introductory view where user can swipe to move back and forth. After the final view user is
 // redirected to the MainView. The view is divided into 3 seperate states.
@@ -100,7 +100,7 @@ class IntroductionView extends Component {
         break;
     }
 
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.linear);
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.setState({
       topText: topText,
       bottomText: bottomText,
@@ -126,7 +126,7 @@ class IntroductionView extends Component {
         </View>
         <View
           style={[styles.textContainer, {
-          padding: this.state.bottomText !== '' ? 15 : 0, // If there is no text don't use padding so that the empty white box does not show
+          padding: this.state.bottomText !== '' ? 15 : 0, // If there is no text don't use padding so that an empty white box does not show up
           }]}>
           <Text style={[styles.descriptionText, styles.textFont]}>{this.state.bottomText}</Text>
         </View>

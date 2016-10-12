@@ -23,7 +23,6 @@ class IssueListRow extends Component {
     this.state = {
       showStatusNotes: false,
     };
-
     transList.setLanguage('fi');
   }
 

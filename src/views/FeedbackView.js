@@ -38,6 +38,7 @@ import Config               from '../config';
 
 import makeRequest          from '../util/requests';
 import issueModels          from '../util/models';
+import Global               from '../util/globals';
 
 // Translations
 import transFeedback from '../translations/feedback';
@@ -52,9 +53,6 @@ import locationOnIcon   from '../img/location_on.png';
 import locationOffIcon  from '../img/location_off.png';
 import ownLocationIcon  from '../img/own_loc.png';
 
-// Global reference for drawer is needed in order to enable 'back to close' functionality
-var menuRef  = null;
-var menuOpen = false;
 var navigator;
 
 const DEFAULT_CATEGORY       = 'Muu';
@@ -97,6 +95,8 @@ class FeedbackView extends Component {
     //this.refs.map.animateToRegion(region)
     transFeedback.setLanguage('fi');
     transError.setLanguage('fi');
+
+    Global.isMainView = false;
 
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
@@ -428,7 +428,7 @@ class FeedbackView extends Component {
       <Drawer
         ref={(ref) => {
           this._drawer = ref;
-          menuRef = ref;
+          Global.menuRef = ref;
         }}
         type={'overlay'}
         openDrawerOffset={0.25}
@@ -436,8 +436,8 @@ class FeedbackView extends Component {
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
-        onOpen={()=> menuOpen = true}
-        onClose={()=> menuOpen = false}
+        onOpen={()=> Global.menuOpen = true}
+        onClose={()=> Global.menuOpen = false}
         content={
           <Menu
             mapView={()=>{this.props.navigator.pop()}}
@@ -647,10 +647,11 @@ const styles = StyleSheet.create({
 BackAndroid.addEventListener('hardwareBackPress', function() {
 
   // Close menu if it's open otherwise navigate to the previous view
-  if (menuOpen && menuRef !== null) {
-    menuRef.close();
+  if (Global.menuOpen && Global.menuRef !== null) {
+    Global.menuRef.close();
     return true;
   } else if (navigator) {
+    Global.isMainView = true;
     navigator.pop();
     return true;
   }
