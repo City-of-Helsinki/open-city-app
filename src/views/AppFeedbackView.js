@@ -225,8 +225,8 @@ class AppFeedbackView extends Component {
 
                 <View style={[styles.bottomContainer,
                   showThumbnail
-                    ? { height: 130 }
-                    : { height: 60 },]}>
+                    ? { height: 70 }
+                    : { height: 70 },]}>
 
                   <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
                     <Image
@@ -238,8 +238,8 @@ class AppFeedbackView extends Component {
                     <Thumbnail
                       show={showThumbnail}
                       imageSource={this.state.image.source}
-                      imageHeight={100}
-                      imageWidth={100}
+                      imageHeight={50}
+                      imageWidth={50}
                       imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
                   </View>
 
@@ -326,11 +326,11 @@ const styles = StyleSheet.create({
     width: BUTTON_ICON_WIDTH,
     marginRight: 25,
     position: 'absolute',
-    bottom:10,
+    bottom:0,
   },
   thumbnailWrapper: {
     position:'absolute',
-    bottom: 10,
+    bottom: 0,
     left: 50,
   },
   textFont: {

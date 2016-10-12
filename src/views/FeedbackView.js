@@ -102,6 +102,8 @@ class FeedbackView extends Component {
   }
 
   componentDidMount() {
+    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
 
   }
 
@@ -111,18 +113,48 @@ class FeedbackView extends Component {
       pickerData: [{label: '', key: ''}],
     });
 
-    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
 
     var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
     AsyncStorage.multiGet(keys, (err, stores) => {
+
+      var sendEnabled = false;
+      var selectedCategory = "";
+      var titleText = "";
+      var selectedServiceCode = "";
+      var descriptionText = "";
+      console.log(stores)
+
+      console.log(selectedCategory + " / " + selectedServiceCode + " / " + descriptionText + " / " + sendEnabled)
+      if(stores[0][1]) {
+        if(stores[3][1]) {
+        sendEnabled = stores[0][1].length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+                        stores[0][1].length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH &&
+                        stores[3][1].length > 0;
+        }
+
+        descriptionText = stores[0][1];
+      }
+      if(stores[1][1]) {
+        titleText = stores[1][1]
+      }
+      if(stores[2][1]) {
+        selectedServiceCode = stores[2][1]
+      }
+
+      if(stores[3][1]) {
+        selectedCategory = stores[3][1];
+      }
+
         this.setState({
           descriptionText: stores[0][1],
-          titleText: stores[1][1],
-          selectedServiceCode: stores[2][1],
-          selectedCategory: stores[3][1],
+          titleText: titleText,
+          selectedServiceCode: selectedServiceCode,
+          selectedCategory: selectedCategory,
+          sendEnabled: sendEnabled,
         })
+
+
      });
 
 
@@ -394,6 +426,7 @@ class FeedbackView extends Component {
 
   render() {
     var showThumbnail = this.state.image.source !== null;
+
     var keyboardVisible = this.state.keyboardVisible;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
@@ -463,12 +496,16 @@ class FeedbackView extends Component {
               data={this.state.pickerData}
               defaultItem={this.state.selectedCategory}
               selectedItem={this.state.selectedCategory}
-              itemChange={
-                (item)=>this.setState(
+              itemChange={(item)=>{
+                var sendEnabled = this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+                                  this.state.descriptionText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH;
+                this.setState(
                   { selectedCategory: (Platform.OS === 'ios') ? item.label : item,
-                    selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item
+                    selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item,
+                    sendEnabled: sendEnabled,
                   })
-                }/>
+                }
+              }/>
           </View>
 
           <View
@@ -491,28 +528,15 @@ class FeedbackView extends Component {
               value={this.state.descriptionText}
               onChangeText={(text)=> {
                 var sendEnabled = text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
-                                  text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH;
+                                  text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH &&
+                                  this.state.selectedCategory.length > 0;
                 this.setState({
                   sendEnabled: sendEnabled,
                   descriptionText: text,
                 });
               }}
             />
-            <View style={[styles.bottomContainer,
-              showThumbnail
-                ? { height: 130 }
-                : { height: 70 },
-              ]}>
-
-              <View style={[styles.thumbnailWrapper]}>
-                <Thumbnail
-                  show={showThumbnail}
-                  imageSource={this.state.image.source}
-                  imageHeight={100}
-                  imageWidth={100}
-                  imageClickAction={()=>this.removeThumbnail()} />
-              </View>
-
+            <View style={styles.horizontalContainer}>
               <View style={styles.buttonView}>
                 <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
                   <Image
@@ -524,10 +548,19 @@ class FeedbackView extends Component {
                     source={locationIcon}
                     style={styles.icon} />
                 </TouchableWithoutFeedback>
-
               </View>
 
+              <View style={[styles.thumbnailWrapper]}>
+                <Thumbnail
+                  show={showThumbnail}
+                  imageSource={this.state.image.source}
+                  imageHeight={55}
+                  imageWidth={55}
+                  imageClickAction={()=>this.removeThumbnail()} />
+              </View>
             </View>
+
+
             <FloatingActionButton
               style={styles.FAB}
               icon={sendIcon}
@@ -555,6 +588,12 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'column',
     flex: 1,
+  },
+  horizontalContainer: {
+    flexDirection: 'column',
+    flex: 0.3,
+    justifyContent: 'center',
+    marginTop: 20,
   },
   mapContainer: {
     flexDirection: 'column',
@@ -623,9 +662,7 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-    position: 'absolute',
-    bottom:0,
-    left:0
+
   },
   icon: {
     height: BUTTON_ICON_HEIGHT,
@@ -643,7 +680,7 @@ const styles = StyleSheet.create({
   thumbnailWrapper: {
     position: 'absolute',
     left: 100,
-    bottom: 15,
+    bottom: 20,
   },
   textFont: {
     fontFamily: 'montserrat',
