@@ -21,7 +21,7 @@ class Spinner extends Component {
     spinner = this.props.visible ? spinner : null;
 
     return (
-      <View style={styles.container}>
+      <View>
         {spinner}
       </View>
     );

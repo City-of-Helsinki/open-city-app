@@ -46,6 +46,8 @@ const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 const MARKER_IMAGE_SIZE          = 35;
 const USER_SUBMITTED_MARKER_SIZE = 45;
 
+var mainViewRef;
+
 class MainView extends Component {
 
   constructor(props, context) {
@@ -83,6 +85,8 @@ class MainView extends Component {
 
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
+
+    mainViewRef = this;
   }
 
   componentWillMount() {
@@ -324,9 +328,10 @@ class MainView extends Component {
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
-          <FloatingActionButton
-            icon={plusIcon}
-            onButtonClick={()=>this.navToFeedbackView(this)}/>
+          {!this.state.showPopup &&
+            <FloatingActionButton
+              icon={plusIcon}
+              onButtonClick={()=>this.navToFeedbackView(this)}/>}
         </View>
       </Drawer>
     );
@@ -353,6 +358,9 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   // Close menu if it's open otherwise exit the app
   if (Global.menuOpen && Global.menuRef !== null) {
     Global.menuRef.close();
+    return true;
+  } else if (mainViewRef.state.showPopup) {
+    mainViewRef.setState({ showPopup:false });
     return true;
   } else if (Global.isMainView) {
     BackAndroid.exitApp();

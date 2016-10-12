@@ -174,6 +174,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   image: {
+    height: 200,
+    width: 175,
   },
   textContainer: {
     backgroundColor: '#fff',

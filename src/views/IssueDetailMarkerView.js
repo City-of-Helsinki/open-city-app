@@ -25,7 +25,7 @@ import distanceIcon from '../img/location_marker.png';
 
 import transList    from '../translations/list';
 
-const SIDE_PADDING           = 32;
+const SIDE_PADDING           = 48;
 const TOP_MARGIN             = Platform.OS === 'android' ? 60 : 75;
 const BOTTOM_MARGIN          = 280;
 const CLOSE_ICON_HEIGHT      = 32;
@@ -52,6 +52,11 @@ class IssueDetailMarkerView extends Component {
     this.setState({
       showStatusNotes: !this.state.showStatusNotes,
     });
+
+    // Prevent empty space from appearing on the bottom
+    if (this.state.showStatusNotes) {
+      this.scrollView.scrollTo({x: 0, y: 0, animated: true});
+    }
   }
 
   render() {
@@ -80,7 +85,7 @@ class IssueDetailMarkerView extends Component {
         <View style={styles.spinnerContainer}>
           <Spinner color={'black'} visible={this.props.isLoading} />
         </View>
-        <ScrollView>
+        <ScrollView ref={ref => this.scrollView = ref}>
           <View style={styles.issueContainer}>
             {image}
             <View style={styles.textContainer}>
@@ -153,13 +158,16 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
   },
   textContainer: {
-    padding: 5
+    paddingRight: 15,
+    paddingLeft: 15,
+    paddingTop: 5,
+    paddingBottom: 5
   },
   imageView: {
     marginBottom: 5,
   },
   image: {
-    height: 300,
+    height: 270,
     width: Dimensions.get('window').width - SIDE_PADDING,
   },
   paddingContainer: {
@@ -176,7 +184,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     color: '#546E7A',
-    textAlign: 'center',
+    textAlign: 'left',
   },
   rowContainer: {
     flexDirection: 'row',
