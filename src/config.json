@@ -25,7 +25,8 @@
   "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
 
   // Issue list
-  "DETAILED_ISSUE_LIMIT": 20,
+  "DETAILED_ISSUE_LIMIT": 30,
+  "TIME_SPAN_IN_MONTHS": 2,
 
   // GPS Settings
   "GPS_HIGH_ACCURACY": true,

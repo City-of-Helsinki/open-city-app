@@ -80,6 +80,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'rgba(255,255,255,1)',
     paddingTop: 55,
+    borderRightWidth: 1,
+    borderRightColor: '#EEEEEE',
   },
   menuIcon: {
     height: 40,

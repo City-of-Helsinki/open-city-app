@@ -356,8 +356,9 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   if (menuOpen && menuRef !== null) {
     menuRef.close();
     return true;
+  } else {
+    BackAndroid.exitApp();
   }
-  return false;
 });
 
 module.exports = MainView
