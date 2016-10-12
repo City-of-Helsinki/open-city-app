@@ -18,6 +18,7 @@ import IssueListRow     from './../components/IssueListRow';
 import showAlert        from './../components/Alert';
 import makeRequest      from './../util/requests';
 import Util             from './../util/util';
+import Global           from './../util/globals';
 import Config           from './../config';
 import AppFeedbackModal from './AppFeedbackView';
 
@@ -25,9 +26,6 @@ import AppFeedbackModal from './AppFeedbackView';
 import transList  from '../translations/list';
 import transError from '../translations/errors';
 
-// Global reference for drawer is needed in order to enable 'back to close' functionality
-var menuRef  = null;
-var menuOpen = false;
 var navigator;
 
 class IssueListView extends Component {
@@ -36,7 +34,7 @@ class IssueListView extends Component {
     super(props, context);
 
     this.state = {
-      issueList: [],               // All objects to be shown (max 20)
+      issueList: [],               // All objects to be shown
       isLoading: true,             // Show/hide spinner
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
@@ -45,6 +43,8 @@ class IssueListView extends Component {
 
     transList.setLanguage('fi');
     transError.setLanguage('fi');
+
+    Global.isMainView = false;
   }
 
   componentWillMount() {
@@ -101,7 +101,7 @@ class IssueListView extends Component {
       <Drawer
         ref={(ref) => {
           this._drawer = ref;
-          menuRef = ref;
+          Global.menuRef = ref;
         }}
         type={'overlay'}
         openDrawerOffset={0.25}
@@ -109,8 +109,8 @@ class IssueListView extends Component {
         tapToClose={true}
         acceptTap={true}
         captureGestures={'open'}
-        onOpen={()=> menuOpen = true}
-        onClose={()=> menuOpen = false}
+        onOpen={()=> Global.menuOpen = true}
+        onClose={()=> Global.menuOpen = false}
         content={
           <Menu
             mapView={()=>{this.navToMapView(this)}}
@@ -149,10 +149,11 @@ class IssueListView extends Component {
 BackAndroid.addEventListener('hardwareBackPress', function() {
 
   // Close menu if it's open otherwise navigate to the previous view
-  if (menuOpen && menuRef !== null) {
-    menuRef.close();
+  if (Global.menuOpen && Global.menuRef !== null) {
+    Global.menuRef.close();
     return true;
   } else if (navigator) {
+    Global.isMainView = true;
     navigator.pop();
     return true;
   }

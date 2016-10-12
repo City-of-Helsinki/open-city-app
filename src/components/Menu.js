@@ -80,12 +80,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'rgba(255,255,255,1)',
     paddingTop: 55,
+    borderRightWidth: 1,
+    borderRightColor: '#EEEEEE',
   },
   menuIcon: {
-    height: 40,
-    width: 40,
+    height: 30,
+    width: 30,
     position: 'absolute', // Menu icon positioned on top of the navbar menu icon
-    top: 7,
+    top: 12,
     left: 10,
   },
   innerContainer: {
@@ -102,11 +104,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   buttonDividerGray: {
-    borderTopWidth: 2,
-    borderTopColor: '#757575',
+    borderTopWidth: 1,
+    borderTopColor: '#BDBDBD',
   },
   buttonDividerYellow: {
-    borderTopWidth: 2,
+    borderTopWidth: 1,
     borderTopColor: '#FBC02D',
   },
   menuText: {

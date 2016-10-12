@@ -23,7 +23,6 @@ class IssueListRow extends Component {
     this.state = {
       showStatusNotes: false,
     };
-
     transList.setLanguage('fi');
   }
 
@@ -49,7 +48,7 @@ class IssueListRow extends Component {
                              <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.statusNotes}</Text>
                            </View> : null;
     return (
-      <View>
+      <View style={styles.container}>
         {image}
         <View style={styles.textContainer}>
           <View>
@@ -94,16 +93,18 @@ class IssueListRow extends Component {
 }
 
 const styles = StyleSheet.create({
-  textContainer: {
-    marginBottom: 10,
-    backgroundColor: '#fff',
-    padding: 10,
+  container: {
     shadowColor: 'black',
     shadowOpacity: 0.8,
     shadowOffset: {
       height: 0,
       width: 0
     },
+  },
+  textContainer: {
+    marginBottom: 10,
+    backgroundColor: '#fff',
+    padding: 10,
   },
   infoContainer: {
     flexDirection: 'row',

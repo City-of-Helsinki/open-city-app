@@ -14,7 +14,7 @@ module.exports = {
     var date = new Date(input);
     var hours   = date.getHours()   < 10 ? '0' + date.getHours() : date.getHours();
     var minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes();
-    return date.getDate() + '.' + date.getMonth() + '.' + date.getFullYear() + ' ' +
+    return date.getDate() + '.' + (date.getMonth() + 1) + '.' + date.getFullYear() + ' ' +
            hours + ':' + minutes;
   },
 
@@ -92,13 +92,11 @@ module.exports = {
 
   // Return an object with a timespan as ISO dates
   getTimeSpan: function() {
-    const timeSpanInMonths = 2;
-
     var endDate = new Date();
     var endDateISO = endDate.toISOString();
-    var month = (endDate.getMonth() + 1) - timeSpanInMonths;
+    var month = (endDate.getMonth() + 1) - Config.TIME_SPAN_IN_MONTHS;
     var startMonth = month < 1 ? 12 + month : month;
-    var startDateISO = new Date(endDate.getFullYear(), endDate.getMonth() - timeSpanInMonths, endDate.getDate()).toISOString();
+    var startDateISO = new Date(endDate.getFullYear(), endDate.getMonth() - Config.TIME_SPAN_IN_MONTHS, endDate.getDate()).toISOString();
 
     return {startDate: startDateISO, endDate: endDateISO};
   },
