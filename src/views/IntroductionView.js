@@ -120,7 +120,12 @@ class IntroductionView extends Component {
   render() {
     return (
       <View style={styles.container} {...this.panResponder.panHandlers}>
-        <Text style={[styles.titleText, styles.textFont]}>{this.state.topText}</Text>
+        <Text
+          style={[styles.titleText, styles.textFont, {
+            fontWeight: this.state.currentView === 1 ? 'bold' : 'normal',
+          }]}>
+          {this.state.topText}
+        </Text>
         <View style={styles.imageContainer}>
           <Image source={this.state.image} style={styles.image} resizeMode={'contain'} />
         </View>
@@ -147,7 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF176',
     paddingLeft: 20,
     paddingRight: 20,
-    paddingBottom: 35,
+    paddingBottom: 40,
     paddingTop: 20,
   },
   titleText: {
@@ -159,11 +164,14 @@ const styles = StyleSheet.create({
   textFont: {
     fontFamily: 'montserrat',
     color: '#212121',
+    textAlign: 'center'
   },
   imageContainer: {
-    height: 200,
-    width: 175,
+    flex: 1,
+    alignSelf: 'stretch',
     margin: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   image: {
     height: 200,
