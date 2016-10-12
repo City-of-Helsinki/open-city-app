@@ -21,17 +21,11 @@ class Spinner extends Component {
     spinner = this.props.visible ? spinner : null;
 
     return (
-      <View style={styles.container}>
+      <View>
         {spinner}
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    position: 'absolute',
-  },
-});
 
 module.exports = Spinner
