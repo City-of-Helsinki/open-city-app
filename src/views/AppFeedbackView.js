@@ -171,16 +171,14 @@ class AppFeedbackView extends Component {
         }
         ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
-            NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
-              var resizedSource = {uri: resizedImageUri, isStatic: true}
-              response.data = base64;
-              response.path = resizedImageUri
-              response.uri = resizedImageUri;
-              this.setState({
-                image: {source: resizedSource, name: response.fileName},
-                imageData: response
-              });
-            })
+            var resizedSource = {uri: resizedImageUri, isStatic: true}
+            response.path = resizedImageUri
+            response.uri = resizedImageUri;
+            this.setState({
+              image: {source: resizedSource, name: response.fileName},
+              imageData: response
+            });
+
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });

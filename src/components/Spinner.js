@@ -17,13 +17,13 @@ class Spinner extends Component {
   render() {
     var spinner = Platform.OS === 'android' ?
                   <ProgressBarAndroid color={this.props.color} /> :
-                  <ActivityIndicatorIOS color={this.props.color}/>;
+                  <ActivityIndicatorIOS style={styles.centering} color={this.props.color}/>;
     spinner = this.props.visible ? spinner : null;
 
     return (
-      <View style={styles.container}>
+        <View>
         {spinner}
-      </View>
+        </View>
     );
   }
 }
@@ -32,6 +32,7 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
   },
+
 });
 
 module.exports = Spinner
