@@ -200,6 +200,7 @@ class FeedbackView extends Component {
     data.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
     data.append('service_code', this.state.selectedServiceCode);
     data.append('description', this.state.descriptionText);
+
     if (this.state.locationEnabled &&
         this.state.markerPosition.latitude !== null &&
         this.state.markerPosition.longitude !== null) {
@@ -227,11 +228,13 @@ class FeedbackView extends Component {
 
     }
 
-    if (this.state.titleText !== '') {
+    if (this.state.titleText !== null) {
       data.append('title', this.state.titleText);
+    } else {
+      data.append('title', '');
     }
 
-
+    console.log(data)
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
@@ -250,7 +253,8 @@ class FeedbackView extends Component {
         id: 'MainView',
       });
     }, error => {
-      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      alert(error)
+      //showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
 
@@ -306,18 +310,17 @@ class FeedbackView extends Component {
         }
         ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
-            NativeModules.RNImageToBase64.getBase64String(resizedImageUri, (err, base64) => {
-              var resizedSource = {uri: resizedImageUri, isStatic: true}
-              response.data = base64;
-              response.path = resizedImageUri
-              response.uri = resizedImageUri;
-              this.setState({
-                image: {source: resizedSource, name: response.fileName},
-                imageData: response
-              });
+            var resizedSource = {uri: resizedImageUri, isStatic: true}
 
-              LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-            })
+            response.path = resizedImageUri
+            response.uri = resizedImageUri;
+            this.setState({
+              image: {source: resizedSource, name: response.fileName},
+              imageData: response
+            });
+
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
 
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
@@ -460,8 +463,12 @@ class FeedbackView extends Component {
               data={this.state.pickerData}
               defaultItem={this.state.selectedCategory}
               selectedItem={this.state.selectedCategory}
-              itemChange={(item)=>this.setState({ selectedCategory: (Platform.OS === 'ios') ? item.label : item,
-              selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item })}/>
+              itemChange={
+                (item)=>this.setState(
+                  { selectedCategory: (Platform.OS === 'ios') ? item.label : item,
+                    selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item
+                  })
+                }/>
           </View>
 
           <View
