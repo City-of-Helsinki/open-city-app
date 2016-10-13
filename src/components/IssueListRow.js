@@ -80,7 +80,7 @@ class IssueListRow extends Component {
                   </View>
                   <View style={[styles.detail, styles.extendedDataRowContainer]}>
                     <Text style={[styles.detailText, styles.textFont]}>{item.agency}</Text>
-                    <Text style={[styles.detailText, styles.textFont]}>{item.date}</Text>
+                    <Text style={[styles.detailText, styles.textFont, styles.detailDateText]}>{item.date}</Text>
                   </View>
                 </View>
               ))}
@@ -161,7 +161,12 @@ const styles = StyleSheet.create({
   },
   detailText: {
     color: '#757575',
-  }
+    flexWrap: 'wrap',
+    flex: 1,
+  },
+  detailDateText: {
+    textAlign: 'right',
+  },
 
 });
 
