@@ -503,8 +503,10 @@ class FeedbackView extends Component {
               defaultItem={this.state.selectedCategory}
               selectedItem={this.state.selectedCategory}
               itemChange={(item)=>{
-                var sendEnabled = this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+                if(this.state.descriptionText) {
+                  var sendEnabled = this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
                                   this.state.descriptionText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH;
+                }
                 this.setState(
                   { selectedCategory: (Platform.OS === 'ios') ? item.label : item,
                     selectedServiceCode:  (Platform.OS === 'ios') ? item.key : item,
