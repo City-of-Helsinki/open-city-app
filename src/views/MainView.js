@@ -313,10 +313,7 @@ class MainView extends Component {
                   onPress={()=> this.showIssueDetailPopup(issue)}>
                   <Image
                     source={issue.markerImage}
-                    style={{
-                      height: issue.userSubmitted ? USER_SUBMITTED_MARKER_SIZE : MARKER_IMAGE_SIZE,
-                      width: issue.userSubmitted ? USER_SUBMITTED_MARKER_SIZE : MARKER_IMAGE_SIZE
-                    }} />
+                    style={styles.markerImage} />
                   <MapView.Callout tooltip={true}>
                     <EmptyMarkerCallout />
                   </MapView.Callout>
@@ -351,6 +348,10 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
+  markerImage: {
+    height: MARKER_IMAGE_SIZE,
+    width: MARKER_IMAGE_SIZE,
+  }
 });
 
 BackAndroid.addEventListener('hardwareBackPress', function() {

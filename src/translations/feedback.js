@@ -6,9 +6,8 @@ export default new LocalizedStrings({
     category: 'Category',
     inputTitlePlaceholder: 'Title',
     inputContentPlaceholder: 'Feedback (minimum of 10 characters)',
-    imagePickerTitle: '',
     imagePickerPictureButton: 'Take picture',
-    imagePickerLibraryButton: 'Choose picture from library',
+    imagePickerLibraryButton: 'Choose picture',
     imagePickerCancelButton: 'Cancel',
     feedbackSent: 'Your feedback has been sent, thank you'
   },
@@ -17,9 +16,8 @@ export default new LocalizedStrings({
     category: 'Kategoria',
     inputTitlePlaceholder: 'Otsikko',
     inputContentPlaceholder: 'Anna kaupungille kehitysehdotus tai palaute (vähintään 10 merkkiä)',
-    imagePickerTitle: '',
     imagePickerPictureButton: 'Ota kuva',
-    imagePickerLibraryButton: 'Valitse kuva kirjastosta',
+    imagePickerLibraryButton: 'Valitse kuva',
     imagePickerCancelButton: 'Peruuta',
     feedbackSent: 'Palaute lähetetty onnistuneesti, kiitos'
   }

@@ -6,12 +6,14 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
+  Dimensions
 } from 'react-native';
 
 import menuIcon from './../img/menu.png';
 
 const MENU_BUTTON_WIDTH  = 30;
 const MENU_BUTTON_HEIGHT = 30;
+const HEADER_VIEW_WIDTH  = Dimensions.get('window').width - ((MENU_BUTTON_WIDTH * 2) + 30);
 
 class Navbar extends Component {
 
@@ -40,7 +42,9 @@ class Navbar extends Component {
                   style={styles.menuIcon}/>
               </View>
             </TouchableWithoutFeedback>
-            <Text style={[styles.header, styles.textFont]}>{this.props.header}</Text>
+            <View style={styles.headerView}>
+              <Text style={[styles.header, styles.textFont]} numberOfLines={2}>{this.props.header}</Text>
+            </View>
           </View>
         </View>
       </View>
@@ -79,10 +83,15 @@ const styles = StyleSheet.create({
     height: MENU_BUTTON_HEIGHT,
     width: MENU_BUTTON_WIDTH,
   },
-  header: {
+  headerView: {
+    width: HEADER_VIEW_WIDTH,
     alignItems: 'center',
-    fontSize: 18,
-    color: '#000'
+    justifyContent: 'center',
+  },
+  header: {
+    fontSize: 16,
+    color: '#212121',
+    textAlign: 'center'
   },
   textFont: {
     fontFamily: 'montserrat',

@@ -142,7 +142,7 @@ const styles = StyleSheet.create({
   },
   statusButtonText: {
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: 'left',
     fontWeight: 'bold',
     color: '#546E7A',
   },

@@ -149,7 +149,7 @@ class AppFeedbackView extends Component {
 
   onAttachmentIconClick() {
     var options = {
-      title: transFeedback.imagePickerTitle,
+      title: '',
       cancelButtonTitle: transFeedback.imagePickerCancelButton,
       takePhotoButtonTitle: transFeedback.imagePickerPictureButton,
       chooseFromLibraryButtonTitle: transFeedback.imagePickerLibraryButton,
