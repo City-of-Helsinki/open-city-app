@@ -64,6 +64,9 @@ const DESCRIPTION_MAX_LENGTH = 5000;
 const MARKER_IMAGE_SIZE      = 35;
 var isFeedbackSent = false;
 
+var _keyboardWillShowSubscription;
+var _keyobardWillHideSubscription;
+
 class FeedbackView extends Component {
 
   constructor(props, context) {
@@ -102,9 +105,10 @@ class FeedbackView extends Component {
   }
 
   componentDidMount() {
-    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
-
+    _keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow.bind(this));
+    _keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide.bind(this));
+    //this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    //this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
   }
 
   componentWillMount() {
@@ -172,12 +176,14 @@ class FeedbackView extends Component {
         });
       }
 
-      Keyboard.removeAllListeners('keyboardDidShow');
-      Keyboard.removeAllListeners('keyboardDidHide');
+      //Keyboard.removeAllListeners('keyboardDidShow');
+      //Keyboard.removeAllListeners('keyboardDidHide');
+      _keyboardWillShowSubscription.remove()
+      _keyboardWillHideSubscription.remove()
   }
 
   keyboardWillShow (e) {
-    let newSize = e.endCoordinates.height - 50
+    let newSize = e.endCoordinates.height
     this.setState({
       visibleHeight: newSize,
       keyboardVisible: true,
