@@ -42,6 +42,9 @@ const CLOSE_ICON_WIDTH       = 32;
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 
+var _keyboardWillShowSubscription;
+var _keyobardWillHideSubscription;
+
 class AppFeedbackView extends Component {
 
   constructor(props, context) {
@@ -63,17 +66,16 @@ class AppFeedbackView extends Component {
   }
 
   componentWillMount() {
-    Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+    _keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow.bind(this));
+    _keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide.bind(this));
   }
 
   componentWillUnmount () {
-    Keyboard.removeAllListeners('keyboardDidShow');
-    Keyboard.removeAllListeners('keyboardDidHide');
+    _keyboardWillShowSubscription.remove();
+    _keyboardWillHideSubscription.remove();
   }
 
   keyboardWillShow (e) {
-    let newSize = e.endCoordinates.height - 50
     this.setState({
       keyboardVisible: true,
     })
@@ -200,7 +202,7 @@ class AppFeedbackView extends Component {
           onRequestClose={this.props.onClose}>
           <View style={[styles.modalContainer,
             (keyboardVisible) ?
-            {alignItems: 'flex-start'}  :
+            {alignItems: 'flex-start', marginTop:80}  :
             {alignItems: 'center'}]}>
             <View style={styles.contentContainer}>
               <View style={styles.topContainer}>
@@ -225,8 +227,8 @@ class AppFeedbackView extends Component {
 
                 <View style={[styles.bottomContainer,
                   showThumbnail
-                    ? { height: 130 }
-                    : { height: 60 },]}>
+                    ? { height: 70 }
+                    : { height: 70 },]}>
 
                   <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
                     <Image
@@ -238,8 +240,8 @@ class AppFeedbackView extends Component {
                     <Thumbnail
                       show={showThumbnail}
                       imageSource={this.state.image.source}
-                      imageHeight={100}
-                      imageWidth={100}
+                      imageHeight={50}
+                      imageWidth={50}
                       imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
                   </View>
 
@@ -326,11 +328,11 @@ const styles = StyleSheet.create({
     width: BUTTON_ICON_WIDTH,
     marginRight: 25,
     position: 'absolute',
-    bottom:10,
+    bottom:0,
   },
   thumbnailWrapper: {
     position:'absolute',
-    bottom: 10,
+    bottom: 0,
     left: 50,
   },
   textFont: {
