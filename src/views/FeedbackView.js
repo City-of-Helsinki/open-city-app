@@ -199,7 +199,7 @@ class FeedbackView extends Component {
     let newSize = Dimensions.get('window').height - e.endCoordinates.height
     if(Platform.OS === 'android') {
       console.log("android")
-      newSize = newSize -50
+      newSize = newSize + 180
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
@@ -546,7 +546,7 @@ class FeedbackView extends Component {
             />
           </View>
 
-          <View style={styles.contentContainer}>
+          <View style={[styles.contentContainer, {marginBottom: (this.state.keyboardVisible) ? Dimensions.get('window').height / 3.5 : 0}]}>
             <TextInput
               style={[styles.contentInput, styles.textFont]}
               placeholder={transFeedback.inputContentPlaceholder}
@@ -601,7 +601,7 @@ class FeedbackView extends Component {
             onClose={()=>this.onAppFeedbackModalClose(this)} />
           </View>
 
-
+          <View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
       </Drawer>
     );
   }
