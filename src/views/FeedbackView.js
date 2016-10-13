@@ -74,7 +74,7 @@ class FeedbackView extends Component {
 
     navigator = this.props.navigator;
     this.state = {
-      visibleHeight: 0,
+      visibleHeight: Dimensions.get('window').height,
       keyboardVisible: false,
       // Initialize the marker with the center coordinates from region of the map being shown
       markerPosition:{ latitude: this.props.route.mapRegion.latitude,
@@ -101,14 +101,17 @@ class FeedbackView extends Component {
 
     Global.isMainView = false;
 
-    if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
+    if (Platform.OS === 'android') {
+      console.log("!!!!!!!!!!!!!!!!!!!!!PLATFOOOOORM")
+
+      UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
   componentDidMount() {
-    _keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow.bind(this));
-    _keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide.bind(this));
-    //this.keyboardShow = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    //this.keyboardHide = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+    //Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
+    //Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
   }
 
   componentWillMount() {
@@ -127,6 +130,13 @@ class FeedbackView extends Component {
       var titleText = "";
       var selectedServiceCode = "";
       var descriptionText = "";
+      console.log("!!!!!!!!!!!1111!!!!!!!!!!")
+      console.log(Platform)
+      console.log(Platform.OS)
+
+      if (Platform.OS === 'android') {
+        console.log("IS ANDROID")
+      }
       console.log(stores)
 
       console.log(selectedCategory + " / " + selectedServiceCode + " / " + descriptionText + " / " + sendEnabled)
@@ -178,26 +188,32 @@ class FeedbackView extends Component {
 
       //Keyboard.removeAllListeners('keyboardDidShow');
       //Keyboard.removeAllListeners('keyboardDidHide');
-      _keyboardWillShowSubscription.remove()
-      _keyboardWillHideSubscription.remove()
+
+      this.keyboardDidShowListener.remove()
+      this.keyboardDidHideListener.remove()
+
   }
 
   keyboardWillShow (e) {
-    let newSize = e.endCoordinates.height
+    console.log("KEYBOARD SHOWING")
+    let newSize = Dimensions.get('window').height - e.endCoordinates.height
     if(Platform.OS === 'android') {
-      newSize = newSize - 50
+      console.log("android")
+      newSize = newSize -50
     }
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
     this.setState({
       visibleHeight: newSize,
       keyboardVisible: true,
     })
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
   }
 
   keyboardWillHide (e) {
+    console.log("KEYBOARD HIDING")
     this.setState({
-      visibleHeight: 10,
+      visibleHeight: Dimensions.get('window').height,
       keyboardVisible: false,
     })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -491,7 +507,7 @@ class FeedbackView extends Component {
             onMenuClick={()=>this._drawer.close()}/>
         }>
 
-        <View style={styles.container}>
+        <View style={[styles.container, {height: this.state.visibleHeight}]}>
           <Navbar
             onMenuClick={()=>this._drawer.open()}
             header={transFeedback.feedbackViewTitle}/>
@@ -585,8 +601,6 @@ class FeedbackView extends Component {
             onClose={()=>this.onAppFeedbackModalClose(this)} />
           </View>
 
-          <View
-          style={{height:this.state.visibleHeight}}></View>
 
       </Drawer>
     );

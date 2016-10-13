@@ -66,16 +66,17 @@ class AppFeedbackView extends Component {
   }
 
   componentWillMount() {
-    _keyboardWillShowSubscription = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow.bind(this));
-    _keyboardWillHideSubscription = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide.bind(this));
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
   }
 
   componentWillUnmount () {
-    _keyboardWillShowSubscription.remove();
-    _keyboardWillHideSubscription.remove();
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
   }
 
   keyboardWillShow (e) {
+    console.log("app feedback keyboardvisible")
     this.setState({
       keyboardVisible: true,
     })
@@ -202,7 +203,7 @@ class AppFeedbackView extends Component {
           onRequestClose={this.props.onClose}>
           <View style={[styles.modalContainer,
             (keyboardVisible) ?
-            {alignItems: 'flex-start', marginTop:80}  :
+            {alignItems: 'flex-start', paddingTop:60}  :
             {alignItems: 'center'}]}>
             <View style={styles.contentContainer}>
               <View style={styles.topContainer}>
