@@ -184,6 +184,9 @@ class FeedbackView extends Component {
 
   keyboardWillShow (e) {
     let newSize = e.endCoordinates.height
+    if(Platform.OS === 'android') {
+      newSize = newSize - 50
+    }
     this.setState({
       visibleHeight: newSize,
       keyboardVisible: true,
