@@ -6,12 +6,15 @@ import {
   Text,
   Dimensions,
   PanResponder,
-  LayoutAnimation
+  LayoutAnimation,
+  Platform,
+  UIManager
 } from 'react-native';
 
 import transIntroduction from '../translations/introduction';
 
 import showAlert   from '../components/Alert';
+import Checkbox    from '../components/Checkbox';
 import Util        from '../util/util';
 import Config      from '../config';
 
@@ -41,6 +44,7 @@ class IntroductionView extends Component {
       progressImage: progressImage1,                  // Image which displays users progress in the introduction view
       currentView: 1,                                 // Index of the current view of the introductory flow
     };
+    if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
   componentWillMount() {
@@ -95,6 +99,7 @@ class IntroductionView extends Component {
         image = markersImage;
         break;
       case 4:
+        //Util.setItemToStorage(Config.STORAGE_IS_FIRST_TIME, 'false');
         this.navToMainView();
         break;
       default:

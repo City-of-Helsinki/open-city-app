@@ -60,12 +60,20 @@ class SplashScreen extends Component {
   }
 
   navToNextView() {
-    const value = AsyncStorage.getItem(Config.STORAGE_IS_FIRST_TIME).then((value) => {
+    try {
+      AsyncStorage.getItem(Config.STORAGE_IS_FIRST_TIME).then((v) => {
+        this.props.navigator.resetTo({
+          id: v !== null ? 'MainView' : 'IntroductionView',
+          issues: this.issues,
+        });
+      });
+    } catch(error) {
+      // If an error occures with AsyncStorage just go to the main view
       this.props.navigator.resetTo({
-        id: value !== null ? 'MainView' : 'IntroductionView',
+        id: 'MainView',
         issues: this.issues,
       });
-    });
+    }
   }
 
   render() {

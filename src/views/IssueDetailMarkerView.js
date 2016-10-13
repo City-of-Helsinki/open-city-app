@@ -20,7 +20,7 @@ import Spinner from './../components/Spinner';
 import Menu    from './../components/Menu';
 import Util    from './../util/util';
 
-import closeIcon    from './../img/close.png';
+import closeIcon    from './../img/close_image.png';
 import distanceIcon from '../img/location_marker.png';
 
 import transList    from '../translations/list';
@@ -28,8 +28,8 @@ import transList    from '../translations/list';
 const SIDE_PADDING           = 48;
 const TOP_MARGIN             = Platform.OS === 'android' ? 60 : 75;
 const BOTTOM_MARGIN          = 280;
-const CLOSE_ICON_HEIGHT      = 32;
-const CLOSE_ICON_WIDTH       = 32;
+const CLOSE_ICON_HEIGHT      = 24;
+const CLOSE_ICON_WIDTH       = 24;
 const CONTAINER_MAX_HEIGHT   = Dimensions.get('window').height - TOP_MARGIN - BOTTOM_MARGIN;
 // If distance is over 500km, something is not right
 const MAX_DISTANCE_THRESHOLD = 500000;

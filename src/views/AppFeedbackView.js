@@ -28,7 +28,7 @@ import showAlert from '../components/Alert';
 import Thumbnail            from '../components/Thumbnail';
 import Config    from '../config';
 
-import closeIcon from './../img/close.png';
+import closeIcon from './../img/close_image.png';
 import attachmentIcon   from '../img/attachment.png';
 
 
@@ -37,8 +37,8 @@ import transError    from '../translations/errors';
 
 const MODAL_HEIGHT           = 300;
 const SIDE_PADDING           = 32;
-const CLOSE_ICON_HEIGHT      = 32;
-const CLOSE_ICON_WIDTH       = 32;
+const CLOSE_ICON_HEIGHT      = 24;
+const CLOSE_ICON_WIDTH       = 24;
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 
@@ -271,8 +271,8 @@ const styles = StyleSheet.create({
     height: CLOSE_ICON_HEIGHT,
     width: CLOSE_ICON_WIDTH,
     position:'absolute',
-    right:0,
-    top:-5,
+    right:-10,
+    top:-10,
   },
   topContainer:{
     flexDirection:'row',

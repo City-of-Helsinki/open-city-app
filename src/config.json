@@ -48,6 +48,8 @@
   // TODO: ^
   "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, ],
 
+  "TASK_TYPES": ["moved_to_other_system", "created_in_other_system", "informed", "assigned", "wait_for_answer", "wait_for_comment", "transferred_out"],
+
   // Storage keys
   "STORAGE_IS_FIRST_TIME": "@OpenCity:is_first_time",
 }

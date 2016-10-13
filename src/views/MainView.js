@@ -360,7 +360,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   if (Global.menuOpen && Global.menuRef !== null) {
     Global.menuRef.close();
     return true;
-  } else if (mainViewRef.state.showPopup) {
+  } else if (mainViewRef && mainViewRef.state.showPopup) {
     mainViewRef.setState({ showPopup:false });
     return true;
   } else if (Global.isMainView) {
