@@ -2,6 +2,7 @@ import { AsyncStorage } from 'react-native';
 
 import Geolib from 'geolib';
 import Config from '../config';
+import Global from './globals';
 
 import redMarker    from '../img/red_marker.png';
 import yellowMarker from '../img/yellow_marker.png';
@@ -34,7 +35,7 @@ module.exports = {
           timestamp: tasks[i].task_created,
           date: module.exports.parseDate(tasks[i].task_created),
           agency: tasks[i].owner_name,
-          state: tasks[i].task_state,
+          state: module.exports.parseTaskType(tasks[i].task_type),
         });
       }
     }
@@ -146,9 +147,18 @@ module.exports = {
   },
 
   setItemToStorage(key, value) {
+    console.log(key)
+    console.log(value)
     try {
+      console.log('xxx')
       AsyncStorage.setItem(key, value);
+      console.log('xxx')
     } catch (error) {
+     console.log(error)
     }
   },
+
+  parseTaskType(state) {
+    return Global.taskTypes[state];
+  }
 }
