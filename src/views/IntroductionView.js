@@ -15,11 +15,12 @@ import showAlert   from '../components/Alert';
 import Util        from '../util/util';
 import Config      from '../config';
 
-import progressImage1 from '../img/progress_1.png';
-import progressImage2 from '../img/progress_2.png';
-import progressImage3 from '../img/progress_3.png';
-import markersImage   from '../img/markers.png';
-import menuImage      from '../img/splash_image.png';
+import progressImage1  from '../img/progress_1.png';
+import progressImage2  from '../img/progress_2.png';
+import progressImage3  from '../img/progress_3.png';
+import markersImage    from '../img/introduction_markers.png';
+import menuImage       from '../img/introduction_menu.png';
+import screenshotImage from '../img/introduction_screenshots.png';
 
 const EVENT_RIGHT_SWIPE_THRESHOLD = -35;
 const EVENT_LEFT_SWIPE_THRESHOLD  = 35;
@@ -36,7 +37,7 @@ class IntroductionView extends Component {
     this.state = {
       topText: transIntroduction.firstTopText,        // The text displayd on the top
       bottomText: transIntroduction.firstBottomText,  // The text displayd on the bottom
-      image: markersImage,                            // An image which is located on the middle
+      image: screenshotImage,                         // An image which is located on the middle
       progressImage: progressImage1,                  // Image which displays users progress in the introduction view
       currentView: 1,                                 // Index of the current view of the introductory flow
     };
@@ -79,7 +80,7 @@ class IntroductionView extends Component {
         topText = transIntroduction.firstTopText;
         bottomText = transIntroduction.firstBottomText;
         progressImage = progressImage1;
-        image = markersImage;
+        image = screenshotImage;
         break;
       case 2:
         topText = transIntroduction.secondTopText;
@@ -130,8 +131,8 @@ class IntroductionView extends Component {
           <Image source={this.state.image} style={styles.image} resizeMode={'contain'} />
         </View>
         <View
-          style={[styles.textContainer, {
-          padding: this.state.bottomText !== '' ? 15 : 0, // If there is no text don't use padding so that an empty white box does not show up
+          style={[styles.textContainer, {                   // If there is no text don't use padding
+            padding: this.state.bottomText !== '' ? 15 : 0, // so that an empty white box does not show up
           }]}>
           <Text style={[styles.descriptionText, styles.textFont]}>{this.state.bottomText}</Text>
         </View>

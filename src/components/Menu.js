@@ -65,7 +65,7 @@ class Menu extends Component {
               <Image
                 source={feedbackIcon}
                 style={styles.icon}/>
-              <Text adjustsFontSizeToFit={true} style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedbackButton}</Text>
+              <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedbackButton}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
