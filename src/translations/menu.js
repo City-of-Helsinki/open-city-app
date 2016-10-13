@@ -12,9 +12,9 @@ export default new LocalizedStrings({
   fi: {
     menuTitleView: 'Näkymä',
     menuTitleFeedback: 'Palaute',
-    menuTitleMapButton: 'Kartta',
-    menuTitleListButton: 'Lista',
+    menuTitleMapButton: 'Palautteet kartalla',
+    menuTitleListButton: 'Viimeisimmät palautteet',
     menuTitleUserFeedbackButton: 'Oma palautteesi',
-    menuTitleFeedbackButton: 'Anna palautetta',
+    menuTitleFeedbackButton: 'Lähetä palautetta tästä sovelluksesta',
   }
 });

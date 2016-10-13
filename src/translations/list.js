@@ -7,7 +7,7 @@ export default new LocalizedStrings({
     hideStatusNotes: 'Hide response',
   },
   fi: {
-    viewTitle: 'Palaute',
+    viewTitle: 'Viimeisimmät palautteet',
     showStatusNotes: 'Näytä vastaus',
     hideStatusNotes: 'Piilota vastaus',
   }

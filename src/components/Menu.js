@@ -65,7 +65,7 @@ class Menu extends Component {
               <Image
                 source={feedbackIcon}
                 style={styles.icon}/>
-              <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedbackButton}</Text>
+              <Text adjustsFontSizeToFit={true} style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedbackButton}</Text>
             </View>
           </TouchableWithoutFeedback>
         </View>
@@ -112,22 +112,15 @@ const styles = StyleSheet.create({
     borderTopColor: '#FBC02D',
   },
   menuText: {
-    fontSize: 18,
-    color: '#000',
+    fontSize: 15,
+    color: '#212121',
+    flexWrap: 'wrap',
+    flex: 1
   },
   icon: {
     height: 30,
     width: 30,
     marginRight: 5,
-  },
-  titleView: {
-    backgroundColor: '#FEF47D',
-    paddingLeft: 10,
-    marginBottom: 10,
-  },
-  titleText: {
-    fontSize: 20,
-    color: '#000',
   },
   textFont: {
     fontFamily: 'montserrat',

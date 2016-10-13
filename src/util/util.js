@@ -6,6 +6,7 @@ import Config from '../config';
 import redMarker    from '../img/red_marker.png';
 import yellowMarker from '../img/yellow_marker.png';
 import greenMarker  from '../img/green_marker.png';
+import blueMarker   from '../img/blue_marker.png';
 
 module.exports = {
 
@@ -115,8 +116,8 @@ module.exports = {
         issues.push({coordinates:
                       {latitude: data[i].lat,
                       longitude: data[i].long},
-                    markerImage: module.exports.selectMarkerImage(data[i].status, data[i].service_request_id),
-                    userSubmitted: module.exports.isUserSubmittedIssue(data[i].service_request_id, userSubmittedIssues),
+                    markerImage: module.exports.selectMarkerImage(data[i].status,
+                      data[i].service_request_id, userSubmittedIssues),
                     id: data[i].service_request_id});
       }
     }
@@ -125,7 +126,11 @@ module.exports = {
   },
 
   // Parse status and return the appropriate marker
-  selectMarkerImage: function(status, issueId) {
+  selectMarkerImage: function(status, issueId, userSubmittedIssues) {
+    if (module.exports.isUserSubmittedIssue(issueId, userSubmittedIssues)) {
+      return blueMarker;
+    }
+
     return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
   },
 
@@ -134,7 +139,7 @@ module.exports = {
     userSubmittedIssues = [];
 
     // For testing purposes
-    if (issueId == '113dmieqjindqii2kvne' || issueId == '3eohlgf51pu5n5l3bvi8' || issueId == '2usjcfstu6b7piuus1lo' || issueId == '1mevh6h1n750kdfbsqre') {
+    if (issueId == '113dmieqjindqii2kvne' || issueId == '3eohlgf51pu5n5l3bvi8' || issueId == '2usjcfstu6b7piuus1lo' || issueId == '1mevh6h1n750kdfbsqre' || issueId == '903bfl312ti8lmpvun2f') {
       return true;
     }
     return userSubmittedIssues.indexOf(issueId) > -1;

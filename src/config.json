@@ -34,7 +34,7 @@
   "GPS_MAXIMUM_AGE": 5000,
 
   // Requests
-  "TIMEOUT_THRESHOLD": 20000,
+  "TIMEOUT_THRESHOLD": 40000,
   "TIMEOUT_MESSAGE": "timeout",
 
   // Feedback attachment settings
