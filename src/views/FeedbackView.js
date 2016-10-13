@@ -47,7 +47,7 @@ import transError    from '../translations/errors';
 // Images
 import sendEnabledIcon  from '../img/send.png';
 import sendDisabledIcon from '../img/send_disabled.png';
-import markerIcon       from '../img/location_marker.png';
+import markerIcon       from '../img/blue_marker.png';
 import attachmentIcon   from '../img/attachment.png';
 import locationOnIcon   from '../img/location_on.png';
 import locationOffIcon  from '../img/location_off.png';

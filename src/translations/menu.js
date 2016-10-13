@@ -15,6 +15,6 @@ export default new LocalizedStrings({
     menuTitleMapButton: 'Palautteet kartalla',
     menuTitleListButton: 'Viimeisimmät palautteet',
     menuTitleUserFeedbackButton: 'Oma palautteesi',
-    menuTitleFeedbackButton: 'Lähetä palautetta tästä sovelluksesta',
+    menuTitleFeedbackButton: 'Lähetä palautetta sovelluksesta',
   }
 });
