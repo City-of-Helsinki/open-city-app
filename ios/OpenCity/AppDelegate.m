@@ -80,7 +80,11 @@
                                                initialProperties:nil
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
-
+  
+  UIImageView *launchView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_image"]];
+  
+  rootView.loadingView = launchView;
+  [rootView.loadingView layoutIfNeeded];
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
   UIViewController *rootViewController = [UIViewController new];
   rootViewController.view = rootView;
