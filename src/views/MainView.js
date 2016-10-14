@@ -298,6 +298,7 @@ class MainView extends Component {
             header={transMap.mapViewTitle}/>
           <View style={styles.mapContainer}>
             <MapView
+              ref={ref=> this.mapView = ref}
               style={styles.map}
               region={this.state.region}
               showsUserLocation={true}
@@ -325,8 +326,8 @@ class MainView extends Component {
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
-          {!this.state.showPopup &&
-            <FloatingActionButton
+          {!this.state.showPopup && // When popup is displayed hide FAB because Google Maps toolbar
+            <FloatingActionButton   // shows up after a marker is clicked
               icon={plusIcon}
               onButtonClick={()=>this.navToFeedbackView(this)}/>}
         </View>
