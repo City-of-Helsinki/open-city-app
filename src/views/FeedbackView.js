@@ -94,6 +94,7 @@ class FeedbackView extends Component {
       image: {source: null, name: null},
       imageData: null,
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
+      keyboardSpace: 0,
     };
 
     //this.refs.map.animateToRegion(region)
@@ -110,8 +111,37 @@ class FeedbackView extends Component {
   componentDidMount() {
     //Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
     //Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
-    //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.updateKeyboardSpace.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.resetKeyboardSpace.bind(this))
+  }
+
+  componentWillUpdate(props, state) {
+    if(state.keyboardVisible !== this.state.keyboardVisible) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
+    }
+  }
+
+  updateKeyboardSpace(frames) {
+    if(!frames.endCoordinates) {
+      return;
+    }
+    /*
+    const keyboardSpace = frames.endCoordinates.height;
+    this.setState({
+      keyboardSpace: keyboardSpace,
+      keyboardVisible: true
+    })
+    */
+  }
+
+  resetKeyboardSpace() {
+/*
+    this.setState({
+      keyboardSpace: 0,
+      keyboardVisible: false
+    })
+    */
   }
 
   componentWillMount() {
@@ -180,35 +210,15 @@ class FeedbackView extends Component {
       //Keyboard.removeAllListeners('keyboardDidShow');
       //Keyboard.removeAllListeners('keyboardDidHide');
 
-      //this.keyboardDidShowListener.remove()
-      //this.keyboardDidHideListener.remove()
+      this.keyboardDidShowListener.remove()
+      this.keyboardDidHideListener.remove()
 
   }
 
-  keyboardWillShow (e) {
-    let newSize = Dimensions.get('window').height - e.endCoordinates.height
-    if(Platform.OS === 'android') {
-      newSize = newSize + 180
-    }
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-
-    this.setState({
-      visibleHeight: newSize,
-      keyboardVisible: true,
-    })
-
-  }
-
-  keyboardWillHide (e) {
-    this.setState({
-      visibleHeight: Dimensions.get('window').height,
-      keyboardVisible: false,
-    })
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-  }
 
 
-  fetchServices() {
+
+fetchServices() {
     var url     = Config.OPEN311_SERVICE_LIST_URL + Config.OPEN311_SERVICE_LIST_LOCALE + 'fi';
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
@@ -438,7 +448,7 @@ class FeedbackView extends Component {
 
   render() {
     var showThumbnail = this.state.image.source !== null;
-
+    console.log(this.state.keyboardVisible)
     var keyboardVisible = this.state.keyboardVisible;
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
@@ -494,7 +504,7 @@ class FeedbackView extends Component {
             onMenuClick={()=>this._drawer.close()}/>
         }>
 
-        <View style={[styles.container, {height: this.state.visibleHeight}]}>
+        <View style={[styles.container]}>
           <Navbar
             onMenuClick={()=>this._drawer.open()}
             header={transFeedback.feedbackViewTitle}/>
@@ -533,9 +543,9 @@ class FeedbackView extends Component {
             />
           </View>
 
-          <View style={[styles.contentContainer, {marginBottom: (this.state.keyboardVisible) ? Dimensions.get('window').height / 3.5 : 0}]}>
+          <View style={[styles.contentContainer,]}>
             <TextInput
-              style={[styles.contentInput, styles.textFont]}
+              style={[styles.contentInput, styles.textFont,]}
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}
@@ -581,19 +591,17 @@ class FeedbackView extends Component {
               onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
 
           </View>
-
+          <View style={[{height: this.state.keyboardSpace}]}/>
         </View>
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
           </View>
-
-          <KeyboardSpacer></KeyboardSpacer>
       </Drawer>
     );
   }
+  //<View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
 
-//<View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
 }
 
 const styles = StyleSheet.create({
@@ -615,7 +623,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedbackContainer: {
-    flex: 0.7,
+    height: Dimensions.get('window').height / 2,
     backgroundColor: '#EEEEEE',
   },
   categoryContainer: {
