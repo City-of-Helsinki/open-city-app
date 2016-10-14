@@ -64,7 +64,7 @@ const DESCRIPTION_MIN_LENGTH = 10;
 const ZOOM                   = 6;
 const DESCRIPTION_MAX_LENGTH = 5000;
 const MARKER_IMAGE_SIZE      = 35;
-const SEND_BUTTON_IMAGE_SIZE = 50;
+const SEND_BUTTON_IMAGE_SIZE = 40;
 var isFeedbackSent = false;
 
 var _keyboardWillShowSubscription;
@@ -549,9 +549,9 @@ fetchServices() {
               value={this.state.titleText}
               onChangeText={(text)=> {this.setState({titleText: text})}}
             />
-            <View style={[styles.FAB]}>
+            <View style={styles.center}>
               <TouchableWithoutFeedback onPress={this.sendFeedback.bind(this)}>
-                <View style={styles.sendButtonView}>
+                <View style={styles.sendButtonView, styles.center}>
                   <Image source={sendIcon} style={styles.sendButtonImage}/>
                 </View>
               </TouchableWithoutFeedback>
@@ -667,6 +667,7 @@ const styles = StyleSheet.create({
     marginRight: 10,
     marginTop: 5,
     flexDirection: 'row',
+    justifyContent: 'center',
   },
   titleInput: {
     height: 40,
@@ -734,6 +735,10 @@ const styles = StyleSheet.create({
     width: SEND_BUTTON_IMAGE_SIZE,
     marginTop: -5,
   },
+  center: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 
 });
 
