@@ -76,7 +76,6 @@ class AppFeedbackView extends Component {
   }
 
   keyboardWillShow (e) {
-    console.log("app feedback keyboardvisible")
     this.setState({
       keyboardVisible: true,
     })

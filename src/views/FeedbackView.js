@@ -103,7 +103,6 @@ class FeedbackView extends Component {
     Global.isMainView = false;
 
     if (Platform.OS === 'android') {
-      console.log("!!!!!!!!!!!!!!!!!!!!!PLATFOOOOORM")
 
       UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
@@ -131,16 +130,7 @@ class FeedbackView extends Component {
       var titleText = "";
       var selectedServiceCode = "";
       var descriptionText = "";
-      console.log("!!!!!!!!!!!1111!!!!!!!!!!")
-      console.log(Platform)
-      console.log(Platform.OS)
 
-      if (Platform.OS === 'android') {
-        console.log("IS ANDROID")
-      }
-      console.log(stores)
-
-      console.log(selectedCategory + " / " + selectedServiceCode + " / " + descriptionText + " / " + sendEnabled)
       if(stores[0][1]) {
         if(stores[3][1]) {
         sendEnabled = stores[0][1].length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
@@ -196,10 +186,8 @@ class FeedbackView extends Component {
   }
 
   keyboardWillShow (e) {
-    console.log("KEYBOARD SHOWING")
     let newSize = Dimensions.get('window').height - e.endCoordinates.height
     if(Platform.OS === 'android') {
-      console.log("android")
       newSize = newSize + 180
     }
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
@@ -212,7 +200,6 @@ class FeedbackView extends Component {
   }
 
   keyboardWillHide (e) {
-    console.log("KEYBOARD HIDING")
     this.setState({
       visibleHeight: Dimensions.get('window').height,
       keyboardVisible: false,
@@ -292,7 +279,6 @@ class FeedbackView extends Component {
       data.append('title', '');
     }
 
-    console.log(data)
     //makeRequest(url, method, headers, data)
     makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
     .then(result => {
