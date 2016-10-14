@@ -8,8 +8,8 @@ import {
   TouchableWithoutFeedback,
 } from 'react-native';
 
-const BUTTON_WIDTH         = 72;
-const BUTTON_HEIGHT        = 72;
+var BUTTON_WIDTH         = 72;
+var BUTTON_HEIGHT        = 72;
 const BUTTON_BORDER_RADIUS = 36;
 
 // Button which will have an absolute position on the bottom right corner
@@ -20,13 +20,21 @@ class FloatingActionButton extends Component {
   }
 
   render() {
+
+    if(this.props.buttonWidth) {
+      BUTTON_WIDTH = this.props.buttonWidth
+    }
+    if(this.props.buttonHeight) {
+      BUTTON_HEIGHT = this.props.buttonHeight
+    }
+
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, {width:BUTTON_WIDTH, height:BUTTON_HEIGHT}]}>
         <TouchableWithoutFeedback onPress={this.props.onButtonClick}>
-          <View style={styles.buttonView}>
+          <View style={[styles.buttonView, {width:BUTTON_WIDTH, height:BUTTON_HEIGHT}]}>
             <Image
               source={this.props.icon}
-              style={styles.plusIcon}/>
+              style={[styles.plusIcon,{width:BUTTON_WIDTH, height:BUTTON_HEIGHT}]}/>
           </View>
         </TouchableWithoutFeedback>
       </View>
