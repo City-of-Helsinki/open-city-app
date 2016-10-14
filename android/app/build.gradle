@@ -81,21 +81,21 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        applicationId "com.opencity"
+        applicationId "fi.helsinki.helsinki"
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
     }
     signingConfigs {
         release {
-            storeFile file(MYAPP_RELEASE_STORE_FILE)
-            storePassword MYAPP_RELEASE_STORE_PASSWORD
-            keyAlias MYAPP_RELEASE_KEY_ALIAS
-            keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            storeFile file(OPEN_CITY_APP_STORE_FILE)
+            storePassword OPEN_CITY_APP_STORE_PASSWORD
+            keyAlias OPEN_CITY_APP_KEY_ALIAS
+            keyPassword OPEN_CITY_APP_KEY_PASSWORD
         }
     }
     splits {

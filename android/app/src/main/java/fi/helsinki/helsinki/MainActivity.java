@@ -1,4 +1,4 @@
-package com.opencity;
+package fi.helsinki.helsinki;
 
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
