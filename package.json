@@ -19,6 +19,7 @@
     "react-native-image-picker": "^0.20.0",
     "react-native-image-resizer": "0.0.8",
     "react-native-image-to-base64": "^0.1.0",
+    "react-native-keyboard-spacer": "^0.3.0",
     "react-native-loading-spinner-overlay": "^0.1.1",
     "react-native-localization": "^0.1.15",
     "react-native-maps": "^0.6.0",

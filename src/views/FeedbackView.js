@@ -24,6 +24,7 @@ import Drawer      from 'react-native-drawer';
 import ImagePicker from 'react-native-image-picker';
 import ImageResizer from 'react-native-image-resizer';
 import Toast from 'react-native-simple-toast';
+import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 
 // Components
@@ -110,8 +111,8 @@ class FeedbackView extends Component {
   componentDidMount() {
     //Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
     //Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+    //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
   }
 
   componentWillMount() {
@@ -189,8 +190,8 @@ class FeedbackView extends Component {
       //Keyboard.removeAllListeners('keyboardDidShow');
       //Keyboard.removeAllListeners('keyboardDidHide');
 
-      this.keyboardDidShowListener.remove()
-      this.keyboardDidHideListener.remove()
+      //this.keyboardDidShowListener.remove()
+      //this.keyboardDidHideListener.remove()
 
   }
 
@@ -601,12 +602,12 @@ class FeedbackView extends Component {
             onClose={()=>this.onAppFeedbackModalClose(this)} />
           </View>
 
-          <View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
+          <KeyboardSpacer></KeyboardSpacer>
       </Drawer>
     );
   }
 
-
+//<View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
 }
 
 const styles = StyleSheet.create({
