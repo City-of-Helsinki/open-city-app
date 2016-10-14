@@ -20,8 +20,10 @@ import Spinner from './../components/Spinner';
 import Menu    from './../components/Menu';
 import Util    from './../util/util';
 
-import closeIcon    from './../img/close_image.png';
+import closeIcon    from '../img/close_image.png';
 import distanceIcon from '../img/location_marker.png';
+import downIcon     from '../img/collapse_down.png';
+import upIcon       from '../img/collapse_up.png';
 
 import transList    from '../translations/list';
 
@@ -72,13 +74,12 @@ class IssueDetailMarkerView extends Component {
               <Text>{this.props.data.distance}m</Text>
             </View> : null;
 
-    // Hide status button until data has been loaded
-    var statusButtonText = typeof this.props.data.status_notes === 'undefined' ?  ''
-                          : !this.state.showStatusNotes ? transList.showStatusNotes : transList.hideStatusNotes;
+    var statusButtonText = this.state.showStatusNotes ? transList.hideStatusNotes : transList.showStatusNotes;
     var statusNotes      = this.state.showStatusNotes ?
                            <View>
                              <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.data.status_notes}</Text>
                            </View> : null;
+    var statusButtonIcon = this.state.showStatusNotes ? upIcon : downIcon;
 
     return (
       <View style={styles.container}>
@@ -102,11 +103,14 @@ class IssueDetailMarkerView extends Component {
               <View style={styles.paddingContainer}>
                 <View style={styles.statusNotesContainer}>
                   {statusNotes}
-                  <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
-                    <View style={styles.statusButtonView}>
-                      <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
+                  {typeof this.props.data.status_notes !== 'undefined' &&
+                    <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
+                      <View style={styles.statusButtonView}>
+                        <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
+                        <Image style={styles.statusButtonImage} source={statusButtonIcon} />
+                      </View>
+                    </TouchableWithoutFeedback>
+                  }
                 </View>
                 <View style={styles.extendedDataContainer}>
                   {this.props.data.extendedData.map((item) => (
@@ -173,12 +177,19 @@ const styles = StyleSheet.create({
   paddingContainer: {
     paddingLeft: 20,
   },
+  statusButtonImage: {
+    marginLeft: 5,
+    height: 15,
+    width: 15,
+  },
   statusNotesText: {
     fontStyle: 'italic',
   },
   statusButtonView: {
     paddingTop: 5,
     paddingBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   statusButtonText: {
     fontSize: 16,

@@ -5,18 +5,17 @@ import {
   Image,
   Text,
   Dimensions,
-  PanResponder,
   LayoutAnimation,
   Platform,
-  UIManager
+  UIManager,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
 import transIntroduction from '../translations/introduction';
 
-import showAlert   from '../components/Alert';
-import Checkbox    from '../components/Checkbox';
-import Util        from '../util/util';
-import Config      from '../config';
+import showAlert from '../components/Alert';
+import Util      from '../util/util';
+import Config    from '../config';
 
 import progressImage1  from '../img/progress_1.png';
 import progressImage2  from '../img/progress_2.png';
@@ -24,6 +23,9 @@ import progressImage3  from '../img/progress_3.png';
 import markersImage    from '../img/introduction_markers.png';
 import menuImage       from '../img/introduction_menu.png';
 import screenshotImage from '../img/introduction_screenshots.png';
+import nextViewIcon    from '../img/next.png'
+import doneIcon        from '../img/done.png'
+import checkboxIcon    from '../img/close.png';
 
 const EVENT_RIGHT_SWIPE_THRESHOLD = -35;
 const EVENT_LEFT_SWIPE_THRESHOLD  = 35;
@@ -43,32 +45,10 @@ class IntroductionView extends Component {
       image: screenshotImage,                         // An image which is located on the middle
       progressImage: progressImage1,                  // Image which displays users progress in the introduction view
       currentView: 1,                                 // Index of the current view of the introductory flow
+      checkboxSelected: false,                        // Whether the checkbox is checked
     };
+
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
-  }
-
-  componentWillMount() {
-    this.panResponder = PanResponder.create({
-      onStartShouldSetPanResponder: (evt, gestureState) => true,
-      onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onMoveShouldSetPanResponder: (evt, gestureState) => true,
-      onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
-      onPanResponderGrant: (evt, gestureState) => {},
-      onPanResponderMove: (evt, gestureState) => {},
-      onPanResponderTerminationRequest: (evt, gestureState) => true,
-      onPanResponderRelease: (evt, gestureState) => {
-        var newView = this.state.currentView;
-
-        if (gestureState.dx < EVENT_RIGHT_SWIPE_THRESHOLD) {
-          newView++;
-        } else if (gestureState.dx > EVENT_LEFT_SWIPE_THRESHOLD) {
-          newView = newView < 2 ? 1 : newView - 1;
-        }
-        this.changeView(newView);
-      },
-      onPanResponderTerminate: (evt, gestureState) => {},
-      onShouldBlockNativeResponder: (evt, gestureState) => {return true;},
-    });
   }
 
   changeView(newView) {
@@ -99,7 +79,9 @@ class IntroductionView extends Component {
         image = markersImage;
         break;
       case 4:
-        //Util.setItemToStorage(Config.STORAGE_IS_FIRST_TIME, 'false');
+        if (this.state.checkboxSelected) {
+          Util.setItemToStorage(Config.STORAGE_IS_FIRST_TIME, 'false');
+        }
         this.navToMainView();
         break;
       default:
@@ -123,9 +105,17 @@ class IntroductionView extends Component {
     });
   }
 
+  onCheckboxSelect() {
+    this.setState({
+      checkboxSelected: !this.state.checkboxSelected
+    });
+  }
+
   render() {
+    var buttonIcon = this.state.currentView === 3 ? doneIcon : nextViewIcon;
+
     return (
-      <View style={styles.container} {...this.panResponder.panHandlers}>
+      <View style={styles.container}>
         <Text
           style={[styles.titleText, styles.textFont, {
             fontWeight: this.state.currentView === 1 ? 'bold' : 'normal',
@@ -133,7 +123,7 @@ class IntroductionView extends Component {
           {this.state.topText}
         </Text>
         <View style={styles.imageContainer}>
-          <Image source={this.state.image} style={styles.image} resizeMode={'contain'} />
+          <Image source={this.state.image} style={styles.image} resizeMode={'contain'}  />
         </View>
         <View
           style={[styles.textContainer, {                   // If there is no text don't use padding
@@ -141,8 +131,27 @@ class IntroductionView extends Component {
           }]}>
           <Text style={[styles.descriptionText, styles.textFont]}>{this.state.bottomText}</Text>
         </View>
-        <View style={styles.progressImageContainer}>
-          <Image source={this.state.progressImage} style={styles.progressImage}/>
+        {this.state.currentView === 3 && // Show a checkbox on the last page of the introduction
+        <View style={styles.checkboxContainer}>
+          <View style={styles.checkboxViewContainer}>
+            <TouchableWithoutFeedback onPress={this.onCheckboxSelect.bind(this)}>
+              <View style={styles.checkboxView}>
+                { this.state.checkboxSelected &&
+                  <Image style={styles.checkboxImage} source={checkboxIcon} /> }
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+          <Text style={[styles.checkboxLabel, styles.textFont]}>{transIntroduction.checkboxLabel}</Text>
+        </View>
+        }
+        <View style={styles.buttonContainer}>
+          <TouchableWithoutFeedback onPress={this.changeView.bind(this, (this.state.currentView+1))}>
+            <View style={styles.buttonView}>
+              <Image
+                source={buttonIcon}
+                style={styles.buttonIcon}/>
+            </View>
+          </TouchableWithoutFeedback>
         </View>
       </View>
     );
@@ -158,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFF176',
     paddingLeft: 20,
     paddingRight: 20,
-    paddingBottom: 40,
+    paddingBottom: 80,
     paddingTop: 20,
   },
   titleText: {
@@ -181,7 +190,7 @@ const styles = StyleSheet.create({
   },
   image: {
     height: 200,
-    width: 175,
+    width: Dimensions.get('window').width - 40,
   },
   textContainer: {
     backgroundColor: '#fff',
@@ -201,6 +210,54 @@ const styles = StyleSheet.create({
   progressImage: {
     height: 16,
     width: 50,
+  },
+  checkboxContainer: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginTop: 10,
+    width: Dimensions.get('window').width - 40,
+  },
+  checkboxViewContainer: {
+    height: 32,
+    width: 32,
+  },
+  checkboxView: {
+    height: 32,
+    width: 32,
+    backgroundColor: '#fff',
+  },
+  checkboxLabel: {
+    color: '#212121',
+    flexWrap: 'wrap',
+    flex: 1,
+    marginLeft: 5,
+    fontWeight: 'bold',
+  },
+  checkboxImage: {
+    height: 32,
+    width: 32,
+  },
+  buttonContainer: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    position: 'absolute',
+    bottom: 10,
+    right: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonView: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonIcon: {
+    width: 72,
+    height: 72
   }
 
 });

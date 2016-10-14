@@ -11,6 +11,8 @@ import {
 
 import distanceIcon from '../img/location_marker.png';
 import transList    from '../translations/list';
+import downIcon     from '../img/collapse_down.png';
+import upIcon       from '../img/collapse_up.png';
 
 // If distance is over 500km, something is not right
 const MAX_DISTANCE_THRESHOLD = 500000;
@@ -47,6 +49,8 @@ class IssueListRow extends Component {
                            <View>
                              <Text style={[styles.statusNotesText, styles.textFont]}>{this.props.statusNotes}</Text>
                            </View> : null;
+    var statusButtonIcon = this.state.showStatusNotes ? upIcon : downIcon;
+
     return (
       <View style={styles.container}>
         {image}
@@ -69,6 +73,7 @@ class IssueListRow extends Component {
               <TouchableWithoutFeedback onPress={this.showStatusNotesClick.bind(this)}>
                 <View style={styles.statusButtonView}>
                   <Text style={[styles.statusButtonText, styles.textFont]}>{statusButtonText}</Text>
+                  <Image style={styles.statusButtonImage} source={statusButtonIcon}/>
                 </View>
               </TouchableWithoutFeedback>
             </View>
@@ -139,6 +144,13 @@ const styles = StyleSheet.create({
   statusButtonView: {
     paddingTop: 5,
     paddingBottom: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  statusButtonImage: {
+    marginLeft: 5,
+    height: 15,
+    width: 15,
   },
   statusButtonText: {
     fontSize: 16,
