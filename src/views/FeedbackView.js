@@ -64,6 +64,7 @@ const DESCRIPTION_MIN_LENGTH = 10;
 const ZOOM                   = 6;
 const DESCRIPTION_MAX_LENGTH = 5000;
 const MARKER_IMAGE_SIZE      = 35;
+const SEND_BUTTON_IMAGE_SIZE = 50;
 var isFeedbackSent = false;
 
 var _keyboardWillShowSubscription;
@@ -109,8 +110,6 @@ class FeedbackView extends Component {
   }
 
   componentDidMount() {
-    //Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
-    //Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
     if (Platform.OS === 'ios') {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.updateKeyboardSpace.bind(this))
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.resetKeyboardSpace.bind(this))
@@ -119,18 +118,14 @@ class FeedbackView extends Component {
 
   componentWillUpdate(props, state) {
     if(state.keyboardVisible !== this.state.keyboardVisible) {
-      //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
     }
   }
 
   updateKeyboardSpace(frames) {
     if(!frames.endCoordinates) {
-      console.log("frames :(")
       return;
     }
-    console.log("update keyboard space")
-    //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
     const keyboardSpace = frames.endCoordinates.height;
     this.setState({
@@ -141,8 +136,6 @@ class FeedbackView extends Component {
   }
 
   resetKeyboardSpace() {
-    console.log("reset keyboard space")
-    //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
     this.setState({
       keyboardSpace: 0,
@@ -255,6 +248,12 @@ fetchServices() {
 
 
   sendFeedback() {
+
+    // Do not send feedback if the description is not between 10 and 5000 characters
+    if (!this.state.sendEnabled) {
+      return;
+    }
+
     var url     = Config.OPEN311_SEND_SERVICE_URL;
     var method  = 'POST';
     var headers = {'Content-Type': 'multipart/form-data', 'Accept': 'application/json'};
@@ -457,8 +456,6 @@ fetchServices() {
     var showThumbnail = this.state.image.source !== null;
 
     var keyboardVisible = this.state.keyboardVisible;
-    console.log(this.state.keyboardVisible)
-    console.log("KEYBOARD")
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
                         <View style={[styles.mapContainer, (keyboardVisible) ? {flex:0.001} : {flex: 0.7}]}>
@@ -553,11 +550,11 @@ fetchServices() {
               onChangeText={(text)=> {this.setState({titleText: text})}}
             />
             <View style={[styles.FAB]}>
-            <FloatingActionButton
-              buttonWidth={60}
-              buttonHeight={60}
-              icon={sendIcon}
-              onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
+              <TouchableWithoutFeedback onPress={this.sendFeedback.bind(this)}>
+                <View style={styles.sendButtonView}>
+                  <Image source={sendIcon} style={styles.sendButtonImage}/>
+                </View>
+              </TouchableWithoutFeedback>
             </View>
           </View>
 
@@ -667,14 +664,16 @@ const styles = StyleSheet.create({
     shadowRadius:1,
     marginBottom: 10,
     marginLeft: 10,
-    marginRight: 90,
+    marginRight: 10,
     marginTop: 5,
+    flexDirection: 'row',
   },
   titleInput: {
     height: 40,
     paddingLeft: 10,
     backgroundColor: 'white',
     fontSize: 16,
+    flex: 1,
 
   },
   contentContainer: {
@@ -724,13 +723,17 @@ const styles = StyleSheet.create({
   textFont: {
     fontFamily: 'montserrat',
   },
-  FAB: {
-    width:30,
-    height:30,
-    right: -90,
-    top: 30,
-    position:'absolute',
-  }
+  sendButtonView: {
+    height: SEND_BUTTON_IMAGE_SIZE,
+    width: SEND_BUTTON_IMAGE_SIZE,
+    borderRadius: 20,
+    marginLeft: 10
+  },
+  sendButtonImage: {
+    height:SEND_BUTTON_IMAGE_SIZE,
+    width: SEND_BUTTON_IMAGE_SIZE,
+    marginTop: -5,
+  },
 
 });
 
