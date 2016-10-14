@@ -296,8 +296,7 @@ class FeedbackView extends Component {
         id: 'MainView',
       });
     }, error => {
-      alert(error)
-      //showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
+      showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
 
@@ -707,7 +706,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
     return true;
   } else if (navigator) {
     Global.isMainView = true;
-    navigator.pop();
+    navigator.popToTop();
     return true;
   }
 

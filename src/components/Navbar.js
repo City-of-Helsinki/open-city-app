@@ -15,6 +15,7 @@ const MENU_BUTTON_WIDTH  = 30;
 const MENU_BUTTON_HEIGHT = 30;
 const HEADER_VIEW_WIDTH  = Dimensions.get('window').width - ((MENU_BUTTON_WIDTH * 2) + 30);
 
+// Navbar for the application with iOS status bar taken into account (extra padding)
 class Navbar extends Component {
 
   constructor(props, context) {
@@ -30,7 +31,6 @@ class Navbar extends Component {
     }
 
     return (
-
       <View>
         {iosStatusBar}
         <View style={styles.container}>
@@ -43,7 +43,7 @@ class Navbar extends Component {
               </View>
             </TouchableWithoutFeedback>
             <View style={styles.headerView}>
-              <Text style={[styles.header, styles.textFont]} numberOfLines={2}>{this.props.header}</Text>
+              <Text style={[styles.header, styles.textFont]}>{this.props.header}</Text>
             </View>
           </View>
         </View>

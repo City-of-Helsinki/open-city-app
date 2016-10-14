@@ -44,9 +44,6 @@ const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 const MARKER_IMAGE_SIZE          = 35;
-const USER_SUBMITTED_MARKER_SIZE = 45;
-
-var mainViewRef;
 
 class MainView extends Component {
 
@@ -86,7 +83,7 @@ class MainView extends Component {
     transMap.setLanguage('fi');
     transError.setLanguage('fi');
 
-    mainViewRef = this;
+    Global.mainViewRef = this;
   }
 
   componentWillMount() {
@@ -361,8 +358,8 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
   if (Global.menuOpen && Global.menuRef !== null) {
     Global.menuRef.close();
     return true;
-  } else if (mainViewRef && mainViewRef.state.showPopup) {
-    mainViewRef.setState({ showPopup:false });
+  } else if (Global.mainViewRef && Global.mainViewRef.state.showPopup) {
+    Global.mainViewRef.setState({ showPopup:false });
     return true;
   } else if (Global.isMainView) {
     BackAndroid.exitApp();

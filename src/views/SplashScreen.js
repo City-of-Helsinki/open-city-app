@@ -47,6 +47,8 @@ class SplashScreen extends Component {
       this.issues = Util.parseIssues(result, this.userSubmittedIssues);
       this.navToNextView();
     }, error => {
+
+      // If an error occurs, show alert and go to the main view
       if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
@@ -68,6 +70,7 @@ class SplashScreen extends Component {
         });
       });
     } catch(error) {
+
       // If an error occures with AsyncStorage just go to the main view
       this.props.navigator.resetTo({
         id: 'MainView',
@@ -103,10 +106,6 @@ const styles = StyleSheet.create({
     left: 0,
     height: Dimensions.get('window').height,
     width: Dimensions.get('window').width,
-  },
-  splashLogo: {
-    height: 300,
-    width: 290,
   },
   spinnerContainer: {
     position: 'absolute',

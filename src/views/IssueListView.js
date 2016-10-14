@@ -154,7 +154,7 @@ BackAndroid.addEventListener('hardwareBackPress', function() {
     return true;
   } else if (navigator) {
     Global.isMainView = true;
-    navigator.pop();
+    navigator.popToTop();
     return true;
   }
 

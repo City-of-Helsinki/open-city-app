@@ -27,9 +27,6 @@ import nextViewIcon    from '../img/next.png'
 import doneIcon        from '../img/done.png'
 import checkboxIcon    from '../img/close.png';
 
-const EVENT_RIGHT_SWIPE_THRESHOLD = -35;
-const EVENT_LEFT_SWIPE_THRESHOLD  = 35;
-
 // An introductory view where user can swipe to move back and forth. After the final view user is
 // redirected to the MainView. The view is divided into 3 seperate states.
 class IntroductionView extends Component {
@@ -51,14 +48,14 @@ class IntroductionView extends Component {
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
+  // Receives the index of the new view as a paramater and the data on the screen is
+  // changed accordingly
   changeView(newView) {
     var topText       = '';
     var bottomText    = '';
     var progressImage = '';
     var image         = '';
 
-    // On Left swipe set up the next introduction view, go to the MainView after the third introduction view
-    // On right swipe go to the previous introduction view unless it's the first view in which case nothing will be done
     switch (newView) {
       case 1:
         topText = transIntroduction.firstTopText;

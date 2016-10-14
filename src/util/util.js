@@ -147,14 +147,9 @@ module.exports = {
   },
 
   setItemToStorage(key, value) {
-    console.log(key)
-    console.log(value)
     try {
-      console.log('xxx')
       AsyncStorage.setItem(key, value);
-      console.log('xxx')
     } catch (error) {
-     console.log(error)
     }
   },
 
