@@ -66,13 +66,13 @@ class AppFeedbackView extends Component {
   }
 
   componentWillMount() {
-    //this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    //this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
   }
 
   componentWillUnmount () {
-    //this.keyboardDidShowListener.remove()
-    //this.keyboardDidHideListener.remove()
+    this.keyboardDidShowListener.remove()
+    this.keyboardDidHideListener.remove()
   }
 
   keyboardWillShow (e) {

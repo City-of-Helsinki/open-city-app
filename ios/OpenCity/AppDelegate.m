@@ -83,7 +83,10 @@
                                                    launchOptions:launchOptions];
   rootView.backgroundColor = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1];
   
-  UIImageView *launchView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"splash_image"]];
+  UIImageView *launchView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0,[UIScreen mainScreen].bounds.size.width,[UIScreen mainScreen].bounds.size.height)];
+  launchView.image = [UIImage imageNamed:@"splash_image"];
+  
+  launchView.contentMode = UIViewContentModeScaleAspectFill;
   
   rootView.loadingView = launchView;
   [rootView.loadingView layoutIfNeeded];

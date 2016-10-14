@@ -15,7 +15,8 @@ import {
   DeviceEventEmitter,
   UIManager,
   LayoutAnimation,
-  AsyncStorage
+  AsyncStorage,
+  ScrollView
 } from 'react-native';
 
 // External modules
@@ -75,7 +76,6 @@ class FeedbackView extends Component {
 
     navigator = this.props.navigator;
     this.state = {
-      visibleHeight: Dimensions.get('window').height,
       keyboardVisible: false,
       // Initialize the marker with the center coordinates from region of the map being shown
       markerPosition:{ latitude: this.props.route.mapRegion.latitude,
@@ -111,37 +111,44 @@ class FeedbackView extends Component {
   componentDidMount() {
     //Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this));
     //Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this));
+    if (Platform.OS === 'ios') {
     this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.updateKeyboardSpace.bind(this))
     this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.resetKeyboardSpace.bind(this))
+    }
   }
 
   componentWillUpdate(props, state) {
     if(state.keyboardVisible !== this.state.keyboardVisible) {
-      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+      //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
 
     }
   }
 
   updateKeyboardSpace(frames) {
     if(!frames.endCoordinates) {
+      console.log("frames :(")
       return;
     }
-    /*
+    console.log("update keyboard space")
+    //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
     const keyboardSpace = frames.endCoordinates.height;
     this.setState({
       keyboardSpace: keyboardSpace,
       keyboardVisible: true
     })
-    */
+
   }
 
   resetKeyboardSpace() {
-/*
+    console.log("reset keyboard space")
+    //LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
+
     this.setState({
       keyboardSpace: 0,
       keyboardVisible: false
     })
-    */
+
   }
 
   componentWillMount() {
@@ -209,9 +216,10 @@ class FeedbackView extends Component {
 
       //Keyboard.removeAllListeners('keyboardDidShow');
       //Keyboard.removeAllListeners('keyboardDidHide');
-
+      if (Platform.OS === 'ios') {
       this.keyboardDidShowListener.remove()
       this.keyboardDidHideListener.remove()
+      }
 
   }
 
@@ -448,11 +456,13 @@ fetchServices() {
 
   render() {
     var showThumbnail = this.state.image.source !== null;
-    console.log(this.state.keyboardVisible)
+
     var keyboardVisible = this.state.keyboardVisible;
+    console.log(this.state.keyboardVisible)
+    console.log("KEYBOARD")
     var locationIcon  = this.state.locationEnabled ? locationOffIcon : locationOnIcon;
     var mapView       = this.state.locationEnabled ?
-                        <View style={[styles.mapContainer, keyboardVisible ? {flex: 0.001,} : {flex: 0.3}]}>
+                        <View style={[styles.mapContainer, (keyboardVisible) ? {flex:0.001} : {flex: 0.7}]}>
                           <MapView
                             ref='map'
                             style={styles.map}
@@ -509,8 +519,9 @@ fetchServices() {
             onMenuClick={()=>this._drawer.open()}
             header={transFeedback.feedbackViewTitle}/>
         {mapView}
-        <View style={[styles.feedbackContainer]}>
+        <View style={[styles.feedbackContainer, ]}>
           <View style={styles.categoryContainer}>
+
             <View style={styles.categoryTextView}>
               <Text style={[styles.categoryText, styles.textFont]}>{transFeedback.category}</Text>
             </View>
@@ -530,6 +541,7 @@ fetchServices() {
                   })
                 }
               }/>
+
           </View>
 
           <View
@@ -541,11 +553,20 @@ fetchServices() {
               value={this.state.titleText}
               onChangeText={(text)=> {this.setState({titleText: text})}}
             />
+            <View style={[styles.FAB]}>
+            <FloatingActionButton
+              buttonWidth={60}
+              buttonHeight={60}
+              icon={sendIcon}
+              onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
+            </View>
           </View>
 
+
           <View style={[styles.contentContainer,]}>
+
             <TextInput
-              style={[styles.contentInput, styles.textFont,]}
+              style={[styles.contentInput, styles.textFont, {height: Dimensions.get('window').height/4,}]}
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}
@@ -560,7 +581,8 @@ fetchServices() {
                 });
               }}
             />
-            <View style={styles.horizontalContainer}>
+
+            <View style={[styles.horizontalContainer,]}>
               <View style={styles.buttonView}>
                 <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
                   <Image
@@ -573,7 +595,6 @@ fetchServices() {
                     style={styles.icon} />
                 </TouchableWithoutFeedback>
               </View>
-
               <View style={[styles.thumbnailWrapper]}>
                 <Thumbnail
                   show={showThumbnail}
@@ -582,16 +603,12 @@ fetchServices() {
                   imageWidth={55}
                   imageClickAction={()=>this.removeThumbnail()} />
               </View>
+
+
             </View>
 
-
-            <FloatingActionButton
-              style={styles.FAB}
-              icon={sendIcon}
-              onButtonClick={()=>{if(this.state.sendEnabled) {this.sendFeedback(this)}}} />
-
           </View>
-          <View style={[{height: this.state.keyboardSpace}]}/>
+
         </View>
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
@@ -601,6 +618,7 @@ fetchServices() {
     );
   }
   //<View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
+
 
 }
 
@@ -623,7 +641,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   feedbackContainer: {
-    height: Dimensions.get('window').height / 2,
+    flex: 1.5,
     backgroundColor: '#EEEEEE',
   },
   categoryContainer: {
@@ -634,6 +652,7 @@ const styles = StyleSheet.create({
   categoryText: {
     marginLeft: 15,
     fontSize: 16,
+    marginTop:3
   },
   bottomContainer:{
     paddingLeft: 5,
@@ -649,7 +668,7 @@ const styles = StyleSheet.create({
     shadowRadius:1,
     marginBottom: 10,
     marginLeft: 10,
-    marginRight: 10,
+    marginRight: 90,
     marginTop: 5,
   },
   titleInput: {
@@ -657,6 +676,7 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     backgroundColor: 'white',
     fontSize: 16,
+
   },
   contentContainer: {
     flex: 1,
@@ -704,6 +724,13 @@ const styles = StyleSheet.create({
   },
   textFont: {
     fontFamily: 'montserrat',
+  },
+  FAB: {
+    width:30,
+    height:30,
+    right: -90,
+    top: 30,
+    position:'absolute',
   }
 
 });
