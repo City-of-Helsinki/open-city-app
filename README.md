@@ -33,6 +33,8 @@ https://console.developers.google.com/apis/
 
         keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android
 
+4. Add api key for sending service requests. It needs to be added to config.json as the value for 'OPEN311_SEND_SERVICE_API_KEY'.
+
 
 `react-native run-android`
 

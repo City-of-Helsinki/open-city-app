@@ -139,10 +139,6 @@ module.exports = {
   isUserSubmittedIssue: function(issueId, userSubmittedIssues) {
     userSubmittedIssues = [];
 
-    // For testing purposes
-    if (issueId == '113dmieqjindqii2kvne' || issueId == '3eohlgf51pu5n5l3bvi8' || issueId == '2usjcfstu6b7piuus1lo' || issueId == '1mevh6h1n750kdfbsqre' || issueId == '903bfl312ti8lmpvun2f') {
-      return true;
-    }
     return userSubmittedIssues.indexOf(issueId) > -1;
   },
 

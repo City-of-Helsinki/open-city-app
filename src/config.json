@@ -44,9 +44,7 @@
   "IMAGE_FORMAT": "JPEG",
 
   // Service category blacklist, these categories are not used and need to be excluded
-  // ADD THESE, REMOVED FOR TESTING PURPOSES 234, 180
-  // TODO: ^
-  "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, ],
+  "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, 234, 180],
 
   "TASK_TYPES": ["moved_to_other_system", "created_in_other_system", "informed", "assigned", "wait_for_answer", "wait_for_comment", "transferred_out"],
 
