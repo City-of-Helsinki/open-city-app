@@ -57,7 +57,6 @@ import ownLocationIcon  from '../img/own_loc.png';
 
 var navigator;
 
-const DEFAULT_CATEGORY       = 'Muu';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 const DESCRIPTION_MIN_LENGTH = 10;
@@ -96,9 +95,9 @@ class FeedbackView extends Component {
       imageData: null,
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
       keyboardSpace: 0,
+      descriptionContentHeight: 0, // Height of the description field
     };
 
-    //this.refs.map.animateToRegion(region)
     transFeedback.setLanguage('fi');
     transError.setLanguage('fi');
 
@@ -116,12 +115,6 @@ class FeedbackView extends Component {
     }
   }
 
-  componentWillUpdate(props, state) {
-    if(state.keyboardVisible !== this.state.keyboardVisible) {
-
-    }
-  }
-
   updateKeyboardSpace(frames) {
     if(!frames.endCoordinates) {
       return;
@@ -132,7 +125,6 @@ class FeedbackView extends Component {
       keyboardSpace: keyboardSpace,
       keyboardVisible: true
     })
-
   }
 
   resetKeyboardSpace() {
@@ -149,7 +141,6 @@ class FeedbackView extends Component {
     this.setState({
       pickerData: [{label: '', key: ''}],
     });
-
 
     var keys = ['descriptionText', 'titleText', 'serviceCode', 'selectedCategory', 'imageData', 'image', 'locationEnabled']
 
@@ -189,11 +180,7 @@ class FeedbackView extends Component {
           sendEnabled: sendEnabled,
         })
 
-
      });
-
-
-
   }
 
   componentWillUnmount () {
@@ -207,17 +194,12 @@ class FeedbackView extends Component {
         });
       }
 
-      //Keyboard.removeAllListeners('keyboardDidShow');
-      //Keyboard.removeAllListeners('keyboardDidHide');
       if (Platform.OS === 'ios') {
       this.keyboardDidShowListener.remove()
       this.keyboardDidHideListener.remove()
       }
 
   }
-
-
-
 
 fetchServices() {
     var url     = Config.OPEN311_SERVICE_LIST_URL + Config.OPEN311_SERVICE_LIST_LOCALE + 'fi';
@@ -241,6 +223,7 @@ fetchServices() {
       }
     }
 
+    services.push({label: 'xx', key: 'xx'})
     this.setState({
       pickerData: services,
     });
@@ -323,8 +306,6 @@ fetchServices() {
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
-
-
   }
 
   onFocusButtonClick() {
@@ -385,10 +366,7 @@ fetchServices() {
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
-
-
       }
-
     });
   }
 
@@ -402,9 +380,6 @@ fetchServices() {
       latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
       longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
     }
-
-    //this.refs.map.animateToRegion(markerRegion)
-
   }
 
   // Set marker position by long clicking the map. Center map on marker.
@@ -417,8 +392,6 @@ fetchServices() {
     }
 
     this.setState({markerPosition: location})
-
-    //this.refs.map.animateToRegion(markerRegion)
   }
 
   centerMarker(region) {
@@ -449,7 +422,6 @@ fetchServices() {
   removeThumbnail() {
     this.setState({ image: {source: null, fileName: null}, imageData: null })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-
   }
 
   render() {
@@ -467,7 +439,6 @@ fetchServices() {
                             followUserLocation={false}
                             toolbarEnabled={false}
                             onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
-                            //onRegionChange={(e) => this.centerMarker(e)}
                             onRegionChangeComplete={(e) => this.centerMarker(e)}
                             >
                             <MapView.Marker.Animated draggable
@@ -537,9 +508,7 @@ fetchServices() {
                   })
                 }
               }/>
-
           </View>
-
           <View
             style={styles.titleWrapper}>
             <TextInput
@@ -558,14 +527,16 @@ fetchServices() {
             </View>
           </View>
 
-
           <View style={[styles.contentContainer,]}>
-
             <TextInput
-              style={[styles.contentInput, styles.textFont, {height: Dimensions.get('window').height/4,}]}
+              style={[styles.contentInput, styles.textFont, {height: Math.max(100, this.state.descriptionContentHeight),}]}
               placeholder={transFeedback.inputContentPlaceholder}
               name="content"
               multiline={true}
+              maxLength={Config.OPEN311_DESCRIPTION_MAX_LENGTH}
+              onChange={(event)=> {
+                this.setState({descriptionContentHeight: event.nativeEvent.contentSize.height});
+              }}
               value={this.state.descriptionText}
               onChangeText={(text)=> {
                 var sendEnabled = text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
@@ -599,12 +570,8 @@ fetchServices() {
                   imageWidth={55}
                   imageClickAction={()=>this.removeThumbnail()} />
               </View>
-
-
             </View>
-
           </View>
-
         </View>
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
@@ -613,9 +580,6 @@ fetchServices() {
       </Drawer>
     );
   }
-  //<View style={[{height: (this.state.keyboardVisible) ? (Dimensions.get('window').height - this.state.visibleHeight) : 0}]}></View>
-
-
 }
 
 const styles = StyleSheet.create({
@@ -675,7 +639,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     fontSize: 16,
     flex: 1,
-
   },
   contentContainer: {
     flex: 1,
@@ -701,7 +664,6 @@ const styles = StyleSheet.create({
   buttonView: {
     flexDirection: 'row',
     alignItems: 'flex-end',
-
   },
   icon: {
     height: BUTTON_ICON_HEIGHT,
@@ -727,13 +689,12 @@ const styles = StyleSheet.create({
   sendButtonView: {
     height: SEND_BUTTON_IMAGE_SIZE,
     width: SEND_BUTTON_IMAGE_SIZE,
-    borderRadius: 20,
-    marginLeft: 10
+    borderRadius: SEND_BUTTON_IMAGE_SIZE / 2,
+    marginLeft: 10,
   },
   sendButtonImage: {
     height:SEND_BUTTON_IMAGE_SIZE,
     width: SEND_BUTTON_IMAGE_SIZE,
-    marginTop: -5,
   },
   center: {
     alignItems: 'center',
