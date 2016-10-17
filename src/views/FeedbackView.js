@@ -223,7 +223,6 @@ fetchServices() {
       }
     }
 
-    services.push({label: 'xx', key: 'xx'})
     this.setState({
       pickerData: services,
     });
