@@ -12,6 +12,7 @@ import {
 import Drawer         from 'react-native-drawer'
 import OverlaySpinner from 'react-native-loading-spinner-overlay';
 
+import FloatingActionButton from './../components/FloatingActionButton';
 import Navbar           from './../components/Navbar';
 import Menu             from './../components/Menu';
 import IssueListRow     from './../components/IssueListRow';
@@ -21,12 +22,17 @@ import Util             from './../util/util';
 import Global           from './../util/globals';
 import Config           from './../config';
 import AppFeedbackModal from './AppFeedbackView';
+import plusIcon     from '../img/plus.png'
 
 // Translations
 import transList  from '../translations/list';
 import transError from '../translations/errors';
 
 var navigator;
+const DEFAULT_LATITUDE           = 60.1680574;
+const DEFAULT_LONGITUDE          = 24.9339746;
+const DEFAULT_LATITUDE_DELTA     = 0.02208;
+const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 
 class IssueListView extends Component {
 
@@ -96,6 +102,21 @@ class IssueListView extends Component {
     });
   }
 
+  navToFeedbackView() {
+
+    var mapRegion = {
+      latitude: DEFAULT_LATITUDE,
+      longitude: DEFAULT_LONGITUDE,
+      latitudeDelta: DEFAULT_LATITUDE_DELTA,
+      longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+    };
+
+    this.props.navigator.push({
+      id: 'FeedbackView',
+      mapRegion: mapRegion, // Sets default region for the map in feedback view
+    });
+  }
+
   render() {
     return (
       <Drawer
@@ -140,6 +161,10 @@ class IssueListView extends Component {
           <AppFeedbackModal
             visible={this.state.showAppFeedbackModal}
             onClose={()=>this.onAppFeedbackModalClose(this)} />
+          {!this.state.showAppFeedbackModal && // When popup is displayed hide FAB because Google Maps toolbar
+            <FloatingActionButton   // shows up after a marker is clicked
+              icon={plusIcon}
+              onButtonClick={()=>this.navToFeedbackView(this)}/>}
         </View>
       </Drawer>
     );

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -916,9 +917,7 @@
 				INFOPLIST_FILE = OpenCityTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
 			};
@@ -932,9 +931,7 @@
 				INFOPLIST_FILE = OpenCityTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				LIBRARY_SEARCH_PATHS = (
-					"$(inherited)",
-				);
+				LIBRARY_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/OpenCity.app/OpenCity";
 			};
@@ -968,7 +965,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = OpenCity;
+				PRODUCT_BUNDLE_IDENTIFIER = fi.helsinki.helsinki;
+				PRODUCT_NAME = Helsinki;
 			};
 			name = Debug;
 		};
@@ -1000,7 +998,8 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_NAME = OpenCity;
+				PRODUCT_BUNDLE_IDENTIFIER = fi.helsinki.helsinki;
+				PRODUCT_NAME = Helsinki;
 			};
 			name = Release;
 		};

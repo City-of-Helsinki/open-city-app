@@ -55,8 +55,8 @@ class IssueDetailMarkerView extends Component {
       showStatusNotes: !this.state.showStatusNotes,
     });
 
-    // Prevent empty space from appearing on the bottom
-    if (this.state.showStatusNotes) {
+    // Prevent empty space from appearing on the bottom on android
+    if (this.state.showStatusNotes && Platform.OS === 'ios') {
       this.scrollView.scrollTo({x: 0, y: 0, animated: true});
     }
   }
