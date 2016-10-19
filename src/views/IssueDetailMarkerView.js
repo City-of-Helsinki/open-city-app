@@ -56,7 +56,7 @@ class IssueDetailMarkerView extends Component {
     });
 
     // Prevent empty space from appearing on the bottom on android
-    if (this.state.showStatusNotes && Platform.OS === 'ios') {
+    if (this.state.showStatusNotes && Platform.OS === 'android') {
       this.scrollView.scrollTo({x: 0, y: 0, animated: true});
     }
   }
