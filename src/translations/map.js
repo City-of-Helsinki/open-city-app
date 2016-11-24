@@ -2,9 +2,9 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en:{
-    mapViewTitle: 'Feedbacks',
+    mapViewTitle: 'FEEDBACKS',
   },
   fi: {
-    mapViewTitle: 'Palautteet kartalla',
+    mapViewTitle: 'PALAUTTEET',
   }
 });

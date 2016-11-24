@@ -2,13 +2,13 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en:{
-    viewTitle: 'List',
-    showStatusNotes: 'Show response',
-    hideStatusNotes: 'Hide response',
+    viewTitle: 'FEEDBACKS',
+    responseText: 'Response',
+    monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
   },
   fi: {
-    viewTitle: 'Viimeisimmät palautteet',
-    showStatusNotes: 'Näytä vastaus',
-    hideStatusNotes: 'Piilota vastaus',
+    viewTitle: 'PALAUTTEET',
+    responseText: 'Vastaus',
+    monthNames: ['Tammikuu', 'Helmikuu', 'Maaliskuu', 'Huhtikuu', 'Toukokuu', 'Kesäkuu', 'Heinäkuu', 'Elokuu', 'Syyskuu', 'Lokakuu', 'Marraskuu', 'Joulukuu']
   }
 });

@@ -10,7 +10,7 @@ import {
   AsyncStorage
 } from 'react-native';
 
-import splashImage from './../img/splash_image.png';
+import splashImage from './../img/splash_image_2.png';
 
 import showAlert   from '../components/Alert';
 import Spinner     from '../components/Spinner';
@@ -27,24 +27,24 @@ class SplashScreen extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.issues = [];
-    this.userSubmittedIssues = Models.fetchAllIssues();
+    this.serviceRequests = [];
+    this.userSubmittedServiceRequests = Models.fetchAllServiceRequests();
 
     transError.setLanguage('fi');
   }
 
   componentWillMount() {
-    this.fetchIssues();
+    this.fetchServiceRequests();
   }
 
-  // Fetch a fixed amount of issues from Open311 API
-  fetchIssues() {
+  // Fetch a fixed amount of serviceRequests from Open311 API
+  fetchServiceRequests() {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};
 
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
-      this.issues = Util.parseIssues(result, this.userSubmittedIssues);
+      this.serviceRequests = Util.parseServiceRequests(result, this.userSubmittedServiceRequests);
       this.navToNextView();
     }, error => {
 
@@ -66,7 +66,7 @@ class SplashScreen extends Component {
       AsyncStorage.getItem(Config.STORAGE_IS_FIRST_TIME).then((v) => {
         this.props.navigator.resetTo({
           id: v !== null ? 'MainView' : 'IntroductionView',
-          issues: this.issues,
+          serviceRequests: this.serviceRequests,
         });
       });
     } catch(error) {
@@ -74,7 +74,7 @@ class SplashScreen extends Component {
       // If an error occures with AsyncStorage just go to the main view
       this.props.navigator.resetTo({
         id: 'MainView',
-        issues: this.issues,
+        serviceRequests: this.serviceRequests,
       });
     }
   }
@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   spinnerContainer: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 24,
     left: Dimensions.get('window').width / 2 - 25,
     height: 50,
     width: 50,

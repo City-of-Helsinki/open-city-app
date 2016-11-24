@@ -29,6 +29,10 @@
 	</dict>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>App requires background location tracking</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>App requires access to user photo library</string>
+	<key>NSCameraUsageDescription</key>
+	<string>App requires camera usage</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string></string>
 	<key>NSMotionUsageDescription</key>

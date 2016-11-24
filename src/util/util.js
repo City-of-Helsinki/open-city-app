@@ -4,10 +4,14 @@ import Geolib from 'geolib';
 import Config from '../config';
 import Global from './globals';
 
-import redMarker    from '../img/red_marker.png';
 import yellowMarker from '../img/yellow_marker.png';
 import greenMarker  from '../img/green_marker.png';
-import blueMarker   from '../img/blue_marker.png';
+import blueMarker   from '../img/location_marker.png';
+
+import transList from '../translations/list';
+
+transList.setLanguage('fi');
+const SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH = 140;
 
 module.exports = {
 
@@ -20,10 +24,10 @@ module.exports = {
            hours + ':' + minutes;
   },
 
-  // Parse issues for issue popup
-  parseIssueDetails: function(input, userPosition) {
+  // Parse service requests for ServiceRequestDetailView
+  parseServiceRequestDetails: function(input, userPosition) {
 
-    // Fetching a single issue needs the following check because the issue is in an array
+    // Fetching a single serviceRequest needs the following check because the serviceRequest is in an array
     var data = input.constructor === Array ? input[0] : input;
     var extendedData = [];
 
@@ -35,7 +39,7 @@ module.exports = {
           timestamp: tasks[i].task_created,
           date: module.exports.parseDate(tasks[i].task_created),
           agency: tasks[i].owner_name,
-          state: module.exports.parseTaskType(tasks[i].task_type),
+          state: module.exports.getTaskType(tasks[i].task_type),
         });
       }
     }
@@ -54,8 +58,10 @@ module.exports = {
       date: module.exports.parseDate(data.requested_datetime),
       agency: data.agency_responsible,
       status: data.extended_attributes.detailed_status,
+      coordinates: typeof data.lat !== 'undefined' && typeof data.long !== 'undefined' ?
+       {latitude: data.lat, longitude: data.long} : null ,
       distance: module.exports.getDistance(userPosition, {latitude: data.lat, longitude: data.long}),
-      media_url: media,
+      media_urls: data.extended_attributes.media_urls,
       status_notes: data.status_notes,
       extendedData: extendedData
     };
@@ -80,13 +86,13 @@ module.exports = {
     return distance;
   },
 
-  // Parse data to be used in IssueListView
-  parseIssueList: function(data, userPosition) {
+  // Parse data to be used in ServiceRequestListView
+  parseServiceRequestList: function(data, userPosition) {
 
     var output = [];
-    var arrayLength = data.length < Config.DETAILED_ISSUE_LIMIT ? data.length : Config.DETAILED_ISSUE_LIMIT;
+    var arrayLength = data.length < Config.DETAILED_SERVICE_REQUEST_LIMIT ? data.length : Config.DETAILED_SERVICE_REQUEST_LIMIT;
     for (var i=0; i < arrayLength; i++) {
-      output.push(module.exports.parseIssueDetails(data[i], userPosition));
+      output.push(module.exports.parseServiceRequestDetails(data[i], userPosition));
     }
 
     return output;
@@ -108,27 +114,29 @@ module.exports = {
     return !isNaN(parseFloat(num)) && isFinite(num);
   },
 
-  // Get all issues with coordinates and show them on the map
-  parseIssues: function(data, userSubmittedIssues = []) {
-    var issues = [];
+  // Get all service requests with coordinates and show them on the map
+  parseServiceRequests: function(data, userSubmittedServiceRequests = []) {
+    var serviceRequests = [];
 
     for (var i=0; i < data.length; i++) {
       if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
-        issues.push({coordinates:
+        serviceRequests.push({coordinates:
                       {latitude: data[i].lat,
                       longitude: data[i].long},
                     markerImage: module.exports.selectMarkerImage(data[i].status,
-                      data[i].service_request_id, userSubmittedIssues),
-                    id: data[i].service_request_id});
+                      data[i].service_request_id, userSubmittedServiceRequests),
+                    id: data[i].service_request_id,
+                    description: module.exports.parseDescription(data[i].description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
+                    agency: data[i].agency_responsible});
       }
     }
 
-    return issues;
+    return serviceRequests;
   },
 
   // Parse status and return the appropriate marker
-  selectMarkerImage: function(status, issueId, userSubmittedIssues) {
-    if (module.exports.isUserSubmittedIssue(issueId, userSubmittedIssues)) {
+  selectMarkerImage: function(status, serviceRequestId, userSubmittedServiceRequests) {
+    if (module.exports.isUserSubmittedServiceRequest(serviceRequestId, userSubmittedServiceRequests)) {
       return blueMarker;
     }
 
@@ -136,10 +144,10 @@ module.exports = {
   },
 
   // Return true if the id was found in the database, false otherwise
-  isUserSubmittedIssue: function(issueId, userSubmittedIssues) {
-    userSubmittedIssues = [];
+  isUserSubmittedServiceRequest: function(serviceRequestId, userSubmittedServiceRequests) {
+    userSubmittedServiceRequests = [];
 
-    return userSubmittedIssues.indexOf(issueId) > -1;
+    return userSubmittedServiceRequests.indexOf(serviceRequestId) > -1;
   },
 
   setItemToStorage(key, value) {
@@ -149,7 +157,24 @@ module.exports = {
     }
   },
 
-  parseTaskType(state) {
+  getTaskType(state) {
     return Global.taskTypes[state];
+  },
+
+  // Truncate description with given length and replace line breaks with spaces
+  parseDescription(string, length) {
+    return string.substring(0, length).replace(/\n/g, ' ');
+  },
+
+  getDate(string) {
+    return string.split('.')[0];
+  },
+
+  getMonth(string) {
+    return string.split('.')[1];
+  },
+
+  getLocalizedMonthName(month) {
+    return transList.monthNames[month-1];
   }
 }

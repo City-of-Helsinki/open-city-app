@@ -1,7 +1,6 @@
 {
   // API URLs
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
-  "OPENAHJO_API_ISSUE_URL": "issue/",
   "OPEN311_SERVICE_LIST_URL": "https://asiointi.hel.fi/palautews/rest/v1/services.json",
   "OPEN311_SERVICE_LIST_LOCALE": "?locale=",
   "OPEN311_SEND_SERVICE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests.json",
@@ -21,11 +20,11 @@
   "APP_FEEDBACK_SERVICE_CODE": 2802,
 
   // Map
-  "ISSUE_LIMIT": "?limit=200",
+  "SERVICE_REQUEST_LIMIT": "?limit=200",
   "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
 
-  // Issue list
-  "DETAILED_ISSUE_LIMIT": 30,
+  // ServiceRequest list
+  "DETAILED_SERVICE_REQUEST_LIMIT": 50,
   "TIME_SPAN_IN_MONTHS": 2,
 
   // GPS Settings

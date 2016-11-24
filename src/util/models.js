@@ -1,30 +1,30 @@
 import Realm from 'realm';
 
-const ISSUE_MODEL    = 'Issue';
-const ISSUE_ID_FIELD = 'issueId';
+const SERVICE_REQUEST_MODEL    = 'ServiceRequest';
+const SERVICE_REQUEST_ID_FIELD = 'serviceRequestId';
 
 // Holds all Service request IDs submitted by the user.
-const IssueSchema = {
-  name: ISSUE_MODEL,
+const ServiceRequestSchema = {
+  name: SERVICE_REQUEST_MODEL,
   properties: {
-    issueId:  {type: 'string'},
+    serviceRequestId:  {type: 'string'},
   }
 };
 
-const realm = new Realm({schema: [IssueSchema]});
+const realm = new Realm({schema: [ServiceRequestSchema]});
 
 module.exports = {
 
-  // Insert given issue to the database
-  insert: function(issueId) {
+  // Insert given serviceRequest to the database
+  insert: function(serviceRequestId) {
     realm.write(()=> {
-      savedIssue = realm.create(ISSUE_MODEL, {issueId: issueId});
+      savedServiceRequest = realm.create(SERVICE_REQUEST_MODEL, {serviceRequestId: serviceRequestId});
     });
   },
 
-  // Return all data stored in the Issue model. Returns issues in an array
-  fetchAllIssues: function() {
-    var issues = realm.objects(ISSUE_MODEL);
-    return issues.length === 0 ? [] : Object.keys(issues).map(key => Object.values(issues[key])[0]);
+  // Return all data stored in the ServiceRequest model. Returns serviceRequests in an array
+  fetchAllServiceRequests: function() {
+    var serviceRequests = realm.objects(SERVICE_REQUEST_MODEL);
+    return serviceRequests.length === 0 ? [] : Object.keys(serviceRequests).map(key => Object.values(serviceRequests[key])[0]);
   },
 }

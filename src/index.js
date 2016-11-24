@@ -6,13 +6,13 @@ import {
   Platform
 } from 'react-native';
 
-import SplashScreen     from './views/SplashScreen';
-import MainView         from './views/MainView';
-import FeedbackView     from './views/FeedbackView';
-import IssueListView    from './views/IssueListView';
-import IntroductionView from './views/IntroductionView';
-
-console.ignoredYellowBox = ['Warning: You are manually'];
+import SplashScreen             from './views/SplashScreen';
+import MainView                 from './views/MainView';
+import SendServiceRequestView   from './views/SendServiceRequestView';
+import ServiceRequestListView   from './views/ServiceRequestListView';
+import IntroductionView         from './views/IntroductionView';
+import ServiceRequestDetailView from './views/ServiceRequestDetailView';
+import AppFeedbackView          from './views/AppFeedbackView';
 
 class OpenCity extends Component {
 
@@ -37,10 +37,14 @@ class OpenCity extends Component {
         return(<IntroductionView navigator={navigator} route={route} title='IntroductionView' />);
       case 'MainView':
         return(<MainView navigator={navigator} route={route} title='MainView' />);
-      case 'FeedbackView':
-        return(<FeedbackView navigator={navigator} route={route} title='FeedbackView' />);
-      case 'IssueListView':
-        return(<IssueListView navigator={navigator} route={route} title='IssueListView' />);
+      case 'SendServiceRequestView':
+        return(<SendServiceRequestView navigator={navigator} route={route} title='SendServiceRequestView' />);
+      case 'ServiceRequestListView':
+        return(<ServiceRequestListView navigator={navigator} route={route} title='ServiceRequestListView' />);
+      case 'ServiceRequestDetailView':
+        return(<ServiceRequestDetailView navigator={navigator} route={route} title='ServiceRequestDetailView' />);
+      case 'AppFeedbackView':
+        return(<AppFeedbackView navigator={navigator} route={route} title='AppFeedbackView' />);
     }
   }
 }

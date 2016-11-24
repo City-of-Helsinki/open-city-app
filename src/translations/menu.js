@@ -2,19 +2,13 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en:{
-    menuTitleView: 'View',
-    menuTitleFeedback: 'Feedback',
-    menuTitleMapButton: 'Map',
-    menuTitleListButton: 'List',
-    menuTitleUserFeedbackButton: 'Your feedback',
-    menuTitleFeedbackButton: 'Give feedback',
+    menuTitleFeedback: 'Feedbacks',
+    menuAppFeedbackDescription: '',
+    menuAppFeedbackButton: '',
   },
   fi: {
-    menuTitleView: 'Näkymä',
-    menuTitleFeedback: 'Palaute',
-    menuTitleMapButton: 'Palautteet kartalla',
-    menuTitleListButton: 'Viimeisimmät palautteet',
-    menuTitleUserFeedbackButton: 'Oma palautteesi',
-    menuTitleFeedbackButton: 'Lähetä kehitysidea sovelluksesta',
+    menuTitleFeedback: 'Palautteet',
+    menuAppFeedbackDescription: 'Hei! Keräämme tällä hetkellä käyttäjiltämme palautetta.',
+    menuAppFeedbackButton: 'KOMMENTOI SOVELLUSTA',
   }
 });

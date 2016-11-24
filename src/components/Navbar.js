@@ -9,11 +9,10 @@ import {
   Dimensions
 } from 'react-native';
 
-import menuIcon from './../img/menu.png';
+import Global   from './../util/globals';
 
-const MENU_BUTTON_WIDTH  = 30;
-const MENU_BUTTON_HEIGHT = 30;
-const HEADER_VIEW_WIDTH  = Dimensions.get('window').width - ((MENU_BUTTON_WIDTH * 2) + 30);
+const ICON_WIDTH  = 30;
+const ICON_HEIGHT = 30;
 
 // Navbar for the application with iOS status bar taken into account (extra padding)
 class Navbar extends Component {
@@ -30,21 +29,30 @@ class Navbar extends Component {
       iosStatusBar = <View style={styles.iosStatusBar}></View>
     }
 
+    var leftIcon  = typeof this.props.leftIcon !== 'undefined' ? this.props.leftIcon : null;
+    var rightIcon = typeof this.props.rightIcon !== 'undefined' ? this.props.rightIcon : null;
     return (
       <View>
         {iosStatusBar}
         <View style={styles.container}>
           <View style={styles.innerContainer}>
-            <TouchableWithoutFeedback onPress={this.props.onMenuClick}>
-              <View style={styles.menuButtonView}>
+            <TouchableWithoutFeedback onPress={this.props.onLeftButtonClick}>
+              <View style={styles.buttonView}>
                 <Image
-                  source={menuIcon}
-                  style={styles.menuIcon}/>
+                  source={leftIcon}
+                  style={styles.icon} />
               </View>
             </TouchableWithoutFeedback>
             <View style={styles.headerView}>
               <Text style={[styles.header, styles.textFont]}>{this.props.header}</Text>
             </View>
+            <TouchableWithoutFeedback onPress={this.props.onRightButtonClick}>
+              <View style={styles.buttonView}>
+                <Image
+                  source={rightIcon}
+                  style={styles.icon} />
+              </View>
+            </TouchableWithoutFeedback>
           </View>
         </View>
       </View>
@@ -58,40 +66,45 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
-    backgroundColor: '#FFF176',
+    backgroundColor: Global.COLOR.LIGHT_GREY,
+    borderBottomWidth: 1,
+    borderBottomColor: Global.COLOR.GREY
   },
   iosStatusBar: {
     flexDirection: 'row',
     alignSelf: 'stretch',
     height: 15,
-    backgroundColor: '#FFF176',
+    backgroundColor: Global.COLOR.LIGHT_GREY,
   },
   innerContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    height: MENU_BUTTON_HEIGHT,
+    height: ICON_HEIGHT,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
-  menuButtonView: {
-    position: 'absolute',
-    left: 10,
-    width: MENU_BUTTON_WIDTH,
-    height: MENU_BUTTON_HEIGHT,
+  buttonView: {
+    width: ICON_WIDTH,
+    height: ICON_HEIGHT,
   },
-  menuIcon: {
-    height: MENU_BUTTON_HEIGHT,
-    width: MENU_BUTTON_WIDTH,
+  icon: {
+    height: ICON_HEIGHT,
+    width: ICON_WIDTH,
   },
   headerView: {
-    width: HEADER_VIEW_WIDTH,
+    flex: 1,
+    paddingLeft: 10,
+    paddingRight: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
   header: {
-    fontSize: 16,
-    color: '#212121',
-    textAlign: 'center'
+    fontSize: 18,
+    color: Global.COLOR.BLUE,
+    textAlign: 'center',
+    fontWeight: 'bold'
   },
   textFont: {
     fontFamily: 'montserrat',

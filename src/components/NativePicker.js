@@ -43,7 +43,7 @@ class NativePicker extends Component {
     }
 
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, this.props.style]}>
         {picker}
       </View>
     );
@@ -53,14 +53,11 @@ class NativePicker extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent:'space-around',
-    paddingRight:10,
-    paddingTop:10,
-    padding:5,
   },
-  modalPicker:{
-    borderWidth:0,
-  }
+  modalPicker: {
+    borderWidth: 0,
+    alignItems: 'flex-start'
+  },
 });
 
 module.exports = NativePicker

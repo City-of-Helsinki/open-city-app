@@ -6,11 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import removeIcon from '../img/close_image.png';
-
-const CONTAINER_PADDING  = 10;
-const REMOVE_ICON_HEIGHT = 20;
-const REMOVE_ICON_WIDTH  = 20;
+import removeIcon from './../img/remove.png';
 
 // Return a thumbnail image with a close button place on the top right corner
 class Thumbnail extends Component {
@@ -20,27 +16,27 @@ class Thumbnail extends Component {
   }
 
   render() {
-    var content = this.props.show ?
-                  <View style={[styles.container, {
-                    height: this.props.imageHeight,
-                    width: this.props.imageWidth
-                  }]}>
-                    <Image
-                      source={this.props.imageSource}
-                      style={{
-                        height: this.props.imageHeight,
-                        width: this.props.imageWidth
-                      }} >
-                    <TouchableWithoutFeedback onPress={this.props.imageClickAction}>
-                      <Image
-                        source={removeIcon}
-                        style={styles.removeIcon} />
-                    </TouchableWithoutFeedback>
-                    </Image>
-                  </View> : null;
     return (
       <View>
-        {content}
+        {this.props.show &&
+        <TouchableWithoutFeedback onPress={this.props.imageClickAction}>
+           <View style={[styles.container, {
+              height: this.props.imageHeight,
+              width: this.props.imageWidth
+            }]}>
+              <Image
+                source={this.props.imageSource}
+                style={{
+                  height: this.props.imageHeight,
+                  width: this.props.imageWidth
+                }} >
+              </Image>
+              <Image
+                style={styles.removeImage}
+                source={removeIcon} />
+            </View>
+          </TouchableWithoutFeedback>
+        }
       </View>
     );
   }
@@ -52,12 +48,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
   },
-  removeIcon: {
+  removeImage: {
     position: 'absolute',
     top: 0,
     right: 0,
-    height: REMOVE_ICON_HEIGHT,
-    width: REMOVE_ICON_WIDTH,
+    height: 24,
+    width: 24,
   }
 });
 

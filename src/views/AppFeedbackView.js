@@ -9,41 +9,33 @@ import {
   Platform,
   TouchableWithoutFeedback,
   ScrollView,
-  Modal,
   NativeModules,
-  Keyboard,
   UIManager,
   LayoutAnimation,
+  DeviceEventEmitter,
 } from 'react-native';
 
-import Spinner from 'react-native-loading-spinner-overlay';
-import ImagePicker from 'react-native-image-picker';
-import ImageResizer from 'react-native-image-resizer';
-import Toast from 'react-native-simple-toast';
-
+import KeyboardSpacer       from 'react-native-keyboard-spacer';
+import Drawer               from 'react-native-drawer';
+import Spinner              from 'react-native-loading-spinner-overlay';
+import ImagePicker          from 'react-native-image-picker';
+import ImageResizer         from 'react-native-image-resizer';
+import Toast                from 'react-native-simple-toast';
 import makeRequest          from '../util/requests';
-import issueModels          from '../util/models';
-
-import showAlert from '../components/Alert';
+import serviceRequestModels from '../util/models';
+import Global               from '../util/globals';
+import showAlert            from '../components/Alert';
 import Thumbnail            from '../components/Thumbnail';
-import Config    from '../config';
-
-import closeIcon from './../img/close_image.png';
-import attachmentIcon   from '../img/attachment.png';
-
-
-import transFeedback from '../translations/appFeedback';
-import transError    from '../translations/errors';
-
-const MODAL_HEIGHT           = 300;
-const SIDE_PADDING           = 32;
-const CLOSE_ICON_HEIGHT      = 24;
-const CLOSE_ICON_WIDTH       = 24;
-const BUTTON_ICON_HEIGHT     = 40;
-const BUTTON_ICON_WIDTH      = 40;
-
-var _keyboardWillShowSubscription;
-var _keyobardWillHideSubscription;
+import Menu                 from '../components/Menu';
+import Navbar               from '../components/Navbar';
+import Config               from '../config';
+import backIcon             from '../img/back.png';
+import sendEnabledIcon      from '../img/send_enabled.png';
+import sendDisabledIcon     from '../img/send_disabled.png';
+import closeIcon            from '../img/close.png';
+import attachmentIcon       from '../img/close.png';
+import transAppFeedback     from '../translations/appFeedback';
+import transError           from '../translations/errors';
 
 class AppFeedbackView extends Component {
 
@@ -51,61 +43,40 @@ class AppFeedbackView extends Component {
     super(props, context);
 
     this.state = {
-      feedbackText: '',
+      descriptionText: '',
+      titleText: '',
       imageData: null,
       image: {source: null, name: null},
       showThumbnail: false,
-      keyboardVisible: false,
+      spinnerVisible: false,
     };
 
-    transFeedback.setLanguage('fi');
+    transAppFeedback.setLanguage('fi');
     transError.setLanguage('fi');
 
     // Needed for LayoutAnimation to work on android.
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 
-  componentWillMount() {
-    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow.bind(this))
-    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide.bind(this))
-  }
-
-  componentWillUnmount () {
-    this.keyboardDidShowListener.remove()
-    this.keyboardDidHideListener.remove()
-  }
-
-  keyboardWillShow (e) {
-    this.setState({
-      keyboardVisible: true,
-    })
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-  }
-
-  keyboardWillHide (e) {
-    this.setState({
-      keyboardVisible: false,
-    })
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut)
-  }
   sendFeedback() {
+    this.setState({ spinnerVisible: true });
     var url     = Config.OPEN311_SEND_SERVICE_URL;
     var method  = 'POST';
     var headers = {'Content-Type': 'multipart/form-data', 'Accept': 'application/json'};
     var data    = new FormData();
-    const DEBUG_SERVICE_CODE = 172;
+
     data.append('api_key', Config.OPEN311_SEND_SERVICE_API_KEY);
-    data.append('service_code', DEBUG_SERVICE_CODE);
-    //data.append('service_code', Config.APP_FEEDBACK_SERVICE_CODE);
-    data.append('description', this.state.feedbackText);
+    data.append('service_code', Config.APP_FEEDBACK_SERVICE_CODE);
+    data.append('description', this.state.descriptionText);
+    data.append('title', this.state.titleText !== null ? this.state.titleText : '');
 
+    // Pick image
     if (this.state.imageData !== null) {
-
       const file = {
         uri: this.state.imageData.uri,
         isStored: true,
       }
-      data.append('media_url', this.state.imageData)
+
       if(Platform.OS === 'ios') {
         data.append('media', {
           ...file, name: this.state.imageData.fileName
@@ -116,43 +87,40 @@ class AppFeedbackView extends Component {
           type: 'image/jpeg',
         });
       }
-
     }
 
-
-    //makeRequest(url, method, headers, data)
-    makeRequest(url + 'requests.json?extensions=media,citysdk', method, headers, data)
+    makeRequest(url, method, headers, data)
     .then(result => {
-
-      this.setState({ image: {source: null, fileName: null}, imageData: null });
-      Toast.show(transFeedback.feedbackSentText);
-      this.props.onClose()
-
+      this.setState({
+        image: {source: null, fileName: null},
+        imageData: null,
+        spinnerVisible: false,
+      });
+      Toast.show(transAppFeedback.feedbackSentText);
+      this.props.navigator.pop();
     }, error => {
-      this.setState({ image: {source: null, fileName: null}, imageData: null });
-      this.props.onClose()
+      this.setState({
+        image: {source: null, fileName: null},
+        imageData: null,
+        spinnerVisible: false,
+      });
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
     });
   }
 
-
   onSendButtonClick() {
-    if (this.state.feedbackText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
-        this.state.feedbackText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
-      this.sendFeedback(this)
-    } else {
-      // Show an alert informing user that the description text was not valid
-      showAlert(transError.feedbackTextLengthErrorTitle, transError.feedbackTextLengthErrorMessage, transError.feedbackErrorButton);
+    if (this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+        this.state.descriptionText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      this.sendFeedback();
     }
   }
 
-
-  onAttachmentIconClick() {
+  onAddAttachmentClick() {
     var options = {
       title: '',
-      cancelButtonTitle: transFeedback.imagePickerCancelButton,
-      takePhotoButtonTitle: transFeedback.imagePickerPictureButton,
-      chooseFromLibraryButtonTitle: transFeedback.imagePickerLibraryButton,
+      cancelButtonTitle: transAppFeedback.imagePickerCancelButton,
+      takePhotoButtonTitle: transAppFeedback.imagePickerPictureButton,
+      chooseFromLibraryButtonTitle: transAppFeedback.imagePickerLibraryButton,
       mediaType: 'photo'
     };
 
@@ -171,15 +139,20 @@ class AppFeedbackView extends Component {
         } else {
           source = {uri: response.uri, isStatic: true};
         }
+
+        // Compress image size
         ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
             var resizedSource = {uri: resizedImageUri, isStatic: true}
+
             response.path = resizedImageUri
             response.uri = resizedImageUri;
             this.setState({
               image: {source: resizedSource, name: response.fileName},
               imageData: response
             });
+
+            LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
         }).catch((err) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
@@ -188,155 +161,165 @@ class AppFeedbackView extends Component {
     });
   }
 
+  onDescriptionTextChange(text) {
+
+    // Stop adding text if the limit is reached
+    if (text.length < Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      this.setState({descriptionText: text});
+    }
+
+    // Enable send button if the length of the description is within limits
+    if (text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+        text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      this.setState({
+        sendEnabled: true,
+      });
+    } else {
+      this.setState({
+        sendEnabled: false,
+      });
+    }
+  }
+
+  removeThumbnail() {
+    this.setState({ image: {source: null, fileName: null}, imageData: null })
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
   render() {
     var showThumbnail = this.state.image.source !== null;
-    var keyboardVisible = this.state.keyboardVisible;
-    this.showThumbnail = showThumbnail;
 
     return (
-      <View>
-        <Modal
-          animationType={'fade'}
-          transparent={true}
-          visible={this.props.visible}
-          onRequestClose={this.props.onClose}>
-          <View style={[styles.modalContainer,
-            (keyboardVisible) ?
-            {alignItems: 'flex-start', paddingTop:60}  :
-            {alignItems: 'center'}]}>
+      <Drawer
+        ref={(ref) => {
+          this._drawer = ref;
+          Global.menuRef = ref;
+        }}
+        type={'overlay'}
+        openDrawerOffset={0.25}
+        closedDrawerOffset={0}
+        tapToClose={true}
+        acceptTap={true}
+        captureGestures={'open'}
+        onOpen={()=> Global.menuOpen = true}
+        onClose={()=> Global.menuOpen = false}
+        content={
+          <Menu
+            mapView={()=>{this.props.navigator.pop()}}
+            sendServiceRequestView={()=>{this.navToServiceRequestListView(this._drawer)}}
+            onMenuClick={()=>this._drawer.close()}/>
+        }>
+        <Navbar
+          leftIcon={backIcon}
+          onLeftButtonClick={()=>this.props.navigator.pop()}
+          rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
+          onRightButtonClick={this.onSendButtonClick.bind(this)}
+          header={transAppFeedback.appFeedbackViewTitle} />
+        <View style={styles.container}>
+          <Spinner visible={this.state.spinnerVisible} />
+          <ScrollView style={styles.scrollView}>
             <View style={styles.contentContainer}>
-              <View style={styles.topContainer}>
-                <Text style={[styles.text, styles.textFont]}>{transFeedback.appFeedbackViewTitle}</Text>
-                <TouchableWithoutFeedback onPress={this.props.onClose}>
-                  <Image
-                    source={closeIcon}
-                    style={styles.closeIcon}/>
-                </TouchableWithoutFeedback>
-              </View>
-              <View style={styles.textContainer}>
+              <View style={styles.titleView}>
                 <TextInput
-                  style={styles.contentInput}
-                  placeholder={transFeedback.feedbackInputPlaceholder}
-                  multiline={true}
-                  onChangeText={(text)=> {
-                    this.setState({
-                      feedbackText: text,
-                    });
-                  }} />
+                  style={styles.titleText}
+                  onChangeText={(text)=> { this.setState({ titleText: text }) }}
+                  placeholder={transAppFeedback.titlePlaceholder} />
               </View>
-
-                <View style={[styles.bottomContainer,
-                  showThumbnail
-                    ? { height: 70 }
-                    : { height: 70 },]}>
-
-                  <TouchableWithoutFeedback onPress={this.onAttachmentIconClick.bind(this)}>
-                    <Image
-                      source={attachmentIcon}
-                      style={styles.icon} />
-                  </TouchableWithoutFeedback>
-
-                  <View style={styles.thumbnailWrapper}>
-                    <Thumbnail
-                      show={showThumbnail}
-                      imageSource={this.state.image.source}
-                      imageHeight={50}
-                      imageWidth={50}
-                      imageClickAction={()=>this.setState({ image: {source: null, fileName: null}, imageData: null })} />
-                  </View>
-
-                  <TouchableWithoutFeedback onPress={this.onSendButtonClick.bind(this)}>
-                    <View style={styles.sendButtonView}>
-                      <Text style={[styles.sendButtonText, styles.textFont]}>{transFeedback.sendButtonText}</Text>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
+              <View style={styles.descriptionView}>
+                <TextInput
+                  style={styles.descriptionText}
+                  multiline={true}
+                  onChangeText={(text)=>this.onDescriptionTextChange(text)}
+                  placeholder={transAppFeedback.descriptionPlaceholder} />
+              </View>
             </View>
+          </ScrollView>
+          <View style={styles.attachmentContainer}>
+            {this.state.image.source === null &&
+            <TouchableWithoutFeedback onPress={this.onAddAttachmentClick.bind(this)}>
+              <View style={styles.attachmentButton}>
+                <Text style={styles.attachmentButtonText}>{transAppFeedback.addAttachment}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+            }
+            {this.state.image.source !== null &&
+              <View style={styles.thubmnailView}>
+                <Thumbnail
+                  show={showThumbnail}
+                  imageSource={this.state.image.source}
+                  imageHeight={62}
+                  imageWidth={62}
+                  imageClickAction={()=>this.removeThumbnail()} />
+              </View>
+            }
           </View>
-        </Modal>
-      </View>
+          {Platform.OS === 'ios' && <KeyboardSpacer/>}
+        </View>
+      </Drawer>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    backgroundColor: 'rgba(0,0,0,0.5)',
+  container: {
+    flexDirection: 'column',
     flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: Global.COLOR.LIGHT_GREY
   },
-  closeIcon: {
-    height: CLOSE_ICON_HEIGHT,
-    width: CLOSE_ICON_WIDTH,
-    position:'absolute',
-    right:-10,
-    top:-10,
-  },
-  topContainer:{
-    flexDirection:'row',
-    height: CLOSE_ICON_HEIGHT
+  scrollView: {
+    flex: 1,
   },
   contentContainer: {
-    height: MODAL_HEIGHT,
-    width: Dimensions.get('window').width - SIDE_PADDING,
-    backgroundColor: '#EEEEEE',
-    padding: 20,
-  },
-  textContainer: {
-    shadowOpacity: 0.8,
-    shadowOffset: {
-      height: 0,
-      width: 0
-    },
-    shadowColor: 'black',
-    shadowRadius: 1,
+    padding: 16,
     flex: 1,
-    backgroundColor: '#EEEEEE',
   },
-  sendButtonView: {
+  helpText: {
+    color: Global.COLOR.STEEL_GREY,
+    fontSize: 12,
+    fontWeight: 'bold'
+  },
+  titleView: {
+    alignSelf: 'center',
+    width: Dimensions.get('window').width - 32
+  },
+  titleText: {
+    backgroundColor: Global.COLOR.WARM_GREY_10,
     height: 40,
-    width: 80,
-    position: 'absolute',
-    right: 0,
-    bottom: 0,
-    justifyContent: 'center',
-    alignItems: 'center',
+    padding: 8,
   },
-  text: {
-    color: '#000',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  sendButtonText: {
-    color: '#607D8B',
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  bottomContainer:{
-    paddingLeft: 5,
-    flexDirection: 'row',
-  },
-  contentInput: {
+  descriptionView: {
     flex: 1,
+    marginTop: 8,
+  },
+  descriptionText: {
+    height: 400,
+    alignSelf: 'stretch',
+    backgroundColor: Global.COLOR.WARM_GREY_10,
     textAlignVertical: 'top',
-    backgroundColor: '#fff',
+    padding: 8,
   },
-  icon: {
-    height: BUTTON_ICON_HEIGHT,
-    width: BUTTON_ICON_WIDTH,
-    marginRight: 25,
-    position: 'absolute',
-    bottom:0,
+  attachmentContainer: {
+    flexDirection: 'row',
+    padding: 16,
+    borderTopWidth: 2,
+    borderTopColor: Global.COLOR.GREY,
   },
-  thumbnailWrapper: {
-    position:'absolute',
-    bottom: 0,
-    left: 50,
+  attachmentButton: {
+    flex: 1,
+    height: 46,
+    backgroundColor: Global.COLOR.BLUE,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  textFont: {
-    fontFamily: 'montserrat',
+  attachmentButtonText: {
+    color: Global.COLOR.WHITE,
+    fontSize: 16,
+    fontWeight: 'bold'
+  },
+  thubmnailView: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 });
 

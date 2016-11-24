@@ -21,11 +21,19 @@ class Spinner extends Component {
     spinner = this.props.visible ? spinner : null;
 
     return (
-      <View>
+      <View style={styles.spinner}>
         {spinner}
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  spinner: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
+});
 
 module.exports = Spinner
