@@ -1,4 +1,5 @@
 import React, { Component, } from 'react';
+import rebound from 'rebound';
 import {
   View,
   StyleSheet,
@@ -100,6 +101,21 @@ class SendServiceRequestView extends Component {
 
   componentWillMount() {
     this.fetchServices();
+    this.initializeSpringAnimation();
+  }
+
+  initializeSpringAnimation() {
+    this.springSystem     = new rebound.SpringSystem();
+    this.scrollSpring     = this.springSystem.createSpring();
+    var springConfig      = this.scrollSpring.getSpringConfig();
+    springConfig.tension  = 200;
+    springConfig.friction = 25;
+
+    this.scrollSpring.addListener({
+      onSpringUpdate: () => {
+        this.setState({scale: this.scrollSpring.getCurrentValue()});
+      },
+    });
   }
 
   fetchServices() {
@@ -114,6 +130,7 @@ class SendServiceRequestView extends Component {
     });
   }
 
+  // Create an array for picker with all services
   parseServiceList(data) {
     var services = [];
     for (var i=0; i < data.length; i++) {
@@ -243,6 +260,7 @@ class SendServiceRequestView extends Component {
   }
 
   onCheckboxClick() {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
@@ -301,10 +319,18 @@ class SendServiceRequestView extends Component {
     // Enable/Disable send button depending on the description text length
     if (event.nativeEvent.text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
         event.nativeEvent.text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      // Add animation only if the icon is going to change
+      if (!this.state.sendEnabled) {
+        this.addSpringAnimation(0.1, 1);
+      }
       this.setState({
         sendEnabled: true,
       });
     } else {
+      // Add animation only if the icon is going to change
+      if (this.state.sendEnabled) {
+        this.addSpringAnimation(0.1, 1);
+      }
       this.setState({
         sendEnabled: false,
       });
@@ -319,6 +345,11 @@ class SendServiceRequestView extends Component {
     });
 
     return { }
+  }
+
+  addSpringAnimation(currentValue, endValue) {
+    this.scrollSpring.setCurrentValue(currentValue);
+    this.scrollSpring.setEndValue(endValue);
   }
 
   render() {
@@ -350,6 +381,7 @@ class SendServiceRequestView extends Component {
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
+          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transSendServiceRequest.sendServiceRequestViewTitle} />
         <View style={styles.container}>

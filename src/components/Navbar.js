@@ -50,7 +50,7 @@ class Navbar extends Component {
               <View style={styles.buttonView}>
                 <Image
                   source={rightIcon}
-                  style={styles.icon} />
+                  style={[styles.icon, this.props.iconAnimationStyle]} />
               </View>
             </TouchableWithoutFeedback>
           </View>

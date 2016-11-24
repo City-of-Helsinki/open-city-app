@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import rebound from 'rebound';
 import {
   View,
   StyleSheet,
@@ -56,6 +57,24 @@ class AppFeedbackView extends Component {
 
     // Needed for LayoutAnimation to work on android.
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
+  }
+
+  componentWillMount() {
+    this.initializeSpringAnimation();
+  }
+
+  initializeSpringAnimation() {
+    this.springSystem     = new rebound.SpringSystem();
+    this.scrollSpring     = this.springSystem.createSpring();
+    var springConfig      = this.scrollSpring.getSpringConfig();
+    springConfig.tension  = 200;
+    springConfig.friction = 25;
+
+    this.scrollSpring.addListener({
+      onSpringUpdate: () => {
+        this.setState({scale: this.scrollSpring.getCurrentValue()});
+      },
+    });
   }
 
   sendFeedback() {
@@ -171,10 +190,18 @@ class AppFeedbackView extends Component {
     // Enable send button if the length of the description is within limits
     if (text.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
         text.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      // Add animation only if the icon is going to change
+      if (!this.state.sendEnabled) {
+        this.addSpringAnimation(0.1, 1);
+      }
       this.setState({
         sendEnabled: true,
       });
     } else {
+      // Add animation only if the icon is going to change
+      if (this.state.sendEnabled) {
+        this.addSpringAnimation(0.1, 1);
+      }
       this.setState({
         sendEnabled: false,
       });
@@ -184,6 +211,11 @@ class AppFeedbackView extends Component {
   removeThumbnail() {
     this.setState({ image: {source: null, fileName: null}, imageData: null })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+  }
+
+  addSpringAnimation(currentValue, endValue) {
+    this.scrollSpring.setCurrentValue(currentValue);
+    this.scrollSpring.setEndValue(endValue);
   }
 
   render() {
@@ -213,6 +245,7 @@ class AppFeedbackView extends Component {
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
+          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transAppFeedback.appFeedbackViewTitle} />
         <View style={styles.container}>
