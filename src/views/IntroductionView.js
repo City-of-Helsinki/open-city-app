@@ -57,13 +57,15 @@ class IntroductionView extends Component {
     var checkboxImage = this.state.checkboxSelected ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
 
+    var titleText = transIntroduction.formatString(transIntroduction.modalTitle, Config.APP_NAME);
+
     return (
       <View style={styles.container}>
         <Image source={backgroundImage} style={styles.backgroundImage} />
         <Text style={styles.versionText}>{transIntroduction.versionTitle}</Text>
         <View style={styles.modalContainer}>
           <View style={styles.textContainer}>
-            <Text style={[styles.modalText, styles.modalTitle]}>{transIntroduction.modalTitle}</Text>
+            <Text style={[styles.modalText, styles.modalTitle]}>{titleText}</Text>
             <Text style={[styles.modalText, styles.modalDescription]}>{transIntroduction.modalDescription}</Text>
           </View>
           <View style={styles.checkboxContainer}>

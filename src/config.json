@@ -1,4 +1,6 @@
 {
+  "APP_NAME": "Helsinki",
+
   // API URLs
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
   "OPEN311_SERVICE_LIST_URL": "https://asiointi.hel.fi/palautews/rest/v1/services.json",
