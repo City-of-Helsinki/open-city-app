@@ -27,8 +27,6 @@ import markerIcon       from '../img/location_marker.png'
 
 import transError from '../translations/errors';
 
-var navigator;
-
 const RESPONSE_VIEW_OFFSET = 32;
 const LATITUDE_DELTA       = 0.00680;
 const LONGITUDE_DELTA      = 0.00340;
@@ -38,8 +36,6 @@ class ServiceRequestDetailView extends Component {
   constructor(props, context) {
     super(props, context);
 
-    navigator = this.props.navigator;
-
     this.state = {
       isLoading: typeof this.props.route.serviceRequestID !== 'undefined', // Spinner wont be set if data is passed as a prop
       data: ''
@@ -48,6 +44,7 @@ class ServiceRequestDetailView extends Component {
     transError.setLanguage('fi');
 
     Global.isMainView = false;
+    Global.navigatorRef = this.props.navigator;
   }
 
   componentDidMount() {
@@ -72,6 +69,7 @@ class ServiceRequestDetailView extends Component {
         data: data,
       });
     }, error => {
+      this.setState({ isLoading: false });
       if (error.message === Config.TIMEOUT_MESSAGE) {
         showAlert(transError.serviceNotAvailableErrorTitle,
           transError.serviceNotAvailableErrorMessage, transError.serviceNotAvailableErrorButton);
@@ -169,21 +167,6 @@ class ServiceRequestDetailView extends Component {
     );
   }
 }
-
-BackAndroid.addEventListener('hardwareBackPress', function() {
-
-  // Close menu if it's open otherwise navigate to the previous view
-  if (Global.menuOpen && Global.menuRef !== null) {
-    Global.menuRef.close();
-    return true;
-  } else if (navigator) {
-    Global.isMainView = true;
-    navigator.popToTop();
-    return true;
-  }
-
-  return false;
-});
 
 const styles = StyleSheet.create({
   container: {

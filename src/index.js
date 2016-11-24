@@ -3,7 +3,8 @@ import {
   AppRegistry,
   AsyncStorage,
   Navigator,
-  Platform
+  Platform,
+  BackAndroid
 } from 'react-native';
 
 import SplashScreen             from './views/SplashScreen';
@@ -13,6 +14,7 @@ import ServiceRequestListView   from './views/ServiceRequestListView';
 import IntroductionView         from './views/IntroductionView';
 import ServiceRequestDetailView from './views/ServiceRequestDetailView';
 import AppFeedbackView          from './views/AppFeedbackView';
+import Global                   from './util/globals';
 
 class OpenCity extends Component {
 
@@ -48,6 +50,31 @@ class OpenCity extends Component {
     }
   }
 }
+
+BackAndroid.addEventListener('hardwareBackPress', function() {
+
+  // If drawer is open, close it
+  if (Global.menuOpen && Global.menuRef !== null) {
+    Global.menuRef.close();
+    return true;
+
+    // If a marker popup is open, close it
+  } else if (Global.isMainView && Global.mainViewRef && Global.mainViewRef.state.showPopup) {
+    Global.mainViewRef.setState({ showPopup:false });
+    return true;
+
+    // If map view is active, exit the app
+  } else if (Global.isMainView) {
+    BackAndroid.exitApp();
+
+    // If the view is anyother than MapView, pop to the previous view
+  } else if (!Global.isMainView) {
+    Global.navigatorRef.pop();
+    return true;
+  }
+
+  return false;
+});
 
 
 AppRegistry.registerComponent('OpenCity', () => OpenCity);

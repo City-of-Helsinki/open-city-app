@@ -77,6 +77,7 @@ class MainView extends Component {
     transError.setLanguage('fi');
 
     Global.mainViewRef = this;
+    Global.isMainView = true;
   }
 
   componentWillMount() {
@@ -113,6 +114,14 @@ class MainView extends Component {
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  shouldComponentUpdate() {
+    // Set global references after view is popped
+    Global.isMainView = true;
+    Global.mainViewRef = this;
+
+    return true;
   }
 
   // Fetch users position and set the region of the map accordingly
@@ -220,6 +229,7 @@ class MainView extends Component {
 
   // Open a detailed view of the selected serviceRequest
   showServiceRequestDetailPopup(serviceRequest) {
+    console.log('show')
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       showPopup:true,
@@ -264,6 +274,7 @@ class MainView extends Component {
   }
 
   render() {
+    console.log('popup', this.state.showPopup);
     // Initialize Popup which will be shown when a marker is clicked
     var serviceRequestDetailPopup = this.state.showPopup ?
       <MarkerPopup
@@ -358,22 +369,6 @@ const styles = StyleSheet.create({
     height: MARKER_IMAGE_SIZE,
     width: MARKER_IMAGE_SIZE,
   }
-});
-
-BackAndroid.addEventListener('hardwareBackPress', function() {
-
-  // Close menu if it's open otherwise exit the app
-  if (Global.menuOpen && Global.menuRef !== null) {
-    Global.menuRef.close();
-    return true;
-  } else if (Global.mainViewRef && Global.mainViewRef.state.showPopup) {
-    Global.mainViewRef.setState({ showPopup:false });
-    return true;
-  } else if (Global.isMainView) {
-    BackAndroid.exitApp();
-  }
-
-  return false;
 });
 
 module.exports = MainView

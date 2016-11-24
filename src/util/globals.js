@@ -2,6 +2,7 @@ import transTask from '../translations/task';
 transTask.setLanguage('fi');
 
 module.exports = {
+  navigatorRef: null,         // Global navigator reference used for back button on Android
   menuRef: null,              // Global reference for drawer is needed in order to enable 'back to close' functionality
   menuOpen: false,            // True if menu is visible, false otherwise
   isMainView: false,          // True if MainView is displayed, false otherwise

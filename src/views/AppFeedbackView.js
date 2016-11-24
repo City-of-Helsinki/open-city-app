@@ -38,6 +38,7 @@ import attachmentIcon       from '../img/close.png';
 import transAppFeedback     from '../translations/appFeedback';
 import transError           from '../translations/errors';
 
+// View for sending feedback about the application itself
 class AppFeedbackView extends Component {
 
   constructor(props, context) {
@@ -54,6 +55,9 @@ class AppFeedbackView extends Component {
 
     transAppFeedback.setLanguage('fi');
     transError.setLanguage('fi');
+
+    Global.isMainView = false;
+    Global.navigatorRef = this.props.navigator;
 
     // Needed for LayoutAnimation to work on android.
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }

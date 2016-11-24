@@ -50,8 +50,6 @@ import markerIcon       from '../img/location_marker.png';
 import checkIcon        from '../img/check.png';
 import backIcon         from '../img/back.png';
 
-var navigator;
-
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 const ZOOM                   = 6;
@@ -65,7 +63,6 @@ class SendServiceRequestView extends Component {
   constructor(props, context) {
     super(props, context);
 
-    navigator = this.props.navigator;
     this.state = {
       // Initialize the marker with the center coordinates from region of the map being shown
       region: {
@@ -95,6 +92,7 @@ class SendServiceRequestView extends Component {
     transError.setLanguage('fi');
 
     Global.isMainView = false;
+    Global.navigatorRef = this.props.navigator;
 
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
@@ -611,21 +609,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center'
   }
-});
-
-BackAndroid.addEventListener('hardwareBackPress', function() {
-
-  // Close menu if it's open otherwise navigate to the previous view
-  if (Global.menuOpen && Global.menuRef !== null) {
-    Global.menuRef.close();
-    return true;
-  } else if (navigator) {
-    Global.isMainView = true;
-    navigator.popToTop();
-    return true;
-  }
-
-  return false;
 });
 
 module.exports = SendServiceRequestView

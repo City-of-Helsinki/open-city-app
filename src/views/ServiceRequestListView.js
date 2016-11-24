@@ -27,7 +27,6 @@ import menuIcon              from '../img/menu.png'
 import transList  from '../translations/list';
 import transError from '../translations/errors';
 
-var navigator;
 const DEFAULT_LATITUDE        = 60.1680574;
 const DEFAULT_LONGITUDE       = 24.9339746;
 const DEFAULT_LATITUDE_DELTA  = 0.02208;
@@ -44,12 +43,12 @@ class ServiceRequestListView extends Component {
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
 
-    navigator = this.props.navigator;
 
     transList.setLanguage('fi');
     transError.setLanguage('fi');
 
     Global.isMainView = false;
+    Global.navigatorRef = this.props.navigator;
   }
 
   componentDidMount() {
@@ -201,20 +200,6 @@ class ServiceRequestListView extends Component {
   }
 }
 
-BackAndroid.addEventListener('hardwareBackPress', function() {
-
-  // Close menu if it's open otherwise navigate to the previous view
-  if (Global.menuOpen && Global.menuRef !== null) {
-    Global.menuRef.close();
-    return true;
-  } else if (navigator) {
-    Global.isMainView = true;
-    navigator.popToTop();
-    return true;
-  }
-
-  return false;
-});
 
 const styles = StyleSheet.create({
   container: {
