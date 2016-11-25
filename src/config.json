@@ -46,6 +46,7 @@
 
   // Service category blacklist, these categories are not used and need to be excluded
   "SERVICE_BLACKLIST": [172, 246, 176, 171, 198, 199, 174, 211, 234, 180],
+  "DEFAULT_SERVICE_CATEGORY": 2809,
 
   "TASK_TYPES": ["moved_to_other_system", "created_in_other_system", "informed", "assigned", "wait_for_answer", "wait_for_comment", "transferred_out"],
 

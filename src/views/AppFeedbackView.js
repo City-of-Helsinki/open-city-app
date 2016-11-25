@@ -225,8 +225,8 @@ class AppFeedbackView extends Component {
   render() {
     var showThumbnail = this.state.image.source !== null;
     var animObject = Platform.OS === "android" ?
-    {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
-    : undefined
+      {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
+      : undefined;
     return (
       <Drawer
         ref={(ref) => {

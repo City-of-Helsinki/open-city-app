@@ -81,9 +81,26 @@ class MainView extends Component {
   }
 
   componentWillMount() {
+    // Fetch service requests if they haven't been included as props
     if (this.state.serviceRequests.length < 1) {
       this.fetchServiceRequests();
     }
+  }
+
+  componentDidMount() {
+    this.geoLocation();
+  }
+
+  componentWillUnmount() {
+    navigator.geolocation.clearWatch(this.watchID);
+  }
+
+  shouldComponentUpdate() {
+    // Set global references after view is popped
+    Global.isMainView = true;
+    Global.mainViewRef = this;
+
+    return true;
   }
 
   // Fetch a fixed amount of serviceRequests from Open311 API
@@ -108,21 +125,6 @@ class MainView extends Component {
     });
   }
 
-  componentDidMount() {
-    this.geoLocation();
-  }
-
-  componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
-  }
-
-  shouldComponentUpdate() {
-    // Set global references after view is popped
-    Global.isMainView = true;
-    Global.mainViewRef = this;
-
-    return true;
-  }
 
   // Fetch users position and set the region of the map accordingly
   geoLocation() {
@@ -229,7 +231,6 @@ class MainView extends Component {
 
   // Open a detailed view of the selected serviceRequest
   showServiceRequestDetailPopup(serviceRequest) {
-    console.log('show')
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({
       showPopup:true,
@@ -265,9 +266,7 @@ class MainView extends Component {
 
   // Add opacity to container when drawer is opened
   drawerTweenHandler(ratio) {
-    console.warn()
     this.refs.shadowOverlay.setNativeProps({
-
        style: {
          opacity: Math.max((1 - ratio), 0.5),
          backgroundColor: Global.COLOR.BLACK
@@ -278,7 +277,6 @@ class MainView extends Component {
   }
 
   render() {
-    console.log('popup', this.state.showPopup);
     // Initialize Popup which will be shown when a marker is clicked
     var serviceRequestDetailPopup = this.state.showPopup ?
       <MarkerPopup

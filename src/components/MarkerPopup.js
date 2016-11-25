@@ -60,8 +60,6 @@ const styles = StyleSheet.create({
     left: SIDE_PADDING / 2,
     backgroundColor: Global.COLOR.LIGHT_GREY,
     width: Dimensions.get('window').width - SIDE_PADDING,
-    borderColor: Global.COLOR.WARM_GREY,
-    borderWidth: 1,
     borderRadius: 2,
     paddingLeft: 16,
     paddingTop: 16,

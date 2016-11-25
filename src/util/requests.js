@@ -13,7 +13,11 @@ module.exports = function(url, method, headers, body, data) {
       data: data,
     }).then((response) => {
       clearTimeout(timeoutId);
-      resolve(response.json());
+      if (response.status === 200 || response.status === 201) {
+        resolve(response.json());
+      } else {
+        reject(new Error);
+      }
     }).catch((error) => {
       clearTimeout(timeoutId);
       reject(error);
