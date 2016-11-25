@@ -410,6 +410,7 @@ class SendServiceRequestView extends Component {
                   toolbarEnabled={false}
                   onPanDrag={(e) => this.setScrollEnabled(false)}
                   onPress={(e) => this.setScrollEnabled(false)}
+                  onLongPress={(e) => this.setScrollEnabled(false)}
                   onMarkerDragStart={(e) => this.setScrollEnabled(false)}
                   onRegionChange={(e) => this.setState({region: e})}
                   onRegionChangeComplete={(e) => this.centerMarker(e)}>
