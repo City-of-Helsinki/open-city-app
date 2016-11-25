@@ -359,7 +359,6 @@ class SendServiceRequestView extends Component {
   }
 
   render() {
-    console.log(this.state.scrollEnabled)
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
