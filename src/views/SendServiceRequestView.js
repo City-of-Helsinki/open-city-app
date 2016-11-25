@@ -351,6 +351,9 @@ class SendServiceRequestView extends Component {
   }
 
   render() {
+    var animObject = Platform.OS === "android" ?
+      {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
+      : undefined
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
@@ -379,7 +382,7 @@ class SendServiceRequestView extends Component {
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
+          iconAnimationStyle={animObject}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transSendServiceRequest.sendServiceRequestViewTitle} />
         <View style={styles.container}>

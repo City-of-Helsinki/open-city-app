@@ -265,9 +265,13 @@ class MainView extends Component {
 
   // Add opacity to container when drawer is opened
   drawerTweenHandler(ratio) {
+    console.warn()
     this.refs.shadowOverlay.setNativeProps({
-       opacity: Math.max((1 - ratio), 0.5),
-       backgroundColor: Global.COLOR.BLACK
+
+       style: {
+         opacity: Math.max((1 - ratio), 0.5),
+         backgroundColor: Global.COLOR.BLACK
+       }
     });
 
     return { }

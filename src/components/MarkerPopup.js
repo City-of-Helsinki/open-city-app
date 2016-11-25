@@ -5,7 +5,8 @@ import {
   Image,
   Text,
   Dimensions,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Platform,
 } from 'react-native';
 
 import Drawer  from 'react-native-drawer'
@@ -66,6 +67,17 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 16,
     paddingRight: 48,
+    ...Platform.select({
+      ios: {
+        shadowColor: Global.COLOR.BLACK,
+        shadowOffset: {width: 1, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      }
+    }),
   },
   caretIcon: {
     position: 'absolute',

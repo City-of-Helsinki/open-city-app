@@ -224,7 +224,9 @@ class AppFeedbackView extends Component {
 
   render() {
     var showThumbnail = this.state.image.source !== null;
-
+    var animObject = Platform.OS === "android" ?
+    {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
+    : undefined
     return (
       <Drawer
         ref={(ref) => {
@@ -249,7 +251,7 @@ class AppFeedbackView extends Component {
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
+          iconAnimationStyle={animObject}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transAppFeedback.appFeedbackViewTitle} />
         <View style={styles.container}>
