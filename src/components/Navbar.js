@@ -67,8 +67,19 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     alignItems: 'center',
     backgroundColor: Global.COLOR.LIGHT_GREY,
-    borderBottomWidth: 1,
-    borderBottomColor: Global.COLOR.GREY
+    borderBottomColor: Global.COLOR.GREY,
+    // Shadow
+    ...Platform.select({
+      ios: {
+        shadowColor: Global.COLOR.BLACK,
+        shadowOffset: {width: 1, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 5,
+      }
+    }),
   },
   iosStatusBar: {
     flexDirection: 'row',

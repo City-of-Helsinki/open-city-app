@@ -116,7 +116,19 @@ const styles = StyleSheet.create({
     width: Dimensions.get('window').width - SIDE_PADDING,
     backgroundColor: Global.COLOR.WHITE,
     flexDirection: 'column',
-    padding: 20
+    padding: 20,
+    // Shadow
+    ...Platform.select({
+      ios: {
+        shadowColor: Global.COLOR.BLACK,
+        shadowOffset: {width: 1, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 7,
+      }
+    }),
   },
   textContainer: {
     paddingRight: 10,

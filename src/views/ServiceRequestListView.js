@@ -191,10 +191,10 @@ class ServiceRequestListView extends Component {
               </View>
             </ScrollView>
           </View>
+          <FloatingActionButton
+            icon={plusIcon}
+            onButtonClick={()=>this.navToSendServiceRequestView(this)} />
         </View>
-        <FloatingActionButton
-          icon={plusIcon}
-          onButtonClick={()=>this.navToSendServiceRequestView(this)} />
       </Drawer>
     );
   }

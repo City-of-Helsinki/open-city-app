@@ -338,7 +338,6 @@ const styles = StyleSheet.create({
   attachmentContainer: {
     flexDirection: 'row',
     padding: 16,
-    borderTopWidth: 2,
     borderTopColor: Global.COLOR.GREY,
   },
   attachmentButton: {
@@ -346,7 +345,19 @@ const styles = StyleSheet.create({
     height: 46,
     backgroundColor: Global.COLOR.BLUE,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    // Shadow
+    ...Platform.select({
+      ios: {
+        shadowColor: Global.COLOR.BLACK,
+        shadowOffset: {width: 1, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      }
+    }),
   },
   attachmentButtonText: {
     color: Global.COLOR.WHITE,
