@@ -18,37 +18,32 @@ import {
   ScrollView
 } from 'react-native';
 
-// External modules
-import MapView        from 'react-native-maps';
-import Drawer         from 'react-native-drawer';
-import ImagePicker    from 'react-native-image-picker';
-import ImageResizer   from 'react-native-image-resizer';
-import Toast          from 'react-native-simple-toast';
-import KeyboardSpacer from 'react-native-keyboard-spacer';
-import Spinner        from 'react-native-loading-spinner-overlay';
-// Components
-import FloatingActionButton from '../components/FloatingActionButton';
-import NativePicker         from '../components/NativePicker';
-import Navbar               from '../components/Navbar';
-import Menu                 from '../components/Menu';
-import Thumbnail            from '../components/Thumbnail';
-import showAlert            from '../components/Alert';
-import makeRequest          from '../util/requests';
-import serviceRequestModels from '../util/models';
-import Global               from '../util/globals';
-import Config               from '../config';
-
-// Translations
+import MapView                 from 'react-native-maps';
+import Drawer                  from 'react-native-drawer';
+import ImagePicker             from 'react-native-image-picker';
+import ImageResizer            from 'react-native-image-resizer';
+import Toast                   from 'react-native-simple-toast';
+import KeyboardSpacer          from 'react-native-keyboard-spacer';
+import Spinner                 from 'react-native-loading-spinner-overlay';
+import FloatingActionButton    from '../components/FloatingActionButton';
+import NativePicker            from '../components/NativePicker';
+import Navbar                  from '../components/Navbar';
+import Menu                    from '../components/Menu';
+import Thumbnail               from '../components/Thumbnail';
+import showAlert               from '../components/Alert';
+import makeRequest             from '../util/requests';
+import serviceRequestModels    from '../util/models';
+import Global                  from '../util/globals';
+import Util                    from '../util/util';
+import Config                  from '../config';
 import transSendServiceRequest from '../translations/sendServiceRequest';
 import transError              from '../translations/errors';
-
-// Images
-import checkboxIcon     from '../img/check.png';
-import sendEnabledIcon  from '../img/send_enabled.png';
-import sendDisabledIcon from '../img/send_disabled.png';
-import markerIcon       from '../img/location_marker.png';
-import checkIcon        from '../img/check.png';
-import backIcon         from '../img/back.png';
+import checkboxIcon            from '../img/check.png';
+import sendEnabledIcon         from '../img/send_enabled.png';
+import sendDisabledIcon        from '../img/send_disabled.png';
+import markerIcon              from '../img/location_marker.png';
+import checkIcon               from '../img/check.png';
+import backIcon                from '../img/back.png';
 
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
@@ -86,6 +81,8 @@ class SendServiceRequestView extends Component {
       image: {source: null, name: null},
       imageData: null,
       spinnerVisible: false,
+      scrollEnabled: true,      // Determines whether vertical scrolling is allowed
+                                // This is used for allowing map scrolling inside a ScrollView on Android
     };
 
     transSendServiceRequest.setLanguage('fi');
@@ -138,11 +135,11 @@ class SendServiceRequestView extends Component {
         services.push({label: data[i].service_name, key: data[i].service_code});
       }
     }
-    var item = services[0]
+
     this.setState({
       pickerData: services,
-      selectedCategory: item.label,
-      selectedServiceCode: item.key,
+      selectedCategory: services[0].label,
+      selectedServiceCode: services[0].key,
     });
   }
 
@@ -338,8 +335,10 @@ class SendServiceRequestView extends Component {
   // Add opacity to container when drawer is opened
   drawerTweenHandler(ratio) {
     this.refs.shadowOverlay.setNativeProps({
-       opacity: Math.max((1 - ratio), 0.5),
-       backgroundColor: Global.COLOR.BLACK
+       style: {
+         opacity: Math.max((1 - ratio), 0.5),
+         backgroundColor: Global.COLOR.BLACK
+       }
     });
 
     return { }
@@ -350,13 +349,23 @@ class SendServiceRequestView extends Component {
     this.scrollSpring.setEndValue(endValue);
   }
 
+  // Enable/Disable container scrolling only on Android
+  setScrollEnabled(value) {
+    if (Platform.OS === 'android') {
+      this.setState({
+        scrollEnabled: value
+      });
+    }
+  }
+
   render() {
-    var animObject = Platform.OS === "android" ?
-      {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
-      : undefined
+    console.log(this.state.scrollEnabled)
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
+    var animObject = Platform.OS === 'android' ?
+      {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
+      : null;
     return (
       <Drawer
         ref={(ref) => {
@@ -387,7 +396,9 @@ class SendServiceRequestView extends Component {
           header={transSendServiceRequest.sendServiceRequestViewTitle} />
         <View style={styles.container}>
           <Spinner visible={this.state.spinnerVisible} />
-          <ScrollView style={styles.scrollView}>
+          <ScrollView
+            style={styles.scrollView}
+            scrollEnabled={this.state.scrollEnabled}>
             <View style={styles.innerContainer}>
             {this.state.locationEnabled &&
               <View style={styles.mapView}>
@@ -398,9 +409,11 @@ class SendServiceRequestView extends Component {
                   showsUserLocation={false}
                   followUserLocation={false}
                   toolbarEnabled={false}
-                  onLongPress={(e) => this.setMarkerPos(e.nativeEvent.coordinate)}
-                  onRegionChangeComplete={(e) => this.centerMarker(e)}
-                  >
+                  onPanDrag={(e) => this.setScrollEnabled(false)}
+                  onPress={(e) => this.setScrollEnabled(false)}
+                  onMarkerDragStart={(e) => this.setScrollEnabled(false)}
+                  onRegionChange={(e) => this.setState({region: e})}
+                  onRegionChangeComplete={(e) => this.centerMarker(e)}>
                   <MapView.Marker.Animated draggable
                     ref='marker'
                     coordinate={this.state.region}
@@ -415,7 +428,9 @@ class SendServiceRequestView extends Component {
                   style={styles.markerImage} />
               </View>
             }
-              <View style={styles.contentContainer}>
+              <View
+                style={styles.contentContainer}
+                onMoveShouldSetResponderCapture={()=> this.setScrollEnabled(true)}>
                 <View style={styles.enableLocationView}>
                   <Text style={styles.helpText}>{transSendServiceRequest.geoTagTitle}</Text>
                   <View style={styles.checkboxContainer}>
