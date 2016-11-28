@@ -81,6 +81,7 @@ class SendServiceRequestView extends Component {
       image: {source: null, name: null},
       imageData: null,
       spinnerVisible: false,
+      scale: 1,                 // Used for animation
       scrollEnabled: true,      // Determines whether vertical scrolling is allowed
                                 // This is used for allowing map scrolling inside a ScrollView on Android
     };
@@ -362,9 +363,7 @@ class SendServiceRequestView extends Component {
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
-    var animObject = Platform.OS === 'android' ?
-      {transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}
-      : null;
+
     return (
       <Drawer
         ref={(ref) => {
@@ -390,7 +389,7 @@ class SendServiceRequestView extends Component {
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={animObject}
+          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transSendServiceRequest.sendServiceRequestViewTitle} />
         <View style={styles.container}>
