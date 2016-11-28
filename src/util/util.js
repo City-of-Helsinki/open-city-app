@@ -119,6 +119,7 @@ module.exports = {
     var serviceRequests = [];
 
     for (var i=0; i < data.length; i++) {
+
       if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
         serviceRequests.push({coordinates:
                       {latitude: data[i].lat,

@@ -319,6 +319,11 @@ class MainView extends Component {
             onRightButtonClick={()=>this.navToServiceRequestListView(this._drawer)}
             header={transMap.mapViewTitle} />
           <View style={styles.mapContainer}>
+            {this.state.serviceRequests.map(serviceRequest => (
+              // This is required for all icons to be rendered properly
+              // react-native-maps has issues with rendering icons on Android
+              <Image source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
+            ))}
             <MapView
               ref={ref=> this.mapView = ref}
               style={styles.map}
@@ -330,6 +335,7 @@ class MainView extends Component {
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
               {this.state.serviceRequests.map(serviceRequest => (
                 <MapView.Marker
+                  key={serviceRequest.id}
                   coordinate={serviceRequest.coordinates}
                   onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
                   <Image

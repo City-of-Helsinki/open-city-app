@@ -138,8 +138,11 @@ class ServiceRequestDetailView extends Component {
               <ScrollView
                 horizontal={true}
                 showsHorizontalScrollIndicator={false}>
-              {map}
-              {images}
+                <Image                      // This hidden image allows the marker icon to be rendered properly
+                  source={markerIcon}       // This is an Android issue in react-native-maps
+                  style={{height: 0, width: 0}} />
+                {map}
+                {images}
               </ScrollView>
             </View>
             <View style={styles.descriptionView}>
