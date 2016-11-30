@@ -50,7 +50,8 @@ or
 *Don't use `rnpm link` to install/setup new react-native libraries!* You have to add native dependencies manually. Using rnpm will break react-native-maps setup and also react-native-background-geolocation, which have to be setup manually (there are problems with their rnpm scripts)
 
 ## HOX! There is an open issue for react-native-photo-view on GitHub regarding a build issue on Android as of 30.11.2016.
-## If aforementioned build error occurs, the following modification needs to done:
+
+*If aforementioned build error occurs, the following modification needs to done:*
 
 1. Locate `/open-city-app/node_modules/react-native-photo-view/android/src/main/java/com/reactnative/photoview/ImageEvent.java`
 2. Add `eventType` parameter
@@ -60,6 +61,7 @@ or
             mEventType = eventType;
             mMap = null;
         }
+3. Build again
 
 ## Changing API urls
 Edit `./src/config.js` to change API urls
