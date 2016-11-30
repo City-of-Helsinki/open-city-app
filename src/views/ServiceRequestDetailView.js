@@ -7,12 +7,13 @@ import {
   Platform,
   BackAndroid,
   ScrollView,
-  Dimensions
+  Dimensions,
+  TouchableWithoutFeedback,
+  Modal
 } from 'react-native';
 
-import Drawer  from 'react-native-drawer'
-import MapView from 'react-native-maps';
-
+import Drawer           from 'react-native-drawer'
+import MapView          from 'react-native-maps';
 import Navbar           from './../components/Navbar';
 import Spinner          from './../components/Spinner';
 import Menu             from './../components/Menu';
@@ -21,11 +22,10 @@ import makeRequest      from './../util/requests';
 import Util             from './../util/util';
 import Global           from './../util/globals';
 import Config           from './../config';
-import AppFeedbackModal from './AppFeedbackView';
-import backIcon         from '../img/back.png'
-import markerIcon       from '../img/location_marker.png'
-
-import transError from '../translations/errors';
+import ImageView        from './ImageView';
+import backIcon         from '../img/back.png';
+import markerIcon       from '../img/location_marker.png';
+import transError       from '../translations/errors';
 
 const RESPONSE_VIEW_OFFSET = 32;
 const LATITUDE_DELTA       = 0.00680;
@@ -38,7 +38,7 @@ class ServiceRequestDetailView extends Component {
 
     this.state = {
       isLoading: typeof this.props.route.serviceRequestID !== 'undefined', // Spinner wont be set if data is passed as a prop
-      data: ''
+      data: '',
     };
 
     transError.setLanguage('fi');
@@ -80,6 +80,12 @@ class ServiceRequestDetailView extends Component {
     });
   }
 
+  setModalVisible(visible) {
+    this.setState({
+      modalVisible: visible
+    });
+  }
+
   render() {
     var viewTitle = this.state.data.date !== null &&
       typeof this.state.data.date !== 'undefined' ?
@@ -90,9 +96,14 @@ class ServiceRequestDetailView extends Component {
     // Add all images into an array
     if (typeof this.state.data.media_urls !== 'undefined' && this.state.data.media_urls.length > 0) {
       for (var i=0; i < this.state.data.media_urls.length; i++) {
-        images.push(<Image
-                    source={{uri: this.state.data.media_urls[i]}}
-                    style={styles.image} />);
+        var image = this.state.data.media_urls[i];
+        images.push(
+          <TouchableWithoutFeedback
+            onPress={()=>this.props.navigator.push({id: 'ImageView', imageUrl: image})}>
+            <Image
+              source={{uri: this.state.data.media_urls[i]}}
+              style={styles.image} />
+          </TouchableWithoutFeedback>);
       }
     }
 

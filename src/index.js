@@ -14,6 +14,7 @@ import ServiceRequestListView   from './views/ServiceRequestListView';
 import IntroductionView         from './views/IntroductionView';
 import ServiceRequestDetailView from './views/ServiceRequestDetailView';
 import AppFeedbackView          from './views/AppFeedbackView';
+import ImageView                from './views/ImageView';
 import Global                   from './util/globals';
 
 class OpenCity extends Component {
@@ -47,6 +48,8 @@ class OpenCity extends Component {
         return(<ServiceRequestDetailView navigator={navigator} route={route} title='ServiceRequestDetailView' />);
       case 'AppFeedbackView':
         return(<AppFeedbackView navigator={navigator} route={route} title='AppFeedbackView' />);
+      case 'ImageView':
+        return(<ImageView navigator={navigator} route={route} title='ImageView' />);
     }
   }
 }

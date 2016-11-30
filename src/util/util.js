@@ -52,6 +52,13 @@ module.exports = {
     var media = typeof data.media_url !== 'undefined' ? data.media_url : null;
     var title = data.extended_attributes.title.length > 0 ? data.extended_attributes.title : data.address;
 
+    var mediaUrls = [];
+    if (typeof data.extended_attributes.media_urls !== 'undefined' && data.extended_attributes.media_urls.length > 0) {
+      for (var i=0; i<data.extended_attributes.media_urls.length; i++) {
+        mediaUrls.push(module.exports.parseImageUrl(data.extended_attributes.media_urls[i]));
+      }
+    }
+
     var output = {
       title: title,
       description: data.description,
@@ -61,7 +68,7 @@ module.exports = {
       coordinates: typeof data.lat !== 'undefined' && typeof data.long !== 'undefined' ?
        {latitude: data.lat, longitude: data.long} : null ,
       distance: module.exports.getDistance(userPosition, {latitude: data.lat, longitude: data.long}),
-      media_urls: data.extended_attributes.media_urls,
+      media_urls: mediaUrls,
       status_notes: data.status_notes,
       extendedData: extendedData
     };
@@ -177,5 +184,10 @@ module.exports = {
 
   getLocalizedMonthName(month) {
     return transList.monthNames[month-1];
+  },
+
+  // Solves a bug in the API, which caused images not to be displayed
+  parseImageUrl(url) {
+    return url.replace('-intra', '');
   }
 }
