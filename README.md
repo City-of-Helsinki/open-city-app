@@ -49,7 +49,7 @@ or
 ## HOX! Adding new react-native bridge libraries
 *Don't use `rnpm link` to install/setup new react-native libraries!* You have to add native dependencies manually. Using rnpm will break react-native-maps setup and also react-native-background-geolocation, which have to be setup manually (there are problems with their rnpm scripts)
 
-## HOX! There is an open issue for react-native-photo-view on GitHub regarding a build issue on Android as of 30.11.2016.
+## HOX! There is an open issue for react-native-photo-view (as of 30.11.2016) on GitHub regarding a build issue on Android.
 
 *If aforementioned build error occurs, the following modification needs to done:*
 
