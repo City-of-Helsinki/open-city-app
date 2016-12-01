@@ -12,10 +12,10 @@ import {
   Modal
 } from 'react-native';
 
-import PhotoView from 'react-native-photo-view';
-import Navbar    from '../components/Navbar';
-import Spinner   from '../components/Spinner';
-import backIcon  from '../img/back.png';
+import TransformableImage from 'react-native-transformable-image';
+import Navbar             from '../components/Navbar';
+import Spinner            from '../components/Spinner';
+import backIcon           from '../img/back.png';
 
 const VERTICAL_MARGIN   = 60;
 const HORIZONTAL_MARGIN = 30;
@@ -35,12 +35,8 @@ class ImageView extends Component {
           onLeftButtonClick={()=>this.props.navigator.pop()}
           header={''} />
         <View style={styles.photoViewContainer}>
-          <PhotoView
+          <TransformableImage
             source={{uri: this.props.route.imageUrl}}
-            loadingIndicatorSource={<Spinner visible={true} color={'white'} />}
-            minimumZoomScale={0.7}
-            maximumZoomScale={4}
-            androidScaleType={'center'}
             style={styles.photoView} />
         </View>
       </View>
