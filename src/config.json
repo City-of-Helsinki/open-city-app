@@ -22,7 +22,6 @@
   "APP_FEEDBACK_SERVICE_CODE": 2802,
 
   // Map
-  "SERVICE_REQUEST_LIMIT": "?limit=200",
   "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
 
   // ServiceRequest list
