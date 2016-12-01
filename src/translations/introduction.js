@@ -10,7 +10,7 @@ export default new LocalizedStrings({
   },
   fi: {
     versionTitle: 'BETA',
-    modalTitle: 'Tervetuloa {0} testiversioon',
+    modalTitle: 'Tervetuloa {0}-sovelluksen testiversioon',
     modalDescription: 'Kehitämme toiminnallisuuksia käyttäjien toiveiden ja kommenttien perusteella. Ensimmäiseksi toteutimme palautteiden selailun ja lisäämisen kaupungille.',
     checkboxLabel: 'Älä näytä tätä enää',
     closeButton: 'SULJE',
