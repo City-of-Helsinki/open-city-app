@@ -129,7 +129,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-photo-view')
     compile project(':realm')
     compile project(':react-native-image-to-base64')
     compile project(':react-native-image-resizer')

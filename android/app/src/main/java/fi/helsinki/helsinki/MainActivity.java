@@ -1,7 +1,6 @@
 package fi.helsinki.helsinki;
 
 import com.facebook.react.ReactActivity;
-import com.reactnative.photoview.PhotoViewPackage;
 import io.realm.react.RealmReactPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.github.xfumihiro.react_native_image_to_base64.ImageToBase64Package;
@@ -43,7 +42,6 @@ public class MainActivity extends ReactActivity {
     protected List<ReactPackage> getPackages() {
         return Arrays.<ReactPackage>asList(
             new MainReactPackage(),
-            new PhotoViewPackage(),
             new RealmReactPackage(),
             new ImageToBase64Package(),
             new ImageResizerPackage(),
