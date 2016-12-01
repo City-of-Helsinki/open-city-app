@@ -41,7 +41,7 @@ class Menu extends Component {
           <View style={styles.buttonContainer}>
             <TouchableWithoutFeedback onPress={this.props.mapView}>
               <View style={[styles.buttonView, styles.buttonDividerGray]}>
-                <Text style={[styles.menuText, styles.textFont]}>{transMenu.menuTitleFeedback}</Text>
+                <Text style={styles.menuText}>{transMenu.menuTitleFeedback}</Text>
               </View>
             </TouchableWithoutFeedback>
           </View>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   menuText: {
-    fontSize: 15,
+    fontSize: 16,
     color: '#212121',
     flexWrap: 'wrap',
     flex: 1
@@ -157,9 +157,6 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     fontSize: 18,
     fontWeight: 'bold'
-  },
-  textFont: {
-    fontFamily: 'montserrat',
   },
 });
 

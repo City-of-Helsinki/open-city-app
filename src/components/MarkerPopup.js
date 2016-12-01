@@ -9,16 +9,16 @@ import {
   Platform,
 } from 'react-native';
 
-import Drawer  from 'react-native-drawer'
-
-import Navbar  from './../components/Navbar';
-import Spinner from './../components/Spinner';
-import Util    from './../util/util';
-import Global  from './../util/globals';
-
-import caretIcon from '../img/chevron_right.png';
-
+import Drawer     from 'react-native-drawer'
+import Navbar     from './../components/Navbar';
+import Spinner    from './../components/Spinner';
+import Util       from './../util/util';
+import Global     from './../util/globals';
+import caretIcon  from '../img/chevron_right.png';
+import closeIcon  from '../img/close.png';
 import transPopup from '../translations/markerPopup';
+
+
 
 const SIDE_PADDING      = 64;
 const CARET_ICON_HEIGHT = 16;
@@ -42,13 +42,20 @@ class MarkerPopup extends Component {
       </Text> : null;
 
     return (
-      <TouchableWithoutFeedback onPress={this.props.onClick}>
-        <View style={styles.container}>
-          <Image style={styles.caretIcon} source={caretIcon}/>
-          <Text numberOfLines={3} style={styles.feedbackTextDescription}>{this.props.data.description}</Text>
-          {responseText}
-        </View>
-      </TouchableWithoutFeedback>
+      <View style={styles.container}>
+        <TouchableWithoutFeedback onPress={this.props.onClose}>
+          <View style={styles.closeImageContainer}>
+            <Image source={closeIcon} style={styles.closeImage} />
+          </View>
+        </TouchableWithoutFeedback>
+        <TouchableWithoutFeedback onPress={this.props.onClick}>
+          <View style={styles.enterContainer}>
+            <Image style={styles.caretIcon} source={caretIcon} />
+            <Text numberOfLines={3} style={styles.feedbackTextDescription}>{this.props.data.description}</Text>
+            {responseText}
+          </View>
+        </TouchableWithoutFeedback>
+      </View>
     );
   }
 }
@@ -61,10 +68,6 @@ const styles = StyleSheet.create({
     backgroundColor: Global.COLOR.LIGHT_GREY,
     width: Dimensions.get('window').width - SIDE_PADDING,
     borderRadius: 2,
-    paddingLeft: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
-    paddingRight: 48,
     ...Platform.select({
       ios: {
         shadowColor: Global.COLOR.BLACK,
@@ -76,6 +79,19 @@ const styles = StyleSheet.create({
         elevation: 2,
       }
     }),
+  },
+  closeImageContainer: {
+    padding: 16,
+  },
+  closeImage: {
+    height: 20,
+    width: 20,
+  },
+  enterContainer: {
+    flex: 1,
+    paddingLeft: 16,
+    paddingBottom: 16,
+    paddingRight: 48,
   },
   caretIcon: {
     position: 'absolute',

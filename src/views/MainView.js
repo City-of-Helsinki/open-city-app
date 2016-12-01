@@ -283,6 +283,7 @@ class MainView extends Component {
         data={this.state.popupData}
         userPosition={this.state.userPosition}
         onClick={()=>this.onPopupClick(this.state.popupData.id)}
+        onClose={()=>this.setState({showPopup: false})}
         isLoading={this.state.isLoading}
         />
       : null;
