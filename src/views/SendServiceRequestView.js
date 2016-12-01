@@ -148,6 +148,8 @@ class SendServiceRequestView extends Component {
     if (this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
         this.state.descriptionText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
       this.sendServiceRequest();
+    } else {
+      showAlert(transError.descriptionLengthErrorTitle, transError.descriptionLengthErrorMessage, transError.descriptionErrorButton);
     }
   }
 
