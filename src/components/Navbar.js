@@ -44,7 +44,7 @@ class Navbar extends Component {
               </View>
             </TouchableWithoutFeedback>
             <View style={styles.headerView}>
-              <Text style={[styles.header, styles.textFont]}>{this.props.header}</Text>
+              <Text style={styles.header}>{this.props.header}</Text>
             </View>
             <TouchableWithoutFeedback onPress={this.props.onRightButtonClick}>
               <View style={styles.buttonView}>
@@ -114,9 +114,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold'
   },
-  textFont: {
-    fontFamily: 'montserrat',
-  }
 });
 
 

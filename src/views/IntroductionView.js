@@ -76,7 +76,7 @@ class IntroductionView extends Component {
                 </View>
               </TouchableWithoutFeedback>
             </View>
-            <Text style={[styles.checkboxLabel, styles.textFont]}>{transIntroduction.checkboxLabel}</Text>
+            <Text style={styles.checkboxLabel}>{transIntroduction.checkboxLabel}</Text>
           </View>
           <View style={styles.closeButtonContainer}>
             <TouchableWithoutFeedback onPress={this.navToMainView.bind(this)}>
