@@ -55,7 +55,7 @@ module.exports = {
     var mediaUrls = [];
     if (typeof data.extended_attributes.media_urls !== 'undefined' && data.extended_attributes.media_urls.length > 0) {
       for (var i=0; i<data.extended_attributes.media_urls.length; i++) {
-        mediaUrls.push(module.exports.parseImageUrl(data.extended_attributes.media_urls[i]));
+        mediaUrls.push(data.extended_attributes.media_urls[i]);
       }
     }
 
@@ -184,10 +184,5 @@ module.exports = {
 
   getLocalizedMonthName(month) {
     return transList.monthNames[month-1];
-  },
-
-  // Solves a bug in the API, which caused images not to be displayed
-  parseImageUrl(url) {
-    return url.replace('-intra', '');
   }
 }
