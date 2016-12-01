@@ -1,16 +1,16 @@
 import { AsyncStorage } from 'react-native';
 
-import Geolib from 'geolib';
-import Config from '../config';
-import Global from './globals';
-
+import Geolib       from 'geolib';
+import Config       from '../config';
+import Global       from './globals';
 import yellowMarker from '../img/yellow_marker.png';
 import greenMarker  from '../img/green_marker.png';
 import blueMarker   from '../img/location_marker.png';
-
-import transList from '../translations/list';
+import transList    from '../translations/list';
 
 transList.setLanguage('fi');
+
+// This is used to limit the amount of characters that are stored when data is downloaded for the map view
 const SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH = 140;
 
 module.exports = {

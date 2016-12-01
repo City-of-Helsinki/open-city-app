@@ -27,10 +27,14 @@ import backIcon         from '../img/back.png';
 import markerIcon       from '../img/location_marker.png';
 import transError       from '../translations/errors';
 
+// Margin for the view containing status notes about the service request
 const RESPONSE_VIEW_OFFSET = 32;
+
+// Zoom for the map showing service request location
 const LATITUDE_DELTA       = 0.00680;
 const LONGITUDE_DELTA      = 0.00340;
 
+// Display information about a single service request
 class ServiceRequestDetailView extends Component {
 
   constructor(props, context) {
@@ -47,6 +51,8 @@ class ServiceRequestDetailView extends Component {
     Global.navigatorRef = this.props.navigator;
   }
 
+  // When navigating from map the details need to be fetched from the API, when navigating from
+  // ServiceRequestListView data is passed as a prop
   componentDidMount() {
     if (typeof this.props.route.serviceRequestID !== 'undefined') {
       this.fetchServiceRequestDetails(this.props.route.serviceRequestID);
@@ -57,6 +63,7 @@ class ServiceRequestDetailView extends Component {
     }
   }
 
+  // Fetch details of the selected service request
   fetchServiceRequestDetails(id) {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
     var headers = {'Accept': 'application/json', 'Content-Type': 'application/json'};

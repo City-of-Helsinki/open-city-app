@@ -50,6 +50,8 @@ or
 
 You might have to add native dependencies manually. Using rnpm might break react-native-maps setup.
 
+To link libraries with rnpm run: `rnpm link`
+
 ## Changing API urls
 Edit `./src/config.js` to change API urls
 

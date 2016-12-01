@@ -12,14 +12,12 @@ import {
 } from 'react-native';
 
 import transIntroduction from '../translations/introduction';
-
-import showAlert from '../components/Alert';
-import Util      from '../util/util';
-import Global    from '../util/globals';
-import Config    from '../config';
-
-import backgroundImage from '../img/introduction_background.png';
-import checkboxIcon    from '../img/check.png';
+import showAlert         from '../components/Alert';
+import Util              from '../util/util';
+import Global            from '../util/globals';
+import Config            from '../config';
+import backgroundImage   from '../img/introduction_background.png';
+import checkboxIcon      from '../img/check.png';
 
 const SIDE_PADDING = 20;
 
