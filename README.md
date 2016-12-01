@@ -47,21 +47,8 @@ or
 `adb -s <Device ID> reverse tcp:8081 tcp:8081` if multiple devices/simulators are connected
 
 ## HOX! Adding new react-native bridge libraries
-*Don't use `rnpm link` to install/setup new react-native libraries!* You have to add native dependencies manually. Using rnpm will break react-native-maps setup and also react-native-background-geolocation, which have to be setup manually (there are problems with their rnpm scripts)
 
-## HOX! There is an open issue for react-native-photo-view (as of 30.11.2016) on GitHub regarding a build issue on Android.
-
-*If aforementioned build error occurs, the following modification needs to done:*
-
-1. Locate `/open-city-app/node_modules/react-native-photo-view/android/src/main/java/com/reactnative/photoview/ImageEvent.java`
-2. Add `eventType` parameter
-
-        public ImageEvent(int viewId, @ImageEventType int eventType) {
-            super(viewId, eventType); // eventType parameter here
-            mEventType = eventType;
-            mMap = null;
-        }
-3. Build again
+You might have to add native dependencies manually. Using rnpm might break react-native-maps setup.
 
 ## Changing API urls
 Edit `./src/config.js` to change API urls
