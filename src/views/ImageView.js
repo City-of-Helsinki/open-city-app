@@ -12,6 +12,7 @@ import {
   Modal
 } from 'react-native';
 
+import ViewTransformer from 'react-native-view-transformer';
 import TransformableImage from 'react-native-transformable-image';
 import Navbar             from '../components/Navbar';
 import Spinner            from '../components/Spinner';
@@ -35,9 +36,13 @@ class ImageView extends Component {
           onLeftButtonClick={()=>this.props.navigator.pop()}
           header={''} />
         <View style={styles.photoViewContainer}>
-          <TransformableImage
-            source={{uri: this.props.route.imageUrl}}
-            style={styles.photoView} />
+          <ViewTransformer>
+            <TransformableImage
+              ref={'transformableImage'}
+              source={{uri: this.props.route.imageUrl}}
+              enableTransform={false}
+              style={styles.photoView} />
+            </ViewTransformer>
         </View>
       </View>
     );
