@@ -19,7 +19,6 @@ import {
 } from 'react-native';
 
 import MapView                 from 'react-native-maps';
-import Drawer                  from 'react-native-drawer';
 import ImagePicker             from 'react-native-image-picker';
 import ImageResizer            from 'react-native-image-resizer';
 import Toast                   from 'react-native-simple-toast';
@@ -335,18 +334,6 @@ class SendServiceRequestView extends Component {
     }
   }
 
-  // Add opacity to container when drawer is opened
-  drawerTweenHandler(ratio) {
-    this.refs.shadowOverlay.setNativeProps({
-       style: {
-         opacity: Math.max((1 - ratio), 0.5),
-         backgroundColor: Global.COLOR.BLACK
-       }
-    });
-
-    return { }
-  }
-
   addSpringAnimation(currentValue, endValue) {
     this.scrollSpring.setCurrentValue(currentValue);
     this.scrollSpring.setEndValue(endValue);
@@ -367,26 +354,7 @@ class SendServiceRequestView extends Component {
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
 
     return (
-      <Drawer
-        ref={(ref) => {
-          this._drawer = ref;
-          Global.menuRef = ref;
-        }}
-        type={'overlay'}
-        openDrawerOffset={0.25}
-        closedDrawerOffset={0}
-        tapToClose={true}
-        acceptTap={true}
-        captureGestures={'open'}
-        onOpen={()=> Global.menuOpen = true}
-        onClose={()=> Global.menuOpen = false}
-        tweenHandler={(ratio) => this.drawerTweenHandler(ratio)}
-        content={
-          <Menu
-            mapView={()=>{this.props.navigator.pop()}}
-            sendServiceRequestView={()=>{this.navToServiceRequestListView(this._drawer)}}
-            onMenuClick={()=>this._drawer.close()}/>
-        }>
+      <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
@@ -394,7 +362,7 @@ class SendServiceRequestView extends Component {
           iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transSendServiceRequest.sendServiceRequestViewTitle} />
-        <View style={styles.container}>
+        <View style={styles.innerContainer}>
           <Spinner visible={this.state.spinnerVisible} />
           <ScrollView
             style={styles.scrollView}
@@ -496,16 +464,19 @@ class SendServiceRequestView extends Component {
           </View>
           {Platform.OS === 'ios' && <KeyboardSpacer />}
         </View>
-      </Drawer>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     flex: 1,
     backgroundColor: Global.COLOR.LIGHT_GREY
+  },
+  innerContainer: {
+    flexDirection: 'column',
+    flex: 1,
   },
   mapView: {
     flexDirection: 'row',

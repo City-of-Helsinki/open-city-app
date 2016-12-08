@@ -17,7 +17,6 @@ import {
 } from 'react-native';
 
 import KeyboardSpacer       from 'react-native-keyboard-spacer';
-import Drawer               from 'react-native-drawer';
 import Spinner              from 'react-native-loading-spinner-overlay';
 import ImagePicker          from 'react-native-image-picker';
 import ImageResizer         from 'react-native-image-resizer';
@@ -229,25 +228,7 @@ class AppFeedbackView extends Component {
     var showThumbnail = this.state.image.source !== null;
 
     return (
-      <Drawer
-        ref={(ref) => {
-          this._drawer = ref;
-          Global.menuRef = ref;
-        }}
-        type={'overlay'}
-        openDrawerOffset={0.25}
-        closedDrawerOffset={0}
-        tapToClose={true}
-        acceptTap={true}
-        captureGestures={'open'}
-        onOpen={()=> Global.menuOpen = true}
-        onClose={()=> Global.menuOpen = false}
-        content={
-          <Menu
-            mapView={()=>{this.props.navigator.pop()}}
-            sendServiceRequestView={()=>{this.navToServiceRequestListView(this._drawer)}}
-            onMenuClick={()=>this._drawer.close()}/>
-        }>
+      <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
           onLeftButtonClick={()=>this.props.navigator.pop()}
@@ -255,7 +236,7 @@ class AppFeedbackView extends Component {
           iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transAppFeedback.appFeedbackViewTitle} />
-        <View style={styles.container}>
+        <View style={styles.innerContainer}>
           <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
             <View style={styles.contentContainer}>
@@ -295,16 +276,19 @@ class AppFeedbackView extends Component {
           </View>
           {Platform.OS === 'ios' && <KeyboardSpacer/>}
         </View>
-      </Drawer>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flexDirection: 'column',
     flex: 1,
     backgroundColor: Global.COLOR.LIGHT_GREY
+  },
+  innerContainer: {
+    flexDirection: 'column',
+    flex: 1,
   },
   scrollView: {
     flex: 1,
