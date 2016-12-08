@@ -130,7 +130,8 @@ class ServiceRequestDetailView extends Component {
               showsUserLocation={false}
               followUserLocation={false}
               toolbarEnabled={false}
-              scrollEnabled={false}>
+              scrollEnabled={false}
+              zoomEnabled={false}>
               <MapView.Marker
                 coordinate={this.state.data.coordinates}>
                 <Image

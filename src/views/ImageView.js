@@ -12,7 +12,7 @@ import {
   Modal
 } from 'react-native';
 
-import ViewTransformer from 'react-native-view-transformer';
+import ViewTransformer    from 'react-native-view-transformer';
 import TransformableImage from 'react-native-transformable-image';
 import Navbar             from '../components/Navbar';
 import Spinner            from '../components/Spinner';
@@ -37,8 +37,7 @@ class ImageView extends Component {
           header={''} />
         <View style={styles.photoViewContainer}>
           <ViewTransformer>
-            <TransformableImage
-              ref={'transformableImage'}
+            <TransformableImage // These transformers are required for image not to scale over the navbar
               source={{uri: this.props.route.imageUrl}}
               enableTransform={false}
               style={styles.photoView} />
