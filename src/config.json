@@ -38,9 +38,9 @@
   "TIMEOUT_MESSAGE": "timeout",
 
   // Feedback attachment settings
-  "IMAGE_MAX_HEIGHT": 800,
-  "IMAGE_MAX_WIDTH": 600,
-  "IMAGE_QUALITY": 70,
+  "IMAGE_MAX_HEIGHT": 1080,
+  "IMAGE_MAX_WIDTH": 1980,
+  "IMAGE_QUALITY": 60,
   "IMAGE_FORMAT": "JPEG",
 
   // Service category blacklist, these categories are not used and need to be excluded
