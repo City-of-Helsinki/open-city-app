@@ -6,7 +6,8 @@ import {
   StyleSheet,
   Platform,
   TouchableWithoutFeedback,
-  Dimensions
+  Dimensions,
+  Animated
 } from 'react-native';
 
 import Global   from './../util/globals';
@@ -35,7 +36,8 @@ class Navbar extends Component {
     return (
       <View>
         {iosStatusBar}
-        <View style={styles.container}>
+        {!this.props.hide &&
+        <Animated.View style={[styles.container, this.props.hideAnimation]}>
           <View style={styles.innerContainer}>
             <TouchableWithoutFeedback onPress={this.props.onLeftButtonClick}>
               <View style={styles.buttonView}>
@@ -55,7 +57,8 @@ class Navbar extends Component {
               </View>
             </TouchableWithoutFeedback>
           </View>
-        </View>
+        </Animated.View>
+        }
       </View>
     );
   }

@@ -30,6 +30,9 @@ import Navbar                  from '../components/Navbar';
 import Menu                    from '../components/Menu';
 import Thumbnail               from '../components/Thumbnail';
 import showAlert               from '../components/Alert';
+import SendServiceRequestMap   from '../components/SendServiceRequestMap';
+import SendServiceRequestForm  from '../components/SendServiceRequestForm';
+import SendServiceRequestAttachment  from '../components/SendServiceRequestAttachment';
 import makeRequest             from '../util/requests';
 import serviceRequestModels    from '../util/models';
 import Global                  from '../util/globals';
@@ -47,9 +50,7 @@ import backIcon                from '../img/back.png';
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
 const ZOOM                   = 6;
-const MARKER_IMAGE_SIZE      = 35;
 const SEND_BUTTON_IMAGE_SIZE = 40;
-const MAP_HEIGHT             = 140;
 
 
 class SendServiceRequestView extends Component {
@@ -80,6 +81,7 @@ class SendServiceRequestView extends Component {
       image: {source: null, name: null},
       imageData: null,
       spinnerVisible: false,
+      fullScreenMap: false,
       scale: 1,                 // Used for animation
       scrollEnabled: true,      // Determines whether vertical scrolling is allowed
                                 // This is used for allowing map scrolling inside a ScrollView on Android
@@ -90,6 +92,9 @@ class SendServiceRequestView extends Component {
 
     Global.isMainView = false;
     Global.navigatorRef = this.props.navigator;
+
+    this.mapSpringVal = new Animated.Value(1);
+    this.contentSpringVal = new Animated.Value(1);
 
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
@@ -211,7 +216,7 @@ class SendServiceRequestView extends Component {
     });
   }
 
-  onAddAttachmentClick() {
+  onAddAttachmentClick = () => {
     var options = {
       title: '',
       cancelButtonTitle: transSendServiceRequest.imagePickerCancelButton,
@@ -256,17 +261,19 @@ class SendServiceRequestView extends Component {
     });
   }
 
-  onCheckboxClick() {
+  onCheckboxClick = () => {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
   }
 
-  // Update marker position after dragging marker and center map on marker.
-  updateMarkerPos(location) {
-    this.markerPosition = location
 
+  // Update marker position after dragging marker and center map on marker.
+  // Call hideCallout to hide Google Maps toolbar
+  updateMarkerPos(location, marker) {
+    marker.hideCallout();
+    this.markerPosition = location;
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
@@ -287,24 +294,31 @@ class SendServiceRequestView extends Component {
     this.setState({markerPosition: location})
   }
 
-  centerMarker(region) {
-    var latitude = region.latitude;
-    var longitude = region.longitude;
-
+  centerMarker = (region) => {
     var location = {
-      latitude: latitude,
-      longitude: longitude,
-    }
+      latitude: region.latitude,
+      longitude: region.longitude,
+    };
 
-    this.setState({markerPosition: location, region:region})
+    this.setState({
+      markerPosition: location,
+      region: region
+    });
   }
 
-  removeThumbnail() {
+  onPickerItemChange = (item) => {
+    this.setState({
+      selectedCategory: Platform.OS === 'ios' ? item.label : item,
+      selectedServiceCode: Platform.OS === 'ios' ? item.key : item,
+    });
+  }
+
+  removeThumbnail = () => {
     this.setState({ image: {source: null, fileName: null}, imageData: null })
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
-  onDescriptionChange(event) {
+  onDescriptionChange = (event) => {
     if (event.nativeEvent.text.length < Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
       this.setState({
         descriptionText: event.nativeEvent.text,
@@ -334,6 +348,18 @@ class SendServiceRequestView extends Component {
     }
   }
 
+  onTitleChange = (text) => {
+    this.setState({
+      titleText: text
+    });
+  }
+
+  onRegionChange = (e) => {
+    this.setState({
+      region: e
+    });
+  }
+
   addSpringAnimation(currentValue, endValue) {
     this.scrollSpring.setCurrentValue(currentValue);
     this.scrollSpring.setEndValue(endValue);
@@ -348,7 +374,39 @@ class SendServiceRequestView extends Component {
     }
   }
 
+  setFullScreenMap = (value) => {
+    // Invoke map change with animation only if value changes
+    if (value !== this.state.fullScreenMap) {
+      navValues = {
+        start: this.state.fullScreenMap ? 0 : 1,
+        end: this.state.fullScreenMap ? 1 : 0,
+      };
+      mapValues = {
+        start: this.state.fullScreenMap ? 0.4 : 0.4,
+        end: this.state.fullScreenMap ? 1 : 1,
+      };
+      this.mapSpringVal.setValue(mapValues.start);
+      this.contentSpringVal.setValue(navValues.start);
+      Animated.spring(this.mapSpringVal, {
+        toValue: mapValues.end,
+        bounciness: 6,
+      }).start();
+      Animated.spring(this.contentSpringVal, {
+        toValue: navValues.end,
+        bounciness: 6,
+      }).start();
+      this.setState({
+        fullScreenMap: value
+      });
+    }
+  }
+
+  onDoneClick() {
+    this.setFullScreenMap(false);
+  }
+
   render() {
+    console.log('title',this.state.selectedCategory)
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
@@ -361,107 +419,51 @@ class SendServiceRequestView extends Component {
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
           iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}
-          header={transSendServiceRequest.sendServiceRequestViewTitle} />
+          header={transSendServiceRequest.sendServiceRequestViewTitle}
+          hide={this.state.fullScreenMap}
+          hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
         <View style={styles.innerContainer}>
           <Spinner visible={this.state.spinnerVisible} />
           <ScrollView
             style={styles.scrollView}
             scrollEnabled={this.state.scrollEnabled}>
             <View style={styles.innerContainer}>
-            {this.state.locationEnabled &&
-              <View style={styles.mapView}>
-                <MapView
-                  ref='map'
-                  style={styles.map}
-                  region={this.state.region}
-                  showsUserLocation={false}
-                  followUserLocation={false}
-                  toolbarEnabled={false}
-                  onPanDrag={(e) => this.setScrollEnabled(false)}
-                  onPress={(e) => this.setScrollEnabled(false)}
-                  onLongPress={(e) => this.setScrollEnabled(false)}
-                  onMarkerDragStart={(e) => this.setScrollEnabled(false)}
-                  onRegionChange={(e) => this.setState({region: e})}
-                  onRegionChangeComplete={(e) => this.centerMarker(e)}>
-                  <MapView.Marker.Animated draggable
-                    ref='marker'
-                    coordinate={this.state.region}
-                    onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate)}>
-                  <Image // This image hides the default marker
-                    source={markerIcon}
-                    style={{height: 0, width: 0}} />
-                  </MapView.Marker.Animated>
-                </MapView>
-                <Image
-                  source={markerIcon}
-                  style={styles.markerImage} />
-              </View>
-            }
-              <View
-                style={styles.contentContainer}
-                onMoveShouldSetResponderCapture={()=> this.setScrollEnabled(true)}>
-                <View style={styles.enableLocationView}>
-                  <Text style={styles.helpText}>{transSendServiceRequest.geoTagTitle}</Text>
-                  <View style={styles.checkboxContainer}>
-                    <Text style={[styles.checkboxLabel, styles.textFont]}>{transSendServiceRequest.geoTagLabel}</Text>
-                    <View style={styles.checkboxViewContainer}>
-                      <TouchableWithoutFeedback onPress={this.onCheckboxClick.bind(this)}>
-                        <View style={styles.checkboxView}>
-                          {checkboxImage}
-                        </View>
-                      </TouchableWithoutFeedback>
-                    </View>
-                  </View>
-                </View>
-                <View style={styles.categoryView}>
-                  <Text style={[styles.helpText, styles.categoryText]}>{transSendServiceRequest.category}</Text>
-                  <NativePicker
-                    style={styles.picker}
-                    data={this.state.pickerData}
-                    defaultItem={this.state.selectedCategory}
-                    selectedItem={this.state.selectedCategory}
-                    itemChange={(item)=> {
-                      this.setState({
-                        selectedCategory: Platform.OS === 'ios' ? item.label : item,
-                        selectedServiceCode: Platform.OS === 'ios' ? item.key : item,
-                      });
-                    }} />
-                </View>
-                <View style={styles.titleView}>
-                  <TextInput
-                    style={styles.titleText}
-                    onChangeText={(text)=> { this.setState({titleText: text }) }}
-                    placeholder={transSendServiceRequest.inputTitlePlaceholder} />
-                </View>
-                <View style={styles.descriptionView}>
-                  <TextInput
-                    style={[styles.descriptionText, {height: Math.max(135, this.state.descriptionHeight)}]}
-                    multiline={true}
-                    onChange={(event)=>this.onDescriptionChange(event)}
-                    placeholder={transSendServiceRequest.inputDescriptionPlaceholder} />
-                </View>
-              </View>
+              <SendServiceRequestMap
+                spring={this.mapSpringVal}
+                fullScreenMap={this.state.fullScreenMap}
+                region={this.state.region}
+                onRegionChange={this.onRegionChange}
+                onRegionChangeComplete={this.centerMarker}
+                markerIcon={markerIcon}
+                updateMarkerPos={this.updateMarkerPos}
+                setFullScreenMap={this.setFullScreenMap}
+                onDoneClick={this.onDoneClick}
+                locationEnabled={this.state.locationEnabled}
+                animation={{transform: [{scaleY: this.mapSpringVal}]}} />
+              {!this.state.fullScreenMap &&
+              <SendServiceRequestForm
+                onCheckboxClick={this.onCheckboxClick}
+                pickerData={this.state.pickerData}
+                selectedCategory={this.state.selectedCategory}
+                onTitleChange={this.onTitleChange}
+                descriptionHeight={this.state.descriptionHeight}
+                onDescriptionChange={this.onDescriptionChange}
+                onPickerItemChange={this.onPickerItemChange}
+                checkboxImage={checkboxImage}
+                defaultTitle={this.state.titleText}
+                defaultDescription={this.state.descriptionText}
+                hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}}/>
+              }
             </View>
           </ScrollView>
-          <View style={styles.attachmentContainer}>
-            {this.state.image.source === null &&
-            <TouchableWithoutFeedback onPress={this.onAddAttachmentClick.bind(this)}>
-              <View style={styles.attachmentButton}>
-                <Text style={styles.attachmentButtonText}>{transSendServiceRequest.addAttachment}</Text>
-              </View>
-            </TouchableWithoutFeedback>
-            }
-            {this.state.image.source !== null &&
-              <View style={styles.thubmnailView}>
-                <Thumbnail
-                  show={showThumbnail}
-                  imageSource={this.state.image.source}
-                  imageHeight={62}
-                  imageWidth={62}
-                  imageClickAction={()=>this.removeThumbnail()} />
-              </View>
-            }
-          </View>
+          {!this.state.fullScreenMap &&
+            <SendServiceRequestAttachment
+              onAddAttachmentClick={this.onAddAttachmentClick}
+              thumbnailImageSource={this.state.image.source}
+              removeThumbnail={this.removeThumbnail}
+              showThumbnail={showThumbnail}
+              hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
+          }
           {Platform.OS === 'ios' && <KeyboardSpacer />}
         </View>
       </View>
@@ -478,138 +480,14 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     flex: 1,
   },
-  mapView: {
-    flexDirection: 'row',
-    height: MAP_HEIGHT
-  },
-  map: {
-    flex: 1,
-  },
-  markerImage: {
-    position: 'absolute',
-    height: MARKER_IMAGE_SIZE,
-    width: MARKER_IMAGE_SIZE,
-    top: 35,
-    left: (Dimensions.get('window').width / 2) - (MARKER_IMAGE_SIZE / 2)
-  },
   scrollView: {
     flex: 1,
-  },
-  innerContainer: {
-    flex: 1,
-  },
-  contentContainer: {
-    padding: 16,
-    flex: 1,
-  },
-  enableLocationView: {
-    marginBottom: 4,
-  },
-  checkboxContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  checkboxViewContainer: {
-    height: 32,
-    width: 32,
-  },
-  checkboxView: {
-    height: 32,
-    width: 32,
-    borderRadius: 3,
-    backgroundColor: Global.COLOR.BLUE,
-  },
-  checkboxLabel: {
-    color: Global.COLOR.BLACK,
-    flexWrap: 'wrap',
-    flex: 1,
-    fontSize: 16,
   },
   checkboxImage: {
     height: 32,
     width: 32,
   },
-  picker: {
-    ...Platform.select({
-      ios: {
-        marginLeft: 0,
-        marginBottom: 8,
-      },
-      android: {
-        marginLeft: -8, // Align picker text with rest of the content
-      },
-    }),
-  },
-  categoryText: {
-    ...Platform.select({
-      ios: {
-        marginBottom: 4,
-      },
-      android: {
-        marginBottom: -8, // Align picker text with rest of the content
-      },
-    }),
-  },
-  helpText: {
-    color: Global.COLOR.STEEL_GREY,
-    fontSize: 12,
-    fontWeight: 'bold'
-  },
-  titleView: {
-    alignSelf: 'center',
-    width: Dimensions.get('window').width - 32
-  },
-  titleText: {
-    backgroundColor: Global.COLOR.WARM_GREY_10,
-    height: 40,
-    padding: 8,
-  },
-  descriptionView: {
-    flexDirection: 'column',
-    marginTop: 8,
-  },
-  descriptionText: {
-    flex: 1,
-    alignSelf: 'stretch',
-    backgroundColor: Global.COLOR.WARM_GREY_10,
-    textAlignVertical: 'top',
-    padding: 8,
-  },
-  attachmentContainer: {
-    flexDirection: 'row',
-    padding: 16,
-    borderTopColor: Global.COLOR.GREY,
-  },
-  attachmentButton: {
-    flex: 1,
-    height: 46,
-    backgroundColor: Global.COLOR.BLUE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // Shadow
-    ...Platform.select({
-      ios: {
-        shadowColor: Global.COLOR.BLACK,
-        shadowOffset: {width: 1, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 2,
-      }
-    }),
-  },
-  attachmentButtonText: {
-    color: Global.COLOR.WHITE,
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  thubmnailView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
+
 });
 
 module.exports = SendServiceRequestView

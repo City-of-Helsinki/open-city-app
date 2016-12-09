@@ -12,7 +12,8 @@ export default new LocalizedStrings({
     imagePickerPictureButton: 'Take picture',
     imagePickerLibraryButton: 'Choose picture',
     imagePickerCancelButton: 'Cancel',
-    feedbackSent: 'Your feedback has been sent, thank you'
+    feedbackSent: 'Your feedback has been sent, thank you',
+    done: 'DONE'
   },
   fi: {
     sendServiceRequestViewTitle: 'UUSI PALAUTE',
@@ -25,6 +26,7 @@ export default new LocalizedStrings({
     imagePickerPictureButton: 'Ota kuva',
     imagePickerLibraryButton: 'Valitse kuva',
     imagePickerCancelButton: 'Peruuta',
-    feedbackSent: 'Palaute lähetetty onnistuneesti, kiitos'
+    feedbackSent: 'Palaute lähetetty onnistuneesti, kiitos',
+    done: 'VALMIS'
   }
 });
