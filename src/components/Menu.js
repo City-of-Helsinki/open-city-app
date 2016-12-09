@@ -33,9 +33,11 @@ class Menu extends Component {
     return (
       <View style={styles.container}>
         <TouchableWithoutFeedback onPress={this.props.onMenuClick}>
-          <Image
-            source={closeIcon}
-            style={[styles.icon, styles.closeIcon]}/>
+          <View style={styles.closeIconView}>
+            <Image
+              source={closeIcon}
+              style={[styles.icon, styles.closeIcon]}/>
+          </View>
         </TouchableWithoutFeedback>
         <View style={styles.innerContainer}>
           <View style={styles.buttonContainer}>
@@ -70,21 +72,18 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: Global.COLOR.LIGHT_GREY,
-    paddingTop: 55,
+  },
+  closeIconView: {
+    height: 55,
+    width: 56,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   closeIcon: {
     height: 20,
     width: 20,
-    position: 'absolute',
-    ...Platform.select({
-      ios: {
-        top: 35 // Take the iOS status bar into account
-      },
-      android: {
-        top: 20
-      },
-    }),
-    left: 18,
   },
   innerContainer: {
     flexDirection: 'column',
@@ -96,12 +95,12 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
   },
   buttonView: {
-    paddingTop: 10,
-    paddingBottom: 10,
-    paddingLeft: 20,
-    paddingRight: 20,
     flexDirection: 'row',
     alignItems: 'center',
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 16,
+    paddingRight: 16,
   },
   menuText: {
     fontSize: 16,

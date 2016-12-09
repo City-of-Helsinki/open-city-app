@@ -11,8 +11,9 @@ import {
 
 import Global   from './../util/globals';
 
-const ICON_WIDTH  = 30;
-const ICON_HEIGHT = 30;
+const NAVBAR_HEIGHT = 55;
+const ICON_WIDTH    = 30;
+const ICON_HEIGHT   = 30;
 
 // Navbar for the application with iOS status bar taken into account (extra padding)
 class Navbar extends Component {
@@ -62,7 +63,7 @@ class Navbar extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 55,
+    height: NAVBAR_HEIGHT,
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',
@@ -90,12 +91,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: ICON_HEIGHT,
-    paddingLeft: 10,
-    paddingRight: 10,
   },
   buttonView: {
-    width: ICON_WIDTH,
-    height: ICON_HEIGHT,
+    height: NAVBAR_HEIGHT,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   icon: {
     height: ICON_HEIGHT,
