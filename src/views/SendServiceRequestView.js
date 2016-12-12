@@ -76,8 +76,8 @@ class SendServiceRequestView extends Component {
       selectedServiceCode: '',
       locationEnabled: true,    // Whether geo tag will be added to the service request
       descriptionHeight: 0,     // Height of the description textinput which will changed based on text changes
-      titleText: '',
-      descriptionText: '',
+      titleText: Global.sendServiceRequestData.title,
+      descriptionText: Global.sendServiceRequestData.description,
       image: {source: null, name: null},
       imageData: null,
       spinnerVisible: false,
@@ -102,6 +102,11 @@ class SendServiceRequestView extends Component {
   componentWillMount() {
     this.fetchServices();
     this.initializeSpringAnimation();
+  }
+
+  componentWillUnmount() {
+    Global.sendServiceRequestData.title = this.state.titleText;
+    Global.sendServiceRequestData.description = this.state.descriptionText;
   }
 
   initializeSpringAnimation() {
@@ -133,12 +138,24 @@ class SendServiceRequestView extends Component {
   // Create an array for picker with all services
   parseServiceList(data) {
     var services = [];
+    var default_service = null;
     for (var i=0; i < data.length; i++) {
 
       // Exclude blacklisted categories
       if (Config.SERVICE_BLACKLIST.indexOf(parseInt(data[i].service_code)) === -1) {
-        services.push({label: data[i].service_name, key: data[i].service_code});
+        // If the service is set as the default service category, save the service object
+        // so that it can be added to the beginning of the array after the iteration is complete
+        if (parseInt(data[i].service_code) === Config.DEFAULT_SERVICE_CATEGORY) {
+          default_service = {label: data[i].service_name, key: data[i].service_code}
+        } else {
+          services.push({label: data[i].service_name, key: data[i].service_code});
+        }
       }
+    }
+
+    // Add default service in the beginning of the array
+    if (default_service !== null) {
+      services.unshift(default_service);
     }
 
     this.setState({
@@ -254,7 +271,7 @@ class SendServiceRequestView extends Component {
 
             LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 
-        }).catch((err) => {
+        }).catch((error) => {
           showAlert(transError.feedbackImageErrorTitle, transError.feedbackImageErrorMessage, transError.feedbackImageErrorButton)
         });
       }
@@ -405,7 +422,6 @@ class SendServiceRequestView extends Component {
   }
 
   render() {
-    console.log('title',this.state.selectedCategory)
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;

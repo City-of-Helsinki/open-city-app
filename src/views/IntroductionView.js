@@ -174,6 +174,18 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: Global.COLOR.BLUE,
     marginTop: 20,
+    // Shadow
+    ...Platform.select({
+      ios: {
+        shadowColor: Global.COLOR.BLACK,
+        shadowOffset: {width: 1, height: 2},
+        shadowOpacity: 0.5,
+        shadowRadius: 4,
+      },
+      android: {
+        elevation: 2,
+      }
+    }),
   },
   closeButtonView: {
     flex: 1,

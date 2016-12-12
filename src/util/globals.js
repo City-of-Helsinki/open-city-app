@@ -8,6 +8,10 @@ module.exports = {
   isMainView: false,          // True if MainView is displayed, false otherwise
   mainViewRef: null,          // Global reference for MainView is needed to enable marker popup closing with back button
   listItemMonth: null,        // Keep track of which month is being iterated through in ServiceReqestListView
+  sendServiceRequestData: {   // Save form data if SendServiceRequestView component is unmounted
+    title: '',
+    description: '',
+  },
   taskTypes: {                // Service request status types in the Open311 API
     moved_to_other_system: transTask.movedToOtherSystem,
     created_in_other_system: transTask.createdInOtherSystem,

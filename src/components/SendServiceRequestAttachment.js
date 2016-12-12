@@ -10,8 +10,9 @@ import {
   Platform,
 } from 'react-native';
 
-import Global                  from '../util/globals';
 import MapView                 from 'react-native-maps';
+import Thumbnail               from '../components/Thumbnail';
+import Global                  from '../util/globals';
 import transSendServiceRequest from '../translations/sendServiceRequest';
 
 class SendServiceRequestAttachment extends Component {
