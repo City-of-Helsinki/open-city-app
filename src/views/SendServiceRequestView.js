@@ -58,28 +58,25 @@ class SendServiceRequestView extends Component {
   constructor(props, context) {
     super(props, context);
 
+    // Set initial variables depending on whether the user has visited this view before or not
+    var initialRegion    = Global.sendServiceRequestData.region !== null ? Global.sendServiceRequestData.region : this.props.route.mapRegion;
+    var initialMarker    = Global.sendServiceRequestData.markerPosition !== null ? Global.sendServiceRequestData.markerPosition : this.props.route.markerPosition;
+    var initialImageData = Global.sendServiceRequestData.imageData !== null ? Global.sendServiceRequestData.imageData : null;
+
     this.state = {
       // Initialize the marker with the center coordinates from region of the map being shown
-      region: {
-        latitude: this.props.route.mapRegion.latitude,
-        longitude: this.props.route.mapRegion.longitude,
-        latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
-        longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
-      },
-      markerPosition:{
-        latitude: this.props.route.mapRegion.latitude,
-        longitude: this.props.route.mapRegion.longitude
-      },
-      sendEnabled: false,
+      region: initialRegion,
+      markerPosition: initialMarker,
+      sendEnabled: this.enableSend(),
       pickerData: [{label: '', key: ''}],
       selectedCategory: '',
-      selectedServiceCode: '',
-      locationEnabled: true,    // Whether geo tag will be added to the service request
-      descriptionHeight: 0,     // Height of the description textinput which will changed based on text changes
+      selectedServiceCode: Global.sendServiceRequestData.selectedServiceCode,
+      locationEnabled: Global.sendServiceRequestData.locationEnabled,    // Whether geo tag will be added to the service request
+      descriptionHeight: Global.sendServiceRequestData.descriptionHeight, // Height of the description textinput which will changed based on text changes
       titleText: Global.sendServiceRequestData.title,
       descriptionText: Global.sendServiceRequestData.description,
-      image: {source: null, name: null},
-      imageData: null,
+      imageData: initialImageData,
+      image: Global.sendServiceRequestData.image,
       spinnerVisible: false,
       fullScreenMap: false,
       scale: 1,                 // Used for animation
@@ -107,6 +104,13 @@ class SendServiceRequestView extends Component {
   componentWillUnmount() {
     Global.sendServiceRequestData.title = this.state.titleText;
     Global.sendServiceRequestData.description = this.state.descriptionText;
+    Global.sendServiceRequestData.descriptionHeight = this.state.descriptionHeight;
+    Global.sendServiceRequestData.region = this.state.region;
+    Global.sendServiceRequestData.markerPosition = this.state.markerPosition;
+    Global.sendServiceRequestData.imageData = this.state.imageData;
+    Global.sendServiceRequestData.image = this.state.image;
+    Global.sendServiceRequestData.selectedServiceCode = this.state.selectedServiceCode;
+    Global.sendServiceRequestData.locationEnabled = this.state.locationEnabled;
   }
 
   initializeSpringAnimation() {
@@ -139,14 +143,17 @@ class SendServiceRequestView extends Component {
   parseServiceList(data) {
     var services = [];
     var default_service = null;
+
     for (var i=0; i < data.length; i++) {
 
       // Exclude blacklisted categories
       if (Config.SERVICE_BLACKLIST.indexOf(parseInt(data[i].service_code)) === -1) {
-        // If the service is set as the default service category, save the service object
-        // so that it can be added to the beginning of the array after the iteration is complete
-        if (parseInt(data[i].service_code) === Config.DEFAULT_SERVICE_CATEGORY) {
-          default_service = {label: data[i].service_name, key: data[i].service_code}
+        // If user returned to this view check, set previous service as the default service
+        if (parseInt(data[i].service_code) === parseInt(Global.sendServiceRequestData.selectedServiceCode)) {
+          default_service = {label: data[i].service_name, key: data[i].service_code};
+        // If the service matches the default service defined in global settings, set it as the default
+        } else if (parseInt(data[i].service_code) === Config.DEFAULT_SERVICE_CATEGORY && !Util.isNumeric(Global.sendServiceRequestData.selectedServiceCode)) {
+          default_service = {label: data[i].service_name, key: data[i].service_code};
         } else {
           services.push({label: data[i].service_name, key: data[i].service_code});
         }
@@ -163,6 +170,14 @@ class SendServiceRequestView extends Component {
       selectedCategory: services[0].label,
       selectedServiceCode: services[0].key,
     });
+  }
+
+  enableSend() {
+    if (Global.sendServiceRequestData.description.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
+        Global.sendServiceRequestData.description.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
+      return true;
+    }
+    return false;
   }
 
   onSendButtonClick() {
@@ -279,15 +294,20 @@ class SendServiceRequestView extends Component {
   }
 
   onCheckboxClick = () => {
-    mapValues = {
-      start: this.state.locationEnabled ? 1 : 0,
-      end: this.state.locationEnabled ? 0 : 1,
-    };
-    this.mapSpringVal.setValue(mapValues.start);
-    Animated.spring(this.mapSpringVal, {
-      toValue: mapValues.end,
-      bounciness: 6,
-    }).start();
+    if (this.state.locationEnabled) {
+      LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    } else {
+      mapValues = {
+        start: this.state.locationEnabled ? 1 : 0,
+        end: this.state.locationEnabled ? 0 : 1,
+      };
+      this.mapSpringVal.setValue(mapValues.start);
+      Animated.spring(this.mapSpringVal, {
+        toValue: mapValues.end,
+        bounciness: 6,
+      }).start();
+    }
+
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
@@ -425,7 +445,6 @@ class SendServiceRequestView extends Component {
     var showThumbnail = this.state.image.source !== null;
     var checkboxImage = this.state.locationEnabled ?
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
-
     return (
       <View style={styles.container}>
         <Navbar

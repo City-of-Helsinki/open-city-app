@@ -5,6 +5,7 @@ import {
   ProgressBarAndroid,
   ActivityIndicatorIOS,
   Platform,
+  ActivityIndicator,
 } from 'react-native';
 
 // Display the correct activity indicator depending on the users platform

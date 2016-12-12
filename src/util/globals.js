@@ -11,6 +11,13 @@ module.exports = {
   sendServiceRequestData: {   // Save form data if SendServiceRequestView component is unmounted
     title: '',
     description: '',
+    descriptionHeight: 0,
+    selectedServiceCode: '',
+    locationEnabled: true,
+    region: null,
+    markerPosition: null,
+    imageData: null,
+    image: {source: null, name: null},
   },
   taskTypes: {                // Service request status types in the Open311 API
     moved_to_other_system: transTask.movedToOtherSystem,

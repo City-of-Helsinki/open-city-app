@@ -28,11 +28,8 @@ class SendServiceRequestMap extends Component {
 
   mapHeight() {
     if (!this.props.locationEnabled) {
-      // Leaves enough space for the map to be animated out of sight
-      // Margin is used for elevating the next element
       return {
-        height: 16,
-        marginBottom: -16,
+        height: 0,
       }
     }
     else if (this.props.fullScreenMap) {
@@ -49,38 +46,43 @@ class SendServiceRequestMap extends Component {
   render() {
     return (
       <Animated.View style={[styles.container, this.mapHeight(), this.props.animation]}>
-          <View style={[styles.mapView, {
-            flex: 1,
-          }]}>
-            <MapView.Animated
-              style={styles.map}
-              region={this.props.region}
-              showsUserLocation={false}
-              followUserLocation={false}
-              toolbarEnabled={false}
-              scrollEnabled={this.props.fullScreenMap}
-              zoomEnabled={this.props.fullScreenMap}
-              onPanDrag={(e) => this.props.setFullScreenMap(true)}
-              onPress={(e) => this.props.setFullScreenMap(true)}
-              onLongPress={(e) => this.props.setFullScreenMap(true)}
-              onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
-              onRegionChange={(e) => this.props.onRegionChange(e)}
-              onRegionChangeComplete={(e) => this.props.onRegionChangeComplete(e)}>
-              <MapView.Marker.Animated
-                ref={(m) => this.marker = m}
-                coordinate={this.props.region}
-                onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}>
-              <Image // This image hides the default marker
-                source={this.props.markerIcon}
-                style={{height: 0, width: 0}} />
-              </MapView.Marker.Animated>
-            </MapView.Animated>
-            <Image
-              source={this.props.markerIcon}
-              style={[styles.markerImage, {
-                top: this.props.fullScreenMap ? this.markerTop : 35,
-              }]} />
-          </View>
+          {this.props.locationEnabled &&
+            <View style={[styles.mapView, {
+              flex: 1,
+            }]}>
+              <MapView.Animated
+                style={styles.map}
+                region={this.props.region}
+                showsUserLocation={false}
+                followUserLocation={false}
+                toolbarEnabled={false}
+                scrollEnabled={this.props.fullScreenMap}
+                zoomEnabled={this.props.fullScreenMap}
+                onPanDrag={(e) => this.props.setFullScreenMap(true)}
+                onPress={(e) => this.props.setFullScreenMap(true)}
+                onLongPress={(e) => this.props.setFullScreenMap(true)}
+                onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
+                onRegionChange={(e) => this.props.onRegionChange(e)}
+                onRegionChangeComplete={(e) => this.props.onRegionChangeComplete(e)}>
+                <MapView.Marker.Animated
+                  ref={(m) => this.marker = m}
+                  coordinate={this.props.region}
+                  onPress={(e) => this.props.setFullScreenMap(true)}
+                  onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}>
+                <Image // This image hides the default marker
+                  source={this.props.markerIcon}
+                  style={{height: 0, width: 0}} />
+                </MapView.Marker.Animated>
+              </MapView.Animated>
+              <TouchableWithoutFeedback onPress={() => this.props.setFullScreenMap(true)}>
+                <Image  // Marker is inside a button in order to enlarge the map if ther marker is pressed
+                  source={this.props.markerIcon}
+                  style={[styles.markerImage, {
+                    top: this.props.fullScreenMap ? this.markerTop : 35,
+                  }]} />
+              </TouchableWithoutFeedback>
+            </View>
+          }
         {this.props.locationEnabled && this.props.fullScreenMap &&
           <View style={styles.doneButtonContainer}>
             <TouchableWithoutFeedback onPress={()=>this.props.onDoneClick()}>
