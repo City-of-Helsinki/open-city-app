@@ -23,13 +23,16 @@ class SendServiceRequestMap extends Component {
   constructor(props, context) {
     super(props, context);
 
-    this.markerTop = ((Dimensions.get('window').height - MAP_MARGIN) - MARKER_IMAGE_SIZE*2) / 2;
+    this.markerTop = (Dimensions.get('window').height - MAP_MARGIN) / 2 - MARKER_IMAGE_SIZE;
   }
 
   mapHeight() {
     if (!this.props.locationEnabled) {
+      // Leaves enough space for the map to be animated out of sight
+      // Margin is used for elevating the next element
       return {
-        height: 0
+        height: 16,
+        marginBottom: -16,
       }
     }
     else if (this.props.fullScreenMap) {
@@ -45,9 +48,8 @@ class SendServiceRequestMap extends Component {
 
   render() {
     return (
-      <View style={[styles.container, this.mapHeight()]}>
-        {this.props.locationEnabled &&
-          <Animated.View style={[styles.mapView, this.props.animation, {
+      <Animated.View style={[styles.container, this.mapHeight(), this.props.animation]}>
+          <View style={[styles.mapView, {
             flex: 1,
           }]}>
             <MapView.Animated
@@ -70,7 +72,7 @@ class SendServiceRequestMap extends Component {
                 onDragEnd={(e) => this.updateMarkerPos(e.nativeEvent.coordinate, this.marker)}>
               <Image // This image hides the default marker
                 source={this.props.markerIcon}
-                style={{height: 20, width: 20}} />
+                style={{height: 0, width: 0}} />
               </MapView.Marker.Animated>
             </MapView.Animated>
             <Image
@@ -78,8 +80,7 @@ class SendServiceRequestMap extends Component {
               style={[styles.markerImage, {
                 top: this.props.fullScreenMap ? this.markerTop : 35,
               }]} />
-          </Animated.View>
-        }
+          </View>
         {this.props.locationEnabled && this.props.fullScreenMap &&
           <View style={styles.doneButtonContainer}>
             <TouchableWithoutFeedback onPress={()=>this.props.onDoneClick()}>
@@ -89,12 +90,10 @@ class SendServiceRequestMap extends Component {
             </TouchableWithoutFeedback>
           </View>
         }
-      </View>
+      </Animated.View>
     );
   }
 }
-
-module.exports = SendServiceRequestMap
 
 const styles = StyleSheet.create({
   container: {
@@ -117,7 +116,7 @@ const styles = StyleSheet.create({
     marginTop: -64,
     marginLeft: Dimensions.get('window').width / 2 - 42,
     height: 46,
-    width: 84,
+    width: 96,
     backgroundColor: Global.COLOR.BLUE,
     alignItems: 'center',
     justifyContent: 'center',
@@ -140,3 +139,5 @@ const styles = StyleSheet.create({
     fontWeight: 'bold'
   },
 });
+
+module.exports = SendServiceRequestMap

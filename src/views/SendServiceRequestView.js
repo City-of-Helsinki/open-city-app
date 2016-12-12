@@ -18,34 +18,34 @@ import {
   ScrollView
 } from 'react-native';
 
-import MapView                 from 'react-native-maps';
-import ImagePicker             from 'react-native-image-picker';
-import ImageResizer            from 'react-native-image-resizer';
-import Toast                   from 'react-native-simple-toast';
-import KeyboardSpacer          from 'react-native-keyboard-spacer';
-import Spinner                 from 'react-native-loading-spinner-overlay';
-import FloatingActionButton    from '../components/FloatingActionButton';
-import NativePicker            from '../components/NativePicker';
-import Navbar                  from '../components/Navbar';
-import Menu                    from '../components/Menu';
-import Thumbnail               from '../components/Thumbnail';
-import showAlert               from '../components/Alert';
-import SendServiceRequestMap   from '../components/SendServiceRequestMap';
-import SendServiceRequestForm  from '../components/SendServiceRequestForm';
-import SendServiceRequestAttachment  from '../components/SendServiceRequestAttachment';
-import makeRequest             from '../util/requests';
-import serviceRequestModels    from '../util/models';
-import Global                  from '../util/globals';
-import Util                    from '../util/util';
-import Config                  from '../config';
-import transSendServiceRequest from '../translations/sendServiceRequest';
-import transError              from '../translations/errors';
-import checkboxIcon            from '../img/check.png';
-import sendEnabledIcon         from '../img/send_enabled.png';
-import sendDisabledIcon        from '../img/send_disabled.png';
-import markerIcon              from '../img/location_marker.png';
-import checkIcon               from '../img/check.png';
-import backIcon                from '../img/back.png';
+import MapView                      from 'react-native-maps';
+import ImagePicker                  from 'react-native-image-picker';
+import ImageResizer                 from 'react-native-image-resizer';
+import Toast                        from 'react-native-simple-toast';
+import KeyboardSpacer               from 'react-native-keyboard-spacer';
+import Spinner                      from 'react-native-loading-spinner-overlay';
+import FloatingActionButton         from '../components/FloatingActionButton';
+import NativePicker                 from '../components/NativePicker';
+import Navbar                       from '../components/Navbar';
+import Menu                         from '../components/Menu';
+import Thumbnail                    from '../components/Thumbnail';
+import showAlert                    from '../components/Alert';
+import SendServiceRequestMap        from '../components/SendServiceRequestMap';
+import SendServiceRequestForm       from '../components/SendServiceRequestForm';
+import SendServiceRequestAttachment from '../components/SendServiceRequestAttachment';
+import makeRequest                  from '../util/requests';
+import serviceRequestModels         from '../util/models';
+import Global                       from '../util/globals';
+import Util                         from '../util/util';
+import Config                       from '../config';
+import transSendServiceRequest      from '../translations/sendServiceRequest';
+import transError                   from '../translations/errors';
+import checkboxIcon                 from '../img/check.png';
+import sendEnabledIcon              from '../img/send_enabled.png';
+import sendDisabledIcon             from '../img/send_disabled.png';
+import markerIcon                   from '../img/location_marker.png';
+import checkIcon                    from '../img/check.png';
+import backIcon                     from '../img/back.png';
 
 const BUTTON_ICON_HEIGHT     = 40;
 const BUTTON_ICON_WIDTH      = 40;
@@ -262,7 +262,15 @@ class SendServiceRequestView extends Component {
   }
 
   onCheckboxClick = () => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.spring);
+    mapValues = {
+      start: this.state.locationEnabled ? 1 : 0,
+      end: this.state.locationEnabled ? 0 : 1,
+    };
+    this.mapSpringVal.setValue(mapValues.start);
+    Animated.spring(this.mapSpringVal, {
+      toValue: mapValues.end,
+      bounciness: 6,
+    }).start();
     this.setState({
       locationEnabled: !this.state.locationEnabled,
     });
@@ -365,15 +373,6 @@ class SendServiceRequestView extends Component {
     this.scrollSpring.setEndValue(endValue);
   }
 
-  // Enable/Disable container scrolling only on Android
-  setScrollEnabled(value) {
-    if (Platform.OS === 'android') {
-      this.setState({
-        scrollEnabled: value
-      });
-    }
-  }
-
   setFullScreenMap = (value) => {
     // Invoke map change with animation only if value changes
     if (value !== this.state.fullScreenMap) {
@@ -382,7 +381,7 @@ class SendServiceRequestView extends Component {
         end: this.state.fullScreenMap ? 1 : 0,
       };
       mapValues = {
-        start: this.state.fullScreenMap ? 0.4 : 0.4,
+        start: this.state.fullScreenMap ? 0.3 : 0.3,
         end: this.state.fullScreenMap ? 1 : 1,
       };
       this.mapSpringVal.setValue(mapValues.start);
@@ -424,12 +423,9 @@ class SendServiceRequestView extends Component {
           hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
         <View style={styles.innerContainer}>
           <Spinner visible={this.state.spinnerVisible} />
-          <ScrollView
-            style={styles.scrollView}
-            scrollEnabled={this.state.scrollEnabled}>
+          <ScrollView style={styles.scrollView}>
             <View style={styles.innerContainer}>
               <SendServiceRequestMap
-                spring={this.mapSpringVal}
                 fullScreenMap={this.state.fullScreenMap}
                 region={this.state.region}
                 onRegionChange={this.onRegionChange}
@@ -442,6 +438,7 @@ class SendServiceRequestView extends Component {
                 animation={{transform: [{scaleY: this.mapSpringVal}]}} />
               {!this.state.fullScreenMap &&
               <SendServiceRequestForm
+                locationEnabled={this.state.locationEnabled}
                 onCheckboxClick={this.onCheckboxClick}
                 pickerData={this.state.pickerData}
                 selectedCategory={this.state.selectedCategory}

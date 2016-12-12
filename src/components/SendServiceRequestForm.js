@@ -21,7 +21,6 @@ class SendServiceRequestForm extends Component {
   }
 
   render() {
-    console.log('prop title', this.props.selectedCategory)
     return (
       <Animated.View style={[styles.container, this.props.hideAnimation]}>
         <View style={styles.enableLocationView}>
@@ -71,7 +70,6 @@ module.exports = SendServiceRequestForm
 const styles = StyleSheet.create({
   container: {
     padding: 16,
-    flex: 1,
   },
   enableLocationView: {
     marginBottom: 4,
