@@ -23,14 +23,8 @@ import Config                from './../config';
 import plusIcon              from '../img/plus.png'
 import markerIcon            from '../img/marker_pin.png'
 import menuIcon              from '../img/menu.png'
-
-import transList  from '../translations/list';
-import transError from '../translations/errors';
-
-const DEFAULT_LATITUDE        = 60.1680574;
-const DEFAULT_LONGITUDE       = 24.9339746;
-const DEFAULT_LATITUDE_DELTA  = 0.02208;
-const DEFAULT_LONGITUDE_DELTA = 0.01010;
+import transList             from '../translations/list';
+import transError            from '../translations/errors';
 
 class ServiceRequestListView extends Component {
 
@@ -68,7 +62,7 @@ class ServiceRequestListView extends Component {
 
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
-      var serviceRequestList = Util.parseServiceRequestList(result, this.props.route.userPosition);
+      var serviceRequestList = Util.parseServiceRequestList(result, null);
       this.setState({
         isLoading: false,
         serviceRequestList: serviceRequestList,
@@ -103,17 +97,9 @@ class ServiceRequestListView extends Component {
   }
 
   navToSendServiceRequestView() {
-
-    var mapRegion = {
-      latitude: DEFAULT_LATITUDE,
-      longitude: DEFAULT_LONGITUDE,
-      latitudeDelta: DEFAULT_LATITUDE_DELTA,
-      longitudeDelta: DEFAULT_LONGITUDE_DELTA,
-    };
-
     this.props.navigator.push({
       id: 'SendServiceRequestView',
-      mapRegion: mapRegion, // Sets default region for the map in feedback view
+      mapRegion: this.props.route.mapRegion, // Sets default region for the map in feedback view
     });
   }
 

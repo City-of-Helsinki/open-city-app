@@ -194,7 +194,7 @@ class MainView extends Component {
     });
   }
 
-  navToSendServiceRequestView() {
+  getMapRegion() {
     var mapRegion = {
       latitude: DEFAULT_LATITUDE,
       longitude: DEFAULT_LONGITUDE,
@@ -208,9 +208,14 @@ class MainView extends Component {
       mapRegion.longitude = this.state.userPosition.longitude;
     }
 
+    return mapRegion;
+  }
+
+  navToSendServiceRequestView() {
+
     this.props.navigator.push({
       id: 'SendServiceRequestView',
-      mapRegion: mapRegion, // Sets default region for the map in feedback view
+      mapRegion: this.getMapRegion(), // Sets default region for the map in feedback view
     });
   }
 
@@ -218,7 +223,7 @@ class MainView extends Component {
     drawer.close();
     this.props.navigator.push({
       id: 'ServiceRequestListView',
-      userPosition: this.state.userPosition,
+      mapRegion: this.getMapRegion(), // Used for the default region in feedback view
     });
   }
 

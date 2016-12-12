@@ -66,8 +66,7 @@ module.exports = {
       agency: data.agency_responsible,
       status: data.extended_attributes.detailed_status,
       coordinates: typeof data.lat !== 'undefined' && typeof data.long !== 'undefined' ?
-       {latitude: data.lat, longitude: data.long} : null ,
-      distance: module.exports.getDistance(userPosition, {latitude: data.lat, longitude: data.long}),
+       {latitude: data.lat, longitude: data.long} : null,
       media_urls: mediaUrls,
       status_notes: data.status_notes,
       extendedData: extendedData
