@@ -183,5 +183,16 @@ module.exports = {
 
   getLocalizedMonthName(month) {
     return transList.monthNames[month-1];
+  },
+
+  // Return true if time has passed enough for the map to be refreshed
+  mapShouldUpdate() {
+    var difference = + new Date() - Global.lastRefreshTimestamp;
+
+    if (difference < Config.REFRESH_THRESHOLD) {
+      return false;
+    }
+
+    return true;
   }
 }

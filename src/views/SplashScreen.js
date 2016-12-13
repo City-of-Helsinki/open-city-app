@@ -11,15 +11,14 @@ import {
 } from 'react-native';
 
 import splashImage from './../img/splash_image_2.png';
-
 import showAlert   from '../components/Alert';
 import Spinner     from '../components/Spinner';
 import makeRequest from '../util/requests';
 import Util        from '../util/util';
 import Models      from '../util/models';
+import Global      from '../util/globals';
 import Config      from '../config';
-
-import transError from '../translations/errors';
+import transError  from '../translations/errors';
 
 // SplashScreen shown while data is being loaded
 class SplashScreen extends Component {
@@ -44,6 +43,7 @@ class SplashScreen extends Component {
 
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
+      Global.lastRefreshTimestamp = + new Date();
       this.serviceRequests = Util.parseServiceRequests(result, this.userSubmittedServiceRequests);
       this.navToNextView();
     }, error => {

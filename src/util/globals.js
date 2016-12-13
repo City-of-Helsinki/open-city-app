@@ -8,6 +8,8 @@ module.exports = {
   isMainView: false,          // True if MainView is displayed, false otherwise
   mainViewRef: null,          // Global reference for MainView is needed to enable marker popup closing with back button
   listItemMonth: null,        // Keep track of which month is being iterated through in ServiceReqestListView
+  appState: '',               // Keep track of the apps state in order to invoke map refreshes when the state changes
+  lastRefreshTimestamp: 0,    // Timestamp of the time when the markers were fetched
   sendServiceRequestData: {   // Save form data if SendServiceRequestView component is unmounted
     title: '',
     description: '',

@@ -7,7 +7,8 @@ import {
   Platform,
   LayoutAnimation,
   BackAndroid,
-  Dimensions
+  Dimensions,
+  AppState
 } from 'react-native';
 
 import Navbar               from './../components/Navbar';
@@ -89,10 +90,12 @@ class MainView extends Component {
 
   componentDidMount() {
     this.geoLocation();
+    AppState.addEventListener('change', this.handleAppStateChange)
   }
 
   componentWillUnmount() {
     navigator.geolocation.clearWatch(this.watchID);
+    AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
   shouldComponentUpdate() {
@@ -110,6 +113,7 @@ class MainView extends Component {
 
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
+      Global.lastRefreshTimestamp = + new Date();
       var serviceRequests = Util.parseServiceRequests(result, Models.fetchAllServiceRequests());
       this.setState({
         serviceRequests: serviceRequests
@@ -123,6 +127,15 @@ class MainView extends Component {
           transError.networkErrorButton);
       }
     });
+  }
+
+  handleAppStateChange = (newAppState) => {
+    // If app is set to the foreground refresh markers if enough time has passed
+    if (this.state.appState === 'background' || Util.mapShouldUpdate()) {
+      this.fetchServiceRequests();
+    }
+
+    Global.appState = newAppState;
   }
 
 

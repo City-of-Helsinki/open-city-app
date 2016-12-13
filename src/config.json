@@ -23,6 +23,7 @@
 
   // Map
   "STATUS_OPEN": "open",  // Defines the string which the Open311 API returns. The string is used for status comparison
+  "REFRESH_THRESHOLD": 7200000, // The amount of milliseconds that need to pass before the map is refreshed
 
   // ServiceRequest list
   "DETAILED_SERVICE_REQUEST_LIMIT": 50,
