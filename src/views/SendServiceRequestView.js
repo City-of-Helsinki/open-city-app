@@ -78,6 +78,7 @@ class SendServiceRequestView extends Component {
       imageData: initialImageData,
       image: Global.sendServiceRequestData.image,
       spinnerVisible: false,
+      feedbackSent: false,
       fullScreenMap: false,
       scale: 1,                 // Used for animation
       scrollEnabled: true,      // Determines whether vertical scrolling is allowed
@@ -102,15 +103,12 @@ class SendServiceRequestView extends Component {
   }
 
   componentWillUnmount() {
-    Global.sendServiceRequestData.title = this.state.titleText;
-    Global.sendServiceRequestData.description = this.state.descriptionText;
-    Global.sendServiceRequestData.descriptionHeight = this.state.descriptionHeight;
-    Global.sendServiceRequestData.region = this.state.region;
-    Global.sendServiceRequestData.markerPosition = this.state.markerPosition;
-    Global.sendServiceRequestData.imageData = this.state.imageData;
-    Global.sendServiceRequestData.image = this.state.image;
-    Global.sendServiceRequestData.selectedServiceCode = this.state.selectedServiceCode;
-    Global.sendServiceRequestData.locationEnabled = this.state.locationEnabled;
+
+    if (this.state.feedbackSent) {
+      this.clearForm();
+    } else {
+      this.saveForm();
+    }
   }
 
   initializeSpringAnimation() {
@@ -233,7 +231,12 @@ class SendServiceRequestView extends Component {
       if ('service_request_id' in result[0]) {
         serviceRequestModels.insert(result[0]['service_request_id'])
       }
-      this.setState({ spinnerVisible: false });
+
+      this.setState({
+        spinnerVisible: false,
+        feedbackSent: true
+      });
+
       Toast.show(transSendServiceRequest.feedbackSent);
       this.props.navigator.pop();
     }, error => {
@@ -246,6 +249,30 @@ class SendServiceRequestView extends Component {
     this.props.navigator.push({
       id: 'ServiceRequestListView',
     });
+  }
+
+  clearForm() {
+    Global.sendServiceRequestData.title = '';
+    Global.sendServiceRequestData.description = '';
+    Global.sendServiceRequestData.descriptionHeight = 0;
+    Global.sendServiceRequestData.region = null;
+    Global.sendServiceRequestData.markerPosition = null;
+    Global.sendServiceRequestData.imageData = null;
+    Global.sendServiceRequestData.image = {source: null, name: null};
+    Global.sendServiceRequestData.selectedServiceCode = '';
+    Global.sendServiceRequestData.locationEnabled = true;
+  }
+
+  saveForm() {
+    Global.sendServiceRequestData.title = this.state.titleText;
+    Global.sendServiceRequestData.description = this.state.descriptionText;
+    Global.sendServiceRequestData.descriptionHeight = this.state.descriptionHeight;
+    Global.sendServiceRequestData.region = this.state.region;
+    Global.sendServiceRequestData.markerPosition = this.state.markerPosition;
+    Global.sendServiceRequestData.imageData = this.state.imageData;
+    Global.sendServiceRequestData.image = this.state.image;
+    Global.sendServiceRequestData.selectedServiceCode = this.state.selectedServiceCode;
+    Global.sendServiceRequestData.locationEnabled = this.state.locationEnabled;
   }
 
   onAddAttachmentClick = () => {
