@@ -32,6 +32,9 @@ class IntroductionView extends Component {
       checkboxSelected: false
     };
 
+    Global.isMainView = true;
+    Global.navigatorRef = this.props.navigator;
+
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
 

@@ -29,6 +29,8 @@ class SplashScreen extends Component {
     this.serviceRequests = [];
     this.userSubmittedServiceRequests = Models.fetchAllServiceRequests();
 
+    Global.navigatorRef = this.props.navigator;
+
     transError.setLanguage('fi');
   }
 
