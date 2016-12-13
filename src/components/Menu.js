@@ -46,11 +46,14 @@ class Menu extends Component {
                 <Text style={styles.menuText}>{transMenu.menuTitleFeedback}</Text>
               </View>
             </TouchableWithoutFeedback>
+            <View style={styles.versionTextView}>
+              <Text style={styles.versionText}>{Config.APP_VERSION}</Text>
+            </View>
           </View>
 
           <View style={styles.appFeedbackContainer}>
             <View style={styles.appFeedbackInnerContainer}>
-              <Image style={styles.appFeedbackImage} source={appFeedbackImage}  />
+              <Image style={styles.appFeedbackImage} source={appFeedbackImage} />
               <View style={styles.appFeedbackContentContainer}>
                 <Text style={styles.appFeedbackText}>{transMenu.menuAppFeedbackDescription}</Text>
                 <TouchableWithoutFeedback onPress={this.props.onAppFeedbackClick}>
@@ -89,11 +92,12 @@ const styles = StyleSheet.create({
   innerContainer: {
     flexDirection: 'column',
     flex: 1,
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
   },
   buttonContainer: {
     flexDirection: 'column',
     alignItems: 'stretch',
+    flex: 1,
   },
   buttonView: {
     flexDirection: 'row',
@@ -113,6 +117,17 @@ const styles = StyleSheet.create({
     height: 30,
     width: 30,
     marginRight: 5,
+  },
+  versionTextView: {
+    alignSelf: 'flex-end',
+    justifyContent: 'flex-end',
+    padding: 8,
+    flex: 1,
+  },
+  versionText: {
+    fontSize: 14,
+    color: Global.COLOR.WARM_GREY,
+    textAlign: 'right'
   },
   appFeedbackContainer: {
     flexDirection: 'row',
