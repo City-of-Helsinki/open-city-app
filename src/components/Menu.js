@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'column',
     backgroundColor: Global.COLOR.LIGHT_GREY,
+    paddingTop: Platform.OS === 'ios' ? 15 : 0,
   },
   closeIconView: {
     height: 55,
