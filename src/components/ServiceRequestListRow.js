@@ -116,8 +116,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   chevronImage: {
-    height: 16,
-    width: 16,
+    height: 12,
+    width: 12,
   }
 });
 
