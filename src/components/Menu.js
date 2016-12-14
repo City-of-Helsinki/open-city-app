@@ -86,8 +86,8 @@ const styles = StyleSheet.create({
     paddingRight: 16,
   },
   closeIcon: {
-    height: 20,
-    width: 20,
+    height: 16,
+    width: 16,
   },
   innerContainer: {
     flexDirection: 'column',

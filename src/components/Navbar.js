@@ -13,8 +13,8 @@ import {
 import Global   from './../util/globals';
 
 const NAVBAR_HEIGHT = 55;
-const ICON_WIDTH    = 30;
-const ICON_HEIGHT   = 30;
+const ICON_WIDTH    = 22;
+const ICON_HEIGHT   = 22;
 
 // Navbar for the application with iOS status bar taken into account (extra padding)
 class Navbar extends Component {

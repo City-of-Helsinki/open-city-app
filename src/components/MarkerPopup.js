@@ -21,8 +21,8 @@ import transPopup from '../translations/markerPopup';
 
 
 const SIDE_PADDING      = 64;
-const CARET_ICON_HEIGHT = 16;
-const CARET_ICON_WIDTH  = 16;
+const CARET_ICON_HEIGHT = 12;
+const CARET_ICON_WIDTH  = 12;
 
 // Popup which will be shown when a map marker is clicked
 class MarkerPopup extends Component {
@@ -84,8 +84,8 @@ const styles = StyleSheet.create({
     padding: 16,
   },
   closeImage: {
-    height: 20,
-    width: 20,
+    height: 16,
+    width: 16,
   },
   enterContainer: {
     flex: 1,

@@ -14,7 +14,7 @@ import Global                  from '../util/globals';
 import MapView                 from 'react-native-maps';
 import transSendServiceRequest from '../translations/sendServiceRequest';
 
-const MARKER_IMAGE_SIZE = 42;
+const MARKER_IMAGE_SIZE = 36;
 const MAP_HEIGHT        = 140;
 const MAP_MARGIN        = 24;
 

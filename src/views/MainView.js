@@ -38,7 +38,7 @@ const DEFAULT_LATITUDE           = 60.1680574;
 const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
-const MARKER_IMAGE_SIZE          = 28;
+const MARKER_IMAGE_SIZE          = 32;
 
 class MainView extends Component {
 
