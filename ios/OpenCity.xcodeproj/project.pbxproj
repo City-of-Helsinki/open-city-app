@@ -887,7 +887,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = fi.helsinki.helsinki;
+				PRODUCT_BUNDLE_IDENTIFIER = fi.hel.helsinki;
 				PRODUCT_NAME = Helsinki;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -897,6 +897,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = 9675UVEX29;
 				ENABLE_BITCODE = NO;
@@ -922,7 +923,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = fi.helsinki.helsinki;
+				PRODUCT_BUNDLE_IDENTIFIER = fi.hel.helsinki;
 				PRODUCT_NAME = Helsinki;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
