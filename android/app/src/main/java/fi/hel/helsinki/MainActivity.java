@@ -1,4 +1,4 @@
-package fi.helsinki.helsinki;
+package fi.hel.helsinki;
 
 import com.facebook.react.ReactActivity;
 import io.realm.react.RealmReactPackage;
