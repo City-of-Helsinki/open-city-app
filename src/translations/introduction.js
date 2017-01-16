@@ -2,16 +2,16 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en: {
-    versionTitle: 'BETA',
+    versionTitle: '',
     modalTitle: '',
     modalDescription: '',
     checkboxLabel: '',
     closeButton: 'CLOSE',
   },
   fi: {
-    versionTitle: 'BETA',
-    modalTitle: 'Tervetuloa {0}-sovelluksen testiversioon',
-    modalDescription: 'Kehitämme toiminnallisuuksia käyttäjien toiveiden ja kommenttien perusteella. Ensimmäiseksi toteutimme palautteiden selailun ja lisäämisen kaupungille.',
+    versionTitle: '',
+    modalTitle: 'Tervetuloa {0}-sovellukseen',
+    modalDescription: 'Sovelluksella voit lähettää palautetta kaupungille ja selata kaupungin saamia palautteita.',
     checkboxLabel: 'Älä näytä tätä enää',
     closeButton: 'SULJE',
   },

@@ -8,7 +8,7 @@ export default new LocalizedStrings({
   },
   fi: {
     menuTitleFeedback: 'Palautteet',
-    menuAppFeedbackDescription: 'Hei! Keräämme tällä hetkellä käyttäjiltämme palautetta.',
+    menuAppFeedbackDescription: 'Hei! Kerro mielipiteesi tästä sovelluksesta.',
     menuAppFeedbackButton: 'KOMMENTOI SOVELLUSTA',
   }
 });
