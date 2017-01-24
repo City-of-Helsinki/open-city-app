@@ -527,7 +527,7 @@
 						DevelopmentTeam = 9675UVEX29;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
-								enabled = 1;
+								enabled = 0;
 							};
 						};
 					};
