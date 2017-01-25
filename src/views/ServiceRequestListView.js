@@ -83,16 +83,10 @@ class ServiceRequestListView extends Component {
     this.props.navigator.pop();
   }
 
-  onAppFeedbackModalClick(drawer) {
+  navToAppFeedbackView(drawer) {
     drawer.close();
-    this.setState({
-      showAppFeedbackModal: true,
-    });
-  }
-
-  onAppFeedbackModalClose() {
-    this.setState({
-      showAppFeedbackModal: false,
+    this.props.navigator.push({
+      id: 'AppFeedbackView'
     });
   }
 
@@ -140,7 +134,8 @@ class ServiceRequestListView extends Component {
         content={
           <Menu
             mapView={()=>{this._drawer.close()}}
-            onMenuClick={()=>this._drawer.close()} />
+            onMenuClick={()=>this._drawer.close()}
+            onAppFeedbackClick={()=>this.navToAppFeedbackView(this._drawer)} />
         }>
         <View
           style={styles.container}

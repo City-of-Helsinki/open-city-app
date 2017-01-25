@@ -90,7 +90,7 @@ class MainView extends Component {
 
   componentDidMount() {
     this.geoLocation();
-    AppState.addEventListener('change', this.handleAppStateChange)
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
