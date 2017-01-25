@@ -32,7 +32,7 @@ class ServiceRequestListView extends Component {
     super(props, context);
 
     this.state = {
-      serviceRequestList: [],               // All objects to be shown
+      serviceRequestList: [],      // All objects to be shown
       isLoading: true,             // Show/hide spinner
       showAppFeedbackModal: false, // Show/hide modal for giving feedback
     };
@@ -108,8 +108,10 @@ class ServiceRequestListView extends Component {
   // Add opacity to container when drawer is opened
   drawerTweenHandler(ratio) {
     this.refs.shadowOverlay.setNativeProps({
+      style: {
        opacity: Math.max((1 - ratio), 0.5),
        backgroundColor: Global.COLOR.BLACK
+      }
     });
 
     return { }
