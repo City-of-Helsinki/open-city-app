@@ -50,7 +50,8 @@ class SendServiceRequestForm extends Component {
             style={styles.titleText}
             defaultValue={this.props.defaultTitle}
             onChangeText={(text)=> this.props.onTitleChange(text)}
-            placeholder={transSendServiceRequest.inputTitlePlaceholder} />
+            placeholder={transSendServiceRequest.inputTitlePlaceholder}
+            autoCapitalize={'sentences'} />
         </View>
         <View style={styles.descriptionView}>
           <TextInput
@@ -58,7 +59,8 @@ class SendServiceRequestForm extends Component {
             multiline={true}
             defaultValue={this.props.defaultDescription}
             onChange={(event)=>this.props.onDescriptionChange(event)}
-            placeholder={transSendServiceRequest.inputDescriptionPlaceholder} />
+            placeholder={transSendServiceRequest.inputDescriptionPlaceholder}
+            autoCapitalize={'sentences'} />
         </View>
       </Animated.View>
     );
