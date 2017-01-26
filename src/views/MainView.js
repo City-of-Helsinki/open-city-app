@@ -90,7 +90,7 @@ class MainView extends Component {
 
   componentDidMount() {
     this.geoLocation();
-    AppState.addEventListener('change', this.handleAppStateChange)
+    AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
@@ -285,10 +285,10 @@ class MainView extends Component {
   // Add opacity to container when drawer is opened
   drawerTweenHandler(ratio) {
     this.refs.shadowOverlay.setNativeProps({
-       style: {
-         opacity: Math.max((1 - ratio), 0.5),
-         backgroundColor: Global.COLOR.BLACK
-       }
+      style: {
+       opacity: Math.max((1 - ratio), 0.5),
+       backgroundColor: Global.COLOR.BLACK
+      }
     });
 
     return { }

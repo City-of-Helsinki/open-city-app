@@ -244,14 +244,16 @@ class AppFeedbackView extends Component {
                 <TextInput
                   style={styles.titleText}
                   onChangeText={(text)=> { this.setState({ titleText: text }) }}
-                  placeholder={transAppFeedback.titlePlaceholder} />
+                  placeholder={transAppFeedback.titlePlaceholder}
+                  autoCapitalize={'sentences'} />
               </View>
               <View style={styles.descriptionView}>
                 <TextInput
                   style={styles.descriptionText}
                   multiline={true}
                   onChangeText={(text)=>this.onDescriptionTextChange(text)}
-                  placeholder={transAppFeedback.descriptionPlaceholder} />
+                  placeholder={transAppFeedback.descriptionPlaceholder}
+                  autoCapitalize={'sentences'} />
               </View>
             </View>
           </ScrollView>

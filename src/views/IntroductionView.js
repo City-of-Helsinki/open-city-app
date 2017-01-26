@@ -63,7 +63,6 @@ class IntroductionView extends Component {
     return (
       <View style={styles.container}>
         <Image source={backgroundImage} style={styles.backgroundImage} />
-        <Text style={styles.versionText}>{transIntroduction.versionTitle}</Text>
         <View style={styles.modalContainer}>
           <View style={styles.textContainer}>
             <Text style={[styles.modalText, styles.modalTitle]}>{titleText}</Text>
