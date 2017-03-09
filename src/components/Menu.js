@@ -61,6 +61,10 @@ class Menu extends Component {
                     <Text style={styles.appFeedbackButtonText}>{transMenu.menuAppFeedbackButton}</Text>
                   </View>
                 </TouchableWithoutFeedback>
+                  <Text style={styles.appPrivacyPolicy}
+                        onPress={() => Linking.openURL(Config.PRIVACY_POLICY_URL)}>
+                      {transMenu.menuPrivacyPolicy}
+                  </Text>
               </View>
             </View>
           </View>
@@ -157,6 +161,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     fontSize: 16,
+    backgroundColor: Global.COLOR.TRANSPARENT,
+  },
+  appPrivacyPolicy: {
+    color: Global.COLOR.WHITE,
+    fontWeight: 'normal',
+    textAlign: 'left',
+    marginTop: 10,
+    fontSize: 16,
+    textDecorationLine: 'underline',
     backgroundColor: Global.COLOR.TRANSPARENT,
   },
   appFeedbackButton: {

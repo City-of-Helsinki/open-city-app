@@ -1,6 +1,6 @@
 {
   "APP_NAME": "Helsinki",
-  "APP_VERSION": "v0.2.2",
+  "APP_VERSION": "v0.2.3",
 
   // API URLs
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
@@ -11,6 +11,9 @@
   "OPEN311_SERVICE_REQUEST_BASE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests/",
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
   "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
+
+  // OTHER URLs
+  "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
 
   // API Settings
   "OPEN311_DESCRIPTION_MIN_LENGTH": 10,
