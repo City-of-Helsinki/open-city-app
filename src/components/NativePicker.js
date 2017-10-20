@@ -8,7 +8,7 @@ import {
   Picker,
 } from 'react-native';
 
-import ModalPicker  from 'react-native-modal-picker';
+import ModalSelector  from 'react-native-modal-selector';
 import transGeneral from '../translations/general';
 
 // Returns a native picker for Android or native popup with selection for iOS
@@ -25,7 +25,7 @@ class NativePicker extends Component {
   }
 
   render() {
-    var picker = <ModalPicker
+    var picker = <ModalSelector
                   style={styles.modalPicker}
                   data={this.props.data}
                   initValue={this.props.selectedItem}

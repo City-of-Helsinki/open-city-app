@@ -3,9 +3,8 @@ import {
   View,
   StyleSheet,
   ProgressBarAndroid,
-  ActivityIndicatorIOS,
   Platform,
-  ActivityIndicator,
+  ActivityIndicator
 } from 'react-native';
 
 // Display the correct activity indicator depending on the users platform
@@ -18,7 +17,8 @@ class Spinner extends Component {
   render() {
     var spinner = Platform.OS === 'android' ?
                   <ProgressBarAndroid color={this.props.color} /> :
-                  <ActivityIndicatorIOS color={this.props.color}/>;
+                  <ActivityIndicator color={this.props.color}/>
+                ;
     spinner = this.props.visible ? spinner : null;
 
     return (
