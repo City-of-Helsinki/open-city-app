@@ -1,8 +1,3 @@
 <resources>
-
-
-
-
-
-    <string name="app_name">Helsinki</string>
+    <string name="app_name">OpenCity</string>
 </resources>
