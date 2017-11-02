@@ -12,8 +12,7 @@ import {
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import AuthActions from '../redux/auth/actions';
-
+import AuthActions          from '../../redux/auth/actions';
 import MapView              from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
