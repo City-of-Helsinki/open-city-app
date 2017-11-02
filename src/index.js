@@ -5,7 +5,14 @@ import {
   Platform,
   BackHandler
 } from 'react-native';
+import 'core-js';
 
+import { Provider } from 'react-redux';
+import { OidcProvider } from 'redux-oidc';
+import store from './redux/store';
+import userManager from './util/userManager';
+
+import ConnectedAuthView        from './views/AuthView';
 import Global                   from './util/globals';
 import { Navigator }            from './navigation';
 
@@ -17,9 +24,16 @@ class OpenCity extends Component<{}> {
 
   render() {
     return (
-      <Navigator />
+      <Provider store={store} >
+        <OidcProvider store={store} userManager={userManager}>
+          <ConnectedAuthView enabled={true}>
+            <Navigator />
+          </ConnectedAuthView>
+        </OidcProvider>
+      </Provider>
     );
   }
+
 }
 
 BackHandler.addEventListener('hardwareBackPress', function() {
