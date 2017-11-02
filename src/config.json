@@ -11,6 +11,7 @@
   "OPEN311_SERVICE_REQUEST_BASE_URL": "https://asiointi.hel.fi/palautews/rest/v1/requests/",
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
   "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
+  "PROFILE_URL": "https://profile.dev.hel.ninja/own-profile",
 
   // OTHER URLs
   "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
@@ -21,6 +22,12 @@
 
   // API Key for sending new service requests
   "OPEN311_SEND_SERVICE_API_KEY": "", // Enter API Key here
+
+  // OPENID Settings
+  "OPENID_AUTHORITY": "https://profile.dev.hel.ninja/openid",
+  "OPENID_SCOPE": "openid profile https://api.hel.fi/auth/profile",
+  "OPENID_CLIENT_ID": "3df25acb-325e-46bd-bc55-a34c62c12a0d",
+  "OPENID_REDIRECT": "opencityapp://auth/callback",
 
   // App feedback view
   "APP_FEEDBACK_SERVICE_CODE": 2802,

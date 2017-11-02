@@ -9,6 +9,11 @@ import {
   AppState
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import AuthActions from '../redux/auth/actions';
+
 import MapView              from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
@@ -370,4 +375,20 @@ class MainView extends Component {
   }
 }
 
-export default MainView;
+
+function mapStateToProps(state) {
+  return {
+    showWebView: state.auth.showWebView,
+    url: state.auth.url
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    authActions: bindActionCreators(AuthActions, dispatch)
+  }
+}
+
+const ConnectedMainView = connect(mapStateToProps, mapDispatchToProps)(MainView);
+
+export default ConnectedMainView;
