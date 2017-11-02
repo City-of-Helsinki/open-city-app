@@ -52,6 +52,7 @@ class AuthView extends Component {
         />
         <WebView
           source={{ uri: this.props.url }}
+          startInLoadingState={true}
           onLoadStart={ loadStart }
         />
       </View>

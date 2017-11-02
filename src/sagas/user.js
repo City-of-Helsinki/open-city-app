@@ -12,7 +12,6 @@ import { default as AuthActions, AuthTypes } from '../redux/auth/actions';
 import { USER_FOUND } from 'redux-oidc';
 
 const fetchUserData = function* (args) {
-  console.log("fetching data", args)
   try {
     const url = Config.PROFILE_URL;
     const headers = new Headers({
@@ -20,15 +19,32 @@ const fetchUserData = function* (args) {
     });
 
     const response = yield call(makeRequest, url, 'GET', headers);
-    console.log("Got response", response)
   } catch(err) {
     console.log("Unable to fetch user details", err.message)
   }
 
 }
 
+const sendUserData = function* (args) {
+  try {
+    const url = Config.PROFILE_URL;
+    const headers = new Headers({
+      "Authorization": `Bearer ${args.token}`
+    });
+
+    const body = args.userData
+    const response = yield call(makeRequest, url, 'PUT', headers, body)
+  } catch(err) {
+    console.log("Unable to save user details", err.message)
+  }
+}
+
 const watchLoadUser = function* () {
   yield takeLatest(USER_FOUND, fetchUserData)
+}
+
+const watchUpdateUser = function* () {
+  yield takeLatest(AuthActions.UPDATE_USER, sendUserData)
 }
 
 export {

@@ -7,20 +7,51 @@ import {
 } from 'react-native';
 import 'core-js';
 
+import { default as FCM, FCMEvent, RemoteNotificationResult, WillPresentNotificationResult, NotificationType } from 'react-native-fcm';
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';
 import store from './redux/store';
 import userManager from './util/userManager';
+import './util/notificationHandler';
+import { default as AuthActions } from './redux/auth/actions';
 
 import ConnectedAuthView        from './views/AuthView';
 import Global                   from './util/globals';
 import { Navigator }            from './navigation';
 
-class OpenCity extends Component<{}> {
+
+class OpenCity extends Component {
 
   constructor(props, context) {
     super(props);
   }
+
+  componentDidMount() {
+      FCM.requestPermissions().then(()=>console.log('granted')).catch(()=>console.log('notification permission rejected'));
+      FCM.getFCMToken().then(token => {
+          console.log("got notification token", token)
+          store.dispatch(AuthActions.updateUser({
+            "firebase_token": token,
+            "language": "fi",
+            "contact_method": "firebase"
+          }))
+      });
+
+      this.notificationListener = FCM.on(FCMEvent.Notification, async (notif) => {
+          // optional, do some component related stuff
+      });
+
+      // initial notification contains the notification that launches the app. Fired even when app is opened via the regular app icon
+      FCM.getInitialNotification().then(notif=>{
+         console.log("initial notif", notif)
+      });
+  }
+
+  componentWillUnmount() {
+      // stop listening for events
+      this.notificationListener.remove();
+  }
+
 
   render() {
     return (
