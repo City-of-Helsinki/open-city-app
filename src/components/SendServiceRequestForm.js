@@ -59,6 +59,7 @@ class SendServiceRequestForm extends Component {
             multiline={true}
             defaultValue={this.props.defaultDescription}
             onChange={(event)=>this.props.onDescriptionChange(event)}
+            onContentSizeChange={(event)=>this.props.onContentSizeChange(event)}
             placeholder={transSendServiceRequest.inputDescriptionPlaceholder}
             autoCapitalize={'sentences'} />
         </View>

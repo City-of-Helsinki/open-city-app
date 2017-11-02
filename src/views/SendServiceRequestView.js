@@ -390,12 +390,17 @@ class SendServiceRequestView extends Component {
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
   }
 
+  onContentSizeChange = (event) => {
+    this.setState({
+      // Change the height of description view based on the length of the text
+      descriptionHeight: event.nativeEvent.contentSize.height
+    })
+  }
+
   onDescriptionChange = (event) => {
     if (event.nativeEvent.text.length < Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
       this.setState({
-        descriptionText: event.nativeEvent.text,
-        // Change the height of description view based on the length of the text
-        descriptionHeight: event.nativeEvent.contentSize.height
+        descriptionText: event.nativeEvent.text
       });
     }
 
@@ -507,6 +512,7 @@ class SendServiceRequestView extends Component {
                 onTitleChange={this.onTitleChange}
                 descriptionHeight={this.state.descriptionHeight}
                 onDescriptionChange={this.onDescriptionChange}
+                onContentSizeChange={this.onContentSizeChange}
                 onPickerItemChange={this.onPickerItemChange}
                 checkboxImage={checkboxImage}
                 defaultTitle={this.state.titleText}
