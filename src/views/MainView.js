@@ -11,6 +11,11 @@ import {
   AppState
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import AuthActions from '../redux/auth/actions';
+
 import Navbar               from './../components/Navbar';
 import Menu                 from './../components/Menu';
 import FloatingActionButton from './../components/FloatingActionButton';
@@ -341,7 +346,7 @@ class MainView extends Component {
             {this.state.serviceRequests.map(serviceRequest => (
               // This is required for all icons to be rendered properly
               // react-native-maps has issues with rendering icons on Android
-              <Image source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
+              <Image key={serviceRequest.id} source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
             ))}
             <MapView
               ref={ref=> this.mapView = ref}
@@ -398,4 +403,19 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = MainView
+function mapStateToProps(state) {
+  return {
+    showWebView: state.auth.showWebView,
+    url: state.auth.url
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    authActions: bindActionCreators(AuthActions, dispatch)
+  }
+}
+
+const ConnectedMainView = connect(mapStateToProps, mapDispatchToProps)(MainView);
+
+export default ConnectedMainView;

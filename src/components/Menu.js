@@ -10,9 +10,13 @@ import {
   Dimensions
 } from 'react-native';
 
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import AuthActions from '../redux/auth/actions';
+
 import Global from './../util/globals';
 import Config from './../config.json';
-
+import userManager from './../util/userManager';
 // Images
 import feedbackIcon     from '../img/feedback.png';
 import listIcon         from '../img/list.png';
@@ -27,6 +31,10 @@ class Menu extends Component {
     super(props);
 
     transMenu.setLanguage('fi');
+  }
+
+  login = () => {
+    userManager.signinPopup()
   }
 
   render() {
@@ -44,6 +52,11 @@ class Menu extends Component {
             <TouchableWithoutFeedback onPress={this.props.mapView}>
               <View style={[styles.buttonView, styles.buttonDividerGray]}>
                 <Text style={styles.menuText}>{transMenu.menuTitleFeedback}</Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback onPress={this.login}>
+              <View style={[styles.buttonView, styles.buttonDividerGray]}>
+                <Text style={styles.menuText}>Login</Text>
               </View>
             </TouchableWithoutFeedback>
             <View style={styles.versionTextView}>
@@ -188,5 +201,20 @@ const styles = StyleSheet.create({
   },
 });
 
+function mapStateToProps(state) {
+  return {
+    showWebView: state.auth.showWebView,
+    url: state.auth.url,
+    oidc: state.OIDC
+  };
+}
 
-module.exports = Menu
+function mapDispatchToProps(dispatch) {
+  return {
+    authActions: bindActionCreators(AuthActions, dispatch)
+  }
+}
+
+const ConnectedMenu = connect(mapStateToProps, mapDispatchToProps)(Menu);
+
+export default ConnectedMenu;

@@ -5,11 +5,18 @@ import {
   Platform,
   BackAndroid
 } from 'react-native';
+import 'core-js';
 
 import {
   Navigator
 } from 'react-native-deprecated-custom-components';
 
+import { Provider } from 'react-redux';
+import { OidcProvider } from 'redux-oidc';
+import store from './redux/store';
+import userManager from './util/userManager';
+
+import ConnectedAuthView        from './views/AuthView';
 import SplashScreen             from './views/SplashScreen';
 import MainView                 from './views/MainView';
 import SendServiceRequestView   from './views/SendServiceRequestView';
@@ -28,9 +35,15 @@ class OpenCity extends Component<{}> {
 
   render() {
     return (
-      <Navigator
-        initialRoute={{id: 'SplashScreen'}}
-        renderScene={this.navigatorRenderScene} />
+      <Provider store={store} >
+        <OidcProvider store={store} userManager={userManager}>
+          <ConnectedAuthView enabled={true}>
+            <Navigator
+              initialRoute={{id: 'SplashScreen'}}
+              renderScene={this.navigatorRenderScene} />
+          </ConnectedAuthView>
+        </OidcProvider>
+      </Provider>
     );
   }
 
@@ -53,6 +66,8 @@ class OpenCity extends Component<{}> {
         return(<AppFeedbackView navigator={navigator} route={route} title='AppFeedbackView' />);
       case 'ImageView':
         return(<ImageView navigator={navigator} route={route} title='ImageView' />);
+      default:
+        return(<MainView navigator={navigator} route={route} title='MainView' />);
     }
   }
 }
