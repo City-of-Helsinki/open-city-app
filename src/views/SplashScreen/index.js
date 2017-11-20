@@ -1,24 +1,23 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
-  Dimensions,
   ProgressBarAndroid,
   ActivityIndicatorIOS,
   AsyncStorage
 } from 'react-native';
 
-import splashImage from './../img/splash_image_2.png';
-import showAlert   from '../components/Alert';
-import Spinner     from '../components/Spinner';
-import makeRequest from '../util/requests';
-import Util        from '../util/util';
-import Models      from '../util/models';
-import Global      from '../util/globals';
-import Config      from '../config';
-import transError  from '../translations/errors';
+import splashImage from '../../img/splash_image_2.png';
+import showAlert   from '../../components/Alert';
+import Spinner     from '../../components/Spinner';
+import makeRequest from '../../util/requests';
+import Util        from '../../util/util';
+import Models      from '../../util/models';
+import Global      from '../../util/globals';
+import Config      from '../../config';
+import transError  from '../../translations/errors';
+import styles      from './styles';
 
 // SplashScreen shown while data is being loaded
 class SplashScreen extends Component {
@@ -94,30 +93,5 @@ class SplashScreen extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center'
-  },
-  splashImage: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    height: Dimensions.get('window').height,
-    width: Dimensions.get('window').width,
-  },
-  spinnerContainer: {
-    position: 'absolute',
-    bottom: 24,
-    left: Dimensions.get('window').width / 2 - 25,
-    height: 50,
-    width: 50,
-    alignItems: 'center',
-    justifyContent: 'center',
-  }
-});
 
 module.exports = SplashScreen

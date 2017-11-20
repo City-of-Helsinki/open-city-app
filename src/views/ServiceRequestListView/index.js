@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
   Platform,
@@ -10,21 +9,22 @@ import {
 } from 'react-native';
 
 import Drawer                from 'react-native-drawer'
-import FloatingActionButton  from './../components/FloatingActionButton';
-import Navbar                from './../components/Navbar';
-import Menu                  from './../components/Menu';
-import ServiceRequestListRow from './../components/ServiceRequestListRow';
-import showAlert             from './../components/Alert';
-import Spinner               from './../components/Spinner';
-import makeRequest           from './../util/requests';
-import Util                  from './../util/util';
-import Global                from './../util/globals';
-import Config                from './../config';
-import plusIcon              from '../img/plus.png'
-import markerIcon            from '../img/marker_pin.png'
-import menuIcon              from '../img/menu.png'
-import transList             from '../translations/list';
-import transError            from '../translations/errors';
+import FloatingActionButton  from '../../components/FloatingActionButton';
+import Navbar                from '../../components/Navbar';
+import Menu                  from '../../components/Menu';
+import ServiceRequestListRow from '../../components/ServiceRequestListRow';
+import showAlert             from '../../components/Alert';
+import Spinner               from '../../components/Spinner';
+import makeRequest           from '../../util/requests';
+import Util                  from '../../util/util';
+import Global                from '../../util/globals';
+import Config                from '../../config';
+import plusIcon              from '../../img/plus.png'
+import markerIcon            from '../../img/marker_pin.png'
+import menuIcon              from '../../img/menu.png'
+import transList             from '../../translations/list';
+import transError            from '../../translations/errors';
+import styles                from './styles';
 
 class ServiceRequestListView extends Component {
 
@@ -182,21 +182,5 @@ class ServiceRequestListView extends Component {
     );
   }
 }
-
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Global.COLOR.LIGHT_GREY
-  },
-  contentContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: Global.COLOR.LIGHT_GREY
-  },
-  serviceRequestContainer: {
-    padding: 16,
-  }
-});
 
 module.exports = ServiceRequestListView

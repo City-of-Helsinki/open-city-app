@@ -1,44 +1,42 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
   Platform,
   LayoutAnimation,
   BackAndroid,
-  Dimensions,
   AppState
 } from 'react-native';
 
-import Navbar               from './../components/Navbar';
-import Menu                 from './../components/Menu';
-import FloatingActionButton from './../components/FloatingActionButton';
-import showAlert            from './../components/Alert';
-import EmptyMarkerCallout   from './../components/EmptyMarkerCallout';
-import MarkerPopup          from './../components/MarkerPopup';
-import Config               from './../config.json';
-import makeRequest          from './../util/requests';
-import Util                 from './../util/util';
-import Global               from './../util/globals';
-import Models               from './../util/models';
 import MapView              from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
 import Realm                from 'realm';
-import transMap             from '../translations/map';
-import transError           from '../translations/errors';
-import plusIcon             from '../img/plus.png';
-import menuIcon             from '../img/menu.png';
-import listIcon             from '../img/list.png';
+import Navbar               from '../../components/Navbar';
+import Menu                 from '../../components/Menu';
+import FloatingActionButton from '../../components/FloatingActionButton';
+import showAlert            from '../../components/Alert';
+import EmptyMarkerCallout   from '../../components/EmptyMarkerCallout';
+import MarkerPopup          from '../../components/MarkerPopup';
+import Config               from '../../config.json';
+import makeRequest          from '../../util/requests';
+import Util                 from '../../util/util';
+import Global               from '../../util/globals';
+import Models               from '../../util/models';
+import transMap             from '../../translations/map';
+import transError           from '../../translations/errors';
+import plusIcon             from '../../img/plus.png';
+import menuIcon             from '../../img/menu.png';
+import listIcon             from '../../img/list.png';
+import styles               from './styles';
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE           = 60.1680574;
 const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
-const MARKER_IMAGE_SIZE          = 32;
 
 class MainView extends Component {
 
@@ -341,7 +339,7 @@ class MainView extends Component {
             {this.state.serviceRequests.map(serviceRequest => (
               // This is required for all icons to be rendered properly
               // react-native-maps has issues with rendering icons on Android
-              <Image source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
+              <Image key={serviceRequest.id} source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
             ))}
             <MapView
               ref={ref=> this.mapView = ref}
@@ -378,24 +376,4 @@ class MainView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-    backgroundColor: Global.COLOR.LIGHT_GREY,
-  },
-  mapContainer: {
-    flex: 1,
-    flexDirection: 'column',
-    alignItems: 'stretch',
-  },
-  map: {
-    flex: 1,
-  },
-  markerImage: {
-    height: MARKER_IMAGE_SIZE,
-    width: MARKER_IMAGE_SIZE,
-  }
-});
-
-module.exports = MainView
+export default MainView;

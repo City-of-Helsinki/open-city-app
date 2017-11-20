@@ -2,11 +2,9 @@ import React, { Component } from 'react';
 import rebound from 'rebound';
 import {
   View,
-  StyleSheet,
   Image,
   Text,
   TextInput,
-  Dimensions,
   Platform,
   TouchableWithoutFeedback,
   ScrollView,
@@ -21,21 +19,22 @@ import Spinner              from 'react-native-loading-spinner-overlay';
 import ImagePicker          from 'react-native-image-picker';
 import ImageResizer         from 'react-native-image-resizer';
 import Toast                from 'react-native-simple-toast';
-import makeRequest          from '../util/requests';
-import serviceRequestModels from '../util/models';
-import Global               from '../util/globals';
-import showAlert            from '../components/Alert';
-import Thumbnail            from '../components/Thumbnail';
-import Menu                 from '../components/Menu';
-import Navbar               from '../components/Navbar';
-import Config               from '../config';
-import backIcon             from '../img/back.png';
-import sendEnabledIcon      from '../img/send_enabled.png';
-import sendDisabledIcon     from '../img/send_disabled.png';
-import closeIcon            from '../img/close.png';
-import attachmentIcon       from '../img/close.png';
-import transAppFeedback     from '../translations/appFeedback';
-import transError           from '../translations/errors';
+import makeRequest          from '../../util/requests';
+import serviceRequestModels from '../../util/models';
+import Global               from '../../util/globals';
+import showAlert            from '../../components/Alert';
+import Thumbnail            from '../../components/Thumbnail';
+import Menu                 from '../../components/Menu';
+import Navbar               from '../../components/Navbar';
+import Config               from '../../config';
+import backIcon             from '../../img/back.png';
+import sendEnabledIcon      from '../../img/send_enabled.png';
+import sendDisabledIcon     from '../../img/send_disabled.png';
+import closeIcon            from '../../img/close.png';
+import attachmentIcon       from '../../img/close.png';
+import transAppFeedback     from '../../translations/appFeedback';
+import transError           from '../../translations/errors';
+import styles               from './styles';
 
 // View for sending feedback about the application itself
 class AppFeedbackView extends Component {
@@ -283,81 +282,6 @@ class AppFeedbackView extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: Global.COLOR.LIGHT_GREY
-  },
-  innerContainer: {
-    flexDirection: 'column',
-    flex: 1,
-  },
-  scrollView: {
-    flex: 1,
-  },
-  contentContainer: {
-    padding: 16,
-    flex: 1,
-  },
-  helpText: {
-    color: Global.COLOR.STEEL_GREY,
-    fontSize: 12,
-    fontWeight: 'bold'
-  },
-  titleView: {
-    alignSelf: 'center',
-    width: Dimensions.get('window').width - 32
-  },
-  titleText: {
-    backgroundColor: Global.COLOR.WARM_GREY_10,
-    height: 40,
-    padding: 8,
-  },
-  descriptionView: {
-    flex: 1,
-    marginTop: 8,
-  },
-  descriptionText: {
-    height: 400,
-    alignSelf: 'stretch',
-    backgroundColor: Global.COLOR.WARM_GREY_10,
-    textAlignVertical: 'top',
-    padding: 8,
-  },
-  attachmentContainer: {
-    flexDirection: 'row',
-    padding: 16,
-    borderTopColor: Global.COLOR.GREY,
-  },
-  attachmentButton: {
-    flex: 1,
-    height: 46,
-    backgroundColor: Global.COLOR.BLUE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // Shadow
-    ...Platform.select({
-      ios: {
-        shadowColor: Global.COLOR.BLACK,
-        shadowOffset: {width: 1, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 2,
-      }
-    }),
-  },
-  attachmentButtonText: {
-    color: Global.COLOR.WHITE,
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  thubmnailView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
+
 
 module.exports = AppFeedbackView
