@@ -2,18 +2,15 @@ import React, { Component } from 'react';
 import {
   View,
   Text,
-  StyleSheet,
-  Dimensions,
   Image,
   Animated,
   TouchableWithoutFeedback,
-  Platform,
 } from 'react-native';
 
 import MapView                 from 'react-native-maps';
-import Thumbnail               from '../components/Thumbnail';
-import Global                  from '../util/globals';
-import transSendServiceRequest from '../translations/sendServiceRequest';
+import Thumbnail               from '../../components/Thumbnail';
+import transSendServiceRequest from '../../translations/sendServiceRequest';
+import styles                  from './styles';
 
 class SendServiceRequestAttachment extends Component {
 
@@ -47,40 +44,3 @@ class SendServiceRequestAttachment extends Component {
 }
 
 module.exports = SendServiceRequestAttachment
-
-const styles = StyleSheet.create({
-  attachmentContainer: {
-    flexDirection: 'row',
-    padding: 16,
-    borderTopColor: Global.COLOR.GREY,
-  },
-  attachmentButton: {
-    flex: 1,
-    height: 46,
-    backgroundColor: Global.COLOR.BLUE,
-    alignItems: 'center',
-    justifyContent: 'center',
-    // Shadow
-    ...Platform.select({
-      ios: {
-        shadowColor: Global.COLOR.BLACK,
-        shadowOffset: {width: 1, height: 2},
-        shadowOpacity: 0.5,
-        shadowRadius: 4,
-      },
-      android: {
-        elevation: 2,
-      }
-    }),
-  },
-  attachmentButtonText: {
-    color: Global.COLOR.WHITE,
-    fontSize: 16,
-    fontWeight: 'bold'
-  },
-  thubmnailView: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});

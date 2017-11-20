@@ -6,7 +6,8 @@ import {
   StyleSheet,
 } from 'react-native';
 
-import removeIcon from './../img/remove.png';
+import removeIcon from '../../img/remove.png';
+import styles     from './styles';
 
 // Return a thumbnail image with a close button place on the top right corner
 class Thumbnail extends Component {
@@ -41,20 +42,5 @@ class Thumbnail extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'flex-end',
-  },
-  removeImage: {
-    position: 'absolute',
-    top: 0,
-    right: 0,
-    height: 24,
-    width: 24,
-  }
-});
 
 module.exports = Thumbnail

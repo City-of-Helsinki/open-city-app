@@ -3,13 +3,13 @@ import {
   View,
   Text,
   Image,
-  StyleSheet,
   Platform,
   Picker,
 } from 'react-native';
 
 import ModalSelector  from 'react-native-modal-selector';
-import transGeneral from '../translations/general';
+import transGeneral   from '../../translations/general';
+import styles         from './styles';
 
 // Returns a native picker for Android or native popup with selection for iOS
 class NativePicker extends Component {
@@ -49,15 +49,5 @@ class NativePicker extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  modalPicker: {
-    borderWidth: 0,
-    alignItems: 'flex-start'
-  },
-});
 
 module.exports = NativePicker

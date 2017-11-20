@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import {
   View,
-  StyleSheet,
   ProgressBarAndroid,
   Platform,
   ActivityIndicator
 } from 'react-native';
+import styles from './styles';
 
 // Display the correct activity indicator depending on the users platform
 class Spinner extends Component {
@@ -28,13 +28,5 @@ class Spinner extends Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  spinner: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-});
 
 module.exports = Spinner
