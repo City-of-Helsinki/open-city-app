@@ -13,7 +13,7 @@
     "hex-rgba": "^1.0.0",
     "lodash": "^4.2.1",
     "react": "^15.1.0",
-    "react-native": "^0.27.2",
+    "react-native": "^0.30.0",
     "react-native-drawer": "^2.3.0",
     "react-native-image-picker": "^0.20.0",
     "react-native-image-resizer": "0.0.8",
