@@ -37,24 +37,23 @@ class ServiceRequestDetailView extends Component {
     super(props, context);
 
     this.state = {
-      isLoading: typeof this.props.route.serviceRequestID !== 'undefined', // Spinner wont be set if data is passed as a prop
+      isLoading: this.props.navigation.state.params.serviceRequestID ? true : false, // Spinner wont be set if data is passed as a prop
       data: '',
     };
 
     transError.setLanguage('fi');
 
     Global.isMainView = false;
-    Global.navigatorRef = this.props.navigator;
   }
 
   // When navigating from map the details need to be fetched from the API, when navigating from
   // ServiceRequestListView data is passed as a prop
   componentDidMount() {
-    if (typeof this.props.route.serviceRequestID !== 'undefined') {
-      this.fetchServiceRequestDetails(this.props.route.serviceRequestID);
+    if (this.props.navigation.state.params.serviceRequestID) {
+      this.fetchServiceRequestDetails(this.props.navigation.state.params.serviceRequestID);
     } else {
       this.setState({
-        data: this.props.route.data
+        data: this.props.navigation.state.params.data
       });
     }
   }
@@ -102,7 +101,9 @@ class ServiceRequestDetailView extends Component {
         var image = this.state.data.media_urls[i];
         images.push(
           <TouchableWithoutFeedback
-            onPress={()=>this.props.navigator.push({id: 'ImageView', imageUrl: image})}>
+            onPress={()=>this.props.navigation.navigate('ImageView', {
+              imageUrl: image})
+            }>
             <Image
               source={{uri: this.state.data.media_urls[i]}}
               style={styles.image} />
@@ -141,7 +142,7 @@ class ServiceRequestDetailView extends Component {
       <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigator.pop()}
+          onLeftButtonClick={()=>this.props.navigation.goBack()}
           header={viewTitle} />
         <View style={styles.contentContainer}>
           {this.state.isLoading &&

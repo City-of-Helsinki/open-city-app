@@ -56,8 +56,8 @@ class SendServiceRequestView extends Component {
     super(props, context);
 
     // Set initial variables depending on whether the user has visited this view before or not
-    var initialRegion    = Global.sendServiceRequestData.region !== null ? Global.sendServiceRequestData.region : this.props.route.mapRegion;
-    var initialMarker    = Global.sendServiceRequestData.markerPosition !== null ? Global.sendServiceRequestData.markerPosition : this.props.route.markerPosition;
+    var initialRegion    = Global.sendServiceRequestData.region !== null ? Global.sendServiceRequestData.region : this.props.navigation.state.params.mapRegion;
+    var initialMarker    = Global.sendServiceRequestData.markerPosition !== null ? Global.sendServiceRequestData.markerPosition : this.props.navigation.state.params.markerPosition;
     var initialImageData = Global.sendServiceRequestData.imageData !== null ? Global.sendServiceRequestData.imageData : null;
 
     this.state = {
@@ -86,7 +86,6 @@ class SendServiceRequestView extends Component {
     transError.setLanguage('fi');
 
     Global.isMainView = false;
-    Global.navigatorRef = this.props.navigator;
 
     this.mapSpringVal = new Animated.Value(1);
     this.contentSpringVal = new Animated.Value(1);
@@ -235,7 +234,7 @@ class SendServiceRequestView extends Component {
       });
 
       Toast.show(transSendServiceRequest.feedbackSent);
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     }, error => {
       this.setState({ spinnerVisible: false });
       showAlert(transError.networkErrorTitle, transError.networkErrorMessage, transError.networkErrorButton);
@@ -243,9 +242,7 @@ class SendServiceRequestView extends Component {
   }
 
   navToServiceRequestListView() {
-    this.props.navigator.push({
-      id: 'ServiceRequestListView',
-    });
+    this.props.navigation.navigate('ServiceRequestListView')
   }
 
   clearForm() {
@@ -346,8 +343,8 @@ class SendServiceRequestView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
+      latitudeDelta: this.props.navigation.state.params.mapRegion.latitudeDelta/ZOOM,
+      longitudeDelta: this.props.navigation.state.params.mapRegion.longitudeDelta/ZOOM
     }
   }
 
@@ -356,8 +353,8 @@ class SendServiceRequestView extends Component {
     var markerRegion = {
       latitude: location.latitude,
       longitude: location.longitude,
-      latitudeDelta: this.props.route.mapRegion.latitudeDelta/ZOOM,
-      longitudeDelta: this.props.route.mapRegion.longitudeDelta/ZOOM
+      latitudeDelta: this.props.navigation.state.params.mapRegion.latitudeDelta/ZOOM,
+      longitudeDelta: this.props.navigation.state.params.mapRegion.longitudeDelta/ZOOM
     }
 
     this.setState({markerPosition: location})
@@ -478,7 +475,7 @@ class SendServiceRequestView extends Component {
       <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigator.pop()}
+          onLeftButtonClick={()=>this.props.navigation.goBack()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
           iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}

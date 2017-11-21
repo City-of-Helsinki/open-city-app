@@ -56,7 +56,6 @@ class AppFeedbackView extends Component {
     transError.setLanguage('fi');
 
     Global.isMainView = false;
-    Global.navigatorRef = this.props.navigator;
 
     // Needed for LayoutAnimation to work on android.
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
@@ -119,7 +118,7 @@ class AppFeedbackView extends Component {
         spinnerVisible: false,
       });
       Toast.show(transAppFeedback.feedbackSentText);
-      this.props.navigator.pop();
+      this.props.navigation.goBack();
     }, error => {
       this.setState({
         image: {source: null, fileName: null},
@@ -230,7 +229,7 @@ class AppFeedbackView extends Component {
       <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigator.pop()}
+          onLeftButtonClick={()=>this.props.navigation.goBack()}
           rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
           iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
           onRightButtonClick={this.onSendButtonClick.bind(this)}

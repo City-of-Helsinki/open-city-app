@@ -8,6 +8,8 @@ import {
   AsyncStorage
 } from 'react-native';
 
+import { NavigationActions } from 'react-navigation';
+
 import splashImage from '../../img/splash_image_2.png';
 import showAlert   from '../../components/Alert';
 import Spinner     from '../../components/Spinner';
@@ -27,8 +29,6 @@ class SplashScreen extends Component {
 
     this.serviceRequests = [];
     this.userSubmittedServiceRequests = Models.fetchAllServiceRequests();
-
-    Global.navigatorRef = this.props.navigator;
 
     transError.setLanguage('fi');
   }
@@ -65,18 +65,22 @@ class SplashScreen extends Component {
   navToNextView() {
     try {
       AsyncStorage.getItem(Config.STORAGE_IS_FIRST_TIME).then((v) => {
-        this.props.navigator.resetTo({
-          id: v !== null ? 'MainView' : 'IntroductionView',
-          serviceRequests: this.serviceRequests,
-        });
+        this.props.navigation.dispatch(NavigationActions.reset({
+          index: 0,
+          actions: [
+            NavigationActions.navigate({routeName:'Tabs'})
+          ]
+        }));
       });
     } catch(error) {
 
       // If an error occures with AsyncStorage just go to the main view
-      this.props.navigator.resetTo({
-        id: 'MainView',
-        serviceRequests: this.serviceRequests,
-      });
+      this.props.navigation.dispatch(NavigationActions.reset({
+        index: 0,
+        actions: [
+          NavigationActions.navigate({routeName:'Tabs'})
+        ]
+      }));
     }
   }
 

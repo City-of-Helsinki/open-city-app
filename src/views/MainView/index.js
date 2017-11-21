@@ -43,9 +43,9 @@ class MainView extends Component {
   constructor(props, context) {
     super(props, context);
 
-    var serviceRequests = typeof this.props.route.serviceRequests !== 'undefined' ? this.props.route.serviceRequests : [];
+    var serviceRequests = (this.props.navigation.state.params && this.props.navigation.state.params.serviceRequests) ? this.props.navigation.state.params.serviceRequests : [];
     this.state = {
-      serviceRequests: serviceRequests,       // Data to be shown on the map as markers
+      serviceRequests: [],       // Data to be shown on the map as markers
       region: {             // Coordinates for the visible area of the map
         latitude: DEFAULT_LATITUDE,
         longitude: DEFAULT_LONGITUDE,
@@ -223,26 +223,21 @@ class MainView extends Component {
   }
 
   navToSendServiceRequestView() {
-
-    this.props.navigator.push({
-      id: 'SendServiceRequestView',
-      mapRegion: this.getMapRegion(), // Sets default region for the map in feedback view
+    this.props.navigation.navigate( 'SendServiceRequestView', {
+      mapRegion: this.getMapRegion()
     });
   }
 
   navToServiceRequestListView(drawer) {
     drawer.close();
-    this.props.navigator.push({
-      id: 'ServiceRequestListView',
-      mapRegion: this.getMapRegion(), // Used for the default region in feedback view
+    this.props.navigation.navigate('ServiceRequestListView', {
+      mapRegion: this.getMapRegion()
     });
   }
 
   navToAppFeedbackView(drawer) {
     drawer.close();
-    this.props.navigator.push({
-      id: 'AppFeedbackView'
-    });
+    this.props.navigation.navigate('AppFeedbackView');
   }
 
   // Open a detailed view of the selected serviceRequest
@@ -274,8 +269,7 @@ class MainView extends Component {
   }
 
   onPopupClick(id) {
-    this.props.navigator.push({
-      id: 'ServiceRequestDetailView',
+    this.props.navigation.navigate('ServiceRequestDetailView', {
       serviceRequestID: id
     });
   }

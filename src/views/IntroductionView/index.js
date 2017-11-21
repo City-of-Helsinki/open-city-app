@@ -31,7 +31,6 @@ class IntroductionView extends Component {
     };
 
     Global.isMainView = true;
-    Global.navigatorRef = this.props.navigator;
 
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
   }
@@ -40,9 +39,8 @@ class IntroductionView extends Component {
     if (this.state.checkboxSelected) {
       Util.setItemToStorage(Config.STORAGE_IS_FIRST_TIME, 'false');
     }
-    this.props.navigator.resetTo({
-      id: 'MainView',
-      serviceRequests: this.props.route.serviceRequests,
+    this.props.navigation.navigate('MainView', {
+      serviceRequests: this.props.navigation.state.params.serviceRequests
     });
   }
 
