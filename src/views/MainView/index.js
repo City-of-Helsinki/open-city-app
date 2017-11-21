@@ -374,7 +374,6 @@ class MainView extends Component {
   }
 }
 
-
 function mapStateToProps(state) {
   return {
     showWebView: state.auth.showWebView,
