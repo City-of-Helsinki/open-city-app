@@ -1,5 +1,5 @@
 import { StyleSheet, Platform } from 'react-native';
-import Global from './../util/globals';
+import Global from '../../util/globals';
 
 const styles = StyleSheet.create({
   attachmentContainer: {

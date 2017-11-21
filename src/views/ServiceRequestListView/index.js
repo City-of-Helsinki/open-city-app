@@ -42,7 +42,6 @@ class ServiceRequestListView extends Component {
     transError.setLanguage('fi');
 
     Global.isMainView = false;
-    Global.navigatorRef = this.props.navigator;
   }
 
   componentDidMount() {
@@ -80,29 +79,25 @@ class ServiceRequestListView extends Component {
   }
 
   navToMapView() {
-    this.props.navigator.pop();
+    this.props.navigation.goBack();
   }
 
   navToAppFeedbackView(drawer) {
     drawer.close();
-    this.props.navigator.push({
-      id: 'AppFeedbackView'
-    });
+    this.props.navigation.navigate('AppFeedbackView');
   }
 
   navToSendServiceRequestView() {
-    this.props.navigator.push({
-      id: 'SendServiceRequestView',
-      mapRegion: this.props.route.mapRegion, // Sets default region for the map in feedback view
+    this.props.navigation.navigate('SendServiceRequestView', {
+      mapRegion: this.props.navigation.state.params.mapRegion // Sets default region for the map in feedback view
     });
   }
 
   // When a single item is clicked, navigate to the detail view
   navToServiceRequestDetailView(item) {
-    this.props.navigator.push({
-      id: 'ServiceRequestDetailView',
+    this.props.navigation.navigate('ServiceRequestDetailView', {
       data: item
-    });
+    })
   }
 
   // Add opacity to container when drawer is opened

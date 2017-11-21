@@ -26,11 +26,11 @@ class ImageView extends Component {
       <View style={styles.container}>
         <Navbar
           leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigator.pop()}
+          onLeftButtonClick={()=>this.props.navigation.goBack()}
           header={''} />
         <View style={styles.photoViewContainer}>
             <Image
-              source={{uri: this.props.route.imageUrl}}
+              source={{uri: this.props.navigation.state.params.imageUrl}}
               style={styles.photoView} />
         </View>
       </View>
