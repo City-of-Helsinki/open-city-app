@@ -25,6 +25,7 @@
 		"react-native-maps": "0.16.4",
 		"react-native-modal-selector": "0.0.20",
 		"react-native-simple-toast": "0.0.7",
+		"react-navigation": "^1.0.0-beta.19",
 		"realm": "1.13.0",
 		"rebound": "0.0.15"
 	},
