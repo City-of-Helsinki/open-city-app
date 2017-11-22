@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   AsyncStorage,
-  Navigator,
   Platform,
   BackAndroid
 } from 'react-native';
+
+import {
+  Navigator
+} from 'react-native-deprecated-custom-components';
 
 import SplashScreen             from './views/SplashScreen';
 import MainView                 from './views/MainView';
@@ -17,7 +20,7 @@ import AppFeedbackView          from './views/AppFeedbackView';
 import ImageView                from './views/ImageView';
 import Global                   from './util/globals';
 
-class OpenCity extends Component {
+class OpenCity extends Component<{}> {
 
   constructor(props, context) {
     super(props);
