@@ -89,3 +89,15 @@ OPEN_CITY_APP_KEY_PASSWORD=**\*Keystore password\***
 ## Building iOS release
 
 _TODO_
+
+## Developing Components with [Storybook](https://storybook.js.org)
+
+1. Write stories in `storybook/stories/<component-name>/`
+
+2. Start storybook
+
+      `npm run storybook`
+
+3. Run the app `react-native run-ios` to see your stories on the device. To preserve storybook state while making changes, enable hot reload from development menu
+
+4. Optionally, navigate to [localhost:7007](localhost:7007) to see stories
