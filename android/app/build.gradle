@@ -138,7 +138,6 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-maps')
     compile project(':realm')
     compile project(':react-native-maps')
     compile project(':react-native-localization')
