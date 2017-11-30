@@ -8,6 +8,7 @@ import IntroductionView         from '../views/IntroductionView';
 import ServiceRequestDetailView from '../views/ServiceRequestDetailView';
 import AppFeedbackView          from '../views/AppFeedbackView';
 import ImageView                from '../views/ImageView';
+import HomeView                 from '../views/HomeView';
 
 const ServiceStack = StackNavigator({
   MainView: { screen: MainView },
@@ -19,20 +20,20 @@ const ServiceStack = StackNavigator({
 });
 
 export const TabStack = TabNavigator({
-  ServiceRequest: {
-    screen: ServiceStack,
-    tabBarLabel: 'Palautteet'
+  Home: {
+    screen: HomeView,
+    tabBarLabel: 'Home'
   }
 }, {
   tabBarPosition: 'bottom'
 })
 
 export const GlobalStack = StackNavigator({
+  Tabs: { screen: TabStack },
   SplashScreen: { screen: SplashScreen },
   IntroductionView: { screen: IntroductionView },
   AppFeedbackView: { screen: AppFeedbackView },
-  ImageView: { screen: ImageView },
-  Tabs: { screen: TabStack }
+  ImageView: { screen: ImageView }
 }, {
   headerMode: 'none'
 })
