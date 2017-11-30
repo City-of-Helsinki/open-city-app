@@ -1,9 +1,10 @@
-import { watchLoadUser } from './user';
+//import { watchLoadUser }          from './user';
+import { watchGetHeroContent }    from './events';
 
 const sagas = function* sagas() {
-  yield[
-    watchLoadUser()
-  ];
+  yield [
+    watchGetHeroContent()
+  ]
 }
 
 export default sagas
