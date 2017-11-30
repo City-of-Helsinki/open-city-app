@@ -23,6 +23,8 @@ export const TabStack = TabNavigator({
     screen: ServiceStack,
     tabBarLabel: 'Palautteet'
   }
+}, {
+  tabBarPosition: 'bottom'
 })
 
 export const GlobalStack = StackNavigator({

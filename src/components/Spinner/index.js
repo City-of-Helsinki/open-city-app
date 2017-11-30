@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  ProgressBarAndroid,
-  Platform,
   ActivityIndicator
 } from 'react-native';
 import styles from './styles';
@@ -15,10 +13,7 @@ class Spinner extends Component {
   }
 
   render() {
-    var spinner = Platform.OS === 'android' ?
-                  <ProgressBarAndroid color={this.props.color} /> :
-                  <ActivityIndicator color={this.props.color}/>
-                ;
+    var spinner = <ActivityIndicator color={this.props.color}/>;
     spinner = this.props.visible ? spinner : null;
 
     return (

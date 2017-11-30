@@ -95,10 +95,11 @@ def enableProguardInReleaseBuilds = false
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion '23.0.1'
 
     defaultConfig {
-        applicationId "com.opencity"
+        applicationId "fi.hel.helsinki"
+        multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 22
         versionCode 1

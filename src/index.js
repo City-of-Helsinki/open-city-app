@@ -5,7 +5,6 @@ import {
   Platform,
   BackHandler
 } from 'react-native';
-import 'core-js';
 
 import { Provider } from 'react-redux';
 import { OidcProvider } from 'redux-oidc';

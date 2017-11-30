@@ -1,8 +1,9 @@
-package com.opencity;
+package fi.hel.helsinki;
 
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.airbnb.android.react.maps.MapsPackage;
 import io.realm.react.RealmReactPackage;
 import com.airbnb.android.react.maps.MapsPackage;
 import com.babisoft.ReactNativeLocalization.ReactNativeLocalizationPackage;
@@ -28,8 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new RealmReactPackage(),
             new MapsPackage(),
+            new RealmReactPackage(),
             new ReactNativeLocalizationPackage(),
             new ImageResizerPackage(),
             new ImagePickerPackage()
@@ -49,7 +50,8 @@ public class MainApplication extends Application implements ReactApplication {
 
   @Override
   public void onCreate() {
-    super.onCreate();
-    SoLoader.init(this, /* native exopackage */ false);
-  }
+      super.onCreate();
+
+      SoLoader.init(this, /* native exopackage */ false);
+    }
 }
