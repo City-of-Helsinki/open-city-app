@@ -26,6 +26,5 @@ function configureStore() {
 }
 const store = configureStore();
 loadUser(store, userManager);
-console.log("USER MANAGER", userManager)
 
 export default store
