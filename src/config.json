@@ -12,9 +12,9 @@
   "OPEN311_SERVICE_REQUEST_PARAMETERS_URL": ".json?extensions=true",
   "OPEN311_SERVICE_REQUESTS_EXTENSIONS_POSTFIX": "&extensions=true",
   "PROFILE_URL": "https://profile.dev.hel.ninja/own-profile",
-
-  // EVENT URLs
   "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
+  "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
+  "HEARINGS_WEB_URL": "https://kerrokantasi.hel.fi/",
 
   // OTHER URLs
   "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
