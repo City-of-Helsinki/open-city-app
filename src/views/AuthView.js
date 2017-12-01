@@ -5,7 +5,7 @@ import { Linking, Button, StyleSheet, View, WebView } from 'react-native';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import store from '../redux/store';
+import { store } from '../redux/store';
 
 import AuthActions from '../redux/auth/actions';
 

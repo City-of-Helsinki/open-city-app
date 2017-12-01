@@ -36,6 +36,7 @@
     "redux": "^3.7.2",
     "redux-logger": "^3.0.6",
     "redux-oidc": "^3.0.0-beta.12",
+    "redux-persist": "^5.4.0",
     "redux-saga": "^0.16.0",
     "reduxsauce": "^0.7.0",
     "twix": "^1.2.1"
