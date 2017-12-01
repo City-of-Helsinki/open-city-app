@@ -2,10 +2,14 @@ import { configure }            from '@storybook/react-native';
 
 import FeaturedEventStories     from './FeaturedEvent';
 import LinkedEventsListStories  from './LinkedEventsList';
-import HeroStories           from './Hero';
+import HeroStories              from './Hero';
+import HearingStories           from './Hearing';
+import HearingListStories       from './HearingList'
 
 export function configureStories() {
   FeaturedEventStories,
   LinkedEventsListStories,
-  HeroStories
+  HeroStories,
+  HearingStories,
+  HearingListStories
 }
