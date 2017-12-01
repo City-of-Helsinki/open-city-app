@@ -6,10 +6,12 @@ import {
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
+import HearingActions         from '../../redux/hearings/actions';
 
 import Navbar             from '../../components/Navbar';
 import Spinner            from '../../components/Spinner';
 import Hero               from '../../components/Hero';
+import HearingList        from '../../components/HearingList';
 import backIcon           from '../../img/back.png';
 import styles             from './styles';
 
@@ -21,10 +23,11 @@ class HomeView extends Component {
 
   componentWillMount() {
     this.props.eventActions.getHero();
+    this.props.hearingActions.getHearings();
   }
 
   render() {
-    const { heroEvent } = this.props
+    const { heroEvent, hearingList } = this.props
     return (
       <View style={styles.container}>
         <Hero
@@ -32,6 +35,10 @@ class HomeView extends Component {
           date={heroEvent.date}
           place={heroEvent.place}
           headline={heroEvent.headline}
+        />
+        <HearingList
+          navigation={this.props.navigation}
+          hearingList={hearingList}
         />
       </View>
     );
@@ -41,13 +48,15 @@ class HomeView extends Component {
 function mapStateToProps(state) {
   return {
     events: state.events,
-    heroEvent: state.events.heroEvent
+    heroEvent: state.events.heroEvent,
+    hearingList: state.hearings.hearingList
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    eventActions: bindActionCreators(EventActions, dispatch)
+    eventActions: bindActionCreators(EventActions, dispatch),
+    hearingActions: bindActionCreators(HearingActions, dispatch)
   }
 }
 
