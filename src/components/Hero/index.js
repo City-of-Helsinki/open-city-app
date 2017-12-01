@@ -1,6 +1,8 @@
-import React, { Component } from 'react';
-import { Image, View, Text } from 'react-native';
-import styles from './styles';
+import React, { Component }   from 'react';
+import { Image, View, Text }  from 'react-native';
+import FastImage              from 'react-native-fast-image';
+
+import styles                 from './styles';
 
 class Hero extends Component {
   constructor(props) {
@@ -10,11 +12,12 @@ class Hero extends Component {
   render() {
     const {imageUrl, date, place, headline} = this.props
     let pic = {
-      uri: imageUrl
+      uri: imageUrl,
+      priority: FastImage.priority.high
     };
     return (
       <View style={styles.heroWrapper}>
-        <Image source={pic} style={styles.heroImage} resizeMode="cover"/>
+        <FastImage source={pic} style={styles.heroImage} resizeMode="cover"/>
         <View style={styles.heroOverlay}>
           <Text style={styles.heroDate}>{date}</Text>
           <Text style={styles.heroPlace}>{place}</Text>
