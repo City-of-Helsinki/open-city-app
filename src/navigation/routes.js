@@ -9,6 +9,7 @@ import ServiceRequestDetailView from '../views/ServiceRequestDetailView';
 import AppFeedbackView          from '../views/AppFeedbackView';
 import ImageView                from '../views/ImageView';
 import HomeView                 from '../views/HomeView';
+import HearingDetailView        from '../views/HearingDetailView';
 
 const ServiceStack = StackNavigator({
   MainView: { screen: MainView },
@@ -19,9 +20,14 @@ const ServiceStack = StackNavigator({
   headerMode: 'none' //hide built in navbar
 });
 
+const HomeStack = StackNavigator({
+  HomeView: { screen: HomeView},
+  HearingDetailView: { screen: HearingDetailView}
+})
+
 export const TabStack = TabNavigator({
   Home: {
-    screen: HomeView,
+    screen: HomeStack,
     tabBarLabel: 'Home'
   }
 }, {
