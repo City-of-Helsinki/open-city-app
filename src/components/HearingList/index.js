@@ -19,7 +19,7 @@ class HearingList extends Component {
 
   renderItem = ({item}) => {
     return (
-      <View style={styles.listItemMargin}>
+      <View style={styles.listItemMargin} collapsable={false}>
         <Hearing
           imageUrl={item.imageUrl}
           headline={item.headline}
