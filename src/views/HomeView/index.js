@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   View,
+  ScrollView
 } from 'react-native';
 
 import { connect }            from 'react-redux';
@@ -29,7 +30,7 @@ class HomeView extends Component {
   render() {
     const { heroEvent, hearingList } = this.props
     return (
-      <View style={styles.container}>
+      <ScrollView Style={styles.container}>
         <Hero
           imageUrl={heroEvent.imageUrl}
           date={heroEvent.date}
@@ -40,7 +41,7 @@ class HomeView extends Component {
           navigation={this.props.navigation}
           hearingList={hearingList}
         />
-      </View>
+      </ScrollView>
     );
   }
 }

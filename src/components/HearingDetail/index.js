@@ -13,6 +13,7 @@ class HearingDetail extends Component {
         source={{uri: url}}
         startInLoadingState={true}
         injectedJavaScript={JStoInject}
+        javaScriptEnabled={true}
       />
     );
   }
