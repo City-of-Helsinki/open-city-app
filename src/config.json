@@ -15,6 +15,7 @@
   "FEATURED_EVENT_API_BASE_URL": "https://www.myhelsinki.fi/api/path/%2Ffi%2Fnae-ja-koe%2Ftapahtumat",
   "HEARINGS_API_BASE_URL": "https://api.hel.fi/kerrokantasi/v1/hearing/",
   "HEARINGS_WEB_URL": "https://kerrokantasi.hel.fi/",
+  "LINKED_EVENTS_API_BASE_URL": "https://api.hel.fi/linkedevents/v1/event/",
 
   // OTHER URLs
   "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
