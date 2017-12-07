@@ -13,7 +13,6 @@ import Config                                   from '../config';
 import makeRequest                              from '../util/requests';
 import { default as EventActions, EventTypes }  from '../redux/events/actions';
 
-const FEATURED_EVENT_BASE_URL = Config.FEATURED_EVENT_API_BASE_URL
 const LOCALE = translations.getLanguage()
 
 const getEventDuration = (start, end) => {
@@ -25,24 +24,55 @@ const getEventDuration = (start, end) => {
 
 const fetchHero = function*() {
   try {
-    const heroLink = yield call(fetchHeroLink)
+    let heroLink = yield call(fetchHeroLink)
     const heroContent = yield call(makeRequest, heroLink + "?include=location", 'GET', null)
 
-    yield put(EventActions.getHeroSuccess({
-      imageUrl: heroContent.images[0].url,
-      date: getEventDuration(heroContent.start_time, heroContent.end_time),
-      place: heroContent.location.name[LOCALE],
-      headline: heroContent.name[LOCALE]
-    }))
+    yield put(EventActions.getHeroSuccess(parseEventData(heroContent)))
   } catch (err) {
-    yield put(EventActions.getHeroFailure(error.message))
+    yield put(EventActions.getHeroFailure(err.message))
   }
 }
 
-function fetchHeroLink() {
-  return makeRequest(FEATURED_EVENT_BASE_URL, 'GET', null)
+const getEvents = function*() {
+  try {
+    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location"
+    const response = yield call(makeRequest, url, 'GET', null)
+    yield put(EventActions.getListSuccess([]))
+  } catch (err) {
+    yield put(EventActions.getListFailure(error.message))
+  }
+}
+
+const getEvent = function*(args) {
+  try {
+    const event = yield call(makeRequest, args.eventUrl + "?include=location", 'GET', null)
+    yield put(EventActions.getEventSuccess(parseEventData(event)))
+  } catch(err) {
+    yield put(EventActions.getEventFailure(err.message))
+  }
+}
+
+const parseEventData = (event) => {
+  console.log("event", event)
+  return {
+    imageUrl: event.images[0].url,
+    date: getEventDuration(event.start_time, event.end_time),
+    place: event.location.name[LOCALE],
+    headline: event.name[LOCALE],
+    description: event.description[LOCALE],
+    eventUrl: event["@id"],
+    region: {
+      latitude: event.location.position.coordinates[1],
+      longitude: event.location.position.coordinates[0],
+      latitudeDelta: 0.01,
+      longitudeDelta: 0.01
+    }
+  }
+}
+const fetchHeroLink = function() {
+  return makeRequest(Config.FEATURED_EVENT_API_BASE_URL, 'GET', null)
     .then((response) => {
-      const heroLink = response.field_hero_carousel["0"].field_promotion_link[0].field__id
+      const heroLink = response.field_hero_carousel[1].field_promotion_link[0].field__id
       return heroLink
     })
 }
@@ -51,6 +81,16 @@ const watchGetHeroContent = function*() {
   yield takeLatest(EventTypes.GET_HERO, fetchHero)
 }
 
+const watchGetEvents = function*() {
+  yield takeLatest(EventTypes.GET_LIST, getEvents)
+}
+
+const watchGetEvent = function*() {
+  yield takeLatest(EventTypes.GET_EVENT, getEvent)
+}
+
 export {
-  watchGetHeroContent
+  watchGetHeroContent,
+  watchGetEvents,
+  watchGetEvent
 }

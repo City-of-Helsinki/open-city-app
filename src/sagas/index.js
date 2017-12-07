@@ -1,11 +1,13 @@
 //import { watchLoadUser }          from './user';
-import { watchGetHeroContent }    from './events';
+import { watchGetHeroContent, watchGetEvents, watchGetEvent }    from './events';
 import { watchGetHearings }       from './hearings';
 
 const sagas = function* sagas() {
   yield [
     watchGetHeroContent(),
-    watchGetHearings()
+    watchGetHearings(),
+    watchGetEvents(),
+    watchGetEvent()
   ]
 }
 
