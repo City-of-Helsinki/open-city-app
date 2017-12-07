@@ -1,24 +1,24 @@
 import { StackNavigator, TabNavigator }       from 'react-navigation';
 
 import SplashScreen             from '../views/SplashScreen';
-import MainView                 from '../views/MainView';
-import SendServiceRequestView   from '../views/SendServiceRequestView';
-import ServiceRequestListView   from '../views/ServiceRequestListView';
+// import MainView                 from '../views/MainView';
+// import SendServiceRequestView   from '../views/SendServiceRequestView';
+// import ServiceRequestListView   from '../views/ServiceRequestListView';
 import IntroductionView         from '../views/IntroductionView';
-import ServiceRequestDetailView from '../views/ServiceRequestDetailView';
+// import ServiceRequestDetailView from '../views/ServiceRequestDetailView';
 import AppFeedbackView          from '../views/AppFeedbackView';
 import ImageView                from '../views/ImageView';
 import HomeView                 from '../views/HomeView';
 import HearingDetailView        from '../views/HearingDetailView';
 
-const ServiceStack = StackNavigator({
-  MainView: { screen: MainView },
-  ServiceRequestListView: { screen: ServiceRequestListView },
-  SendServiceRequestView: { screen: SendServiceRequestView },
-  ServiceRequestDetailView: { screen: ServiceRequestDetailView }
-}, {
-  headerMode: 'none' //hide built in navbar
-});
+// const ServiceStack = StackNavigator({
+//   MainView: { screen: MainView },
+//   ServiceRequestListView: { screen: ServiceRequestListView },
+//   SendServiceRequestView: { screen: SendServiceRequestView },
+//   ServiceRequestDetailView: { screen: ServiceRequestDetailView }
+// }, {
+//   headerMode: 'none' //hide built in navbar
+// });
 
 const HomeStack = StackNavigator({
   HomeView: { screen: HomeView},
