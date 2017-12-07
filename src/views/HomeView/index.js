@@ -36,6 +36,8 @@ class HomeView extends Component {
           date={heroEvent.date}
           place={heroEvent.place}
           headline={heroEvent.headline}
+          navigation={this.props.navigation}
+          eventUrl={heroEvent.eventUrl}
         />
         <HearingList
           navigation={this.props.navigation}
