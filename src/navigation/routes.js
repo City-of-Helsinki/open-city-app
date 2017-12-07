@@ -10,6 +10,7 @@ import AppFeedbackView          from '../views/AppFeedbackView';
 import ImageView                from '../views/ImageView';
 import HomeView                 from '../views/HomeView';
 import HearingDetailView        from '../views/HearingDetailView';
+import EventDetailView          from '../views/EventDetailView';
 
 const ServiceStack = StackNavigator({
   MainView: { screen: MainView },
@@ -22,7 +23,8 @@ const ServiceStack = StackNavigator({
 
 const HomeStack = StackNavigator({
   HomeView: { screen: HomeView},
-  HearingDetailView: { screen: HearingDetailView}
+  HearingDetailView: { screen: HearingDetailView},
+  EventDetailView: { screen: EventDetailView}
 })
 
 export const TabStack = TabNavigator({

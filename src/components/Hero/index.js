@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Image, View, Text } from 'react-native';
+import { Image, View, Text, Platform, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
 import styles from './styles';
 
 class Hero extends Component {
@@ -7,12 +7,19 @@ class Hero extends Component {
     super(props);
   }
 
+  navToEvent = () => {
+    this.props.navigation.navigate('EventDetailView', {
+      eventUrl: this.props.eventUrl
+    })
+  }
+
   render() {
     const {imageUrl, date, place, headline} = this.props
     let pic = {
       uri: imageUrl
     };
-    return (
+
+    const HeroContent = (
       <View style={styles.heroWrapper}>
         <Image source={pic} style={styles.heroImage} resizeMode="cover"/>
         <View style={styles.heroOverlay}>
@@ -21,6 +28,22 @@ class Hero extends Component {
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
       </View>
+    )
+
+    return (
+      Platform.select({
+        ios: (
+          <TouchableHighlight onPress={this.navToEvent}>
+            {HeroContent}
+          </TouchableHighlight>
+        ),
+        android: (
+          <TouchableNativeFeedback onPress={this.navToEvent}>
+            {HeroContent}
+          </TouchableNativeFeedback>
+        )
+
+      })
     );
   }
 }
