@@ -154,10 +154,11 @@ class ServiceRequestListView extends Component {
             }>
             <ScrollView>
               <View style={styles.serviceRequestContainer}>
-                {this.state.serviceRequestList.map((item) => (
+                {this.state.serviceRequestList.map((item, i) => (
                   <ServiceRequestListRow
                     image={item.media_url}
                     title={item.title}
+                    key={i}
                     distance={item.distance}
                     date={item.date}
                     description={item.description}
