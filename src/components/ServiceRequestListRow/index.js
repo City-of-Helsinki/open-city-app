@@ -24,12 +24,18 @@ class ServiceRequestListRow extends Component {
 
   render() {
     // If there are no status notes display the latest state of the service request
+    var lastState = null;
+    var lastIndex = this.props.extendedData.length-1;
+    if (lastIndex > -1) {
+      lastState = this.props.extendedData[this.props.extendedData.length-1].state + ', ';
+    }
+
     var responseText = this.props.statusNotes ?
       <Text style={styles.statusText}>
         {transList.responseText}, {this.props.agency}
       </Text> :
       <Text style={styles.noStatusText}>
-        {this.props.extendedData[this.props.extendedData.length-1].state}, {this.props.agency}
+        {lastState}{this.props.agency}
       </Text>;
     var day = Util.getDate(this.props.date);
 
