@@ -24,12 +24,32 @@ module.exports = {
            hours + ':' + minutes;
   },
 
+  cleanUpData: function (sourceData, recur) {
+    var data = {};
+    var keys = Object.getOwnPropertyNames(sourceData);
+    for (var i in keys) {
+      var key = keys[i];
+      var sourceField = sourceData[key];
+      let destField;
+      if (sourceField !== null) {
+        if (typeof sourceField == 'object' && !Array.isArray(sourceField)) {
+          data[key] = module.exports.cleanUpData(sourceField, true);
+        }
+        else {
+          data[key] = sourceField;
+        }
+      }
+    }
+    return data;
+  },
+
   // Parse service requests for ServiceRequestDetailView
   parseServiceRequestDetails: function(input, userPosition) {
 
     // Fetching a single serviceRequest needs the following check because the serviceRequest is in an array
-    var data = input.constructor === Array ? input[0] : input;
+    var sourceData = constructor.input === Array ? input[0] : input;
     var extendedData = [];
+    var data = module.exports.cleanUpData(sourceData);
 
     if (data.extended_attributes.tasks.length > 0) {
       var tasks = data.extended_attributes.tasks;
@@ -125,15 +145,16 @@ module.exports = {
     var serviceRequests = [];
 
     for (var i=0; i < data.length; i++) {
+      var dataElement = module.exports.cleanUpData(data[i]);
 
-      if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
+      if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
         serviceRequests.push({coordinates:
-                      {latitude: data[i].lat,
-                      longitude: data[i].long},
-                    markerImage: module.exports.selectMarkerImage(data[i].status,
-                      data[i].service_request_id, userSubmittedServiceRequests),
-                    id: data[i].service_request_id,
-                    description: module.exports.parseDescription(data[i].description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
+                      {latitude: dataElement.lat,
+                      longitude: dataElement.long},
+                    markerImage: module.exports.selectMarkerImage(dataElement.status,
+                      dataElement.service_request_id, userSubmittedServiceRequests),
+                    id: dataElement.service_request_id,
+                    description: module.exports.parseDescription(dataElement.description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
                     agency: data[i].agency_responsible});
       }
     }
