@@ -17,7 +17,7 @@ class EventDetailView extends Component {
   }
 
   render() {
-    const { loading, imageUrl, headline, date, description, region } = this.props
+    const { loading, imageUrl, headline, date, description, region, street_address} = this.props
     let pic = {
       uri: imageUrl
     }
@@ -29,7 +29,7 @@ class EventDetailView extends Component {
         <Image source={pic} style={styles.image} resizeMode="cover" />
         <View style={styles.centeredContent}>
           <Text style={styles.headline}>{headline}</Text>
-          <Text style={styles.date}>{date}</Text>
+          <Text style={styles.date}>{date} - {street_address} </Text>
           <Text style={styles.description}>{description}</Text>
         </View>
         <MapView
@@ -58,7 +58,8 @@ function mapStateToProps(state) {
     headline: state.events.event.headline,
     date: state.events.event.date,
     description: state.events.event.description,
-    region: state.events.event.region
+    region: state.events.event.region,
+    street_address: state.events.event.street_address
   };
 }
 

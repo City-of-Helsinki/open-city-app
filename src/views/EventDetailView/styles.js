@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     alignItems: 'center'
   },
   headline: {
+    textAlign: 'center',
     fontSize: 24,
     fontWeight: 'bold',
     paddingVertical: 10

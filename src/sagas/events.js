@@ -61,6 +61,7 @@ const parseEventData = (event) => {
     headline: event.name[LOCALE],
     description: event.description[LOCALE],
     eventUrl: event["@id"],
+    address: event.location.street_address[LOCALE],
     region: {
       latitude: event.location.position.coordinates[1],
       longitude: event.location.position.coordinates[0],
