@@ -1,8 +1,10 @@
 import { StyleSheet } from 'react-native';
+import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
+import { BRAND_LIGHT_ONE } from './../../styles/common';
 
 const styles = StyleSheet.create({
   heroWrapper: {
-    backgroundColor: '#cccccc',
+    backgroundColor: BRAND_LIGHT_ONE,
     alignContent: 'flex-start',
     flexDirection: 'column',
   },
@@ -11,20 +13,12 @@ const styles = StyleSheet.create({
     height: 250,
   },
   heroOverlay: {
-    backgroundColor: '#ffc61e',
+    backgroundColor: BRAND_LIGHT_ONE,
     padding: 20,
   },
-  heroHeadline: {
-    fontSize: 28,
-    fontWeight: 'bold',
-  },
-  heroPlace: {
-    fontSize: 18,
-    fontWeight: 'bold',
-  },
-  heroDate: {
-    fontSize: 18,
-  }
+  heroHeadline: TEXT_LARGE_HEADLINE,
+  heroPlace: TEXT_SMALL_HEADLINE,
+  heroDate: FONT_NORMAL
 });
 
 export default styles

@@ -49,7 +49,7 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -64,5 +64,16 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>HelsinkiGrotesk-Black.otf</string>
+		<string>HelsinkiGrotesk-BlackItalic.otf</string>
+		<string>HelsinkiGrotesk-Bold.otf</string>
+		<string>HelsinkiGrotesk-BoldItalic.otf</string>
+		<string>HelsinkiGrotesk-Medium.otf</string>
+		<string>HelsinkiGrotesk-MediumItalic.otf</string>
+		<string>HelsinkiGrotesk-Regular.otf</string>
+		<string>HelsinkiGrotesk-RegularItalic.otf</string>
+	</array>
 </dict>
 </plist>
