@@ -70,7 +70,7 @@ export const TEXT_SMALL_HEADLINE =
       Object.assign(
         getFontName({ weight: 'Bold' }),
         {
-          fontSize:24,
+          fontSize:20,
         }
       );
 export const TEXT_LARGE_HEADLINE =
