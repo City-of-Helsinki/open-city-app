@@ -27,6 +27,7 @@ class Hero extends Component {
           <Text style={styles.heroPlace}>{place}</Text>
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
+        <Image source={require('./../../img/main-hero-decoration.png')}  resizeMode={'cover'} style={styles.heroDecoration}/>
       </View>
     )
 
