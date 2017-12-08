@@ -50,6 +50,14 @@
 		F795411600164C5D92013EFE /* HelsinkiGrotesk-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = EFCFCA77523B4AA28CC3C145 /* HelsinkiGrotesk-MediumItalic.otf */; };
 		39A5BA97B0A94FC896ED4AB6 /* HelsinkiGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 6CB6228814E940B6AB4865BF /* HelsinkiGrotesk-Regular.otf */; };
 		DA782760B1284CEA8B0F5B55 /* HelsinkiGrotesk-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = B7A5660B4379488BB2D55E4E /* HelsinkiGrotesk-RegularItalic.otf */; };
+		90991E6672C84021917C913B /* HelsinkiGrotesk-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = D1E19F10ACD04F6B9B103623 /* HelsinkiGrotesk-Black.otf */; };
+		59F18011F6894E698612632D /* HelsinkiGrotesk-BlackItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 93C31E8706ED4668A5B78E10 /* HelsinkiGrotesk-BlackItalic.otf */; };
+		84D99BA806D3487CA47AF925 /* HelsinkiGrotesk-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CB2AEDFA96A24657B3685E4F /* HelsinkiGrotesk-Bold.otf */; };
+		A9541E8421DC4D5399295995 /* HelsinkiGrotesk-BoldItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = F112AED939504175B2AAE87A /* HelsinkiGrotesk-BoldItalic.otf */; };
+		8849AF97F5304235970F7455 /* HelsinkiGrotesk-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = FF12DBE814854243B07E420E /* HelsinkiGrotesk-Medium.otf */; };
+		A8DFE66FD55940B9B8968EF8 /* HelsinkiGrotesk-MediumItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = 49BD3EBB89564577986AB121 /* HelsinkiGrotesk-MediumItalic.otf */; };
+		D72D16AD3BF74218B9C2DA53 /* HelsinkiGrotesk-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = FFC0CBB90BE7461984283CD8 /* HelsinkiGrotesk-Regular.otf */; };
+		8192226BFA2C4DC3839EA908 /* HelsinkiGrotesk-RegularItalic.otf in Resources */ = {isa = PBXBuildFile; fileRef = E73FF4D196EE43D3B265BF37 /* HelsinkiGrotesk-RegularItalic.otf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -382,14 +390,22 @@
 		EDCF889297BB47BBA60018BF /* libLRDRCTSimpleToast.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libLRDRCTSimpleToast.a; sourceTree = "<group>"; };
 		F1986B1633244260AC4BA3EE /* libAirMaps.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libAirMaps.a; sourceTree = "<group>"; };
 		FC20A8097F524C548A6D43FB /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
-		B78761BFFA6E468E9EB81F08 /* HelsinkiGrotesk-Black.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Black.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		657FE1A6F9784103B43DAEFB /* HelsinkiGrotesk-BlackItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BlackItalic.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		74724EBF028243059FFCD2C4 /* HelsinkiGrotesk-Bold.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Bold.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		5A08459D7AF4449F922D43BB /* HelsinkiGrotesk-BoldItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BoldItalic.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		3D33911D1BDC428C8C9A3023 /* HelsinkiGrotesk-Medium.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Medium.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		EFCFCA77523B4AA28CC3C145 /* HelsinkiGrotesk-MediumItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-MediumItalic.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		6CB6228814E940B6AB4865BF /* HelsinkiGrotesk-Regular.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Regular.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
-		B7A5660B4379488BB2D55E4E /* HelsinkiGrotesk-RegularItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-RegularItalic.otf"; path = "../helsinki/fonts/HelsinkiGrotesk-RegularItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B78761BFFA6E468E9EB81F08 /* HelsinkiGrotesk-Black.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Black.otf"; path = "../assets/fonts/HelsinkiGrotesk-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		657FE1A6F9784103B43DAEFB /* HelsinkiGrotesk-BlackItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BlackItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		74724EBF028243059FFCD2C4 /* HelsinkiGrotesk-Bold.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Bold.otf"; path = "../assets/fonts/HelsinkiGrotesk-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		5A08459D7AF4449F922D43BB /* HelsinkiGrotesk-BoldItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BoldItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		3D33911D1BDC428C8C9A3023 /* HelsinkiGrotesk-Medium.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Medium.otf"; path = "../assets/fonts/HelsinkiGrotesk-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		EFCFCA77523B4AA28CC3C145 /* HelsinkiGrotesk-MediumItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-MediumItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		6CB6228814E940B6AB4865BF /* HelsinkiGrotesk-Regular.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Regular.otf"; path = "../assets/fonts/HelsinkiGrotesk-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		B7A5660B4379488BB2D55E4E /* HelsinkiGrotesk-RegularItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-RegularItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-RegularItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		D1E19F10ACD04F6B9B103623 /* HelsinkiGrotesk-Black.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Black.otf"; path = "../assets/fonts/HelsinkiGrotesk-Black.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		93C31E8706ED4668A5B78E10 /* HelsinkiGrotesk-BlackItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BlackItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-BlackItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		CB2AEDFA96A24657B3685E4F /* HelsinkiGrotesk-Bold.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Bold.otf"; path = "../assets/fonts/HelsinkiGrotesk-Bold.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		F112AED939504175B2AAE87A /* HelsinkiGrotesk-BoldItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-BoldItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-BoldItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FF12DBE814854243B07E420E /* HelsinkiGrotesk-Medium.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Medium.otf"; path = "../assets/fonts/HelsinkiGrotesk-Medium.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		49BD3EBB89564577986AB121 /* HelsinkiGrotesk-MediumItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-MediumItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-MediumItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		FFC0CBB90BE7461984283CD8 /* HelsinkiGrotesk-Regular.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-Regular.otf"; path = "../assets/fonts/HelsinkiGrotesk-Regular.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
+		E73FF4D196EE43D3B265BF37 /* HelsinkiGrotesk-RegularItalic.otf */ = {isa = PBXFileReference; name = "HelsinkiGrotesk-RegularItalic.otf"; path = "../assets/fonts/HelsinkiGrotesk-RegularItalic.otf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -735,6 +751,14 @@
 				EFCFCA77523B4AA28CC3C145 /* HelsinkiGrotesk-MediumItalic.otf */,
 				6CB6228814E940B6AB4865BF /* HelsinkiGrotesk-Regular.otf */,
 				B7A5660B4379488BB2D55E4E /* HelsinkiGrotesk-RegularItalic.otf */,
+				D1E19F10ACD04F6B9B103623 /* HelsinkiGrotesk-Black.otf */,
+				93C31E8706ED4668A5B78E10 /* HelsinkiGrotesk-BlackItalic.otf */,
+				CB2AEDFA96A24657B3685E4F /* HelsinkiGrotesk-Bold.otf */,
+				F112AED939504175B2AAE87A /* HelsinkiGrotesk-BoldItalic.otf */,
+				FF12DBE814854243B07E420E /* HelsinkiGrotesk-Medium.otf */,
+				49BD3EBB89564577986AB121 /* HelsinkiGrotesk-MediumItalic.otf */,
+				FFC0CBB90BE7461984283CD8 /* HelsinkiGrotesk-Regular.otf */,
+				E73FF4D196EE43D3B265BF37 /* HelsinkiGrotesk-RegularItalic.otf */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -1237,6 +1261,14 @@
 				F795411600164C5D92013EFE /* HelsinkiGrotesk-MediumItalic.otf in Resources */,
 				39A5BA97B0A94FC896ED4AB6 /* HelsinkiGrotesk-Regular.otf in Resources */,
 				DA782760B1284CEA8B0F5B55 /* HelsinkiGrotesk-RegularItalic.otf in Resources */,
+				90991E6672C84021917C913B /* HelsinkiGrotesk-Black.otf in Resources */,
+				59F18011F6894E698612632D /* HelsinkiGrotesk-BlackItalic.otf in Resources */,
+				84D99BA806D3487CA47AF925 /* HelsinkiGrotesk-Bold.otf in Resources */,
+				A9541E8421DC4D5399295995 /* HelsinkiGrotesk-BoldItalic.otf in Resources */,
+				8849AF97F5304235970F7455 /* HelsinkiGrotesk-Medium.otf in Resources */,
+				A8DFE66FD55940B9B8968EF8 /* HelsinkiGrotesk-MediumItalic.otf in Resources */,
+				D72D16AD3BF74218B9C2DA53 /* HelsinkiGrotesk-Regular.otf in Resources */,
+				8192226BFA2C4DC3839EA908 /* HelsinkiGrotesk-RegularItalic.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
