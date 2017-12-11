@@ -1,11 +1,11 @@
 import { TabNavigator, StackNavigator, addNavigationHelpers } from 'react-navigation'
 
-import {TabStack, GlobalStack } from './routes';
+import {TabStack, GlobalStack, ServiceStack } from './routes';
 
 
 export const Navigator = StackNavigator({
   Home: {
-    screen: GlobalStack
+    screen: ServiceStack
   }
 }, {
   headerMode: 'none'
