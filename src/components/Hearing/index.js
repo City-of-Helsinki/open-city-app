@@ -15,11 +15,10 @@ class Hearing extends Component {
 
     const HearingContent = (
       <View>
-        <ImageBackground source={pic} style={styles.hearingImage} resizeMode="cover">
-          <View style={styles.hearingOverlay}>
-            <Text style={styles.hearingHeadline}>{headline}</Text>
-          </View>
-        </ImageBackground>
+        <ImageBackground source={pic} style={styles.hearingImage} resizeMode="cover" />
+        <View style={styles.hearingOverlay}>
+          <Text style={styles.hearingHeadline}>{headline}</Text>
+        </View>
       </View>
     )
 

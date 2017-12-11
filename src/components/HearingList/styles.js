@@ -1,21 +1,25 @@
 import { StyleSheet } from 'react-native';
+import { TEXT_MEDIUM_HEADLINE } from './../../styles/text';
+import { BRAND_LIGHT_TWO } from './../../styles/common';
 
 const styles = StyleSheet.create({
   hearingWrapper: {
     flex: 1,
-    marginTop: 5
+    backgroundColor: BRAND_LIGHT_TWO,
+    paddingTop: 50,
+    paddingBottom: 50
+  },
+  list: {
+    alignItems: 'stretch'
   },
   listItemMargin: {
-    marginHorizontal: 5
+    marginHorizontal: 10
   },
   headline: {
     paddingVertical: 15,
     alignItems: 'center'
   },
-  headlineText: {
-    fontSize: 28,
-    fontWeight: 'bold'
-  }
+  headlineText: TEXT_MEDIUM_HEADLINE
 });
 
 export default styles

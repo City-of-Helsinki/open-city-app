@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
-import { BRAND_LIGHT_ONE, WHITE } from './../../styles/common';
+import { BRAND_LIGHT_ONE, BRAND_LIGHT_TWO, WHITE } from './../../styles/common';
 
 const styles = StyleSheet.create({
   heroWrapper: {
@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   heroDecoration: {
     width: '100%',
     height: 30,
-    backgroundColor: WHITE,
+    backgroundColor: BRAND_LIGHT_TWO,
   },
   heroOverlay: {
     backgroundColor: BRAND_LIGHT_ONE,
