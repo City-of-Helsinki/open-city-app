@@ -77,6 +77,8 @@ export const TEXT_LARGE_HEADLINE =
       Object.assign(
         getFontName({ weight: 'Bold' }),
         {
-          fontSize:42,
+          fontSize:40,
+          lineHeight: 30,
+          paddingTop: 10
         }
       );
