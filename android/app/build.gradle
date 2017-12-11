@@ -108,6 +108,14 @@ android {
             abiFilters "armeabi-v7a", "x86"
         }
     }
+    signingConfigs {
+        release {
+            storeFile file(OPEN_CITY_APP_STORE_FILE)
+            storePassword OPEN_CITY_APP_STORE_PASSWORD
+            keyAlias OPEN_CITY_APP_KEY_ALIAS
+            keyPassword OPEN_CITY_APP_KEY_PASSWORD
+        }
+    }
     splits {
         abi {
             reset()
@@ -120,6 +128,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
