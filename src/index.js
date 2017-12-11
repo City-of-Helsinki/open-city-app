@@ -24,11 +24,7 @@ class OpenCity extends Component<{}> {
   render() {
     return (
       <Provider store={store} >
-        <OidcProvider store={store} userManager={userManager}>
-          <ConnectedAuthView enabled={true}>
             <Navigator />
-          </ConnectedAuthView>
-        </OidcProvider>
       </Provider>
     );
   }
