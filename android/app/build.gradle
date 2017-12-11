@@ -109,13 +109,12 @@ android {
         }
     }
     signingConfigs {
-      release {
-            storeFile file('../keystores/release-key.keystore')
-            storePassword 'helsinki'
-            keyAlias 'release'
-            keyPassword 'helsinki'
-
-      }
+        release {
+            storeFile file(OPEN_CITY_APP_STORE_FILE)
+            storePassword OPEN_CITY_APP_STORE_PASSWORD
+            keyAlias OPEN_CITY_APP_KEY_ALIAS
+            keyPassword OPEN_CITY_APP_KEY_PASSWORD
+        }
     }
     splits {
         abi {
