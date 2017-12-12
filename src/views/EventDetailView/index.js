@@ -58,8 +58,12 @@ function mapStateToProps(state) {
     headline: state.events.event.headline,
     date: state.events.event.date,
     description: state.events.event.description,
+<<<<<<< HEAD
     region: state.events.event.region,
     street_address: state.events.event.street_address
+=======
+    region: state.events.event.region
+>>>>>>> 47d4d04f277e023d9afcc84657e0d3e24197e432
   };
 }
 

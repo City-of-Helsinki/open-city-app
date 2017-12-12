@@ -27,6 +27,12 @@ const HomeStack = StackNavigator({
   EventDetailView: { screen: EventDetailView}
 })
 
+const HomeStack = StackNavigator({
+  HomeView: { screen: HomeView},
+  HearingDetailView: { screen: HearingDetailView},
+  EventDetailView: { screen: EventDetailView}
+})
+
 export const TabStack = TabNavigator({
   Home: {
     screen: HomeStack,
