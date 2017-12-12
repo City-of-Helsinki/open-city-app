@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
 import {
   View,
-  ScrollView
+  ScrollView,
+  Image
 } from 'react-native';
 
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import HearingActions         from '../../redux/hearings/actions';
-
+ 
 import Navbar             from '../../components/Navbar';
 import Spinner            from '../../components/Spinner';
 import Hero               from '../../components/Hero';
@@ -26,6 +27,16 @@ class HomeView extends Component {
     this.props.eventActions.getHero();
     this.props.hearingActions.getHearings();
   }
+
+  static navigationOptions = {
+    tabBarLabel: 'Home',
+    tabBarIcon: ({ tintColor }) => (
+      <Image
+        source={require('./../../img/icon-home.png')}
+        style={[styles.icon, {tintColor: tintColor}]}
+      />
+    ),
+  };
 
   render() {
     const { heroEvent, hearingList } = this.props
