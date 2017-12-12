@@ -295,11 +295,11 @@ class SendServiceRequestView extends Component {
         }
 
         // Compress Image size
-        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT, Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
-            var resizedSource = {uri: resizedImageUri, isStatic: true}
+        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT, Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizeImageData) => {
+            var resizedSource = {uri: resizeImageData.uri, isStatic: true}
 
-            response.path = resizedImageUri
-            response.uri = resizedImageUri;
+            response.path = resizeImageData.uri
+            response.uri = resizeImageData.uri;
             this.setState({
               image: {source: resizedSource, name: response.fileName},
               imageData: response
