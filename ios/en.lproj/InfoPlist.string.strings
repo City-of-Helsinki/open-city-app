@@ -1,0 +1,10 @@
+/*
+  InfoPlist.string.strings
+  OpenCity
+
+  Created by Sampo Laurila on 12/12/2017.
+  Copyright © 2017 Facebook. All rights reserved.
+*/
+
+"NSPhotoLibraryUsageDescription" = "You can attach photos from your camera roll to the service request";
+"NSCameraUsageDescription" = "You can take a new picture and attach it to your service request";
