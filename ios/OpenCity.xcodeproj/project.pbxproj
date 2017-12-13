@@ -22,7 +22,8 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		2ADDD86F1FE1795700F252AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AB7C0401F8FC1280093C933 /* Images.xcassets */; };
 		2ADDD8841FE17CEB00F252AB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */; };
-		2ADDD8AD1FE197D600F252AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8AF1FE197D600F252AB /* Info.plist */; };
+		2ADDD8B31FE19CE800F252AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */; };
+		2ADDD8B91FE19E7700F252AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8B81FE19E7700F252AB /* Info.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -379,8 +380,10 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		2AB7C0401F8FC1280093C933 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OpenCity/Images.xcassets; sourceTree = "<group>"; };
 		2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "/Users/sampo.laurila/Projects/helsinki/open-city-app/ios/OpenCity/Launch Screen.storyboard"; sourceTree = "<absolute>"; };
-		2ADDD8AE1FE197D600F252AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Base; path = Base.lproj/Info.plist; sourceTree = "<group>"; };
-		2ADDD8B01FE197FC00F252AB /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = fi; path = fi.lproj/Info.plist; sourceTree = "<group>"; };
+		2ADDD8B41FE19CE800F252AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B61FE19D0C00F252AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B71FE19D0D00F252AB /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B81FE19E7700F252AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OpenCity/Info.plist; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* OpenCity-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OpenCity-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* OpenCity-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OpenCity-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52039CCD0F524CA1BBEB1B53 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
@@ -566,13 +569,14 @@
 		13B07FAE1A68108700A75B9A /* OpenCity */ = {
 			isa = PBXGroup;
 			children = (
+				2ADDD8B81FE19E7700F252AB /* Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				2AB7C0401F8FC1280093C933 /* Images.xcassets */,
-				2ADDD8AF1FE197D600F252AB /* Info.plist */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */,
+				2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */,
 			);
 			name = OpenCity;
 			sourceTree = "<group>";
@@ -1305,7 +1309,7 @@
 				D72D16AD3BF74218B9C2DA53 /* HelsinkiGrotesk-Regular.otf in Resources */,
 				8192226BFA2C4DC3839EA908 /* HelsinkiGrotesk-RegularItalic.otf in Resources */,
 				2ADDD86F1FE1795700F252AB /* Images.xcassets in Resources */,
-				2ADDD8AD1FE197D600F252AB /* Info.plist in Resources */,
+				2ADDD8B31FE19CE800F252AB /* InfoPlist.strings in Resources */,
 				2ADDD8841FE17CEB00F252AB /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1408,13 +1412,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		2ADDD8AF1FE197D600F252AB /* Info.plist */ = {
+		2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				2ADDD8AE1FE197D600F252AB /* Base */,
-				2ADDD8B01FE197FC00F252AB /* fi */,
+				2ADDD8B41FE19CE800F252AB /* Base */,
+				2ADDD8B61FE19D0C00F252AB /* en */,
+				2ADDD8B71FE19D0D00F252AB /* fi */,
 			);
-			name = Info.plist;
+			name = InfoPlist.strings;
 			path = OpenCity;
 			sourceTree = "<group>";
 		};
