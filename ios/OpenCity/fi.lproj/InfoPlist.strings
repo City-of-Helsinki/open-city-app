@@ -1,0 +1,12 @@
+/*
+  InfoPlist.strings
+  OpenCity
+
+  Created by Sampo Laurila on 13/12/2017.
+  Copyright © 2017 Facebook. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "Voit liittää palautteeseesi kuvia puhelimen kameralla";
+"NSLocationWhenInUseUsageDescription" = "Paikkatietoja käytetään karttanäkymän ja palautepyyntöjen paikantamiseen";
+"NSPhotoLibraryUsageDescription" = "Voit liittää palautteeseesi kuvia puhelimen muistista";
+"NSMotionUsageDescription" = "Puhelimen liikesensorin avulla paikkatiedot voidaan kytkeä pois päältä akun säästämiseksi";

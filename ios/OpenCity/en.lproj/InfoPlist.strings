@@ -1,0 +1,12 @@
+/*
+  InfoPlist.strings
+  OpenCity
+
+  Created by Sampo Laurila on 13/12/2017.
+  Copyright © 2017 Facebook. All rights reserved.
+*/
+
+"NSCameraUsageDescription" = "You can attach photos to your service requests using the camera";
+"NSLocationWhenInUseUsageDescription" = "This app uses user location to orient the main map view and locate service requests";
+"NSPhotoLibraryUsageDescription" = "You can attach photos to your service requests from the photo library";
+"NSMotionUsageDescription" = "Accelerometer is used to increase battery efficiency by intelligently toggling location-services";
