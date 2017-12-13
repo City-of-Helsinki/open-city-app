@@ -16,6 +16,7 @@ export const ServiceStack = StackNavigator({
   MainView: { screen: MainView },
   ServiceRequestListView: { screen: ServiceRequestListView },
   SendServiceRequestView: { screen: SendServiceRequestView },
+  AppFeedbackView: { screen: AppFeedbackView },
   ServiceRequestDetailView: { screen: ServiceRequestDetailView }
 }, {
   headerMode: 'none' //hide built in navbar
@@ -43,7 +44,6 @@ export const GlobalStack = StackNavigator({
   Tabs: { screen: TabStack },
   SplashScreen: { screen: SplashScreen },
   IntroductionView: { screen: IntroductionView },
-  AppFeedbackView: { screen: AppFeedbackView },
   ImageView: { screen: ImageView }
 }, {
   headerMode: 'none'
