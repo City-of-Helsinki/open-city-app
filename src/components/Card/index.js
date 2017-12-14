@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { ImageBackground, TouchableHighlight, TouchableNativeFeedback, View, Text, FlatList, Platform } from 'react-native';
 import styles from './styles';
 
-class Hearing extends Component {
+class Card extends Component {
   constructor(props) {
     super(props);
   }
@@ -13,11 +13,11 @@ class Hearing extends Component {
       uri: imageUrl
     };
 
-    const HearingContent = (
+    const CardContent = (
       <View>
-        <ImageBackground source={pic} style={styles.hearingImage} resizeMode="cover" />
-        <View style={styles.hearingOverlay}>
-          <Text style={styles.hearingHeadline}>{headline}</Text>
+        <ImageBackground source={pic} style={styles.cardImage} resizeMode="cover" />
+        <View style={styles.cardOverlay}>
+          <Text style={styles.cardHeadline}>{headline}</Text>
         </View>
       </View>
     )
@@ -27,13 +27,13 @@ class Hearing extends Component {
     return (
       Platform.select({
         ios: (
-          <TouchableHighlight onPress={onPressItem} style={styles.hearingWrapper}>
-            {HearingContent}
+          <TouchableHighlight onPress={onPressItem} style={styles.cardWrapper}>
+            {CardContent}
           </TouchableHighlight>
         ),
         android: (
-          <TouchableNativeFeedback onPress={onPressItem} style={styles.hearingWrapper}>
-            {HearingContent}
+          <TouchableNativeFeedback onPress={onPressItem} style={styles.cardWrapper}>
+            {CardContent}
           </TouchableNativeFeedback>
         )
       })
@@ -42,4 +42,4 @@ class Hearing extends Component {
   }
 }
 
-export default Hearing
+export default Card
