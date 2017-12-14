@@ -1,26 +1,23 @@
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  hearingWrapper: {
-    flex: 1
+  cardWrapper: {
+    width: 240,
+    backgroundColor: '#FFF',
   },
-  hearingImage: {
+  cardImage: {
     width: undefined,
     minHeight: 100,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
-  hearingOverlay: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFF',
+  cardOverlay: {
+    minHeight: 100,
+    width: '100%',
     padding: 10,
     marginBottom: 10
   },
-  hearingHeadline: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  }
+  cardHeadline: TEXT_SMALL_HEADLINE
 });
 
 export default styles

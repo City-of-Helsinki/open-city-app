@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
-import { ImageBackground, View, Text, FlatList } from 'react-native';
-import Hearing from '../Hearing';
-import transHearings from '../../translations/hearings';
-import Config from '../../config';
-import styles from './styles';
+import {
+  ImageBackground,
+  View,
+  Text,
+  FlatList
+}                           from 'react-native';
+import Card                 from '../Card';
+import CardList             from '../CardList';
+import transHearings        from '../../translations/hearings';
+import Config               from '../../config';
+import styles               from './styles';
 
 class HearingList extends Component {
   constructor(props) {
@@ -13,20 +19,8 @@ class HearingList extends Component {
   onPressItem = (item) => {
     this.props.navigation.navigate('HearingDetailView', {
       url: Config.HEARINGS_WEB_URL + item.urlSlug,
-      JStoInject: 'Array.from(document.getElementsByTagName("nav")).map(function(elem){element.style.display="none"});'
+      JStoInject: 'document.querySelector(".navbar-primary").style.display="none";'
     })
-  }
-
-  renderItem = ({item}) => {
-    return (
-      <View style={styles.listItemMargin} collapsable={false}>
-        <Hearing
-          imageUrl={item.imageUrl}
-          headline={item.headline}
-          onPressItem={() => this.onPressItem(item)}
-        />
-      </View>
-    )
   }
 
   render() {
@@ -39,10 +33,9 @@ class HearingList extends Component {
             {transHearings.title}
           </Text>
         </View>
-        <FlatList
-          data={hearingList}
-          renderItem={this.renderItem}
-          horizontal={true}
+        <CardList
+          listData={hearingList}
+          onPress={this.onPressItem}
         />
       </View>
     );

@@ -3,10 +3,9 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   hearingWrapper: {
     flex: 1,
-    marginTop: 5
-  },
-  listItemMargin: {
-    marginHorizontal: 5
+    backgroundColor: BRAND_LIGHT_TWO,
+    paddingTop: 50,
+    paddingBottom: 50
   },
   headline: {
     paddingVertical: 15,
