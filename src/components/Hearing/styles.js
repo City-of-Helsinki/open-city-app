@@ -1,26 +1,23 @@
 import { StyleSheet } from 'react-native';
+import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
 
 const styles = StyleSheet.create({
   hearingWrapper: {
-    flex: 1
+    width: 240,
+    backgroundColor: '#FFF',
   },
   hearingImage: {
     width: undefined,
-    minHeight: 100,
+    minHeight: 240,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
   hearingOverlay: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#FFF',
+    minHeight: 100,
+    width: '100%',
     padding: 10,
-    marginBottom: 10
   },
-  hearingHeadline: {
-    fontSize: 16,
-    fontWeight: 'bold',
-  }
+  hearingHeadline: TEXT_SMALL_HEADLINE
 });
 
 export default styles

@@ -30,11 +30,14 @@ const HomeStack = StackNavigator({
 export const TabStack = TabNavigator({
   Home: {
     screen: HomeStack,
-    tabBarLabel: 'Home'
   }
 }, {
-  tabBarPosition: 'bottom'
-})
+  tabBarPosition: 'bottom',
+  tabBarOptions: {
+    activeTintColor: '#000000',
+    inactiveTintColor: '#454545'
+  }
+});
 
 export const GlobalStack = StackNavigator({
   Tabs: { screen: TabStack },
