@@ -12,10 +12,11 @@ import HomeView                 from '../views/HomeView';
 import HearingDetailView        from '../views/HearingDetailView';
 import EventDetailView          from '../views/EventDetailView';
 
-// const ServiceStack = StackNavigator({
+// export const ServiceStack = StackNavigator({
 //   MainView: { screen: MainView },
 //   ServiceRequestListView: { screen: ServiceRequestListView },
 //   SendServiceRequestView: { screen: SendServiceRequestView },
+//   AppFeedbackView: { screen: AppFeedbackView },
 //   ServiceRequestDetailView: { screen: ServiceRequestDetailView }
 // }, {
 //   headerMode: 'none' //hide built in navbar

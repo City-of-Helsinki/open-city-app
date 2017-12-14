@@ -8,6 +8,17 @@ import MapView from 'react-native-maps';
 import styles from './styles';
 
 class EventDetailView extends Component {
+
+  static navigationOptions = {
+    headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+    )
+  };
+
   constructor(props) {
     super(props)
   }

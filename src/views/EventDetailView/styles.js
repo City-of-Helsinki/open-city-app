@@ -24,6 +24,9 @@ const styles = StyleSheet.create({
   map: {
     height: 250,
     width: Dimensions.get("window").width
+  },
+  headerLogo: {
+    height: 26
   }
 })
 
