@@ -9,12 +9,13 @@ import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import HearingActions         from '../../redux/hearings/actions';
- 
+
 import Navbar             from '../../components/Navbar';
 import Spinner            from '../../components/Spinner';
 import Hero               from '../../components/Hero';
 import HearingList        from '../../components/HearingList';
 import backIcon           from '../../img/back.png';
+import transHome          from '../../translations/homeView';
 import styles             from './styles';
 
 class HomeView extends Component {
@@ -29,7 +30,14 @@ class HomeView extends Component {
   }
 
   static navigationOptions = {
-    tabBarLabel: 'Home',
+    headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+    ),
+    tabBarLabel: transHome.tabBarLabel,
     tabBarIcon: ({ tintColor }) => (
       <Image
         source={require('./../../img/icon-home.png')}

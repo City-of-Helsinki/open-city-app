@@ -7,6 +7,9 @@ const styles = StyleSheet.create({
   icon: {
     width: 26,
     height: 26,
+  },
+  headerLogo: {
+    height: 26
   }
 })
 
