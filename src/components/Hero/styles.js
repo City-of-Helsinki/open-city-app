@@ -25,7 +25,16 @@ const styles = StyleSheet.create({
   },
   heroHeadline: TEXT_LARGE_HEADLINE,
   heroPlace: TEXT_SMALL_HEADLINE,
-  heroDate: TEXT_SMALL_HEADLINE
+  heroDate: TEXT_SMALL_HEADLINE,
+  loadingOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    alignItems: 'center',
+    justifyContent: 'center'
+  }
 });
 
 export default styles

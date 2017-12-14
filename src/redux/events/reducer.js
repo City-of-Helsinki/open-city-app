@@ -1,18 +1,22 @@
 import { createReducer } from 'reduxsauce';
 import { EventTypes } from './actions';
 
-const INITIAL_STATE = { heroEvent: {}, eventList: [], event: {}, loading: false, error: null }
+const INITIAL_STATE = { heroEvent: {}, eventList: [], event: {}, loading: false, heroLoading: false, error: null }
 
 const setLoading = (state = INITIAL_STATE) => {
   return { ...state, loading: true }
 }
 
+const setHeroLoading = (state = INITIAL_STATE) => {
+  return { ...state, heroLoading: true }
+}
+
 const getHeroSuccess = (state = INITIAL_STATE, action) => {
-  return { ...state, heroEvent: action.heroData, loading: false }
+  return { ...state, heroEvent: action.heroData, heroLoading: false }
 }
 
 const getHeroFailure = (state = INITIAL_STATE, action) => {
-  return { ...state, error: action.error, loading: false }
+  return { ...state, error: action.error, heroLoading: false }
 }
 
 const getListSuccess = (state = INITIAL_STATE, action) => {
@@ -32,7 +36,7 @@ const getEventFailure = (state = INITIAL_STATE, action) => {
 }
 
 const HANDLERS = {
-  [EventTypes.GET_HERO]: setLoading,
+  [EventTypes.GET_HERO]: setHeroLoading,
   [EventTypes.GET_HERO_SUCCESS]: getHeroSuccess,
   [EventTypes.GET_HERO_FAILURE]: getHeroFailure,
   [EventTypes.GET_LIST]: setLoading,

@@ -28,7 +28,7 @@ class HomeView extends Component {
   }
 
   render() {
-    const { heroEvent, hearingList } = this.props
+    const { heroEvent, hearingList, heroLoading } = this.props
     return (
       <ScrollView Style={styles.container}>
         <Hero
@@ -36,8 +36,9 @@ class HomeView extends Component {
           date={heroEvent.date}
           place={heroEvent.place}
           headline={heroEvent.headline}
-          navigation={this.props.navigation}
           eventUrl={heroEvent.eventUrl}
+          loading={heroLoading}
+          navigation={this.props.navigation}
         />
         <HearingList
           navigation={this.props.navigation}
@@ -52,6 +53,7 @@ function mapStateToProps(state) {
   return {
     events: state.events,
     heroEvent: state.events.heroEvent,
+    heroLoading: state.events.heroLoading,
     hearingList: state.hearings.hearingList
   };
 }

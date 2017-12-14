@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, View, ScrollView, Text, Image } from 'react-native';
+import HTML                   from 'react-native-render-html';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
@@ -12,12 +13,11 @@ class EventDetailView extends Component {
   }
 
   componentWillMount() {
-    console.log("nav params", this.props.navigation)
     this.props.eventActions.getEvent(this.props.navigation.state.params.eventUrl)
   }
 
   render() {
-    const { loading, imageUrl, headline, date, description, region, street_address} = this.props
+    const { loading, imageUrl, headline, date, description, region, place} = this.props
     let pic = {
       uri: imageUrl
     }
@@ -26,11 +26,13 @@ class EventDetailView extends Component {
       <ActivityIndicator size="large" />
     ): (
       <ScrollView>
-        <Image source={pic} style={styles.image} resizeMode="cover" />
+        { imageUrl &&
+          <Image source={pic} style={styles.image} resizeMode="cover" />
+        }
         <View style={styles.centeredContent}>
           <Text style={styles.headline}>{headline}</Text>
-          <Text style={styles.date}>{date} - {street_address} </Text>
-          <Text style={styles.description}>{description}</Text>
+          <Text style={styles.date}>{date} - {place} </Text>
+          <HTML containerStyle={styles.description} html={description} />
         </View>
         <MapView
           style={styles.map}
@@ -58,12 +60,8 @@ function mapStateToProps(state) {
     headline: state.events.event.headline,
     date: state.events.event.date,
     description: state.events.event.description,
-<<<<<<< HEAD
     region: state.events.event.region,
-    street_address: state.events.event.street_address
-=======
-    region: state.events.event.region
->>>>>>> 47d4d04f277e023d9afcc84657e0d3e24197e432
+    place: state.events.event.place
   };
 }
 

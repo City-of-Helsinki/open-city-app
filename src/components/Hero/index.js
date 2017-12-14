@@ -1,7 +1,16 @@
 import React, { Component }   from 'react';
 import FastImage              from 'react-native-fast-image';
-import { Image, View, Text, Platform, TouchableHighlight, TouchableNativeFeedback } from 'react-native';
-import styles from './styles';
+import {
+  Image,
+  View,
+  Text,
+  Platform,
+  TouchableHighlight,
+  TouchableNativeFeedback,
+  ActivityIndicator
+}                             from 'react-native';
+
+import styles                 from './styles';
 
 class Hero extends Component {
   constructor(props) {
@@ -15,7 +24,7 @@ class Hero extends Component {
   }
 
   render() {
-    const {imageUrl, date, place, headline} = this.props
+    const {imageUrl, date, place, headline, loading} = this.props
     let pic = {
       uri: imageUrl,
       priority: FastImage.priority.high
@@ -30,6 +39,11 @@ class Hero extends Component {
           <Text style={styles.heroHeadline}>{headline}</Text>
         </View>
         <Image source={require('./../../img/main-hero-decoration.png')}  resizeMode={'cover'} style={styles.heroDecoration}/>
+        {loading &&
+          <View style={styles.loadingOverlay}>
+            <ActivityIndicator size="large" />
+          </View>
+        }
       </View>
     )
 
