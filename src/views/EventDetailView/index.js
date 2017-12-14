@@ -64,6 +64,36 @@ class EventDetailView extends Component {
             image={require('../../img/marker_pin.png')}
           />
         </MapView>
+        <View style={styles.eventMeta}>
+          <View style={styles.eventMetaField}>
+            <Image
+              source={require('./../../img/icon-globe.png')}
+              style={[styles.metaIcon]}
+            />
+            <Text style={styles.metaText}>www.ulkoliikunta.fi</Text>
+          </View>
+          <View style={styles.eventMetaField}>
+            <Image
+              source={require('./../../img/icon-mobile.png')}
+              style={[styles.metaIcon]}
+            />
+            <Text style={styles.metaText}>+358 9 7531 560</Text>
+          </View>
+          <View style={styles.eventMetaField}>
+            <Image
+              source={require('./../../img/icon-clock.png')}
+              style={[styles.metaIcon]}
+            />
+            <Text style={styles.metaText}>Aina auki</Text>
+          </View>
+        </View>
+        <View style={styles.share}>
+          <Image
+              source={require('./../../img/icon-share-alt.png')}
+              style={[styles.metaIcon]}
+            />
+          <Text style={styles.metaText}>Jaa</Text>
+        </View>
       </ScrollView>
     );
   }
