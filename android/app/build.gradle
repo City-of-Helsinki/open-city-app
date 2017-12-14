@@ -102,20 +102,19 @@ android {
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 6
-        versionName "1.0"
+        versionCode 7
+        versionName "0.2.4"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
     }
     signingConfigs {
-      release {
-            storeFile file('../keystores/release-key.keystore')
-            storePassword 'helsinki'
-            keyAlias 'release'
-            keyPassword 'helsinki'
-
-      }
+        release {
+            storeFile file(OPEN_CITY_APP_STORE_FILE)
+            storePassword OPEN_CITY_APP_STORE_PASSWORD
+            keyAlias OPEN_CITY_APP_KEY_ALIAS
+            keyPassword OPEN_CITY_APP_KEY_PASSWORD
+        }
     }
     splits {
         abi {

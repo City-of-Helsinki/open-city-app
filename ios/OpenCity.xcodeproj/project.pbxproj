@@ -17,10 +17,13 @@
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
-		13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB11A68108700A75B9A /* LaunchScreen.xib */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
+		2ADDD86F1FE1795700F252AB /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2AB7C0401F8FC1280093C933 /* Images.xcassets */; };
+		2ADDD8841FE17CEB00F252AB /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */; };
+		2ADDD8B31FE19CE800F252AB /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */; };
+		2ADDD8B91FE19E7700F252AB /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2ADDD8B81FE19E7700F252AB /* Info.plist */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		2D02E4C21E0B4AEC006451C7 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157351DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
@@ -373,11 +376,14 @@
 		13B07F961A680F5B00A75B9A /* OpenCity.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenCity.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = OpenCity/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = OpenCity/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB21A68108700A75B9A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OpenCity/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = OpenCity/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		2AB7C0401F8FC1280093C933 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		2AB7C0401F8FC1280093C933 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = OpenCity/Images.xcassets; sourceTree = "<group>"; };
+		2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = "Launch Screen.storyboard"; path = "/Users/sampo.laurila/Projects/helsinki/open-city-app/ios/OpenCity/Launch Screen.storyboard"; sourceTree = "<absolute>"; };
+		2ADDD8B41FE19CE800F252AB /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B61FE19D0C00F252AB /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B71FE19D0D00F252AB /* fi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fi; path = fi.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		2ADDD8B81FE19E7700F252AB /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = OpenCity/Info.plist; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* OpenCity-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "OpenCity-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* OpenCity-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "OpenCity-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		52039CCD0F524CA1BBEB1B53 /* AirMaps.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = AirMaps.xcodeproj; path = "../node_modules/react-native-maps/lib/ios/AirMaps.xcodeproj"; sourceTree = "<group>"; };
@@ -563,13 +569,14 @@
 		13B07FAE1A68108700A75B9A /* OpenCity */ = {
 			isa = PBXGroup;
 			children = (
+				2ADDD8B81FE19E7700F252AB /* Info.plist */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				2AB7C0401F8FC1280093C933 /* Images.xcassets */,
-				13B07FB61A68108700A75B9A /* Info.plist */,
-				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				2ADDD8831FE17CEB00F252AB /* Launch Screen.storyboard */,
+				2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */,
 			);
 			name = OpenCity;
 			sourceTree = "<group>";
@@ -897,6 +904,7 @@
 			knownRegions = (
 				en,
 				Base,
+				fi,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -1284,7 +1292,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				9E63A8DDDADA47A6A7225E21 /* HelsinkiGrotesk-Black.otf in Resources */,
 				3243C3D3C555452588C736D9 /* HelsinkiGrotesk-BlackItalic.otf in Resources */,
 				4DA8A0B18D994ACBAC6A9B67 /* HelsinkiGrotesk-Bold.otf in Resources */,
@@ -1301,6 +1308,10 @@
 				A8DFE66FD55940B9B8968EF8 /* HelsinkiGrotesk-MediumItalic.otf in Resources */,
 				D72D16AD3BF74218B9C2DA53 /* HelsinkiGrotesk-Regular.otf in Resources */,
 				8192226BFA2C4DC3839EA908 /* HelsinkiGrotesk-RegularItalic.otf in Resources */,
+				2ADDD8B91FE19E7700F252AB /* Info.plist in Resources */,
+				2ADDD86F1FE1795700F252AB /* Images.xcassets in Resources */,
+				2ADDD8B31FE19CE800F252AB /* InfoPlist.strings in Resources */,
+				2ADDD8841FE17CEB00F252AB /* Launch Screen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1402,12 +1413,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
+		2ADDD8B51FE19CE800F252AB /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
-				13B07FB21A68108700A75B9A /* Base */,
+				2ADDD8B41FE19CE800F252AB /* Base */,
+				2ADDD8B61FE19D0C00F252AB /* en */,
+				2ADDD8B71FE19D0D00F252AB /* fi */,
 			);
-			name = LaunchScreen.xib;
+			name = InfoPlist.strings;
 			path = OpenCity;
 			sourceTree = "<group>";
 		};
@@ -1684,6 +1697,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1725,6 +1739,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
