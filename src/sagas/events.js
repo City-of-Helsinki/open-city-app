@@ -8,7 +8,7 @@ import Moment                                   from 'moment';
 import Twix                                     from 'twix'
 import 'moment/locale/fi'
 import 'moment/locale/sv'
-
+import { stripTags, unescapeHTML }                             from 'underscore.string'
 import Config                                   from '../config';
 import makeRequest                              from '../util/requests';
 import { default as EventActions, EventTypes }  from '../redux/events/actions';
@@ -29,9 +29,10 @@ const getEvents = function*() {
   try {
     const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location"
     const response = yield call(makeRequest, url, 'GET', null)
-    yield put(EventActions.getListSuccess([]))
+    const eventList = response.data.map(parseEventData)
+    yield put(EventActions.getListSuccess(eventList))
   } catch (err) {
-    yield put(EventActions.getListFailure(error.message))
+    yield put(EventActions.getListFailure(err.message))
   }
 }
 
@@ -61,11 +62,12 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
 
 const parseEventData = (linkedEventData) => {
   let parsedEvent = {
+    key: linkedEventData["@id"],
     eventUrl: linkedEventData["@id"],
     date: getEventDuration(linkedEventData.start_time, linkedEventData.end_time),
     place: linkedEventData.location.name[LOCALE] ,
     headline: linkedEventData.name[LOCALE],
-    description: linkedEventData.description[LOCALE],
+    description: getEventDescription(linkedEventData.description[LOCALE]),
     region: getEventRegion(linkedEventData.location)
   }
 
@@ -98,6 +100,13 @@ const getEventRegion = (linkedEventLocation, myHelsinkiLocation = {lat: 60.19205
   parsedLocation.longitude = linkedEventLocation.position.coordinates[0] || myHelsinkiLocation.lng
 
   return parsedLocation
+}
+
+const getEventDescription = (eventDescription) => {
+  let parsedDescription = unescapeHTML(eventDescription)
+  parsedDescription = stripTags(parsedDescription)
+
+  return parsedDescription
 }
 
 const fetchHeroLink = function() {

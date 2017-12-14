@@ -14,6 +14,7 @@ import Navbar             from '../../components/Navbar';
 import Spinner            from '../../components/Spinner';
 import Hero               from '../../components/Hero';
 import HearingList        from '../../components/HearingList';
+import EventList          from '../../components/EventList';
 import backIcon           from '../../img/back.png';
 import transHome          from '../../translations/homeView';
 import styles             from './styles';
@@ -26,6 +27,7 @@ class HomeView extends Component {
 
   componentWillMount() {
     this.props.eventActions.getHero();
+    this.props.eventActions.getList();
     this.props.hearingActions.getHearings();
   }
 
@@ -47,7 +49,7 @@ class HomeView extends Component {
   };
 
   render() {
-    const { heroEvent, hearingList, heroLoading } = this.props
+    const { heroEvent, hearingList, eventList,heroLoading } = this.props
     return (
       <ScrollView Style={styles.container}>
         <Hero
@@ -58,6 +60,10 @@ class HomeView extends Component {
           eventUrl={heroEvent.eventUrl}
           loading={heroLoading}
           navigation={this.props.navigation}
+        />
+        <EventList
+          navigation={this.props.navigation}
+          eventList={eventList}
         />
         <HearingList
           navigation={this.props.navigation}
@@ -73,7 +79,8 @@ function mapStateToProps(state) {
     events: state.events,
     heroEvent: state.events.heroEvent,
     heroLoading: state.events.heroLoading,
-    hearingList: state.hearings.hearingList
+    hearingList: state.hearings.hearingList,
+    eventList: state.events.eventList
   };
 }
 
