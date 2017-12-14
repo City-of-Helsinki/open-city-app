@@ -39,14 +39,7 @@
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSExceptionDomains</key>
-		<dict>
-			<key>localhost</key>
-			<dict>
-				<key>NSExceptionAllowsInsecureHTTPLoads</key>
-				<true/>
-			</dict>
-		</dict>
+	<key>NSAllowsArbitraryLoads</key><true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>You can attach photos to your service requests using the camera</string>
