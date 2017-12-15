@@ -47,7 +47,7 @@ module.exports = {
   parseServiceRequestDetails: function(input, userPosition) {
 
     // Fetching a single serviceRequest needs the following check because the serviceRequest is in an array
-    var sourceData = constructor.input === Array ? input[0] : input;
+    var sourceData = input.constructor === Array ? input[0] : input;
     var extendedData = [];
     var data = module.exports.cleanUpData(sourceData);
 
