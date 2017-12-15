@@ -483,7 +483,6 @@ class SendServiceRequestView extends Component {
           hide={this.state.fullScreenMap}
           hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
         <View style={styles.innerContainer}>
-          <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
             <View style={styles.innerContainer}>
               <SendServiceRequestMap
