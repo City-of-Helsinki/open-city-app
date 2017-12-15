@@ -52,10 +52,10 @@
 	<string>You can attach photos to your service requests using the camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app uses user location to orient the main map view and locate service requests</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>You can attach photos to your service requests from the photo library</string>
 	<key>NSMotionUsageDescription</key>
 	<string>Accelerometer is used to increase battery efficiency by intelligently toggling location-services</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You can attach photos to your service requests from the photo library</string>
 	<key>UIBackgroundModes</key>
 	<array>
 		<string>remote-notification</string>
@@ -66,6 +66,8 @@
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
