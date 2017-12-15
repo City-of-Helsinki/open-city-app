@@ -235,7 +235,6 @@ class AppFeedbackView extends Component {
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transAppFeedback.appFeedbackViewTitle} />
         <View style={styles.innerContainer}>
-          <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
             <View style={styles.contentContainer}>
               <View style={styles.titleView}>
