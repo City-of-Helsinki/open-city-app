@@ -2,9 +2,9 @@ import LocalizedStrings from 'react-native-localization';
 
 export default new LocalizedStrings({
   en: {
-    title: 'Tekemistä sinulle'
+    title: 'Things to do'
   },
   fi: {
-    title: 'Things to do'
+    title: 'Tekemistä sinulle'
   },
 });

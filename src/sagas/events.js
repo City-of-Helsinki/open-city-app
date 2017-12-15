@@ -27,9 +27,9 @@ const fetchHero = function*() {
 
 const getEvents = function*() {
   try {
-    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location"
+    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location&sort=start_time"
     const response = yield call(makeRequest, url, 'GET', null)
-    const eventList = response.data.map(parseEventData)
+    const eventList = parseEventList(response.data)
     yield put(EventActions.getListSuccess(eventList))
   } catch (err) {
     yield put(EventActions.getListFailure(err.message))
@@ -50,63 +50,98 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
     eventUrl: linkedEventData["@id"]
   }
 
-  parsedEvent.date = getEventDuration(linkedEventData.start_time, linkedEventData.end_time)
-  parsedEvent.place = linkedEventData.location.name[LOCALE] || myHelsinkiEventData.field_promotion_link[0].field_location_name
-  parsedEvent.headline = linkedEventData.name[LOCALE] || myHelsinkiEventData.field_promotion_link[0].title
-  parsedEvent.description = linkedEventData.description[LOCALE] || myHelsinkiEventData.field_promotion_link[0].field_description
-  parsedEvent.region = getEventRegion(linkedEventData.location, myHelsinkiEventData.field_promotion_link[0].field_geolocation[0])
-  parsedEvent.imageUrl = linkedEventData.images[0].url || myHelsinkiEventData.field_image_video[0].thumbnail[0].styles.card
+  parsedEvent.date = getEventDuration(linkedEventData)
+  parsedEvent.place = getEventPlace(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].field_location_name
+  parsedEvent.headline = getEventHeadline(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].title
+  parsedEvent.description = getEventDescription(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].field_description
+  parsedEvent.region = getEventRegion(linkedEventData, myHelsinkiEventData.field_promotion_link[0].field_geolocation[0])
+  parsedEvent.imageUrl = getEventImage(linkedEventData) || myHelsinkiEventData.field_image_video[0].thumbnail[0].styles.card
 
   return parsedEvent
 }
 
 const parseEventData = (linkedEventData) => {
-  let parsedEvent = {
+  return {
     key: linkedEventData["@id"],
     eventUrl: linkedEventData["@id"],
-    date: getEventDuration(linkedEventData.start_time, linkedEventData.end_time),
-    place: linkedEventData.location.name[LOCALE] ,
-    headline: linkedEventData.name[LOCALE],
-    description: getEventDescription(linkedEventData.description[LOCALE]),
-    region: getEventRegion(linkedEventData.location)
+    date: getEventDuration(linkedEventData),
+    place: getEventPlace(linkedEventData),
+    headline: getEventHeadline(linkedEventData),
+    description: getEventDescription(linkedEventData),
+    region: getEventRegion(linkedEventData),
+    imageUrl: getEventImage(linkedEventData)
   }
-
-  parsedEvent.imageUrl = linkedEventData.images[0].url || undefined
-
-  return parsedEvent
 }
 
-const getEventDuration = (start, end) => {
+// Kludge: this will filter some valid events too, e.g. ones with just the picture missing
+// TODO: Set up placeholder data for parts that are placeholdable
+const parseEventList = (linkedEventList) => {
+  return linkedEventList
+    .map(parseEventData)
+    .filter((parsedEvent) => {
+      return Object.values(parsedEvent).every((item) => {
+        return (item !== undefined && item !== null && item !== "")
+      })
+    })
+}
+
+const getEventPlace = (linkedEvent) => {
+  if(!linkedEvent.location || !linkedEvent.location.name || !linkedEvent.location.name.length===0) {
+    return null
+  }
+  return linkedEvent.location.name[LOCALE]
+}
+
+const getEventHeadline = (linkedEvent) => {
+  if(!linkedEvent.name) {
+    return null
+  }
+  return linkedEvent.name[LOCALE]
+}
+
+const getEventImage = (linkedEvent) => {
+  if(!linkedEvent.images || linkedEvent.images.length===0) {
+    return null
+  }
+  return linkedEvent.images[0].url
+}
+
+const getEventDuration = (linkedEvent) => {
   Moment.locale(LOCALE)
-  if(!start) {
-    return ""
+  if(!linkedEvent.start_time) {
+    return null
   }
-  if(!end) {
-    return Moment(start).format("DD.MM HH:MM")
+  if(!linkedEvent.end_time) {
+    return Moment(linkedEvent.start_time).format("DD.MM HH:mm")
   }
-  return Moment(start).twix(end, {allDay:true}).format({
+  return Moment(linkedEvent.start_time).twix(linkedEvent.end_time, {allDay:true}).format({
     hourFormat: "H"
   })
 }
 
-const getEventRegion = (linkedEventLocation, myHelsinkiLocation = {lat: 60.192059, lng: 24.945831} ) => {
+const getEventRegion = (linkedEvent, myHelsinkiLocation = {lat: 60.192059, lng: 24.945831} ) => {
 
   let parsedLocation = {
     latitudeDelta: 0.01,
     longitudeDelta: 0.01
   }
 
-  parsedLocation.latitude = linkedEventLocation.position.coordinates[1] || myHelsinkiLocation.lat
-  parsedLocation.longitude = linkedEventLocation.position.coordinates[0] || myHelsinkiLocation.lng
+  parsedLocation.latitude = linkedEvent.location.position.coordinates[1] || myHelsinkiLocation.lat
+  parsedLocation.longitude = linkedEvent.location.position.coordinates[0] || myHelsinkiLocation.lng
 
   return parsedLocation
 }
 
-const getEventDescription = (eventDescription) => {
-  let parsedDescription = unescapeHTML(eventDescription)
-  parsedDescription = stripTags(parsedDescription)
+const getEventDescription = (linkedEvent) => {
+  if(!linkedEvent.description || !linkedEvent.description[LOCALE]) {
+    return null
+  }
 
-  return parsedDescription
+  const description = linkedEvent.description[LOCALE]
+  const HTMLEscapedDescription = unescapeHTML(description)
+  const HTMLStrippedDescription = stripTags(HTMLEscapedDescription)
+
+  return HTMLStrippedDescription
 }
 
 const fetchHeroLink = function() {
