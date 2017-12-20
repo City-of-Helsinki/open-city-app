@@ -11,6 +11,7 @@ import {
 import Drawer                from 'react-native-drawer'
 import FloatingActionButton  from '../../components/FloatingActionButton';
 import Navbar                from '../../components/Navbar';
+import NavButton             from '../../components/NavButton';
 import Menu                  from '../../components/Menu';
 import ServiceRequestListRow from '../../components/ServiceRequestListRow';
 import showAlert             from '../../components/Alert';
@@ -27,6 +28,26 @@ import transError            from '../../translations/errors';
 import styles                from './styles';
 
 class ServiceRequestListView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={markerIcon}
+          onPress={()=> {
+            navigation.goBack()
+          }}
+        />
+      )
+    }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -137,12 +158,7 @@ class ServiceRequestListView extends Component {
         <View
           style={styles.container}
           ref='shadowOverlay'>
-          <Navbar
-            leftIcon={menuIcon}
-            onLeftButtonClick={()=>this._drawer.open()}
-            rightIcon={markerIcon}
-            onRightButtonClick={()=>this.navToMapView()}
-            header={transList.viewTitle} />
+
           {this.state.isLoading &&
             <Spinner color={'black'} visible={this.state.isLoading} />
           }
