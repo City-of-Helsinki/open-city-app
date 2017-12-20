@@ -5,7 +5,7 @@ import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import MapView from 'react-native-maps';
-import styles from './styles';
+import { styles, customMapStyles } from './styles';
 
 class EventDetailView extends Component {
 
@@ -52,7 +52,8 @@ class EventDetailView extends Component {
           followUserLocation={false}
           toolbarEnabled={false}
           scrollEnabled={false}
-          zoomEnabled={false}>
+          zoomEnabled={false}
+          customMapStyle={customMapStyles}>
 
           <MapView.Marker
             coordinate={this.props.region}
