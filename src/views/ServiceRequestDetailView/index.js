@@ -13,6 +13,7 @@ import {
 import Drawer           from 'react-native-drawer'
 import MapView          from 'react-native-maps';
 import Navbar           from './../../components/Navbar';
+import NavButton        from './../../components/Navbar';
 import Spinner          from './../../components/Spinner';
 import Menu             from './../../components/Menu';
 import showAlert        from './../../components/Alert';
@@ -140,10 +141,7 @@ class ServiceRequestDetailView extends Component {
 
     return (
       <View style={styles.container}>
-        <Navbar
-          leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigation.goBack()}
-          header={viewTitle} />
+
         <View style={styles.contentContainer}>
           {this.state.isLoading &&
             <Spinner color={'black'} visible={this.state.isLoading} />
