@@ -51,7 +51,7 @@ module.exports = {
     var extendedData = [];
     var data = module.exports.cleanUpData(sourceData);
 
-    if (data.extended_attributes.tasks.length > 0) {
+    if (data.extended_attributes.tasks && data.extended_attributes.tasks.length > 0) {
       var tasks = data.extended_attributes.tasks;
 
       for (var i=tasks.length-1; i >= 0; i--) {
