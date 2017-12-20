@@ -31,6 +31,13 @@ class HomeView extends Component {
   }
 
   static navigationOptions = {
+    headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+    ),
     tabBarLabel: 'Home',
     tabBarIcon: ({ tintColor }) => (
       <Image
