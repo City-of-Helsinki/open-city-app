@@ -36,14 +36,15 @@ class EventDetailView extends Component {
     return loading ? (
       <ActivityIndicator size="large" />
     ): (
-      <ScrollView>
-        { imageUrl &&
+      <ScrollView style={styles.view}>
+        <View style={styles.headerImage}>
           <Image source={pic} style={styles.image} resizeMode="cover" />
-        }
+          <Image source={require('./../../img/main-image-decoration.png')}  resizeMode={'cover'} style={styles.headerImageDecoration}/>
+        </View>
         <View style={styles.centeredContent}>
-          <Text style={styles.headline}>{headline}</Text>
-          <Text style={styles.date}>{date} - {place} </Text>
-          <HTML containerStyle={styles.description} html={description} />
+          <Text style={[styles.headline,styles.textBlockNarrow]}>{headline}</Text>
+          <Text style={[styles.date,styles.textBlock]}>{date}</Text>
+          <Text style={[styles.description,styles.textBlock]}>{description}</Text>
         </View>
         <MapView
           style={styles.map}

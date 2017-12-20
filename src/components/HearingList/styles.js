@@ -1,4 +1,6 @@
 import { StyleSheet } from 'react-native';
+import { TEXT_MEDIUM_HEADLINE } from './../../styles/text';
+import { BRAND_LIGHT_TWO } from './../../styles/common';
 
 const styles = StyleSheet.create({
   hearingWrapper: {
@@ -11,10 +13,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center'
   },
-  headlineText: {
-    fontSize: 28,
-    fontWeight: 'bold'
-  }
+  headlineText: TEXT_MEDIUM_HEADLINE
 });
 
 export default styles

@@ -56,14 +56,14 @@ export const FONT_NORMAL =
       Object.assign(
         getFontName(),
         {
-          fontSize:18,
+          fontSize:16,
         }
       );
 export const FONT_BOLD =
       Object.assign(
         getFontName({ weight: 'Bold' }),
         {
-          fontSize:18,
+          fontSize:16,
         }
       );
 export const TEXT_SMALL_HEADLINE =
@@ -73,10 +73,19 @@ export const TEXT_SMALL_HEADLINE =
           fontSize:20,
         }
       );
+export const TEXT_MEDIUM_HEADLINE =
+      Object.assign(
+        getFontName({ weight: 'Bold' }),
+        {
+          fontSize:30,
+        }
+      );
 export const TEXT_LARGE_HEADLINE =
       Object.assign(
         getFontName({ weight: 'Bold' }),
         {
-          fontSize:42,
+          fontSize:40,
+          lineHeight: 30,
+          paddingTop: 10
         }
       );

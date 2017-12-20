@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
 
 const styles = StyleSheet.create({
   cardWrapper: {
@@ -7,7 +8,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     width: undefined,
-    minHeight: 100,
+    minHeight: 240,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
@@ -15,7 +16,6 @@ const styles = StyleSheet.create({
     minHeight: 100,
     width: '100%',
     padding: 10,
-    marginBottom: 10
   },
   cardHeadline: TEXT_SMALL_HEADLINE
 });
