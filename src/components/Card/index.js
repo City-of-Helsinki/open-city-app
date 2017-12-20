@@ -32,8 +32,10 @@ class Card extends Component {
           </TouchableHighlight>
         ),
         android: (
-          <TouchableNativeFeedback onPress={onPressItem} style={styles.cardWrapper}>
-            {CardContent}
+          <TouchableNativeFeedback onPress={onPressItem}>
+            <View style={styles.cardWrapper}>
+              {CardContent}
+            </View>
           </TouchableNativeFeedback>
         )
       })
