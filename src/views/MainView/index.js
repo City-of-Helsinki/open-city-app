@@ -19,6 +19,7 @@ import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
 import Realm                from 'realm';
 import Navbar               from '../../components/Navbar';
+import NavButton            from '../../components/NavButton';
 import Menu                 from '../../components/Menu';
 import FloatingActionButton from '../../components/FloatingActionButton';
 import showAlert            from '../../components/Alert';
@@ -43,6 +44,40 @@ const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 
 class MainView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={listIcon}
+          onPress={()=> {
+            navigation.navigate('ServiceRequestListView', {
+              mapRegion: {
+                latitude: DEFAULT_LATITUDE,
+                longitude: DEFAULT_LONGITUDE,
+                latitudeDelta: DEFAULT_LATITUDE_DELTA,
+                longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+              }
+            })
+          }}
+        />
+      ),
+      tabBarLabel: transMain.tabBarLabel,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('./../../img/icon-home.png')}
+          style={[styles.icon, {tintColor: tintColor}]}
+        />
+      ),
+    }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -303,36 +338,11 @@ class MainView extends Component {
       : null;
 
     return (
-      <Drawer
-        ref={(ref) => {
-          this._drawer = ref;
-          Global.menuRef = ref;
-        }}
-        type={'overlay'}
-        openDrawerOffset={Global.OPEN_DRAWER_OFFSET}
-        closedDrawerOffset={0}
-        tapToClose={true}
-        acceptTap={true}
-        captureGestures={'open'}
-        onOpen={()=> Global.menuOpen = true}
-        onClose={()=> Global.menuOpen = false}
-        tweenHandler={(ratio) => this.drawerTweenHandler(ratio)}
-        content={
-          <Menu
-            mapView={()=>{this._drawer.close()}}
-            onMenuClick={()=>this._drawer.close()}
-            onAppFeedbackClick={()=>this.navToAppFeedbackView(this._drawer)} />
-        }>
 
         <View
           style={styles.container}
           ref='shadowOverlay'>
-          <Navbar
-            leftIcon={menuIcon}
-            onLeftButtonClick={()=>this._drawer.open()}
-            rightIcon={listIcon}
-            onRightButtonClick={()=>this.navToServiceRequestListView(this._drawer)}
-            header={transMap.mapViewTitle} />
+
           <View style={styles.mapContainer}>
             {this.state.serviceRequests.map(serviceRequest => (
               // This is required for all icons to be rendered properly
@@ -369,7 +379,6 @@ class MainView extends Component {
               icon={plusIcon}
               onButtonClick={()=>this.navToSendServiceRequestView(this)} />}
         </View>
-      </Drawer>
     );
   }
 }

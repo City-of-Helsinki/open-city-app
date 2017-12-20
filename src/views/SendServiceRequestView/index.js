@@ -25,6 +25,7 @@ import Spinner                      from 'react-native-loading-spinner-overlay';
 import FloatingActionButton         from '../../components/FloatingActionButton';
 import NativePicker                 from '../../components/NativePicker';
 import Navbar                       from '../../components/Navbar';
+import NavButton                    from '../../components/NavButton';
 import Menu                         from '../../components/Menu';
 import Thumbnail                    from '../../components/Thumbnail';
 import showAlert                    from '../../components/Alert';
@@ -51,6 +52,26 @@ const ZOOM = 6;
 
 
 class SendServiceRequestView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={sendDisabledIcon}
+          onPress={()=> {
+            navigation.goBack()
+          }}
+        />
+      )
+    }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -473,15 +494,6 @@ class SendServiceRequestView extends Component {
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
     return (
       <View style={styles.container}>
-        <Navbar
-          leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigation.goBack()}
-          rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
-          onRightButtonClick={this.onSendButtonClick.bind(this)}
-          header={transSendServiceRequest.sendServiceRequestViewTitle}
-          hide={this.state.fullScreenMap}
-          hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
         <View style={styles.innerContainer}>
           <ScrollView style={styles.scrollView}>
             <View style={styles.innerContainer}>
