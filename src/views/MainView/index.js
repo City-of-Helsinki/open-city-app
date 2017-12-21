@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AuthActions          from '../../redux/auth/actions';
-import MapView              from 'react-native-maps';
+import MapView              from 'react-native-map-clustering';
+import { Marker, Callout }  from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
@@ -32,10 +33,12 @@ import Global               from '../../util/globals';
 import Models               from '../../util/models';
 import transMap             from '../../translations/map';
 import transError           from '../../translations/errors';
+import transMain            from '../../translations/mainView';
 import plusIcon             from '../../img/plus.png';
 import menuIcon             from '../../img/menu.png';
 import listIcon             from '../../img/list.png';
 import styles               from './styles';
+import customMapStyles      from '../../styles/map';
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE           = 60.1680574;
@@ -344,33 +347,33 @@ class MainView extends Component {
           ref='shadowOverlay'>
 
           <View style={styles.mapContainer}>
-            {this.state.serviceRequests.map(serviceRequest => (
-              // This is required for all icons to be rendered properly
-              // react-native-maps has issues with rendering icons on Android
-              <Image key={serviceRequest.id} source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
-            ))}
+
             <MapView
               ref={ref=> this.mapView = ref}
               style={styles.map}
               region={this.state.region}
               showsUserLocation={true}
-              followUserLocation={false}
+              followUserLocation={true}
               toolbarEnabled={false}
               onPress={this.onMapViewClick.bind(this)}
+              clusterTextColor={"#0072c6"}
+              clusterBorderColor={"#0072c6"}
+              customMapStyle={customMapStyles}
               onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
               {this.state.serviceRequests.map(serviceRequest => (
-                <MapView.Marker
-                  key={serviceRequest.id}
-                  coordinate={serviceRequest.coordinates}
-                  onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-                  <Image
-                    source={serviceRequest.markerImage}
-                    style={styles.markerImage} />
-                  <MapView.Callout tooltip={true}>
-                    <EmptyMarkerCallout />
-                  </MapView.Callout>
-                </MapView.Marker>
-              ))}
+                  <Marker
+                    key={serviceRequest.id}
+                    coordinate={serviceRequest.coordinates}
+                    onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
+                    <Image
+                      source={serviceRequest.markerImage}
+                      style={styles.markerImage} />
+                    <Callout tooltip={true}>
+                      <EmptyMarkerCallout />
+                    </Callout>
+                  </Marker>
+                )
+             )}
             </MapView>
           </View>
           {serviceRequestDetailPopup}
