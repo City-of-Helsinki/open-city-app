@@ -76,6 +76,9 @@ const styles = StyleSheet.create({
   },
   extendedDataItemView: {
     flex: 1,
+  },
+  headerLogo: {
+    height: 26
   }
 });
 

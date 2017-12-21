@@ -13,6 +13,9 @@ const styles = StyleSheet.create({
   },
   serviceRequestContainer: {
     padding: 16,
+  },
+  headerLogo: {
+    height: 26
   }
 });
 

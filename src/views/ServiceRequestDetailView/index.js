@@ -33,6 +33,18 @@ const LONGITUDE_DELTA      = 0.00340;
 // Display information about a single service request
 class ServiceRequestDetailView extends Component {
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      )
+    }
+  };
+
   constructor(props, context) {
     super(props, context);
 
