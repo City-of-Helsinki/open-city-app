@@ -54,6 +54,13 @@ const ZOOM = 6;
 class SendServiceRequestView extends Component {
 
   static navigationOptions = ({navigation}) => {
+    const { params = {} } = navigation.state;
+    const sendButton = (
+      <NavButton
+        icon={params.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
+        onPress={params.handleSend ?  params.handleSend : () => null}
+      />
+    )
     return {
       headerTitle: (
         <Image
@@ -62,14 +69,7 @@ class SendServiceRequestView extends Component {
           source={require('./../../img/city-logo.png')}
         />
       ),
-      headerRight: (
-        <NavButton
-          icon={sendDisabledIcon}
-          onPress={()=> {
-            navigation.goBack()
-          }}
-        />
-      )
+      headerRight: sendButton
     }
   };
 
@@ -112,6 +112,10 @@ class SendServiceRequestView extends Component {
     this.contentSpringVal = new Animated.Value(1);
 
     if (Platform.OS === 'android') { UIManager.setLayoutAnimationEnabledExperimental(true) }
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({handleSend: this.onSendButtonClick.bind(this)})
   }
 
   componentWillMount() {
@@ -429,6 +433,7 @@ class SendServiceRequestView extends Component {
       this.setState({
         sendEnabled: true,
       });
+      this.props.navigation.setParams({sendEnabled: true})
     } else {
       // Add animation only if the icon is going to change
       if (this.state.sendEnabled) {
@@ -437,6 +442,7 @@ class SendServiceRequestView extends Component {
       this.setState({
         sendEnabled: false,
       });
+      this.props.navigation.setParams({sendEnabled: false})
     }
   }
 
