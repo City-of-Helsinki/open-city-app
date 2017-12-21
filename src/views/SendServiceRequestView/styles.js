@@ -17,7 +17,9 @@ const styles = StyleSheet.create({
     height: 32,
     width: 32,
   },
-
+  headerLogo: {
+    height: 26
+  }
 });
 
 export default styles
