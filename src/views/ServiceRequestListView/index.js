@@ -135,62 +135,41 @@ class ServiceRequestListView extends Component {
 
   render() {
     return (
-      <Drawer
-        ref={(ref) => {
-          this._drawer = ref;
-          Global.menuRef = ref;
-        }}
-        type={'overlay'}
-        openDrawerOffset={Global.OPEN_DRAWER_OFFSET}
-        closedDrawerOffset={0}
-        tapToClose={true}
-        acceptTap={true}
-        captureGestures={'open'}
-        onOpen={()=> Global.menuOpen = true}
-        onClose={()=> Global.menuOpen = false}
-        tweenHandler={(ratio) => this.drawerTweenHandler(ratio)}
-        content={
-          <Menu
-            mapView={()=>{this._drawer.close()}}
-            onMenuClick={()=>this._drawer.close()}
-            onAppFeedbackClick={()=>this.navToAppFeedbackView(this._drawer)} />
-        }>
-        <View
-          style={styles.container}
-          ref='shadowOverlay'>
+      <View
+        style={styles.container}
+        ref='shadowOverlay'>
 
-          {this.state.isLoading &&
-            <Spinner color={'black'} visible={this.state.isLoading} />
-          }
-          <View
-            style={
-              [styles.contentContainer, {
-                flex: this.state.isLoading ? 0 : 1 // Hide while loading
-              }]
-            }>
-            <ScrollView>
-              <View style={styles.serviceRequestContainer}>
-                {this.state.serviceRequestList.map((item, i) => (
-                  <ServiceRequestListRow
-                    image={item.media_url}
-                    title={item.title}
-                    key={i}
-                    distance={item.distance}
-                    date={item.date}
-                    description={item.description}
-                    agency={item.agency}
-                    extendedData={item.extendedData}
-                    statusNotes={item.status_notes}
-                    onItemClick={this.navToServiceRequestDetailView.bind(this, item)} />
-                ))}
-              </View>
-            </ScrollView>
-          </View>
-          <FloatingActionButton
-            icon={plusIcon}
-            onButtonClick={()=>this.navToSendServiceRequestView(this)} />
+        {this.state.isLoading &&
+          <Spinner color={'black'} visible={this.state.isLoading} />
+        }
+        <View
+          style={
+            [styles.contentContainer, {
+              flex: this.state.isLoading ? 0 : 1 // Hide while loading
+            }]
+          }>
+          <ScrollView>
+            <View style={styles.serviceRequestContainer}>
+              {this.state.serviceRequestList.map((item, i) => (
+                <ServiceRequestListRow
+                  image={item.media_url}
+                  title={item.title}
+                  key={i}
+                  distance={item.distance}
+                  date={item.date}
+                  description={item.description}
+                  agency={item.agency}
+                  extendedData={item.extendedData}
+                  statusNotes={item.status_notes}
+                  onItemClick={this.navToServiceRequestDetailView.bind(this, item)} />
+              ))}
+            </View>
+          </ScrollView>
         </View>
-      </Drawer>
+        <FloatingActionButton
+          icon={plusIcon}
+          onButtonClick={()=>this.navToSendServiceRequestView(this)} />
+      </View>
     );
   }
 }
