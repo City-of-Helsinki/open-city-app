@@ -1,4 +1,5 @@
 import {
+  select,
   put,
   call,
   takeLatest
@@ -38,8 +39,17 @@ const getEvents = function*() {
 
 const getEvent = function*(args) {
   try {
-    const event = yield call(makeRequest, args.eventUrl + "?include=location", 'GET', null)
-    yield put(EventActions.getEventSuccess(parseEventData(event)))
+
+    let event = undefined
+    const hero = yield select(state => state.events.heroEvent)
+
+    if(args.eventUrl === hero.eventUrl) {
+      event = hero
+    } else {
+      const eventData = yield call(makeRequest, args.eventUrl + "?include=location", 'GET', null)
+      event = parseEventData(eventData)
+    }
+    yield put(EventActions.getEventSuccess(event))
   } catch(err) {
     yield put(EventActions.getEventFailure(err.message))
   }
@@ -53,7 +63,7 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
   parsedEvent.date = getEventDuration(linkedEventData)
   parsedEvent.place = getEventPlace(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].field_location_name
   parsedEvent.headline = getEventHeadline(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].title
-  parsedEvent.description = getEventDescription(linkedEventData) || myHelsinkiEventData.field_promotion_link[0].field_description
+  parsedEvent.description = getEventDescription(linkedEventData) || stripHTML(myHelsinkiEventData.field_promotion_link[0].field_description)
   parsedEvent.region = getEventRegion(linkedEventData, myHelsinkiEventData.field_promotion_link[0].field_geolocation[0])
   parsedEvent.imageUrl = getEventImage(linkedEventData) || myHelsinkiEventData.field_image_video[0].thumbnail[0].styles.card
 
@@ -138,10 +148,14 @@ const getEventDescription = (linkedEvent) => {
   }
 
   const description = linkedEvent.description[LOCALE]
-  const HTMLEscapedDescription = unescapeHTML(description)
-  const HTMLStrippedDescription = stripTags(HTMLEscapedDescription)
+  return stripHTML(description)
+}
 
-  return HTMLStrippedDescription
+const stripHTML = (text) => {
+  const escaped = unescapeHTML(text)
+  const stripped = stripTags(text)
+
+  return stripped
 }
 
 const fetchHeroLink = function() {
