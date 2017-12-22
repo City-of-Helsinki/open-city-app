@@ -102,11 +102,20 @@ android {
         multiDexEnabled true
         minSdkVersion 16
         targetSdkVersion 22
-        versionCode 1
+        versionCode 6
         versionName "1.0"
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+    }
+    signingConfigs {
+      release {
+            storeFile file('../keystores/release-key.keystore')
+            storePassword 'helsinki'
+            keyAlias 'release'
+            keyPassword 'helsinki'
+
+      }
     }
     splits {
         abi {
@@ -120,6 +129,7 @@ android {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -138,6 +148,8 @@ android {
 }
 
 dependencies {
+
+    compile project(':react-native-fast-image')
     compile project(':realm')
     compile project(':react-native-maps')
     compile project(':react-native-localization')
