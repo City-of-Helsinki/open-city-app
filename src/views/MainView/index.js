@@ -13,7 +13,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import AuthActions          from '../../redux/auth/actions';
-import MapView              from 'react-native-maps';
+import ClusteredMapView     from 'react-native-maps-super-cluster';
+import { Marker, Callout }  from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
@@ -41,6 +42,12 @@ const DEFAULT_LATITUDE           = 60.1680574;
 const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
+
+const MarkerImage = (
+  <Image
+      source={require('./../../img/marker_pin.png')}
+      style={styles.markerImage} />
+)
 
 class MainView extends Component {
 
@@ -290,6 +297,51 @@ class MainView extends Component {
     return { }
   }
 
+  renderMarker = (serviceRequest) => {
+    return (
+      <Marker key={serviceRequest.id} coordinate={serviceRequest.location} onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
+        {MarkerImage}
+        <Callout tooltip={true}>
+          <EmptyMarkerCallout />
+        </Callout>
+      </Marker>
+    )
+  }
+
+  renderCluster = (cluster, onPress) => {
+    const pointCount = cluster.pointCount,
+              coordinate = cluster.coordinate,
+              clusterId = cluster.clusterId
+
+    const clusterEngine = this.mapView.getClusteringEngine(),
+          clusteredPoints = clusterEngine.getLeaves(clusterId, 100)
+
+
+
+    const scaleUpRatio = 1 + (Math.min(pointCount, 999) / 100)
+    const initialClusterDimensions = 30
+    const initialFontSize = 16
+    let width = Math.floor(initialClusterDimensions * scaleUpRatio),
+        height = Math.floor(initialClusterDimensions * scaleUpRatio),
+        fontSize = Math.floor(initialFontSize * scaleUpRatio),
+        borderRadius = Math.floor(width / 2)
+
+    // cluster dimensions upper limit
+    width = width <= (initialClusterDimensions * 2) ? width : initialClusterDimensions * 2
+    height = height <= (initialClusterDimensions * 2) ? height : initialClusterDimensions * 2
+    fontSize = fontSize <= 16 ? fontSize : 16
+
+
+    return (
+      <Marker onPress={onPress} coordinate={coordinate} key={cluster.clusterId}>
+        <View style={[styles.clusterContainer, {width, height, borderRadius}]}>
+          <Text style={[styles.counterText, {fontSize}]}>{pointCount}</Text>
+        </View>
+      </Marker>
+    )
+  }
+
+
   render() {
     // Initialize Popup which will be shown when a marker is clicked
     var serviceRequestDetailPopup = this.state.showPopup ?
@@ -334,34 +386,23 @@ class MainView extends Component {
             onRightButtonClick={()=>this.navToServiceRequestListView(this._drawer)}
             header={transMap.mapViewTitle} />
           <View style={styles.mapContainer}>
-            {this.state.serviceRequests.map(serviceRequest => (
-              // This is required for all icons to be rendered properly
-              // react-native-maps has issues with rendering icons on Android
-              <Image key={serviceRequest.id} source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
-            ))}
-            <MapView
+
+            <ClusteredMapView
               ref={ref=> this.mapView = ref}
               style={styles.map}
-              region={this.state.region}
+              initialRegion={this.state.region}
               showsUserLocation={true}
               followUserLocation={false}
               toolbarEnabled={false}
               onPress={this.onMapViewClick.bind(this)}
-              onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
-              {this.state.serviceRequests.map(serviceRequest => (
-                <MapView.Marker
-                  key={serviceRequest.id}
-                  coordinate={serviceRequest.coordinates}
-                  onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-                  <Image
-                    source={serviceRequest.markerImage}
-                    style={styles.markerImage} />
-                  <MapView.Callout tooltip={true}>
-                    <EmptyMarkerCallout />
-                  </MapView.Callout>
-                </MapView.Marker>
-              ))}
-            </MapView>
+              customMapStyle={customMapStyles}
+              onRegionChangeComplete={this.onMapRegionChange.bind(this)}
+              renderMarker={this.renderMarker}
+              renderCluster={this.renderCluster}
+              data={this.state.serviceRequests}
+              maxZoom={18}
+            />
+
           </View>
           {serviceRequestDetailPopup}
           {!this.state.showPopup && // When popup is displayed hide FAB because Google Maps toolbar

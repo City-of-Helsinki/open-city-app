@@ -126,14 +126,14 @@ module.exports = {
 
     for (var i=0; i < data.length; i++) {
 
-      if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
-        serviceRequests.push({coordinates:
-                      {latitude: data[i].lat,
-                      longitude: data[i].long},
-                    markerImage: module.exports.selectMarkerImage(data[i].status,
-                      data[i].service_request_id, userSubmittedServiceRequests),
-                    id: data[i].service_request_id,
-                    description: module.exports.parseDescription(data[i].description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
+      if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
+        serviceRequests.push({location:
+                      {latitude: dataElement.lat,
+                      longitude: dataElement.long},
+                    markerImage: module.exports.selectMarkerImage(dataElement.status,
+                      dataElement.service_request_id, userSubmittedServiceRequests),
+                    id: dataElement.service_request_id,
+                    description: module.exports.parseDescription(dataElement.description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
                     agency: data[i].agency_responsible});
       }
     }
