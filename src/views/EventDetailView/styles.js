@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { TEXT_MEDIUM_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE, FONT_BOLD } from './../../styles/text';
-import { BRAND_LIGHT_ONE, WHITE } from './../../styles/common';
+import { BLACK, BRAND_LIGHT_ONE, WHITE } from './../../styles/common';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,9 +26,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     alignItems: 'center'
   },
-  headline: TEXT_MEDIUM_HEADLINE,
-  date: FONT_BOLD,
-  description: FONT_NORMAL,
+  headline: { ...TEXT_MEDIUM_HEADLINE, color: BLACK },
+  date: { ...FONT_BOLD, color: BLACK },
+  description: { ...FONT_NORMAL, color: BLACK },
   textBlockNarrow: {
     marginLeft: 30,
     marginRight: 30,
