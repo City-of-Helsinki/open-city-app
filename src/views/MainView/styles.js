@@ -20,6 +20,13 @@ const styles = StyleSheet.create({
   markerImage: {
     height: MARKER_IMAGE_SIZE,
     width: MARKER_IMAGE_SIZE,
+  },
+  headerLogo: {
+    height: 26
+  },
+  icon: {
+    height: 26,
+    width: 26
   }
 });
 

@@ -44,6 +44,40 @@ const DEFAULT_LONGITUDE_DELTA    = 0.01010;
 
 class MainView extends Component {
 
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={listIcon}
+          onPress={()=> {
+            navigation.navigate('ServiceRequestListView', {
+              mapRegion: {
+                latitude: DEFAULT_LATITUDE,
+                longitude: DEFAULT_LONGITUDE,
+                latitudeDelta: DEFAULT_LATITUDE_DELTA,
+                longitudeDelta: DEFAULT_LONGITUDE_DELTA,
+              }
+            })
+          }}
+        />
+      ),
+      tabBarLabel: transMain.tabBarLabel,
+      tabBarIcon: ({ tintColor }) => (
+        <Image
+          source={require('./../../img/icon-edit.png')}
+          style={[styles.icon, {tintColor: tintColor}]}
+        />
+      ),
+    }
+  };
+
   constructor(props, context) {
     super(props, context);
 
