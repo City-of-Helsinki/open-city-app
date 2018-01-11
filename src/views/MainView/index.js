@@ -75,7 +75,7 @@ class MainView extends Component {
       tabBarLabel: transMain.tabBarLabel,
       tabBarIcon: ({ tintColor }) => (
         <Image
-          source={require('./../../img/icon-home.png')}
+          source={require('./../../img/icon-edit.png')}
           style={[styles.icon, {tintColor: tintColor}]}
         />
       ),

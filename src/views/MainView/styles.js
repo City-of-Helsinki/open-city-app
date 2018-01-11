@@ -23,6 +23,10 @@ const styles = StyleSheet.create({
   },
   headerLogo: {
     height: 26
+  },
+  icon: {
+    height: 26,
+    width: 26
   }
 });
 

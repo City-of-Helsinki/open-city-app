@@ -1,4 +1,4 @@
-import { StackNavigator, TabNavigator }       from 'react-navigation';
+import { StackNavigator, TabNavigator, TabBarBottom }       from 'react-navigation';
 
 import SplashScreen             from '../views/SplashScreen';
 import MainView                 from '../views/MainView';
@@ -26,6 +26,7 @@ export const TabStack = TabNavigator({
     screen: MainView
   }
 }, {
+  tabBarComponent: TabBarBottom,
   tabBarPosition: 'bottom',
   tabBarOptions: {
     activeTintColor: '#000000',
