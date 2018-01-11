@@ -1,7 +1,7 @@
 import { StyleSheet }       from 'react-native';
 import Global               from '../../util/globals';
-
-const MARKER_IMAGE_SIZE = 32;
+import { BRAND_DARK_ONE }   from '../../styles/common';
+const MARKER_IMAGE_SIZE = 22;
 
 const styles = StyleSheet.create({
   container: {
@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
     width: MARKER_IMAGE_SIZE,
   },
   headerLogo: {
+    alignSelf: 'center',
     height: 26
   },
   icon: {

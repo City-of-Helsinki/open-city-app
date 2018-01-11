@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerLogo: {
+    alignSelf: 'center',
     height: 26
   }
 });

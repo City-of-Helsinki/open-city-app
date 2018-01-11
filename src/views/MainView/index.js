@@ -53,6 +53,9 @@ class MainView extends Component {
           source={require('./../../img/city-logo.png')}
         />
       ),
+      headerLeft: (
+        <View />
+      ),
       headerRight: (
         <NavButton
           icon={listIcon}
