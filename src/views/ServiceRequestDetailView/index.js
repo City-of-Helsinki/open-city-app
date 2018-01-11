@@ -42,6 +42,9 @@ class ServiceRequestDetailView extends Component {
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />
+      ),
+      headerRigh: (
+        <View />
       )
     }
   };

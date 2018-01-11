@@ -16,6 +16,9 @@ class EventDetailView extends Component {
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />
+    ),
+    headerRight: (
+      <View />
     )
   };
 
