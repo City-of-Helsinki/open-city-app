@@ -148,7 +148,7 @@ module.exports = {
       var dataElement = module.exports.cleanUpData(data[i]);
 
       if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
-        serviceRequests.push({coordinates:
+        serviceRequests.push({location:
                       {latitude: dataElement.lat,
                       longitude: dataElement.long},
                     markerImage: module.exports.selectMarkerImage(dataElement.status,

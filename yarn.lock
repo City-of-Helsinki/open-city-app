@@ -6,6 +6,16 @@
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@hypnosphi/fuse.js/-/fuse.js-3.0.9.tgz#ea99f6121b4a8f065b4c71f85595db2714498807"
 
+"@mapbox/geo-viewport@^0.2.2":
+  version "0.2.2"
+  resolved "https://registry.yarnpkg.com/@mapbox/geo-viewport/-/geo-viewport-0.2.2.tgz#93206c044238c21a60fca7e9064c8ce63e8027b4"
+  dependencies:
+    "@mapbox/sphericalmercator" "~1.0.2"
+
+"@mapbox/sphericalmercator@~1.0.2":
+  version "1.0.5"
+  resolved "https://registry.yarnpkg.com/@mapbox/sphericalmercator/-/sphericalmercator-1.0.5.tgz#70237b9774095ed1cfdbcea7a8fd1fc82b2691f2"
+
 "@storybook/addon-actions@^3.2.16":
   version "3.2.16"
   resolved "https://registry.yarnpkg.com/@storybook/addon-actions/-/addon-actions-3.2.16.tgz#dc53d48dc8035b426a02628687c6cb0601b933b9"
@@ -4188,6 +4198,10 @@ jsrsasign@^5.0.7:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/jsrsasign/-/jsrsasign-5.1.0.tgz#2549d559674f6f8956b12bd7f3b5c066b4e0c6ba"
 
+kdbush@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/kdbush/-/kdbush-1.0.1.tgz#3cbd03e9dead9c0f6f66ccdb96450e5cecc640e0"
+
 keycode@^2.1.8:
   version "2.1.9"
   resolved "https://registry.yarnpkg.com/keycode/-/keycode-2.1.9.tgz#964a23c54e4889405b4861a5c9f0480d45141dfa"
@@ -5680,6 +5694,10 @@ react-native-compat@^1.0.0:
   dependencies:
     prop-types "^15.5.10"
 
+react-native-dimension@^1.0.6:
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/react-native-dimension/-/react-native-dimension-1.0.6.tgz#049e40746160137f5e1dde89983b04ff8dc288d5"
+
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -5732,6 +5750,22 @@ react-native-loading-spinner-overlay@0.5.2:
 react-native-localization@0.1.32:
   version "0.1.32"
   resolved "https://registry.yarnpkg.com/react-native-localization/-/react-native-localization-0.1.32.tgz#623bf3359abdd0f0afff50951dcf06cffda01b2a"
+
+react-native-map-clustering@^1.2.8:
+  version "1.2.8"
+  resolved "https://registry.yarnpkg.com/react-native-map-clustering/-/react-native-map-clustering-1.2.8.tgz#323186609d214ea1fcf2deba3c53ddf185930268"
+  dependencies:
+    "@mapbox/geo-viewport" "^0.2.2"
+    prop-types "^15.6.0"
+    react-native-dimension "^1.0.6"
+    supercluster "^3.0.1"
+
+react-native-maps-super-cluster@^1.3.1:
+  version "1.3.1"
+  resolved "https://registry.yarnpkg.com/react-native-maps-super-cluster/-/react-native-maps-super-cluster-1.3.1.tgz#039fb7a0d79a7a64528dc32e24ec16bef9decf46"
+  dependencies:
+    "@mapbox/geo-viewport" "^0.2.2"
+    supercluster "^3.0.1"
 
 react-native-maps@0.16.4:
   version "0.16.4"
@@ -6667,6 +6701,12 @@ style-loader@^0.18.2:
   dependencies:
     loader-utils "^1.0.2"
     schema-utils "^0.3.0"
+
+supercluster@^3.0.1:
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/supercluster/-/supercluster-3.0.2.tgz#370d6b4fcc9381f034f60f950593d7e4de3235ef"
+  dependencies:
+    kdbush "^1.0.1"
 
 supports-color@^2.0.0:
   version "2.0.0"
