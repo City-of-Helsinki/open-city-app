@@ -11,7 +11,7 @@ import {
 import Drawer                from 'react-native-drawer'
 import FloatingActionButton  from '../../components/FloatingActionButton';
 import Navbar                from '../../components/Navbar';
-import Menu                  from '../../components/Menu';
+import NavButton             from '../../components/NavButton';
 import ServiceRequestListRow from '../../components/ServiceRequestListRow';
 import showAlert             from '../../components/Alert';
 import Spinner               from '../../components/Spinner';
@@ -25,8 +25,30 @@ import menuIcon              from '../../img/menu.png'
 import transList             from '../../translations/list';
 import transError            from '../../translations/errors';
 import styles                from './styles';
+import {HEADER_LOGO}         from '../../styles/common';
+
 
 class ServiceRequestListView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={HEADER_LOGO}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={markerIcon}
+          onPress={()=> {
+            navigation.goBack()
+          }}
+        />
+      )
+    }
+  };
 
   constructor(props, context) {
     super(props, context);

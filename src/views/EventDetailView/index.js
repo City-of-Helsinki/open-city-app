@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, ScrollView, Text, Image } from 'react-native';
-import HTML                   from 'react-native-render-html';
+import { ActivityIndicator, View, ScrollView, Text, Image, Linking } from 'react-native';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import MapView from 'react-native-maps';
 import { styles, customMapStyles } from './styles';
+import {HEADER_LOGO} from '../../styles/common';
 
 class EventDetailView extends Component {
 
   static navigationOptions = {
     headerTitle: (
         <Image
-          style={styles.headerLogo}
+          style={HEADER_LOGO}
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />

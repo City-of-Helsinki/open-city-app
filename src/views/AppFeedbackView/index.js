@@ -24,8 +24,7 @@ import serviceRequestModels from '../../util/models';
 import Global               from '../../util/globals';
 import showAlert            from '../../components/Alert';
 import Thumbnail            from '../../components/Thumbnail';
-import Menu                 from '../../components/Menu';
-import Navbar               from '../../components/Navbar';
+import NavButton            from '../../components/NavButton';
 import Config               from '../../config';
 import backIcon             from '../../img/back.png';
 import sendEnabledIcon      from '../../img/send_enabled.png';
@@ -35,9 +34,30 @@ import attachmentIcon       from '../../img/close.png';
 import transAppFeedback     from '../../translations/appFeedback';
 import transError           from '../../translations/errors';
 import styles               from './styles';
+import {HEADER_LOGO}        from '../../styles/common';
 
 // View for sending feedback about the application itself
 class AppFeedbackView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    const { params = {} } = navigation.state;
+    const sendButton = (
+      <NavButton
+        icon={params.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
+        onPress={params.handleSend ?  params.handleSend : () => null}
+      />
+    )
+    return {
+      headerTitle: (
+        <Image
+          style={HEADER_LOGO}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: sendButton
+    }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -49,6 +69,7 @@ class AppFeedbackView extends Component {
       image: {source: null, name: null},
       showThumbnail: false,
       spinnerVisible: false,
+      sendEnabled: false,
       scale: 1, // Used for animations
     };
 
@@ -63,6 +84,10 @@ class AppFeedbackView extends Component {
 
   componentWillMount() {
     this.initializeSpringAnimation();
+  }
+
+  componentDidMount() {
+    this.props.navigation.setParams({handleSend: this.onSendButtonClick.bind(this)})
   }
 
   initializeSpringAnimation() {
@@ -201,6 +226,7 @@ class AppFeedbackView extends Component {
       this.setState({
         sendEnabled: true,
       });
+      this.props.navigation.setParams({sendEnabled: true})
     } else {
       // Add animation only if the icon is going to change
       if (this.state.sendEnabled) {
@@ -209,6 +235,7 @@ class AppFeedbackView extends Component {
       this.setState({
         sendEnabled: false,
       });
+      this.props.navigation.setParams({sendEnabled: true})
     }
   }
 
@@ -227,13 +254,7 @@ class AppFeedbackView extends Component {
 
     return (
       <View style={styles.container}>
-        <Navbar
-          leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigation.goBack()}
-          rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
-          onRightButtonClick={this.onSendButtonClick.bind(this)}
-          header={transAppFeedback.appFeedbackViewTitle} />
+
         <View style={styles.innerContainer}>
           <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
