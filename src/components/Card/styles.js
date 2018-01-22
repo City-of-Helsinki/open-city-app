@@ -3,12 +3,12 @@ import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../s
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    width: 240,
+    width: 200,
     backgroundColor: '#FFF',
   },
   cardImage: {
     width: undefined,
-    minHeight: 240,
+    minHeight: 160,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },

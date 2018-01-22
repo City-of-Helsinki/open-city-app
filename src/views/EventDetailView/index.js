@@ -74,7 +74,7 @@ class EventDetailView extends Component {
               source={require('./../../img/icon-mobile.png')}
               style={[styles.metaIcon]}
             />
-            <Text style={styles.metaText}>{phone}</Text>
+            <Text onPress={() => Linking.openURL('tel:' + phone)} style={styles.metaText}>{phone}</Text>
           </View>
         </View>
       </ScrollView>

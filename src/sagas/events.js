@@ -28,7 +28,12 @@ const fetchHero = function*() {
 
 const getEvents = function*() {
   try {
-    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location&sort=start_time"
+    const region = yield select(state => state.location.region)
+    const bNorth = region.latitude + 0.009
+    const bSouth = region.latitude - 0.009
+    const bWest = region.longitude - 0.009
+    const bEast = region.longitude + 0.009
+    const url = Config.LINKED_EVENTS_API_BASE_URL + `?start=today&include=location&bbox=${bWest},${bSouth},${bEast},${bNorth}&sort=start_time`
     const response = yield call(makeRequest, url, 'GET', null)
     const eventList = parseEventList(response.data)
     yield put(EventActions.getListSuccess(eventList))
