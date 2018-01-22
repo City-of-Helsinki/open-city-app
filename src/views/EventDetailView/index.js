@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, ScrollView, Text, Image } from 'react-native';
+import { ActivityIndicator, View, ScrollView, Text, Image, Linking   } from 'react-native';
 import HTML                   from 'react-native-render-html';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -28,7 +28,7 @@ class EventDetailView extends Component {
   }
 
   render() {
-    const { loading, imageUrl, headline, date, description, region, place} = this.props
+    const { loading, imageUrl, headline, date, description, region, place, phone, infoUrl} = this.props
     let pic = {
       uri: imageUrl
     }
@@ -67,29 +67,15 @@ class EventDetailView extends Component {
               source={require('./../../img/icon-globe.png')}
               style={[styles.metaIcon]}
             />
-            <Text style={styles.metaText}>www.ulkoliikunta.fi</Text>
+            <Text onPress={() => Linking.openURL(infoUrl)} style={styles.metaText}>{infoUrl}</Text>
           </View>
           <View style={styles.eventMetaField}>
             <Image
               source={require('./../../img/icon-mobile.png')}
               style={[styles.metaIcon]}
             />
-            <Text style={styles.metaText}>+358 9 7531 560</Text>
+            <Text style={styles.metaText}>{phone}</Text>
           </View>
-          <View style={styles.eventMetaField}>
-            <Image
-              source={require('./../../img/icon-clock.png')}
-              style={[styles.metaIcon]}
-            />
-            <Text style={styles.metaText}>Aina auki</Text>
-          </View>
-        </View>
-        <View style={styles.share}>
-          <Image
-              source={require('./../../img/icon-share-alt.png')}
-              style={[styles.metaIcon]}
-            />
-          <Text style={styles.metaText}>Jaa</Text>
         </View>
       </ScrollView>
     );
@@ -104,7 +90,9 @@ function mapStateToProps(state) {
     date: state.events.event.date,
     description: state.events.event.description,
     region: state.events.event.region,
-    place: state.events.event.place
+    place: state.events.event.place,
+    phone: state.events.event.phone,
+    infoUrl: state.events.event.infoUrl
   };
 }
 

@@ -66,6 +66,8 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
   parsedEvent.description = getEventDescription(linkedEventData) || stripHTML(myHelsinkiEventData.field_promotion_link[0].field_description)
   parsedEvent.region = getEventRegion(linkedEventData, myHelsinkiEventData.field_promotion_link[0].field_geolocation[0])
   parsedEvent.imageUrl = getEventImage(linkedEventData) || myHelsinkiEventData.field_image_video[0].thumbnail[0].styles.card
+  parsedEvent.infoUrl = getEventUrl(linkedEventData)
+  parsedEvent.phone = getEventPhone(linkedEventData)
 
   return parsedEvent
 }
@@ -79,7 +81,9 @@ const parseEventData = (linkedEventData) => {
     headline: getEventHeadline(linkedEventData),
     description: getEventDescription(linkedEventData),
     region: getEventRegion(linkedEventData),
-    imageUrl: getEventImage(linkedEventData)
+    imageUrl: getEventImage(linkedEventData),
+    infoUrl: getEventUrl(linkedEventData),
+    phone: getEventPhone(linkedEventData)
   }
 }
 
@@ -93,6 +97,14 @@ const parseEventList = (linkedEventList) => {
         return (item !== undefined && item !== null && item !== "")
       })
     })
+}
+
+const getEventUrl = (linkedEvent) => {
+  return linkedEvent.info_url[LOCALE] || linkedEvent.info_url.fi
+}
+
+const getEventPhone = (linkedEvent) => {
+  return linkedEvent.location.telephone[LOCALE] || linkedEvent.location.telephone.fi
 }
 
 const getEventPlace = (linkedEvent) => {
