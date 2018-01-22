@@ -26,7 +26,6 @@ import FloatingActionButton         from '../../components/FloatingActionButton'
 import NativePicker                 from '../../components/NativePicker';
 import Navbar                       from '../../components/Navbar';
 import NavButton                    from '../../components/NavButton';
-import Menu                         from '../../components/Menu';
 import Thumbnail                    from '../../components/Thumbnail';
 import showAlert                    from '../../components/Alert';
 import SendServiceRequestMap        from '../../components/SendServiceRequestMap';
@@ -46,6 +45,8 @@ import markerIcon                   from '../../img/location_marker.png';
 import checkIcon                    from '../../img/check.png';
 import backIcon                     from '../../img/back.png';
 import styles                       from './styles';
+import {HEADER_LOGO}                from '../../styles/common';
+
 
 
 const ZOOM = 6;
@@ -64,7 +65,7 @@ class SendServiceRequestView extends Component {
     return {
       headerTitle: (
         <Image
-          style={styles.headerLogo}
+          style={HEADER_LOGO}
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />

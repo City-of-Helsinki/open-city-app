@@ -11,6 +11,7 @@ import ImageView                from '../views/ImageView';
 import HomeView                 from '../views/HomeView';
 import HearingDetailView        from '../views/HearingDetailView';
 import EventDetailView          from '../views/EventDetailView';
+import Menu                     from '../views/Menu';
 
 const HomeStack = StackNavigator({
   HomeView: { screen: HomeView},
@@ -24,6 +25,9 @@ export const TabStack = TabNavigator({
   },
   ServiceRequest: {
     screen: MainView
+  },
+  Info: {
+    screen: Menu
   }
 }, {
   tabBarComponent: TabBarBottom,

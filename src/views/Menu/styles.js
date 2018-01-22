@@ -1,24 +1,14 @@
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 import Global from '../../util/globals';
+import { TEXT_MEDIUM_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE, FONT_BOLD } from './../../styles/text';
+import { BLACK, BRAND_LIGHT_ONE, WHITE } from './../../styles/common';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
     backgroundColor: Global.COLOR.LIGHT_GREY,
-    paddingTop: Platform.OS === 'ios' ? 15 : 0,
-  },
-  closeIconView: {
-    height: 55,
-    width: 56,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingLeft: 16,
-    paddingRight: 16,
-  },
-  closeIcon: {
-    height: 16,
-    width: 16,
+    paddingTop: 15
   },
   innerContainer: {
     flexDirection: 'column',
@@ -38,41 +28,20 @@ const styles = StyleSheet.create({
     paddingLeft: 16,
     paddingRight: 16,
   },
-  menuText: {
-    fontSize: 16,
-    color: '#212121',
-    flexWrap: 'wrap',
-    flex: 1
-  },
+  infoText: { ...FONT_NORMAL, color: BLACK },
   icon: {
     height: 30,
     width: 30,
     marginRight: 5,
   },
-  versionTextView: {
-    alignSelf: 'flex-end',
-    justifyContent: 'flex-end',
-    padding: 8,
-    flex: 1,
-  },
-  versionText: {
-    fontSize: 14,
-    color: Global.COLOR.WARM_GREY,
-    textAlign: 'right'
-  },
-  appFeedbackContainer: {
-    flexDirection: 'row',
-  },
-  appFeedbackInnerContainer: {
-    flex:1,
-    height: 200,
-    flexDirection: 'row',
+  textBlock: {
+    padding: 10
   },
   appFeedbackContentContainer: {
     padding: 10,
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'stretch',
     flexDirection: 'column'
   },
   appFeedbackImage: {
@@ -80,7 +49,7 @@ const styles = StyleSheet.create({
     top: 0,
     bottom: 0,
     height: 200,
-    width: Dimensions.get('window').width - (Dimensions.get('window').width * Global.OPEN_DRAWER_OFFSET),
+    width: Dimensions.get('window').width,
   },
   appFeedbackText: {
     color: Global.COLOR.WHITE,
@@ -100,15 +69,17 @@ const styles = StyleSheet.create({
     backgroundColor: Global.COLOR.TRANSPARENT,
   },
   appFeedbackButton: {
+    marginTop: 10,
     paddingLeft: 10,
     paddingRight: 10,
     paddingBottom: 5,
     paddingTop: 5,
     borderRadius: 2,
-    backgroundColor: Global.COLOR.WHITE
+    backgroundColor: Global.COLOR.BLUE,
+    alignItems: 'center'
   },
   appFeedbackButtonText: {
-    color: Global.COLOR.BLUE,
+    color: Global.COLOR.WHITE,
     flexWrap: 'wrap',
     fontSize: 18,
     fontWeight: 'bold'

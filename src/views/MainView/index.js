@@ -22,7 +22,6 @@ import OverlaySpinner       from 'react-native-loading-spinner-overlay';
 import Realm                from 'realm';
 import Navbar               from '../../components/Navbar';
 import NavButton            from '../../components/NavButton';
-import Menu                 from '../../components/Menu';
 import FloatingActionButton from '../../components/FloatingActionButton';
 import showAlert            from '../../components/Alert';
 import EmptyMarkerCallout   from '../../components/EmptyMarkerCallout';
@@ -40,6 +39,7 @@ import menuIcon             from '../../img/menu.png';
 import listIcon             from '../../img/list.png';
 import styles               from './styles';
 import customMapStyles      from '../../styles/map';
+import {HEADER_LOGO}        from '../../styles/common';
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE           = 60.1680574;
@@ -59,7 +59,7 @@ class MainView extends Component {
     return {
       headerTitle: (
         <Image
-          style={styles.headerLogo}
+          style={HEADER_LOGO}
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />
