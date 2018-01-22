@@ -4,12 +4,12 @@ import { BLACK } from '../../styles/common';
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    width: 240,
+    width: 200,
     backgroundColor: '#FFF',
   },
   cardImage: {
     width: undefined,
-    minHeight: 240,
+    minHeight: 160,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
