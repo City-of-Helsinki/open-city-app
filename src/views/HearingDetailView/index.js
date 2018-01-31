@@ -14,6 +14,9 @@ class HearingDetailView extends Component {
       <WebView
         source={{uri: navigation.state.params.url}}
         style={{flex:1, marginTop: 20}}
+        startInLoadingState={true}
+        javaScriptEnabled={true}
+        injectedJavaScript={'Array.from(document.getElementsByTagName("nav")).map(elem => elem.style.display="none")'}
       />
     );
   }
