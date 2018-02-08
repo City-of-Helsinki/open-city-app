@@ -12,7 +12,6 @@ import { default as AuthActions, AuthTypes } from '../redux/auth/actions';
 import { USER_FOUND } from 'redux-oidc';
 
 const fetchUserData = function* (args) {
-  console.log("fetching data", args)
   try {
     const url = Config.PROFILE_URL;
     const headers = new Headers({
@@ -20,7 +19,6 @@ const fetchUserData = function* (args) {
     });
 
     const response = yield call(makeRequest, url, 'GET', headers);
-    console.log("Got response", response)
   } catch(err) {
     console.log("Unable to fetch user details", err.message)
   }

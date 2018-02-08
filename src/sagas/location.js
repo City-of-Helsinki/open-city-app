@@ -20,10 +20,8 @@ import {
 
 
 function listenForGeolocationEvents() {
-  console.log("hello world")
   return eventChannel(emit => {
     const changeHandler = (position) => {
-      console.log("got position", position)
       emit(position)
     }
 

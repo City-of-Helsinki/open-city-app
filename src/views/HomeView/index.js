@@ -48,7 +48,7 @@ class HomeView extends Component {
   };
 
   render() {
-    const { heroEvent, hearingList, eventList,heroLoading } = this.props
+    const { navigation, heroEvent, hearingList, eventList, heroLoading } = this.props
     return (
       <ScrollView Style={styles.container}>
         <Hero
@@ -58,14 +58,15 @@ class HomeView extends Component {
           headline={heroEvent.headline}
           eventUrl={heroEvent.eventUrl}
           loading={heroLoading}
-          navigation={this.props.navigation}
+          navigation={navigation}
         />
         <EventList
-          navigation={this.props.navigation}
+          navigation={navigation}
           eventList={eventList}
+          loadMore={this.props.eventActions.loadMore}
         />
         <HearingList
-          navigation={this.props.navigation}
+          navigation={navigation}
           hearingList={hearingList}
         />
       </ScrollView>
