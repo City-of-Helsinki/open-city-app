@@ -31,6 +31,7 @@ import Global               from '../../util/globals';
 import Models               from '../../util/models';
 import transMap             from '../../translations/map';
 import transError           from '../../translations/errors';
+import transMain            from '../../translations/mainView';
 import plusIcon             from '../../img/plus.png';
 import menuIcon             from '../../img/menu.png';
 import listIcon             from '../../img/list.png';
