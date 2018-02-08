@@ -39,6 +39,7 @@ const styles = StyleSheet.create({
     height: 400,
     alignSelf: 'stretch',
     backgroundColor: Global.COLOR.WARM_GREY_10,
+    color: Global.COLOR.BLACK,
     textAlignVertical: 'top',
     padding: 8,
   },
