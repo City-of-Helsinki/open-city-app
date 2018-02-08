@@ -1,24 +1,30 @@
 import { StyleSheet } from 'react-native';
-import { TEXT_SMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
+import { TEXT_XSMALL_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE } from './../../styles/text';
 import { BLACK } from '../../styles/common';
 
 const styles = StyleSheet.create({
   cardWrapper: {
-    width: 200,
+    width: 150,
     backgroundColor: '#FFF',
+    marginHorizontal: 10
   },
   cardImage: {
     width: undefined,
-    minHeight: 160,
+    height: 220,
     alignItems: 'center',
     justifyContent: 'flex-end'
   },
   cardOverlay: {
-    minHeight: 100,
+    backgroundColor: '#FFF',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    height: 80,
     width: '100%',
-    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'center'
   },
-  cardHeadline: { ...TEXT_SMALL_HEADLINE, color: BLACK }
+  cardHeadline: { textAlign: 'center', ...TEXT_XSMALL_HEADLINE, color: BLACK }
 });
 
 export default styles

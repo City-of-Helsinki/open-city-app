@@ -21,25 +21,28 @@ class CardList extends Component {
 
   renderItem = ({item}) => {
     return (
-      <View style={styles.listItemMargin} collapsable={false}>
         <Card
           imageUrl={item.imageUrl}
           headline={item.headline}
+          overlayStyle={this.props.overlayStyle}
+          textStyle={this.props.textStyle}
           onPressItem={() => this.onPressItem(item)}
         />
-      </View>
     )
   }
 
   render() {
-    const {listData} = this.props
+    const {listData, onEndReached} = this.props
 
     return (
-        <FlatList
-          data={listData}
-          renderItem={this.renderItem}
-          horizontal={true}
-        />
+      <FlatList
+        data={listData}
+        renderItem={this.renderItem}
+        initialNumToRender={3}
+        horizontal={true}
+        onEndReached={onEndReached}
+        onEndReachedTreshold={0.3}
+      />
     );
   }
 }
