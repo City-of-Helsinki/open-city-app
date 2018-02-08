@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import {
   View,
   ScrollView,
-  Image
+  Image,
+  Text
 } from 'react-native';
 
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import HearingActions         from '../../redux/hearings/actions';
- 
+
 import Navbar             from '../../components/Navbar';
 import Spinner            from '../../components/Spinner';
 import Hero               from '../../components/Hero';

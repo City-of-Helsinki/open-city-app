@@ -10,15 +10,16 @@ import sagas from '../sagas';
 
 import userManager from '../util/userManager';
 
-const logger = createLogger({
-  collapsed:false
-})
+// add logger to applyMiddleware params to enable redux logging
+// const logger = createLogger({
+//   collapsed:false
+// })
 
 function configureStore() {
   const sagaMiddleware = createSagaMiddleware();
   const oidcMiddleware = createOidcMiddleware(userManager);
 
-  const store = createStore(reducers, applyMiddleware(oidcMiddleware, sagaMiddleware, logger));
+  const store = createStore(reducers, applyMiddleware(oidcMiddleware, sagaMiddleware));
   const persistor = persistStore(store);
   //loadUser(store, userManager);
 

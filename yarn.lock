@@ -4287,7 +4287,7 @@ locate-path@^2.0.0:
     p-locate "^2.0.0"
     path-exists "^3.0.0"
 
-lodash-es@^4.2.0, lodash-es@^4.2.1:
+lodash-es@4.17.4, lodash-es@^4.2.0, lodash-es@^4.2.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
@@ -5481,6 +5481,12 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
+prop-types@15.5.8:
+  version "15.5.8"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.5.8.tgz#6b7b2e141083be38c8595aa51fc55775c7199394"
+  dependencies:
+    fbjs "^0.8.9"
+
 prop-types@15.6.0, prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.6, prop-types@^15.5.8, prop-types@^15.5.9, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
@@ -5694,10 +5700,6 @@ react-native-compat@^1.0.0:
   dependencies:
     prop-types "^15.5.10"
 
-react-native-dimension@^1.0.6:
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/react-native-dimension/-/react-native-dimension-1.0.6.tgz#049e40746160137f5e1dde89983b04ff8dc288d5"
-
 react-native-dismiss-keyboard@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/react-native-dismiss-keyboard/-/react-native-dismiss-keyboard-1.0.0.tgz#32886242b3f2317e121f3aeb9b0a585e2b879b49"
@@ -5750,15 +5752,6 @@ react-native-loading-spinner-overlay@0.5.2:
 react-native-localization@0.1.32:
   version "0.1.32"
   resolved "https://registry.yarnpkg.com/react-native-localization/-/react-native-localization-0.1.32.tgz#623bf3359abdd0f0afff50951dcf06cffda01b2a"
-
-react-native-map-clustering@^1.2.8:
-  version "1.2.8"
-  resolved "https://registry.yarnpkg.com/react-native-map-clustering/-/react-native-map-clustering-1.2.8.tgz#323186609d214ea1fcf2deba3c53ddf185930268"
-  dependencies:
-    "@mapbox/geo-viewport" "^0.2.2"
-    prop-types "^15.6.0"
-    react-native-dimension "^1.0.6"
-    supercluster "^3.0.1"
 
 react-native-maps-super-cluster@^1.3.1:
   version "1.3.1"
@@ -6040,6 +6033,14 @@ rechoir@^0.6.2:
   resolved "https://registry.yarnpkg.com/rechoir/-/rechoir-0.6.2.tgz#85204b54dba82d5742e28c96756ef43af50e3384"
   dependencies:
     resolve "^1.1.6"
+
+recyclerlistview@^1.2.6:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/recyclerlistview/-/recyclerlistview-1.2.6.tgz#fef2c2cb031fbd4bebf87baac0bbe4561b7f3a4b"
+  dependencies:
+    lodash-es "4.17.4"
+    prop-types "15.5.8"
+    ts-object-utils "0.0.5"
 
 reduce-css-calc@^1.2.6:
   version "1.3.0"
@@ -6877,6 +6878,10 @@ traverse@0.6.6:
 trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
+
+ts-object-utils@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/ts-object-utils/-/ts-object-utils-0.0.5.tgz#95361cdecd7e52167cfc5e634c76345e90a26077"
 
 tsscmp@1.0.5:
   version "1.0.5"
