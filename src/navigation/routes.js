@@ -20,11 +20,11 @@ const HomeStack = StackNavigator({
 })
 
 export const TabStack = TabNavigator({
-  Home: {
-    screen: HomeView
-  },
   ServiceRequest: {
     screen: MainView
+  },
+  Home: {
+    screen: HomeView
   },
   Info: {
     screen: Menu
@@ -35,7 +35,8 @@ export const TabStack = TabNavigator({
   tabBarOptions: {
     activeTintColor: '#000000',
     inactiveTintColor: '#454545'
-  }
+  },
+  initialRouteName: 'Home'
 });
 
 export const GlobalStack = StackNavigator({
