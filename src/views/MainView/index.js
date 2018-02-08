@@ -14,8 +14,7 @@ import { bindActionCreators } from 'redux';
 import LocationActions from '../../redux/location/actions';
 
 import AuthActions          from '../../redux/auth/actions';
-import ClusteredMapView     from 'react-native-maps-super-cluster';
-import { Marker, Callout }  from 'react-native-maps';
+import MapView, { Marker, Callout }  from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
@@ -40,18 +39,13 @@ import listIcon             from '../../img/list.png';
 import styles               from './styles';
 import customMapStyles      from '../../styles/map';
 import {HEADER_LOGO}        from '../../styles/common';
+import MapPin               from '../../components/MapPin';
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE           = 60.1680574;
 const DEFAULT_LONGITUDE          = 24.9339746;
 const DEFAULT_LATITUDE_DELTA     = 0.02208;
 const DEFAULT_LONGITUDE_DELTA    = 0.01010;
-
-const MarkerImage = (
-  <Image
-      source={require('./../../img/marker_pin.png')}
-      style={styles.markerImage} />
-)
 
 class MainView extends Component {
 
@@ -98,6 +92,7 @@ class MainView extends Component {
     var serviceRequests = (this.props.navigation.state.params && this.props.navigation.state.params.serviceRequests) ? this.props.navigation.state.params.serviceRequests : [];
     this.state = {
       serviceRequests: [],       // Data to be shown on the map as markers
+      region: this.props.region,
       showPopup: false,     // Show/hide the popup which displays the details of a selected serviceRequest
       isLoading: false,     // Show/hide loading spinner
       popupData: null,      // The data which will be passed to a child component and displayed in the popup
@@ -136,14 +131,6 @@ class MainView extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  shouldComponentUpdate() {
-    // Set global references after view is popped
-    Global.isMainView = true;
-    Global.mainViewRef = this;
-
-    return true;
-  }
-
   // Fetch a fixed amount of serviceRequests from Open311 API
   fetchServiceRequests() {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
@@ -153,7 +140,9 @@ class MainView extends Component {
     .then(result => {
       Global.lastRefreshTimestamp = + new Date();
       var serviceRequests = Util.parseServiceRequests(result, Models.fetchAllServiceRequests());
+
       this.setState({
+        region: this.props.region,
         serviceRequests: serviceRequests
       });
     }, error => {
@@ -280,51 +269,6 @@ class MainView extends Component {
     return { }
   }
 
-  renderMarker = (serviceRequest) => {
-    return (
-      <Marker key={serviceRequest.id} coordinate={serviceRequest.location} onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-        {MarkerImage}
-        <Callout tooltip={true}>
-          <EmptyMarkerCallout />
-        </Callout>
-      </Marker>
-    )
-  }
-
-  renderCluster = (cluster, onPress) => {
-    const pointCount = cluster.pointCount,
-              coordinate = cluster.coordinate,
-              clusterId = cluster.clusterId
-
-    const clusterEngine = this.mapView.getClusteringEngine(),
-          clusteredPoints = clusterEngine.getLeaves(clusterId, 100)
-
-
-
-    const scaleUpRatio = 1 + (Math.min(pointCount, 999) / 100)
-    const initialClusterDimensions = 30
-    const initialFontSize = 16
-    let width = Math.floor(initialClusterDimensions * scaleUpRatio),
-        height = Math.floor(initialClusterDimensions * scaleUpRatio),
-        fontSize = Math.floor(initialFontSize * scaleUpRatio),
-        borderRadius = Math.floor(width / 2)
-
-    // cluster dimensions upper limit
-    width = width <= (initialClusterDimensions * 2) ? width : initialClusterDimensions * 2
-    height = height <= (initialClusterDimensions * 2) ? height : initialClusterDimensions * 2
-    fontSize = fontSize <= 16 ? fontSize : 16
-
-
-    return (
-      <Marker onPress={onPress} coordinate={coordinate} key={cluster.clusterId}>
-        <View style={[styles.clusterContainer, {width, height, borderRadius}]}>
-          <Text style={[styles.counterText, {fontSize}]}>{pointCount}</Text>
-        </View>
-      </Marker>
-    )
-  }
-
-
   render() {
     // Initialize Popup which will be shown when a marker is clicked
     var serviceRequestDetailPopup = this.state.showPopup ?
@@ -345,21 +289,28 @@ class MainView extends Component {
 
           <View style={styles.mapContainer}>
 
-            <ClusteredMapView
-              ref={ref=> this.mapView = ref}
-              style={styles.map}
-              initialRegion={this.props.region}
-              showsUserLocation={true}
-              followUserLocation={true}
-              toolbarEnabled={false}
-              onPress={this.onMapViewClick.bind(this)}
-              customMapStyle={customMapStyles}
-              onRegionChangeComplete={this.onMapRegionChange.bind(this)}
-              renderMarker={this.renderMarker}
-              renderCluster={this.renderCluster}
-              data={this.state.serviceRequests}
-              maxZoom={18}
-            />
+          <MapView
+            ref={ref=> this.mapView = ref}
+            style={styles.map}
+            customMapStyle={customMapStyles}
+            region={this.state.region}
+            showsUserLocation={true}
+            followUserLocation={false}
+            toolbarEnabled={false}
+            onPress={this.onMapViewClick.bind(this)}
+            onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
+            {this.state.serviceRequests.map(serviceRequest => (
+              <Marker
+                key={serviceRequest.id}
+                coordinate={serviceRequest.coordinates}
+                onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
+                <MapPin />
+                <Callout tooltip={true}>
+                  <EmptyMarkerCallout />
+                </Callout>
+              </Marker>
+            ))}
+          </MapView>
 
           </View>
           {serviceRequestDetailPopup}

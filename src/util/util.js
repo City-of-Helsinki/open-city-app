@@ -148,34 +148,18 @@ module.exports = {
       var dataElement = module.exports.cleanUpData(data[i]);
 
       if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
-        serviceRequests.push({location:
-                      {latitude: dataElement.lat,
-                      longitude: dataElement.long},
-                    markerImage: module.exports.selectMarkerImage(dataElement.status,
-                      dataElement.service_request_id, userSubmittedServiceRequests),
-                    id: dataElement.service_request_id,
-                    description: module.exports.parseDescription(dataElement.description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
-                    agency: data[i].agency_responsible});
+        serviceRequests.push({
+          coordinates: {
+            latitude: dataElement.lat,
+            longitude: dataElement.long
+          },
+          id: dataElement.service_request_id,
+          description: module.exports.parseDescription(dataElement.description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
+          agency: data[i].agency_responsible
+        });
       }
     }
-
     return serviceRequests;
-  },
-
-  // Parse status and return the appropriate marker
-  selectMarkerImage: function(status, serviceRequestId, userSubmittedServiceRequests) {
-    if (module.exports.isUserSubmittedServiceRequest(serviceRequestId, userSubmittedServiceRequests)) {
-      return blueMarker;
-    }
-
-    return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
-  },
-
-  // Return true if the id was found in the database, false otherwise
-  isUserSubmittedServiceRequest: function(serviceRequestId, userSubmittedServiceRequests) {
-    userSubmittedServiceRequests = [];
-
-    return userSubmittedServiceRequests.indexOf(serviceRequestId) > -1;
   },
 
   setItemToStorage(key, value) {
