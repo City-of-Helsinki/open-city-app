@@ -28,10 +28,10 @@ module.exports = {
   parseServiceRequestDetails: function(input, userPosition) {
 
     // Fetching a single serviceRequest needs the following check because the serviceRequest is in an array
-    var data = input.constructor === Array ? input[0] : input;
+    var sourceData = input.constructor === Array ? input[0] : input;
     var extendedData = [];
 
-    if (data.extended_attributes.tasks.length > 0) {
+    if (data.extended_attributes.tasks && data.extended_attributes.tasks.length > 0) {
       var tasks = data.extended_attributes.tasks;
 
       for (var i=tasks.length-1; i >= 0; i--) {

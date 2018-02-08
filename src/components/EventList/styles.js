@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { TEXT_MEDIUM_HEADLINE } from './../../styles/text';
-import { BRAND_LIGHT_TWO } from './../../styles/common';
+import { BLACK, BRAND_LIGHT_TWO } from './../../styles/common';
 
 const styles = StyleSheet.create({
   eventWrapper: {
@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     alignItems: 'center'
   },
-  headlineText: TEXT_MEDIUM_HEADLINE
+  headlineText: {...TEXT_MEDIUM_HEADLINE, color: BLACK}
 });
 
 export default styles

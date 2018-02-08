@@ -25,6 +25,7 @@ import Spinner                      from 'react-native-loading-spinner-overlay';
 import FloatingActionButton         from '../../components/FloatingActionButton';
 import NativePicker                 from '../../components/NativePicker';
 import Navbar                       from '../../components/Navbar';
+import NavButton                    from '../../components/NavButton';
 import Menu                         from '../../components/Menu';
 import Thumbnail                    from '../../components/Thumbnail';
 import showAlert                    from '../../components/Alert';
@@ -51,6 +52,26 @@ const ZOOM = 6;
 
 
 class SendServiceRequestView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={styles.headerLogo}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRight: (
+        <NavButton
+          icon={sendDisabledIcon}
+          onPress={()=> {
+            navigation.goBack()
+          }}
+        />
+      )
+    }
+  };
 
   constructor(props, context) {
     super(props, context);
@@ -295,11 +316,11 @@ class SendServiceRequestView extends Component {
         }
 
         // Compress Image size
-        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT, Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
-            var resizedSource = {uri: resizedImageUri, isStatic: true}
+        ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT, Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizeImageData) => {
+            var resizedSource = {uri: resizeImageData.uri, isStatic: true}
 
-            response.path = resizedImageUri
-            response.uri = resizedImageUri;
+            response.path = resizeImageData.uri
+            response.uri = resizeImageData.uri;
             this.setState({
               image: {source: resizedSource, name: response.fileName},
               imageData: response
@@ -473,17 +494,7 @@ class SendServiceRequestView extends Component {
       <Image style={styles.checkboxImage} source={checkboxIcon} /> : null;
     return (
       <View style={styles.container}>
-        <Navbar
-          leftIcon={backIcon}
-          onLeftButtonClick={()=>this.props.navigation.goBack()}
-          rightIcon={this.state.sendEnabled ? sendEnabledIcon : sendDisabledIcon}
-          iconAnimationStyle={{transform: [{scaleX: this.state.scale}, {scaleY: this.state.scale}]}}
-          onRightButtonClick={this.onSendButtonClick.bind(this)}
-          header={transSendServiceRequest.sendServiceRequestViewTitle}
-          hide={this.state.fullScreenMap}
-          hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
         <View style={styles.innerContainer}>
-          <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
             <View style={styles.innerContainer}>
               <SendServiceRequestMap

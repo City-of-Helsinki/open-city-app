@@ -166,10 +166,10 @@ class AppFeedbackView extends Component {
         // Compress image size
         ImageResizer.createResizedImage(response.uri, Config.IMAGE_MAX_HEIGHT,
           Config.IMAGE_MAX_WIDTH, Config.IMAGE_FORMAT, Config.IMAGE_QUALITY).then((resizedImageUri) => {
-            var resizedSource = {uri: resizedImageUri, isStatic: true}
+            var resizedSource = {uri: resizedImageUri.uri, isStatic: true};
 
-            response.path = resizedImageUri
-            response.uri = resizedImageUri;
+            response.path = resizedImageUri.uri;
+            response.uri = resizedImageUri.uri;
             this.setState({
               image: {source: resizedSource, name: response.fileName},
               imageData: response
@@ -235,7 +235,6 @@ class AppFeedbackView extends Component {
           onRightButtonClick={this.onSendButtonClick.bind(this)}
           header={transAppFeedback.appFeedbackViewTitle} />
         <View style={styles.innerContainer}>
-          <Spinner visible={this.state.spinnerVisible} />
           <ScrollView style={styles.scrollView}>
             <View style={styles.contentContainer}>
               <View style={styles.titleView}>

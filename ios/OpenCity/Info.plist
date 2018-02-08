@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>OpenCity</string>
+	<string>Helsinki</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -17,7 +17,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>0.2.6</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleURLTypes</key>
@@ -34,39 +34,47 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>9</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
 	<dict>
-	<key>NSAllowsArbitraryLoads</key><true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>localhost</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
+	<key>NSCameraUsageDescription</key>
+	<string>You can attach photos to your service requests using the camera</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string/>
+	<string>This app uses user location to orient the main map view and locate service requests</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Accelerometer is used to increase battery efficiency by intelligently toggling location-services</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>You can attach photos to your service requests from the photo library</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>remote-notification</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
-	<string>LaunchScreen</string>
+	<string>Launch Screen</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
+	<key>UIRequiresFullScreen</key>
+	<true/>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationLandscapeLeft</string>
-		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
 	<key>UIAppFonts</key>
-	<array>
-		<string>HelsinkiGrotesk-Black.otf</string>
-		<string>HelsinkiGrotesk-BlackItalic.otf</string>
-		<string>HelsinkiGrotesk-Bold.otf</string>
-		<string>HelsinkiGrotesk-BoldItalic.otf</string>
-		<string>HelsinkiGrotesk-Medium.otf</string>
-		<string>HelsinkiGrotesk-MediumItalic.otf</string>
-		<string>HelsinkiGrotesk-Regular.otf</string>
-		<string>HelsinkiGrotesk-RegularItalic.otf</string>
-	</array>
+	<array/>
 </dict>
 </plist>

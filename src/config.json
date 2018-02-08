@@ -1,6 +1,6 @@
 {
   "APP_NAME": "Helsinki",
-  "APP_VERSION": "v0.2.3",
+  "APP_VERSION": "v0.2.6",
 
   // API URLs
   "OPENAHJO_API_BASE_URL": "http://dev.hel.fi/openahjo/v1/",
