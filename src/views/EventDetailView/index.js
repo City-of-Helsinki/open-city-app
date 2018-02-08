@@ -6,6 +6,8 @@ import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
 import MapView from 'react-native-maps';
 import { styles, customMapStyles } from './styles';
+import {HEADER_LOGO} from '../../styles/common';
+import MapPin from '../../components/MapPin';
 
 class EventDetailView extends Component {
 
@@ -58,8 +60,9 @@ class EventDetailView extends Component {
 
           <MapView.Marker
             coordinate={this.props.region}
-            image={require('../../img/marker_pin.png')}
-          />
+            style={styles.markerImage}>
+            <MapPin />
+          </MapView.Marker>
         </MapView>
       </ScrollView>
     );
