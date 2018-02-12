@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { ImageBackground, TouchableHighlight, TouchableNativeFeedback, View, Text, FlatList, Platform } from 'react-native';
 import styles from './styles';
 
-class Card extends Component {
+class Card extends PureComponent {
   constructor(props) {
     super(props);
   }
@@ -12,12 +12,14 @@ class Card extends Component {
     let pic = {
       uri: imageUrl
     };
+    let overlayStyle = this.props.overlayStyle || {}
+    let textStyle = this.props.textStyle || {}
 
     const CardContent = (
       <View>
         <ImageBackground source={pic} style={styles.cardImage} resizeMode="cover" />
-        <View style={styles.cardOverlay}>
-          <Text style={styles.cardHeadline}>{headline}</Text>
+        <View style={[styles.cardOverlay, overlayStyle]}>
+          <Text numberOfLines={3} style={[styles.cardHeadline, textStyle]}>{headline}</Text>
         </View>
       </View>
     )

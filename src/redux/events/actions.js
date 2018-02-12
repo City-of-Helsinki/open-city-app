@@ -5,11 +5,13 @@ const {Types, Creators} = createActions({
   getHeroSuccess: ['heroData'],
   getHeroFailure: ['error'],
   getList: null,
-  getListSuccess: ['eventList'],
+  getListSuccess: ['eventList', 'nextUrl'],
   getListFailure: ['error'],
   getEvent: ['eventUrl'],
   getEventSuccess: ['eventData'],
-  getEventFailure: ['error']
+  getEventFailure: ['error'],
+  loadMore: null,
+  getMoreSuccess: ['eventList', 'nextUrl']
 })
 
 export const EventTypes = Types

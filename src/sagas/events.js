@@ -28,15 +28,47 @@ const fetchHero = function*() {
 
 const getEvents = function*() {
   try {
-    const url = Config.LINKED_EVENTS_API_BASE_URL + "?start=today&include=location&sort=start_time"
-    const response = yield call(makeRequest, url, 'GET', null)
+    const region = yield select(state => state.location.region)
+    const bNorth = region.latitude + 0.009
+    const bSouth = region.latitude - 0.009
+    const bWest = region.longitude - 0.009
+    const bEast = region.longitude + 0.009
+    const query = "?start=today&include=location&sort=start_time"
+    const url = Config.LINKED_EVENTS_API_BASE_URL + query + `&bbox=${bWest},${bSouth},${bEast},${bNorth}`
+
+    let response = yield call(makeRequest, url, 'GET', null)
+    if(!response.data.length) {
+      response = yield call(makeRequest, Config.LINKED_EVENTS_API_BASE_URL + query, 'GET', null)
+    }
+    const nextUrl = response.meta.next
     const eventList = parseEventList(response.data)
-    yield put(EventActions.getListSuccess(eventList))
+    const userPosition = yield select(state => state.location.userPosition)
+    const sortedList = sortEventList(eventList, userPosition)
+    yield put(EventActions.getListSuccess(eventList, nextUrl))
   } catch (err) {
     yield put(EventActions.getListFailure(err.message))
   }
 }
 
+const getMoreEvents = function*() {
+  try {
+    const url = yield select(state => state.events.nextUrl)
+    if(url) {
+      const response = yield call(makeRequest, url, 'GET', null)
+      const nextUrl = response.meta.next
+      const eventList = parseEventList(response.data)
+      const userPosition = yield select(state => state.location.userPosition)
+      const sortedList = sortEventList(eventList, userPosition)
+      yield put(EventActions.getMoreSuccess(eventList, nextUrl))
+    } else {
+      yield call(getEvents)
+    }
+  } catch(err) {
+    yield put(EventActions.getListFailure(err.message))
+  }
+
+
+}
 const getEvent = function*(args) {
   try {
 
@@ -66,6 +98,8 @@ const parseHeroData = (linkedEventData, myHelsinkiEventData) => {
   parsedEvent.description = getEventDescription(linkedEventData) || stripHTML(myHelsinkiEventData.field_promotion_link[0].field_description)
   parsedEvent.region = getEventRegion(linkedEventData, myHelsinkiEventData.field_promotion_link[0].field_geolocation[0])
   parsedEvent.imageUrl = getEventImage(linkedEventData) || myHelsinkiEventData.field_image_video[0].thumbnail[0].styles.card
+  parsedEvent.infoUrl = getEventUrl(linkedEventData)
+  parsedEvent.phone = getEventPhone(linkedEventData)
 
   return parsedEvent
 }
@@ -79,7 +113,9 @@ const parseEventData = (linkedEventData) => {
     headline: getEventHeadline(linkedEventData),
     description: getEventDescription(linkedEventData),
     region: getEventRegion(linkedEventData),
-    imageUrl: getEventImage(linkedEventData)
+    imageUrl: getEventImage(linkedEventData),
+    infoUrl: getEventUrl(linkedEventData),
+    phone: getEventPhone(linkedEventData)
   }
 }
 
@@ -93,6 +129,22 @@ const parseEventList = (linkedEventList) => {
         return (item !== undefined && item !== null && item !== "")
       })
     })
+}
+
+const getEventUrl = (linkedEvent) => {
+  if(linkedEvent.info_url) {
+    return linkedEvent.info_url[LOCALE] || linkedEvent.info_url.fi
+  } else {
+    return null
+  }
+}
+
+const getEventPhone = (linkedEvent) => {
+  if(linkedEvent.location.telephone) {
+    return linkedEvent.location.telephone[LOCALE] || linkedEvent.location.telephone.fi
+  } else {
+    return null
+  }
 }
 
 const getEventPlace = (linkedEvent) => {
@@ -179,8 +231,13 @@ const watchGetEvent = function*() {
   yield takeLatest(EventTypes.GET_EVENT, getEvent)
 }
 
+const watchGetMore = function*() {
+  yield takeLatest(EventTypes.LOAD_MORE, getMoreEvents)
+}
+
 export {
   watchGetHeroContent,
   watchGetEvents,
-  watchGetEvent
+  watchGetEvent,
+  watchGetMore
 }

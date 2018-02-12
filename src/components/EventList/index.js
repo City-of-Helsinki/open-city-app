@@ -23,7 +23,7 @@ class EventList extends Component {
   }
 
   render() {
-    const {eventList} = this.props
+    const {eventList, nextUrl, loadMore} = this.props
 
     return (
       <View style={styles.eventWrapper}>
@@ -35,6 +35,10 @@ class EventList extends Component {
         <CardList
           listData={eventList}
           onPress={this.onPressItem}
+          onEndReached={loadMore}
+          overlayStyle={styles.cardOverlay}
+          textStyle={styles.cardText}
+          imageStyle={styles.cardImage}
         />
       </View>
     );
