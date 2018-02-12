@@ -126,35 +126,19 @@ module.exports = {
 
     for (var i=0; i < data.length; i++) {
 
-      if (data[i].lat !== 'undefined' && typeof data[i].long !== 'undefined') {
-        serviceRequests.push({coordinates:
-                      {latitude: data[i].lat,
-                      longitude: data[i].long},
-                    markerImage: module.exports.selectMarkerImage(data[i].status,
-                      data[i].service_request_id, userSubmittedServiceRequests),
-                    id: data[i].service_request_id,
-                    description: module.exports.parseDescription(data[i].description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
-                    agency: data[i].agency_responsible});
+      if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
+        serviceRequests.push({
+          coordinates: {
+            latitude: dataElement.lat,
+            longitude: dataElement.long
+          },
+          id: dataElement.service_request_id,
+          description: module.exports.parseDescription(dataElement.description, SERVICE_REQUEST_DESCRIPTION_MAX_LENGTH),
+          agency: data[i].agency_responsible
+        });
       }
     }
-
     return serviceRequests;
-  },
-
-  // Parse status and return the appropriate marker
-  selectMarkerImage: function(status, serviceRequestId, userSubmittedServiceRequests) {
-    if (module.exports.isUserSubmittedServiceRequest(serviceRequestId, userSubmittedServiceRequests)) {
-      return blueMarker;
-    }
-
-    return status === Config.STATUS_OPEN ? yellowMarker : greenMarker;
-  },
-
-  // Return true if the id was found in the database, false otherwise
-  isUserSubmittedServiceRequest: function(serviceRequestId, userSubmittedServiceRequests) {
-    userSubmittedServiceRequests = [];
-
-    return userSubmittedServiceRequests.indexOf(serviceRequestId) > -1;
   },
 
   setItemToStorage(key, value) {

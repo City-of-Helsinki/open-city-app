@@ -25,6 +25,10 @@ import backIcon         from '../../img/back.png';
 import markerIcon       from '../../img/location_marker.png';
 import transError       from '../../translations/errors';
 import styles           from './styles';
+import {HEADER_LOGO}    from '../../styles/common';
+import customMapStyles  from '../../styles/map';
+
+
 
 // Zoom for the map showing service request location
 const LATITUDE_DELTA       = 0.00680;
@@ -128,7 +132,8 @@ class ServiceRequestDetailView extends Component {
               followUserLocation={false}
               toolbarEnabled={false}
               scrollEnabled={false}
-              zoomEnabled={false}>
+              zoomEnabled={false}
+              customMapStyle={customMapStyles}>
               <MapView.Marker
                 coordinate={this.state.data.coordinates}>
                 <Image
