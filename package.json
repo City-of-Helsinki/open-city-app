@@ -13,7 +13,7 @@
     "geolib": "2.0.23",
     "geopoint": "1.0.1",
     "hex-rgba": "1.0.1",
-    "lodash": "4.17.4",
+    "lodash": "4.17.5",
     "moment": "^2.19.2",
     "oidc-client-fetch": "^1.2.2-fetch1",
     "prop-types": "15.6.0",
