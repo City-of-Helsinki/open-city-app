@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     width: Dimensions.get("window").width
   },
   headerLogo: {
+    alignSelf: 'center',
     height: 26
   },
   markerIcon: {

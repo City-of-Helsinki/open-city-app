@@ -15,7 +15,6 @@ import MapView          from 'react-native-maps';
 import Navbar           from './../../components/Navbar';
 import NavButton        from './../../components/Navbar';
 import Spinner          from './../../components/Spinner';
-import Menu             from './../../components/Menu';
 import showAlert        from './../../components/Alert';
 import makeRequest      from './../../util/requests';
 import Util             from './../../util/util';
@@ -26,6 +25,8 @@ import backIcon         from '../../img/back.png';
 import markerIcon       from '../../img/location_marker.png';
 import transError       from '../../translations/errors';
 import styles           from './styles';
+import {HEADER_LOGO}    from '../../styles/common';
+
 
 // Zoom for the map showing service request location
 const LATITUDE_DELTA       = 0.00680;
@@ -33,6 +34,21 @@ const LONGITUDE_DELTA      = 0.00340;
 
 // Display information about a single service request
 class ServiceRequestDetailView extends Component {
+
+  static navigationOptions = ({navigation}) => {
+    return {
+      headerTitle: (
+        <Image
+          style={HEADER_LOGO}
+          resizeMode="contain"
+          source={require('./../../img/city-logo.png')}
+        />
+      ),
+      headerRigh: (
+        <View />
+      )
+    }
+  };
 
   constructor(props, context) {
     super(props, context);

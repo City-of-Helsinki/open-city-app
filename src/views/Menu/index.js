@@ -59,6 +59,7 @@ class Menu extends Component {
             <Text style={styles.infoText}>{transMenu.menuInfoText}</Text>
           </View>
           <View style={styles.appFeedbackContentContainer}>
+            <Text style={styles.appFeedbackText}>{transMenu.menuAppFeedbackDescription}</Text>
             <TouchableWithoutFeedback onPress={() => this.navToAppFeedbackView()}>
                 <View style={styles.appFeedbackButton}>
                   <Text style={styles.appFeedbackButtonText}>

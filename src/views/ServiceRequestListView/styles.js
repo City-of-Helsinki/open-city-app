@@ -13,6 +13,10 @@ const styles = StyleSheet.create({
   },
   serviceRequestContainer: {
     padding: 16,
+  },
+  headerLogo: {
+    alignSelf: 'center',
+    height: 26
   }
 });
 

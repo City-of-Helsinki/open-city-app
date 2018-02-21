@@ -76,6 +76,10 @@ const styles = StyleSheet.create({
   },
   extendedDataItemView: {
     flex: 1,
+  },
+  headerLogo: {
+    alignSelf: 'center',
+    height: 26
   }
 });
 

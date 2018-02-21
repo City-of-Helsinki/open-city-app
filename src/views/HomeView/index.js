@@ -18,6 +18,8 @@ import HearingList        from '../../components/HearingList';
 import EventList          from '../../components/EventList';
 import backIcon           from '../../img/back.png';
 import styles             from './styles';
+import {HEADER_LOGO}      from '../../styles/common';
+
 
 class HomeView extends Component {
 
@@ -34,7 +36,7 @@ class HomeView extends Component {
   static navigationOptions = {
     headerTitle: (
         <Image
-          style={styles.headerLogo}
+          style={HEADER_LOGO}
           resizeMode="contain"
           source={require('./../../img/city-logo.png')}
         />
