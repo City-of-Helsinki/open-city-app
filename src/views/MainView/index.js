@@ -14,7 +14,7 @@ import { bindActionCreators } from 'redux';
 import LocationActions from '../../redux/location/actions';
 
 import AuthActions          from '../../redux/auth/actions';
-import MapView              from 'react-native-maps';
+import MapView, { Marker, Callout }  from 'react-native-maps';
 import Drawer               from 'react-native-drawer'
 import Geolib               from 'geolib';
 import OverlaySpinner       from 'react-native-loading-spinner-overlay';
@@ -32,12 +32,14 @@ import Global               from '../../util/globals';
 import Models               from '../../util/models';
 import transMap             from '../../translations/map';
 import transError           from '../../translations/errors';
+import transMain            from '../../translations/mainView';
 import plusIcon             from '../../img/plus.png';
 import menuIcon             from '../../img/menu.png';
 import listIcon             from '../../img/list.png';
 import styles               from './styles';
 import customMapStyles      from '../../styles/map';
 import {HEADER_LOGO}        from '../../styles/common';
+import MapPin               from '../../components/MapPin';
 
 // Default region set as Helsinki
 const DEFAULT_LATITUDE           = 60.1680574;
@@ -90,6 +92,7 @@ class MainView extends Component {
     var serviceRequests = (this.props.navigation.state.params && this.props.navigation.state.params.serviceRequests) ? this.props.navigation.state.params.serviceRequests : [];
     this.state = {
       serviceRequests: [],       // Data to be shown on the map as markers
+      region: this.props.region,
       showPopup: false,     // Show/hide the popup which displays the details of a selected serviceRequest
       isLoading: false,     // Show/hide loading spinner
       popupData: null,      // The data which will be passed to a child component and displayed in the popup
@@ -128,14 +131,6 @@ class MainView extends Component {
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
-  shouldComponentUpdate() {
-    // Set global references after view is popped
-    Global.isMainView = true;
-    Global.mainViewRef = this;
-
-    return true;
-  }
-
   // Fetch a fixed amount of serviceRequests from Open311 API
   fetchServiceRequests() {
     var url = Config.OPEN311_SERVICE_REQUESTS_URL;
@@ -145,7 +140,9 @@ class MainView extends Component {
     .then(result => {
       Global.lastRefreshTimestamp = + new Date();
       var serviceRequests = Util.parseServiceRequests(result, Models.fetchAllServiceRequests());
+
       this.setState({
+        region: this.props.region,
         serviceRequests: serviceRequests
       });
     }, error => {
@@ -291,34 +288,30 @@ class MainView extends Component {
           ref='shadowOverlay'>
 
           <View style={styles.mapContainer}>
+
+          <MapView
+            ref={ref=> this.mapView = ref}
+            style={styles.map}
+            customMapStyle={customMapStyles}
+            region={this.state.region}
+            showsUserLocation={true}
+            followUserLocation={false}
+            toolbarEnabled={false}
+            onPress={this.onMapViewClick.bind(this)}
+            onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
             {this.state.serviceRequests.map(serviceRequest => (
-              // This is required for all icons to be rendered properly
-              // react-native-maps has issues with rendering icons on Android
-              <Image key={serviceRequest.id} source={serviceRequest.markerImage} style={{height: 0, width: 0}}/>
+              <Marker
+                key={serviceRequest.id}
+                coordinate={serviceRequest.coordinates}
+                onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
+                <MapPin />
+                <Callout tooltip={true}>
+                  <EmptyMarkerCallout />
+                </Callout>
+              </Marker>
             ))}
-            <MapView
-              ref={ref=> this.mapView = ref}
-              style={styles.map}
-              initialRegion={this.props.region}
-              showsUserLocation={true}
-              followUserLocation={false}
-              toolbarEnabled={false}
-              onPress={this.onMapViewClick.bind(this)}
-              onRegionChangeComplete={this.onMapRegionChange.bind(this)}>
-              {this.state.serviceRequests.map(serviceRequest => (
-                <MapView.Marker
-                  key={serviceRequest.id}
-                  coordinate={serviceRequest.coordinates}
-                  onPress={()=> this.showServiceRequestDetailPopup(serviceRequest)}>
-                  <Image
-                    source={serviceRequest.markerImage}
-                    style={styles.markerImage} />
-                  <MapView.Callout tooltip={true}>
-                    <EmptyMarkerCallout />
-                  </MapView.Callout>
-                </MapView.Marker>
-              ))}
-            </MapView>
+          </MapView>
+
           </View>
           {serviceRequestDetailPopup}
           {!this.state.showPopup && // When popup is displayed hide FAB because Google Maps toolbar

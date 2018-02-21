@@ -13,6 +13,8 @@ import Global                  from '../../util/globals';
 import MapView                 from 'react-native-maps';
 import transSendServiceRequest from '../../translations/sendServiceRequest';
 import styles                  from './styles';
+import customMapStyles         from '../../styles/map';
+
 
 const MARKER_IMAGE_SIZE = 36;
 const MAP_HEIGHT        = 140;
@@ -63,7 +65,8 @@ class SendServiceRequestMap extends Component {
                 onLongPress={(e) => this.props.setFullScreenMap(true)}
                 onMarkerDragStart={(e) => this.props.setFullScreenMap(true)}
                 onRegionChange={(e) => this.props.onRegionChange(e)}
-                onRegionChangeComplete={(e) => this.props.onRegionChangeComplete(e)}>
+                onRegionChangeComplete={(e) => this.props.onRegionChangeComplete(e)}
+                customMapStyle={customMapStyles}>
                 <MapView.Marker.Animated
                   ref={(m) => this.marker = m}
                   coordinate={this.props.region}
