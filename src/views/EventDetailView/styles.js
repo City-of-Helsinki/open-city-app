@@ -1,6 +1,6 @@
 import { StyleSheet, Dimensions } from 'react-native';
 import { TEXT_MEDIUM_HEADLINE, FONT_NORMAL, TEXT_LARGE_HEADLINE, FONT_BOLD } from './../../styles/text';
-import { BLACK, BRAND_LIGHT_ONE, WHITE } from './../../styles/common';
+import { BLACK, BRAND_LIGHT_ONE, BRAND_LIGHT_TWO, WHITE } from './../../styles/common';
 
 const styles = StyleSheet.create({
   container: {
@@ -49,9 +49,34 @@ const styles = StyleSheet.create({
     height: 26
   },
   markerIcon: {
-    height: 30,
-    width: 30
+    height: 15,
+    width: 15
+  },
+  eventMeta: {
+    backgroundColor: BRAND_LIGHT_TWO,
+    padding: 10,
+  },
+  eventMetaField: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 30
+  },
+  metaText: FONT_BOLD,
+  metaIcon: {
+    width: 24,
+    height: 24,
+    marginRight: 6
+  },
+  share: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 80
   }
+
 })
 
 const customMapStyles = [

@@ -1,10 +1,10 @@
 import { createReducer } from 'reduxsauce';
 import { EventTypes } from './actions';
 
-const INITIAL_STATE = { heroEvent: {}, eventList: [], event: {}, loading: false, heroLoading: false, error: null }
+const INITIAL_STATE = { heroEvent: {}, eventList: [], event: {}, loading: false, heroLoading: false, error: null, nextUrl: null }
 
 const setLoading = (state = INITIAL_STATE) => {
-  return { ...state, loading: true }
+  return { ...state, loading: true, nextUrl: null, error: null }
 }
 
 const setHeroLoading = (state = INITIAL_STATE) => {
@@ -20,11 +20,11 @@ const getHeroFailure = (state = INITIAL_STATE, action) => {
 }
 
 const getListSuccess = (state = INITIAL_STATE, action) => {
-  return { ...state, eventList: action.eventList, loading: false }
+  return { ...state, eventList: action.eventList, loading: false, nextUrl: action.nextUrl }
 }
 
 const getListFailure = (state = INITIAL_STATE, action) => {
-  return { ...state, error: action.error, loading: false }
+  return { ...state, error: action.error, loading: false, nextUrl: null }
 }
 
 const getEventSuccess = (state = INITIAL_STATE, action) => {
@@ -33,6 +33,11 @@ const getEventSuccess = (state = INITIAL_STATE, action) => {
 
 const getEventFailure = (state = INITIAL_STATE, action) => {
   return { ...state, error: action.error, loading: false}
+}
+
+const getMoreSuccess = (state = INITIAL_STATE, action) => {
+  const updatedList = [...state.eventList, ...action.eventList]
+  return { ...state, eventList: updatedList, loading: false, nextUrl: action.nextUrl }
 }
 
 const HANDLERS = {
@@ -44,7 +49,8 @@ const HANDLERS = {
   [EventTypes.GET_LIST_FAILURE]: getListFailure,
   [EventTypes.GET_EVENT]: setLoading,
   [EventTypes.GET_EVENT_SUCCESS]: getEventSuccess,
-  [EventTypes.GET_EVENT_FAILURE]: getEventFailure
+  [EventTypes.GET_EVENT_FAILURE]: getEventFailure,
+  [EventTypes.GET_MORE_SUCCESS]: getMoreSuccess
 }
 
 export default createReducer(INITIAL_STATE, HANDLERS)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { ActivityIndicator, View, ScrollView, Text, Image, Linking } from 'react-native';
+import { ActivityIndicator, View, ScrollView, Text, Image, Linking   } from 'react-native';
+import HTML                   from 'react-native-render-html';
 import { connect }            from 'react-redux';
 import { bindActionCreators } from 'redux';
 import EventActions           from '../../redux/events/actions';
@@ -31,7 +32,7 @@ class EventDetailView extends Component {
   }
 
   render() {
-    const { loading, imageUrl, headline, date, description, region, place} = this.props
+    const { loading, imageUrl, headline, date, description, region, place, phone, infoUrl} = this.props
     let pic = {
       uri: imageUrl
     }
@@ -64,6 +65,22 @@ class EventDetailView extends Component {
             image={require('../../img/marker_pin.png')}
           />
         </MapView>
+        <View style={styles.eventMeta}>
+          <View style={styles.eventMetaField}>
+            <Image
+              source={require('./../../img/icon-globe.png')}
+              style={[styles.metaIcon]}
+            />
+            <Text onPress={() => Linking.openURL(infoUrl)} style={styles.metaText}>{infoUrl}</Text>
+          </View>
+          <View style={styles.eventMetaField}>
+            <Image
+              source={require('./../../img/icon-mobile.png')}
+              style={[styles.metaIcon]}
+            />
+            <Text onPress={() => Linking.openURL('tel:' + phone)} style={styles.metaText}>{phone}</Text>
+          </View>
+        </View>
       </ScrollView>
     );
   }
@@ -77,7 +94,9 @@ function mapStateToProps(state) {
     date: state.events.event.date,
     description: state.events.event.description,
     region: state.events.event.region,
-    place: state.events.event.place
+    place: state.events.event.place,
+    phone: state.events.event.phone,
+    infoUrl: state.events.event.infoUrl
   };
 }
 

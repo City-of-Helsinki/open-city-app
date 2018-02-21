@@ -19,6 +19,7 @@
 
   // OTHER URLs
   "PRIVACY_POLICY_URL": "https://digi.hel.fi/helsinki-app-privacy-policy",
+  "GITHUB_URL": "https://github.com/City-of-Helsinki/open-city-app",
 
   // API Settings
   "OPEN311_DESCRIPTION_MIN_LENGTH": 10,

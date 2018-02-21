@@ -5,6 +5,7 @@ import { reducer as oidcReducer } from 'redux-oidc';
 import authReducer from './auth/reducer';
 import eventsReducer from './events/reducer';
 import hearingsReducer from './hearings/reducer';
+import locationReducer from './location/reducer';
 
 const persistConfig = {
   key: "root",
@@ -15,5 +16,6 @@ export default persistCombineReducers(persistConfig, {
   OIDC: oidcReducer,
   auth: authReducer,
   events: eventsReducer,
-  hearings: hearingsReducer
+  hearings: hearingsReducer,
+  location: locationReducer
 });

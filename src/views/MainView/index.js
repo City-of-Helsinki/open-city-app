@@ -11,6 +11,7 @@ import {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import LocationActions from '../../redux/location/actions';
 
 import AuthActions          from '../../redux/auth/actions';
 import MapView              from 'react-native-maps';
@@ -89,16 +90,6 @@ class MainView extends Component {
     var serviceRequests = (this.props.navigation.state.params && this.props.navigation.state.params.serviceRequests) ? this.props.navigation.state.params.serviceRequests : [];
     this.state = {
       serviceRequests: [],       // Data to be shown on the map as markers
-      region: {             // Coordinates for the visible area of the map
-        latitude: DEFAULT_LATITUDE,
-        longitude: DEFAULT_LONGITUDE,
-        latitudeDelta: DEFAULT_LATITUDE_DELTA,
-        longitudeDelta: DEFAULT_LONGITUDE_DELTA,
-      },
-      userPosition: {       // The position of the user
-        latitude: null,
-        longitude: null,
-      },
       showPopup: false,     // Show/hide the popup which displays the details of a selected serviceRequest
       isLoading: false,     // Show/hide loading spinner
       popupData: null,      // The data which will be passed to a child component and displayed in the popup
@@ -130,12 +121,10 @@ class MainView extends Component {
   }
 
   componentDidMount() {
-    this.geoLocation();
     AppState.addEventListener('change', this.handleAppStateChange);
   }
 
   componentWillUnmount() {
-    navigator.geolocation.clearWatch(this.watchID);
     AppState.removeEventListener('change', this.handleAppStateChange);
   }
 
@@ -179,52 +168,6 @@ class MainView extends Component {
     Global.appState = newAppState;
   }
 
-
-  // Fetch users position and set the region of the map accordingly
-  geoLocation() {
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        var region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta: DEFAULT_LATITUDE_DELTA,
-          longitudeDelta: DEFAULT_LONGITUDE_DELTA,
-        };
-        var userPosition = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-        this.setState({
-          region: region,
-          userPosition: userPosition
-        });
-      },
-      (error) => {
-      },
-      {
-        enableHighAccuracy: Config.GPS_HIGH_ACCURACY,
-        timeout: Config.GPS_TIMEOUT,
-        maximumAge: Config.GPS_MAXIMUM_AGE
-      }
-    );
-    this.watchID = navigator.geolocation.watchPosition((position) => {
-        var region = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-          latitudeDelta: DEFAULT_LATITUDE_DELTA,
-          longitudeDelta: DEFAULT_LONGITUDE_DELTA,
-        };
-        var userPosition = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        }
-        this.setState({
-          region: region,
-          userPosition: userPosition
-        });
-    });
-  }
-
   // Fetch details of a single serviceRequest
   fetchServiceRequestDetails(serviceRequest) {
     var url = Config.OPEN311_SERVICE_REQUEST_BASE_URL + serviceRequest.id + Config.OPEN311_SERVICE_REQUEST_PARAMETERS_URL;
@@ -232,7 +175,7 @@ class MainView extends Component {
 
     makeRequest(url, 'GET', headers, null, null)
     .then(result => {
-      var data = Util.parseServiceRequestDetails(result, this.state.userPosition);
+      var data = Util.parseServiceRequestDetails(result, this.props.userPosition);
       this.setState({
         isLoading: false,
         popupData: data,
@@ -257,9 +200,9 @@ class MainView extends Component {
     };
 
     // If users position has been located it will be set as the region for feedback view
-    if (this.state.userPosition.latitude !== null && this.state.userPosition.longitude !== null) {
-      mapRegion.latitude = this.state.userPosition.latitude;
-      mapRegion.longitude = this.state.userPosition.longitude;
+    if (this.props.userPosition.latitude !== null && this.props.userPosition.longitude !== null) {
+      mapRegion.latitude = this.props.userPosition.latitude;
+      mapRegion.longitude = this.props.userPosition.longitude;
     }
 
     return mapRegion;
@@ -297,7 +240,7 @@ class MainView extends Component {
   onMapViewClick() {
     if (this.state.showPopup) {
       this.setState({
-        region: this.state.region,
+        region: this.props.region,
         showPopup: false,
       });
     }
@@ -334,7 +277,7 @@ class MainView extends Component {
     var serviceRequestDetailPopup = this.state.showPopup ?
       <MarkerPopup
         data={this.state.popupData}
-        userPosition={this.state.userPosition}
+        userPosition={this.props.userPosition}
         onClick={()=>this.onPopupClick(this.state.popupData.id)}
         onClose={()=>this.setState({showPopup: false})}
         isLoading={this.state.isLoading}
@@ -356,7 +299,7 @@ class MainView extends Component {
             <MapView
               ref={ref=> this.mapView = ref}
               style={styles.map}
-              region={this.state.region}
+              initialRegion={this.props.region}
               showsUserLocation={true}
               followUserLocation={false}
               toolbarEnabled={false}
@@ -390,13 +333,16 @@ class MainView extends Component {
 function mapStateToProps(state) {
   return {
     showWebView: state.auth.showWebView,
-    url: state.auth.url
+    url: state.auth.url,
+    region: state.location.region,
+    userPosition: state.location.userPosition
   };
 }
 
 function mapDispatchToProps(dispatch) {
   return {
-    authActions: bindActionCreators(AuthActions, dispatch)
+    authActions: bindActionCreators(AuthActions, dispatch),
+    locationActions: bindActionCreators(LocationActions, dispatch)
   }
 }
 
