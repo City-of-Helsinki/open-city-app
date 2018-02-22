@@ -24,12 +24,32 @@ module.exports = {
            hours + ':' + minutes;
   },
 
+  cleanUpData: function (sourceData, recur) {
+    var data = {};
+    var keys = Object.getOwnPropertyNames(sourceData);
+    for (var i in keys) {
+      var key = keys[i];
+      var sourceField = sourceData[key];
+      let destField;
+      if (sourceField !== null) {
+        if (typeof sourceField == 'object' && !Array.isArray(sourceField)) {
+          data[key] = module.exports.cleanUpData(sourceField, true);
+        }
+        else {
+          data[key] = sourceField;
+        }
+      }
+    }
+    return data;
+  },
+
   // Parse service requests for ServiceRequestDetailView
   parseServiceRequestDetails: function(input, userPosition) {
 
     // Fetching a single serviceRequest needs the following check because the serviceRequest is in an array
     var sourceData = input.constructor === Array ? input[0] : input;
     var extendedData = [];
+    var data = module.exports.cleanUpData(sourceData);
 
     if (data.extended_attributes.tasks && data.extended_attributes.tasks.length > 0) {
       var tasks = data.extended_attributes.tasks;
@@ -125,6 +145,7 @@ module.exports = {
     var serviceRequests = [];
 
     for (var i=0; i < data.length; i++) {
+      var dataElement = module.exports.cleanUpData(data[i]);
 
       if (typeof dataElement.lat !== 'undefined' && typeof dataElement.long !== 'undefined') {
         serviceRequests.push({
