@@ -26,6 +26,8 @@ const fetchHero = function*() {
   }
 }
 
+const sortEventList = function(l) { return l; };
+
 const getEvents = function*() {
   try {
     const region = yield select(state => state.location.region)
