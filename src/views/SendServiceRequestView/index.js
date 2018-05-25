@@ -13,7 +13,8 @@ import {
   DeviceEventEmitter,
   UIManager,
   LayoutAnimation,
-  ScrollView
+  ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 
 import MapView                      from 'react-native-maps';
@@ -177,7 +178,7 @@ class SendServiceRequestView extends Component {
   onSendButtonClick() {
     if (this.state.descriptionText.length >= Config.OPEN311_DESCRIPTION_MIN_LENGTH &&
         this.state.descriptionText.length <= Config.OPEN311_DESCRIPTION_MAX_LENGTH) {
-      this.sendServiceRequest();
+      if (!this.state.spinnerVisible) this.sendServiceRequest();
     } else {
       showAlert(transError.descriptionLengthErrorTitle, transError.descriptionLengthErrorMessage, transError.descriptionErrorButton);
     }
@@ -522,8 +523,17 @@ class SendServiceRequestView extends Component {
               showThumbnail={showThumbnail}
               hideAnimation={{transform: [{scaleY: this.contentSpringVal}]}} />
           }
+
           {Platform.OS === 'ios' && <KeyboardSpacer />}
+
         </View>
+        { this.state.spinnerVisible &&
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator
+              size={'large'}
+            />
+          </View>
+        }
       </View>
     );
   }

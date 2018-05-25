@@ -17,7 +17,14 @@ const styles = StyleSheet.create({
     height: 32,
     width: 32,
   },
-
+  loadingContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+    backgroundColor: '#00000040'
+  }
 });
 
 export default styles
