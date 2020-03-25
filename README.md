@@ -76,7 +76,8 @@ Edit `./src/config.js` to change API urls.
         `keytool -list -v -keystore my-release-key.keystore -alias open-city-app -storepass PASSWORD -keypass PASSWORD`
 
 2. Add these lines into `~/.gradle/gradle.properties`
-   ```
+
+```
 OPEN_CITY_APP_STORE_FILE=my-release-key.keystore
 OPEN_CITY_APP_KEY_ALIAS=open-city-app
 OPEN_CITY_APP_STORE_PASSWORD=**\*Keystore password\***
