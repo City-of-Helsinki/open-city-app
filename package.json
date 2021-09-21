@@ -30,7 +30,7 @@
     "react-native-modal-selector": "0.0.20",
     "react-native-render-html": "^3.5.2",
     "react-native-simple-toast": "0.0.7",
-    "react-navigation": "^1.0.0-beta.19",
+    "react-navigation": "^1.6.1",
     "react-redux": "^5.0.6",
     "realm": "1.13.0",
     "rebound": "0.0.15",
