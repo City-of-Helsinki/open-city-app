@@ -18,7 +18,7 @@
     "oidc-client-fetch": "^1.2.2-fetch1",
     "prop-types": "15.6.0",
     "react": "16.0.0-beta.5",
-    "react-native": "0.49.3",
+    "react-native": "0.50.0",
     "react-native-drawer": "2.5.0",
     "react-native-fast-image": "^2.0.1",
     "react-native-image-picker": "0.26.7",
